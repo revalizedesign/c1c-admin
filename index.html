@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Configure One — Parelux Atomos Renew</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&display=swap" rel="stylesheet" />
+    <script crossorigin="anonymous" defer src="https://kit.fontawesome.com/46660cdeff.js"></script>
+    <link rel="stylesheet" href="minterface.css" />
+    <link rel="stylesheet" href="admin.css" />
+    <script defer src="https://cdn.jsdelivr.net/npm/ag-grid-enterprise@35.2.0/dist/ag-grid-enterprise.min.js"></script>
+  </head>
+  <body class="app">
+
+    <nav id="sidenav" class="collapsed">
+      <button class="button button-icon" id="nav-toggle">
+        <i class="fa-solid fa-angle-right"></i>
+      </button>
+      <div id="nav-items">
+        <button class="button nav-item active"><i class="fa-regular fa-house"></i><span>Admin</span></button>
+        <button class="button nav-item"><i class="fa-regular fa-cube"></i><span>Products</span></button>
+        <button class="button nav-item"><i class="fa-regular fa-layer-group"></i><span>Models</span></button>
+        <button class="button nav-item"><i class="fa-regular fa-database"></i><span>Library</span></button>
+        <button class="button nav-item"><i class="fa-regular fa-chart-line"></i><span>Reports</span></button>
+        <button class="button nav-item"><i class="fa-regular fa-cog"></i><span>Settings</span></button>
+      </div>
+    </nav>
+
+    <div id="app-right">
+
+      <header id="topbar">
+        <span id="app-title">ConfigureOne Cloud Admin</span>
+      </header>
+
+      <div id="workspace-body">
+
+        <aside id="workspace-list" class="collapsed">
+          <button class="button button-icon" id="workspace-toggle">
+            <i class="fa-solid fa-angle-right"></i>
+          </button>
+          <div id="workspace-items">
+            <button class="button primary workspace-new" type="button"><i class="fa-regular fa-plus"></i>New session</button>
+            <div class="workspace-section-label">Recents</div>
+            <div class="workspace-item active">
+              <span class="workspace-name">Parelux Atomos Renew</span>
+            </div>
+          </div>
+        </aside>
+
+        <div id="workspace-right">
+
+          <div id="workflow-bar">
+            <button class="button stage-btn" data-stage="context"><i class="fa-solid fa-circle-1"></i>Context</button>
+            <button class="button stage-btn" data-stage="verify"><i class="fa-solid fa-circle-2"></i>Verify</button>
+            <button class="button stage-btn active" data-stage="build"><i class="fa-solid fa-circle-3"></i>Build</button>
+            <button class="button stage-btn" data-stage="preview"><i class="fa-solid fa-circle-4"></i>Preview</button>
+            <button class="button stage-btn" data-stage="readiness"><i class="fa-solid fa-circle-5"></i>Readiness</button>
+            <button class="button stage-btn" data-stage="publish"><i class="fa-solid fa-circle-6"></i>Publish</button>
+          </div>
+
+          <div id="app-body">
+
+        <aside id="chat-panel" class="collapsed">
+          <button class="button button-icon" id="chat-toggle">
+            <i class="fa-solid fa-angle-right"></i>
+          </button>
+          <div id="chat-content">
+            <div id="files-panel">
+              <div id="files-header">
+                <span>Files</span>
+                <div class="section-header-actions">
+                  <button class="button button-icon compact" id="files-add" type="button"><i class="fa-regular fa-plus"></i></button>
+                  <button class="button button-icon compact" id="files-toggle" type="button"><i class="fa-solid fa-angle-up"></i></button>
+                </div>
+              </div>
+              <div id="files-list">
+                <div class="file-item">
+                  <i class="fa-regular fa-file-pdf"></i>
+                  <div class="file-info">
+                    <span class="file-name">Parelux Atomos Renew Specification v2.1</span>
+                    <span class="file-meta">PDF · 2.4 MB</span>
+                  </div>
+                </div>
+                <div class="file-item">
+                  <i class="fa-regular fa-file-pdf"></i>
+                  <div class="file-info">
+                    <span class="file-name">Optics Configuration Playbook</span>
+                    <span class="file-meta">PDF · 1.1 MB</span>
+                  </div>
+                </div>
+                <div class="file-item">
+                  <i class="fa-regular fa-file-pdf"></i>
+                  <div class="file-info">
+                    <span class="file-name">Panel Mounting Guidelines</span>
+                    <span class="file-meta">PDF · 840 KB</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div id="chat-section">
+              <div id="chat-header">
+                <span>Chat</span>
+                <button class="button button-icon compact" id="chat-section-toggle" type="button"><i class="fa-solid fa-angle-up"></i></button>
+              </div>
+              <div id="chat-messages">
+                <div class="chat-bubble user">Can you build a BOM for this product?</div>
+                <div class="chat-bubble ai">Sure — analyzing the Parelux Atomos Renew configuration now.</div>
+                <div class="draft-card" data-draft="0">
+                  <i class="fa-regular fa-file-lines"></i>
+                  <div class="draft-info">
+                    <span class="draft-label">Draft</span>
+                    <span class="draft-version">10:51 AM · 4 groups · 15 inputs · 15 values</span>
+                  </div>
+                  <i class="fa-solid fa-angle-right"></i>
+                </div>
+                <div class="chat-bubble ai">Here's the initial BOM. Want me to verify against the spec sheet?</div>
+                <div class="chat-bubble user">Yes, verify it then update.</div>
+                <div class="chat-bubble ai">Verified — found 2 discrepancies. Updated quantities on RO-A-60-1 and added the mounting bracket.</div>
+                <div class="draft-card" data-draft="1">
+                  <i class="fa-regular fa-file-lines"></i>
+                  <div class="draft-info">
+                    <span class="draft-label">Draft</span>
+                    <span class="draft-version">11:03 AM · 4 groups · 15 inputs · 16 values</span>
+                  </div>
+                  <i class="fa-solid fa-angle-right"></i>
+                </div>
+                <div class="chat-bubble ai">Updated BOM is ready. Click the card to review in the Draft tab.</div>
+              </div>
+            </div>
+            <div id="quick-actions-panel" class="collapsed">
+              <div id="quick-actions-header">
+                <span>Quick Actions</span>
+                <button class="button button-icon compact" id="quick-actions-toggle" type="button"><i class="fa-solid fa-angle-up"></i></button>
+              </div>
+              <div id="quick-actions-content">
+                <div class="action-pills">
+                  <button class="pill" type="button">BOM</button>
+                  <button class="pill" type="button">Build</button>
+                  <button class="pill" type="button">BOM Review</button>
+                  <button class="pill" type="button">Compliance</button>
+                  <button class="pill" type="button">Doc Review</button>
+                  <button class="pill" type="button">Cross-check</button>
+                </div>
+              </div>
+            </div>
+            <div id="chat-footer">
+              <label class="button button-icon compact" id="attach-btn">
+                <i class="fa-regular fa-paperclip"></i>
+                <input hidden multiple type="file" />
+              </label>
+              <input id="chat-input" placeholder="Message…" type="text" />
+              <button class="button button-icon compact" id="send-btn">
+                <i class="fa-solid fa-paper-plane"></i>
+              </button>
+            </div>
+          </div>
+        </aside>
+
+        <div id="main-content">
+
+          <!-- Stage 1: Context -->
+          <div class="stage-panel" id="stage-context">
+            <div id="draft-empty">
+              <i class="fa-regular fa-file-lines"></i>
+              <span>Click a draft card in the chat to preview it here.</span>
+            </div>
+            <div id="draft-view" hidden></div>
+          </div>
+
+          <!-- Stage 2: Verify -->
+          <div class="stage-panel" id="stage-verify">
+            <nav class="sub-tabs">
+              <button class="button sub-tab active" data-subtab="verify-bom">BOM Review</button>
+              <button class="button sub-tab" data-subtab="verify-compliance">Compliance</button>
+              <button class="button sub-tab" data-subtab="verify-docs">Doc Review</button>
+            </nav>
+            <div class="sub-pane active" id="subpane-verify-bom">
+              <div class="pane-stub">
+                <i class="fa-regular fa-list-check"></i>
+                <h2>BOM Review</h2>
+                <p>Side-by-side comparison of the generated bill of materials against known part catalogs and pricing data. Flag discrepancies before advancing to build.</p>
+                <ul>
+                  <li>Diff view highlights additions, removals, and quantity changes</li>
+                  <li>Part numbers validated against the global catalog</li>
+                  <li>Annotate line items with reviewer comments</li>
+                </ul>
+              </div>
+            </div>
+            <div class="sub-pane" id="subpane-verify-compliance">
+              <div class="pane-stub">
+                <i class="fa-regular fa-shield-check"></i>
+                <h2>Compliance Checks</h2>
+                <p>Pre-build validation that enforces spec coverage, attribute completeness, and pricing rules before the model is committed to the build pipeline.</p>
+                <ul>
+                  <li>Required attributes checked for missing or invalid values</li>
+                  <li>Pricing equations validated against floor and ceiling constraints</li>
+                  <li>Regulatory flags surfaced for applicable product categories</li>
+                </ul>
+              </div>
+            </div>
+            <div class="sub-pane" id="subpane-verify-docs">
+              <div class="pane-stub">
+                <i class="fa-regular fa-file-magnifying-glass"></i>
+                <h2>Doc Review</h2>
+                <p>Cross-reference uploaded documentation with the current draft. The AI highlights sections that informed each line item and flags any contradictions.</p>
+                <ul>
+                  <li>Source citations link back to page and section in the original file</li>
+                  <li>Contradictions between documents surfaced for manual resolution</li>
+                  <li>Reviewer sign-off tracked per document before advancing</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Stage 3: Build -->
+          <div class="stage-panel active" id="stage-build">
+            <nav id="result-tabs">
+              <button class="button result-tab" data-tab="model">Model</button>
+              <button class="button result-tab" data-tab="rules">Rules</button>
+              <button class="button result-tab" data-tab="equations">Equations</button>
+              <button class="button result-tab active" data-tab="results">Results</button>
+            </nav>
+
+            <div class="tab-pane" id="pane-model">
+              <nav class="sub-tabs">
+                <button class="button sub-tab active" data-subtab="graph">Graph</button>
+                <button class="button sub-tab" data-subtab="attributes">Attributes</button>
+              </nav>
+              <div class="sub-pane active" id="subpane-graph">
+                <div class="pane-stub">
+                  <i class="fa-regular fa-diagram-project"></i>
+                  <h2>Configuration Dependency Graph</h2>
+                  <p>Visual map of how inputs, logic rules, and output families connect. Nodes represent configurable attributes; edges show dependencies and constraint flow. Selecting any node reveals its definition, allowed values, and downstream effects in the detail panel.</p>
+                  <ul>
+                    <li>Logic groupings, warnings, errors, and display stops surfaced inline</li>
+                    <li>Driver inputs and neutral nodes distinguished by color and zone column</li>
+                    <li>Parent-child hierarchy navigable with expand/collapse per group</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="sub-pane" id="subpane-attributes">
+                <div class="pane-stub">
+                  <i class="fa-regular fa-sliders"></i>
+                  <h2>Product Attributes</h2>
+                  <p>Flat list of all configurable inputs — dropdowns, toggles, and numeric ranges — with their current values, allowed options, default states, and visibility conditions.</p>
+                  <ul>
+                    <li>Filter by type, visibility, or required status</li>
+                    <li>Inline editing for defaults and option sets</li>
+                    <li>Dependency warnings when constrained by a rule</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="tab-pane" id="pane-rules">
+              <div class="pane-stub">
+                <i class="fa-regular fa-code-branch"></i>
+                <h2>Logic Rules</h2>
+                <p>If/then constraint rules that drive visibility, validation, and filtering across attributes. Organized by rule group with conflict detection and warning indicators.</p>
+                <ul>
+                  <li>Rule groups collapsed by default; expand to inspect conditions</li>
+                  <li>Conflict and redundancy detection highlighted automatically</li>
+                  <li>Execution order controllable via drag-and-drop priority</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="tab-pane" id="pane-equations">
+              <div class="pane-stub">
+                <i class="fa-regular fa-superscript"></i>
+                <h2>Equations</h2>
+                <p>Calculated expressions that derive values — pricing, dimensions, part counts — from attribute inputs. Supports arithmetic, conditionals, and lookup tables.</p>
+                <ul>
+                  <li>Formula editor with attribute autocomplete</li>
+                  <li>Test mode evaluates equations against sample inputs</li>
+                  <li>Output values feed directly into BOM quantities and pricing</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="tab-pane active" id="pane-results">
+              <div id="results-grid"></div>
+              <footer id="legend">
+                <span class="legend-item"><span class="dot green"></span> item family</span>
+                <span class="legend-item"><span class="dot blue"></span> input global</span>
+                <span class="legend-item"><span class="dot amber"></span> apply master</span>
+                <span class="legend-item"><span class="dot teal"></span> apply item</span>
+                <span class="legend-item"><span class="dot salmon"></span> driver item</span>
+              </footer>
+            </div>
+          </div>
+
+          <!-- Stage 4: Preview -->
+          <div class="stage-panel" id="stage-preview">
+            <div class="pane-stub">
+              <i class="fa-regular fa-eye"></i>
+              <h2>Customer Preview</h2>
+              <p>Rendered product summary as it appears in the end-user configurator. Reflects current draft selections with live pricing, spec output, and any active display-stop warnings.</p>
+              <ul>
+                <li>Toggle between summary and full-detail views</li>
+                <li>Shareable preview link for stakeholder review</li>
+                <li>Inline callouts for incomplete or invalid selections</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Stage 5: Readiness -->
+          <div class="stage-panel" id="stage-readiness">
+            <div class="pane-stub">
+              <i class="fa-regular fa-circle-check"></i>
+              <h2>Publish Readiness</h2>
+              <p>Checklist of validation gates that must pass before committing this draft to live — covering required attributes, rule coverage, equation completeness, and BOM mapping.</p>
+              <ul>
+                <li>Passing gates shown in green; blockers flagged in red</li>
+                <li>Warnings allowed through with a reviewer override</li>
+                <li>Audit log records who resolved each gate and when</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Stage 6: Publish -->
+          <div class="stage-panel" id="stage-publish">
+            <div class="pane-stub">
+              <i class="fa-regular fa-rocket-launch"></i>
+              <h2>Publish</h2>
+              <p>Finalize and release this product configuration to the live catalog. All readiness gates must pass before committing. Additional export formats are available for downstream systems.</p>
+              <ul>
+                <li>Commit pushes the draft live and creates a version snapshot</li>
+                <li>CSV and PDF exports include full BOM, rules summary, and pricing</li>
+                <li>Discarding removes the draft and restores the last published version</li>
+              </ul>
+              <div class="publish-actions">
+                <button class="button primary" type="button">Commit — make it live</button>
+                <button class="button outline" type="button"><i class="fa-regular fa-file-csv"></i> Download CSV</button>
+                <button class="button outline" type="button"><i class="fa-regular fa-file-pdf"></i> Download PDF</button>
+                <button class="button outline" type="button">Discard draft</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <aside id="detail-panel" class="collapsed">
+          <button class="button button-icon" id="detail-toggle">
+            <i class="fa-solid fa-angle-left"></i>
+          </button>
+          <div id="detail-content">
+            <div id="detail-empty">
+              <i class="fa-regular fa-sidebar-flip"></i>
+              <span>Click an input, rule, or group to view its details here.</span>
+            </div>
+          </div>
+        </aside>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <script defer src="admin.js"></script>
+  </body>
+</html>

@@ -1,0 +1,78 @@
+{
+  "attribute": {
+    "dimensions": [{ "inputId": "string", "value": "string" }],
+    "id": "string",
+    "label": "string",
+    "values": "object"
+  },
+  "bomNode": {
+    "children": ["bomNode"],
+    "description": "string",
+    "partNumber": "string",
+    "quantity": "number",
+    "unit": ["ea", "ft", "gal", "in", "kg", "l", "lb", "lot", "m", "mm", "oz", "pr", "set"]
+  },
+  "driven": {
+    "action": { "targetId": "string", "type": ["filter", "hide", "set", "show"], "values": ["string"] },
+    "condition": { "inputId": "string", "operator": ["eq", "gt", "in", "lt", "neq"], "value": "string|number" },
+    "id": "string"
+  },
+  "equation": {
+    "expression": "string",
+    "id": "string",
+    "label": "string",
+    "outputField": "string",
+    "variables": [{ "inputId": "string", "name": "string" }]
+  },
+  "input": {
+    "default": "string|number|boolean",
+    "id": "string",
+    "label": "string",
+    "options": ["string"],
+    "required": "boolean",
+    "type": ["dropdown", "numeric", "text", "toggle"]
+  },
+  "inputGroup": {
+    "id": "string",
+    "inputs": ["input"],
+    "label": "string"
+  },
+  "itemFamily": {
+    "children": ["itemFamily"],
+    "id": "string",
+    "name": "string",
+    "parent": "string"
+  },
+  "itemMaster": {
+    "cost": "number",
+    "description": "string",
+    "familyId": "string",
+    "id": "string",
+    "type": ["manufactured", "phantom", "purchased"],
+    "unit": ["ea", "ft", "gal", "in", "kg", "l", "lb", "lot", "m", "mm", "oz", "pr", "set"]
+  },
+  "logicGroup": {
+    "id": "string",
+    "isDefault": "boolean",
+    "label": "string",
+    "logicItems": ["logicItem"]
+  },
+  "logicItem": {
+    "drivens": ["driven"],
+    "id": "string",
+    "inputGroups": ["inputGroup"],
+    "label": "string"
+  },
+  "rootLogicGroup": {
+    "id": "string",
+    "label": "string",
+    "logicGroups": ["logicGroup"]
+  },
+  "rule": {
+    "action": "string",
+    "condition": "string",
+    "group": "string",
+    "id": "string",
+    "label": "string"
+  }
+}

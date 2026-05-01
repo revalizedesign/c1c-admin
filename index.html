@@ -41,11 +41,8 @@
             <i class="fa-solid fa-angle-right"></i>
           </button>
           <div id="workspace-items">
-            <button class="button primary workspace-new" type="button"><i class="fa-regular fa-plus"></i>New session</button>
+            <button class="button primary workspace-new" id="workspace-new" type="button"><i class="fa-regular fa-plus"></i>New session</button>
             <div class="workspace-section-label">Recents</div>
-            <div class="workspace-item active">
-              <span class="workspace-name">Parelux Atomos Renew</span>
-            </div>
           </div>
         </aside>
 
@@ -75,59 +72,14 @@
                   <button class="button button-icon compact" id="files-toggle" type="button"><i class="fa-solid fa-angle-up"></i></button>
                 </div>
               </div>
-              <div id="files-list">
-                <div class="file-item">
-                  <i class="fa-regular fa-file-pdf"></i>
-                  <div class="file-info">
-                    <span class="file-name">Parelux Atomos Renew Specification v2.1</span>
-                    <span class="file-meta">PDF · 2.4 MB</span>
-                  </div>
-                </div>
-                <div class="file-item">
-                  <i class="fa-regular fa-file-pdf"></i>
-                  <div class="file-info">
-                    <span class="file-name">Optics Configuration Playbook</span>
-                    <span class="file-meta">PDF · 1.1 MB</span>
-                  </div>
-                </div>
-                <div class="file-item">
-                  <i class="fa-regular fa-file-pdf"></i>
-                  <div class="file-info">
-                    <span class="file-name">Panel Mounting Guidelines</span>
-                    <span class="file-meta">PDF · 840 KB</span>
-                  </div>
-                </div>
-              </div>
+              <div id="files-list"></div>
             </div>
             <div id="chat-section">
               <div id="chat-header">
                 <span>Chat</span>
                 <button class="button button-icon compact" id="chat-section-toggle" type="button"><i class="fa-solid fa-angle-up"></i></button>
               </div>
-              <div id="chat-messages">
-                <div class="chat-bubble user">Can you build a BOM for this product?</div>
-                <div class="chat-bubble ai">Sure — analyzing the Parelux Atomos Renew configuration now.</div>
-                <div class="draft-card" data-draft="0">
-                  <i class="fa-regular fa-file-lines"></i>
-                  <div class="draft-info">
-                    <span class="draft-label">Draft</span>
-                    <span class="draft-version">10:51 AM · 4 groups · 15 inputs · 15 values</span>
-                  </div>
-                  <i class="fa-solid fa-angle-right"></i>
-                </div>
-                <div class="chat-bubble ai">Here's the initial BOM. Want me to verify against the spec sheet?</div>
-                <div class="chat-bubble user">Yes, verify it then update.</div>
-                <div class="chat-bubble ai">Verified — found 2 discrepancies. Updated quantities on RO-A-60-1 and added the mounting bracket.</div>
-                <div class="draft-card" data-draft="1">
-                  <i class="fa-regular fa-file-lines"></i>
-                  <div class="draft-info">
-                    <span class="draft-label">Draft</span>
-                    <span class="draft-version">11:03 AM · 4 groups · 15 inputs · 16 values</span>
-                  </div>
-                  <i class="fa-solid fa-angle-right"></i>
-                </div>
-                <div class="chat-bubble ai">Updated BOM is ready. Click the card to review in the Draft tab.</div>
-              </div>
+              <div id="chat-messages"></div>
             </div>
             <div id="quick-actions-panel" class="collapsed">
               <div id="quick-actions-header">
@@ -177,16 +129,7 @@
               <button class="button sub-tab" data-subtab="verify-docs">Doc Review</button>
             </nav>
             <div class="sub-pane active" id="subpane-verify-bom">
-              <div class="pane-stub">
-                <i class="fa-regular fa-list-check"></i>
-                <h2>BOM Review</h2>
-                <p>Side-by-side comparison of the generated bill of materials against known part catalogs and pricing data. Flag discrepancies before advancing to build.</p>
-                <ul>
-                  <li>Diff view highlights additions, removals, and quantity changes</li>
-                  <li>Part numbers validated against the global catalog</li>
-                  <li>Annotate line items with reviewer comments</li>
-                </ul>
-              </div>
+              <div id="bom-review-grid"></div>
             </div>
             <div class="sub-pane" id="subpane-verify-compliance">
               <div class="pane-stub">
@@ -224,34 +167,7 @@
             </nav>
 
             <div class="tab-pane" id="pane-model">
-              <nav class="sub-tabs">
-                <button class="button sub-tab active" data-subtab="graph">Graph</button>
-                <button class="button sub-tab" data-subtab="attributes">Attributes</button>
-              </nav>
-              <div class="sub-pane active" id="subpane-graph">
-                <div class="pane-stub">
-                  <i class="fa-regular fa-diagram-project"></i>
-                  <h2>Configuration Dependency Graph</h2>
-                  <p>Visual map of how inputs, logic rules, and output families connect. Nodes represent configurable attributes; edges show dependencies and constraint flow. Selecting any node reveals its definition, allowed values, and downstream effects in the detail panel.</p>
-                  <ul>
-                    <li>Logic groupings, warnings, errors, and display stops surfaced inline</li>
-                    <li>Driver inputs and neutral nodes distinguished by color and zone column</li>
-                    <li>Parent-child hierarchy navigable with expand/collapse per group</li>
-                  </ul>
-                </div>
-              </div>
-              <div class="sub-pane" id="subpane-attributes">
-                <div class="pane-stub">
-                  <i class="fa-regular fa-sliders"></i>
-                  <h2>Product Attributes</h2>
-                  <p>Flat list of all configurable inputs — dropdowns, toggles, and numeric ranges — with their current values, allowed options, default states, and visibility conditions.</p>
-                  <ul>
-                    <li>Filter by type, visibility, or required status</li>
-                    <li>Inline editing for defaults and option sets</li>
-                    <li>Dependency warnings when constrained by a rule</li>
-                  </ul>
-                </div>
-              </div>
+              <div id="model-tree"></div>
             </div>
 
             <div class="tab-pane" id="pane-rules">
@@ -282,13 +198,6 @@
 
             <div class="tab-pane active" id="pane-results">
               <div id="results-grid"></div>
-              <footer id="legend">
-                <span class="legend-item"><span class="dot green"></span> item family</span>
-                <span class="legend-item"><span class="dot blue"></span> input global</span>
-                <span class="legend-item"><span class="dot amber"></span> apply master</span>
-                <span class="legend-item"><span class="dot teal"></span> apply item</span>
-                <span class="legend-item"><span class="dot salmon"></span> driver item</span>
-              </footer>
             </div>
           </div>
 
@@ -347,10 +256,19 @@
             <i class="fa-solid fa-angle-left"></i>
           </button>
           <div id="detail-content">
-            <div id="detail-empty">
-              <i class="fa-regular fa-sidebar-flip"></i>
-              <span>Click an input, rule, or group to view its details here.</span>
+            <nav id="detail-tabs">
+              <button class="button detail-tab active" data-detail-tab="details">Details</button>
+              <button class="button detail-tab" data-detail-tab="preview">Preview</button>
+              <button class="button detail-tab" data-detail-tab="activity">Activity</button>
+            </nav>
+            <div class="detail-pane active" id="detail-pane-details">
+              <div id="detail-empty">
+                <i class="fa-regular fa-sidebar-flip"></i>
+                <span>Click an input, rule, or group to view its details here.</span>
+              </div>
             </div>
+            <div class="detail-pane" id="detail-pane-preview"></div>
+            <div class="detail-pane" id="detail-pane-activity"></div>
           </div>
         </aside>
 

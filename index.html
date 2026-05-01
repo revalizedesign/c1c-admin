@@ -3,283 +3,111 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Configure One — Parelux Atomos Renew</title>
+    <title>ConfigureOne Cloud Admin</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&display=swap" rel="stylesheet" />
     <script crossorigin="anonymous" defer src="https://kit.fontawesome.com/46660cdeff.js"></script>
     <link rel="stylesheet" href="minterface.css" />
-    <link rel="stylesheet" href="admin.css" />
+    <link rel="stylesheet" href="styles.css" />
     <script defer src="https://cdn.jsdelivr.net/npm/ag-grid-enterprise@35.2.0/dist/ag-grid-enterprise.min.js"></script>
   </head>
-  <body class="app">
+  <body class="app compact">
 
     <nav id="sidenav" class="collapsed">
       <button class="button button-icon" id="nav-toggle">
         <i class="fa-solid fa-angle-right"></i>
       </button>
       <div id="nav-items">
-        <button class="button nav-item active"><i class="fa-regular fa-house"></i><span>Admin</span></button>
-        <button class="button nav-item"><i class="fa-regular fa-cube"></i><span>Products</span></button>
-        <button class="button nav-item"><i class="fa-regular fa-layer-group"></i><span>Models</span></button>
-        <button class="button nav-item"><i class="fa-regular fa-database"></i><span>Library</span></button>
-        <button class="button nav-item"><i class="fa-regular fa-chart-line"></i><span>Reports</span></button>
-        <button class="button nav-item"><i class="fa-regular fa-cog"></i><span>Settings</span></button>
+        <button class="button nav-item active"><i class="fa-regular fa-sliders"></i><span>Admin</span></button>
       </div>
     </nav>
 
     <div id="app-right">
 
-      <header id="topbar">
-        <span id="app-title">ConfigureOne Cloud Admin</span>
-      </header>
-
-      <div id="workspace-body">
-
-        <aside id="workspace-list" class="collapsed">
-          <button class="button button-icon" id="workspace-toggle">
+      <aside id="chat-panel" class="panel">
+        <div class="panel-header">
+          <i class="fa-regular fa-robot"></i>
+          <span>Admin Agent</span>
+          <button class="button button-icon panel-toggle" id="chat-toggle">
             <i class="fa-solid fa-angle-right"></i>
           </button>
-          <div id="workspace-items">
-            <button class="button primary workspace-new" id="workspace-new" type="button"><i class="fa-regular fa-plus"></i>New session</button>
-            <div class="workspace-section-label">Recents</div>
-          </div>
-        </aside>
-
-        <div id="workspace-right">
-
-          <div id="workflow-bar">
-            <button class="button stage-btn" data-stage="context"><i class="fa-solid fa-circle-1"></i>Context</button>
-            <button class="button stage-btn" data-stage="verify"><i class="fa-solid fa-circle-2"></i>Verify</button>
-            <button class="button stage-btn active" data-stage="build"><i class="fa-solid fa-circle-3"></i>Build</button>
-            <button class="button stage-btn" data-stage="preview"><i class="fa-solid fa-circle-4"></i>Preview</button>
-            <button class="button stage-btn" data-stage="readiness"><i class="fa-solid fa-circle-5"></i>Readiness</button>
-            <button class="button stage-btn" data-stage="publish"><i class="fa-solid fa-circle-6"></i>Publish</button>
-          </div>
-
-          <div id="app-body">
-
-        <aside id="chat-panel" class="collapsed">
-          <button class="button button-icon" id="chat-toggle">
-            <i class="fa-solid fa-angle-right"></i>
-          </button>
-          <div id="chat-content">
-            <div id="files-panel">
-              <div id="files-header">
-                <span>Files</span>
-                <div class="section-header-actions">
-                  <button class="button button-icon compact" id="files-add" type="button"><i class="fa-regular fa-plus"></i></button>
-                  <button class="button button-icon compact" id="files-toggle" type="button"><i class="fa-solid fa-angle-up"></i></button>
-                </div>
-              </div>
-              <div id="files-list"></div>
-            </div>
-            <div id="chat-section">
-              <div id="chat-header">
-                <span>Chat</span>
-                <button class="button button-icon compact" id="chat-section-toggle" type="button"><i class="fa-solid fa-angle-up"></i></button>
-              </div>
-              <div id="chat-messages"></div>
-            </div>
-            <div id="quick-actions-panel" class="collapsed">
-              <div id="quick-actions-header">
-                <span>Quick Actions</span>
-                <button class="button button-icon compact" id="quick-actions-toggle" type="button"><i class="fa-solid fa-angle-up"></i></button>
-              </div>
-              <div id="quick-actions-content">
-                <div class="action-pills">
-                  <button class="pill" type="button">BOM</button>
-                  <button class="pill" type="button">Build</button>
-                  <button class="pill" type="button">BOM Review</button>
-                  <button class="pill" type="button">Compliance</button>
-                  <button class="pill" type="button">Doc Review</button>
-                  <button class="pill" type="button">Cross-check</button>
-                </div>
-              </div>
-            </div>
-            <div id="chat-footer">
-              <label class="button button-icon compact" id="attach-btn">
-                <i class="fa-regular fa-paperclip"></i>
-                <input hidden multiple type="file" />
-              </label>
-              <input id="chat-input" placeholder="Message…" type="text" />
-              <button class="button button-icon compact" id="send-btn">
-                <i class="fa-solid fa-paper-plane"></i>
-              </button>
-            </div>
-          </div>
-        </aside>
-
-        <div id="main-content">
-
-          <!-- Stage 1: Context -->
-          <div class="stage-panel" id="stage-context">
-            <div id="draft-empty">
-              <i class="fa-regular fa-file-lines"></i>
-              <span>Click a draft card in the chat to preview it here.</span>
-            </div>
-            <div id="draft-view" hidden></div>
-          </div>
-
-          <!-- Stage 2: Verify -->
-          <div class="stage-panel" id="stage-verify">
-            <nav class="sub-tabs">
-              <button class="button sub-tab active" data-subtab="verify-bom">BOM Review</button>
-              <button class="button sub-tab" data-subtab="verify-compliance">Compliance</button>
-              <button class="button sub-tab" data-subtab="verify-docs">Doc Review</button>
-            </nav>
-            <div class="sub-pane active" id="subpane-verify-bom">
-              <div id="bom-review-grid"></div>
-            </div>
-            <div class="sub-pane" id="subpane-verify-compliance">
-              <div class="pane-stub">
-                <i class="fa-regular fa-shield-check"></i>
-                <h2>Compliance Checks</h2>
-                <p>Pre-build validation that enforces spec coverage, attribute completeness, and pricing rules before the model is committed to the build pipeline.</p>
-                <ul>
-                  <li>Required attributes checked for missing or invalid values</li>
-                  <li>Pricing equations validated against floor and ceiling constraints</li>
-                  <li>Regulatory flags surfaced for applicable product categories</li>
-                </ul>
-              </div>
-            </div>
-            <div class="sub-pane" id="subpane-verify-docs">
-              <div class="pane-stub">
-                <i class="fa-regular fa-file-magnifying-glass"></i>
-                <h2>Doc Review</h2>
-                <p>Cross-reference uploaded documentation with the current draft. The AI highlights sections that informed each line item and flags any contradictions.</p>
-                <ul>
-                  <li>Source citations link back to page and section in the original file</li>
-                  <li>Contradictions between documents surfaced for manual resolution</li>
-                  <li>Reviewer sign-off tracked per document before advancing</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-
-          <!-- Stage 3: Build -->
-          <div class="stage-panel active" id="stage-build">
-            <nav id="result-tabs">
-              <button class="button result-tab" data-tab="model">Model</button>
-              <button class="button result-tab" data-tab="rules">Rules</button>
-              <button class="button result-tab" data-tab="equations">Equations</button>
-              <button class="button result-tab active" data-tab="results">Results</button>
-            </nav>
-
-            <div class="tab-pane" id="pane-model">
-              <div id="model-tree"></div>
-            </div>
-
-            <div class="tab-pane" id="pane-rules">
-              <div class="pane-stub">
-                <i class="fa-regular fa-code-branch"></i>
-                <h2>Logic Rules</h2>
-                <p>If/then constraint rules that drive visibility, validation, and filtering across attributes. Organized by rule group with conflict detection and warning indicators.</p>
-                <ul>
-                  <li>Rule groups collapsed by default; expand to inspect conditions</li>
-                  <li>Conflict and redundancy detection highlighted automatically</li>
-                  <li>Execution order controllable via drag-and-drop priority</li>
-                </ul>
-              </div>
-            </div>
-
-            <div class="tab-pane" id="pane-equations">
-              <div class="pane-stub">
-                <i class="fa-regular fa-superscript"></i>
-                <h2>Equations</h2>
-                <p>Calculated expressions that derive values — pricing, dimensions, part counts — from attribute inputs. Supports arithmetic, conditionals, and lookup tables.</p>
-                <ul>
-                  <li>Formula editor with attribute autocomplete</li>
-                  <li>Test mode evaluates equations against sample inputs</li>
-                  <li>Output values feed directly into BOM quantities and pricing</li>
-                </ul>
-              </div>
-            </div>
-
-            <div class="tab-pane active" id="pane-results">
-              <div id="results-grid"></div>
-            </div>
-          </div>
-
-          <!-- Stage 4: Preview -->
-          <div class="stage-panel" id="stage-preview">
-            <div class="pane-stub">
-              <i class="fa-regular fa-eye"></i>
-              <h2>Customer Preview</h2>
-              <p>Rendered product summary as it appears in the end-user configurator. Reflects current draft selections with live pricing, spec output, and any active display-stop warnings.</p>
-              <ul>
-                <li>Toggle between summary and full-detail views</li>
-                <li>Shareable preview link for stakeholder review</li>
-                <li>Inline callouts for incomplete or invalid selections</li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- Stage 5: Readiness -->
-          <div class="stage-panel" id="stage-readiness">
-            <div class="pane-stub">
-              <i class="fa-regular fa-circle-check"></i>
-              <h2>Publish Readiness</h2>
-              <p>Checklist of validation gates that must pass before committing this draft to live — covering required attributes, rule coverage, equation completeness, and BOM mapping.</p>
-              <ul>
-                <li>Passing gates shown in green; blockers flagged in red</li>
-                <li>Warnings allowed through with a reviewer override</li>
-                <li>Audit log records who resolved each gate and when</li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- Stage 6: Publish -->
-          <div class="stage-panel" id="stage-publish">
-            <div class="pane-stub">
-              <i class="fa-regular fa-rocket-launch"></i>
-              <h2>Publish</h2>
-              <p>Finalize and release this product configuration to the live catalog. All readiness gates must pass before committing. Additional export formats are available for downstream systems.</p>
-              <ul>
-                <li>Commit pushes the draft live and creates a version snapshot</li>
-                <li>CSV and PDF exports include full BOM, rules summary, and pricing</li>
-                <li>Discarding removes the draft and restores the last published version</li>
-              </ul>
-              <div class="publish-actions">
-                <button class="button primary" type="button">Commit — make it live</button>
-                <button class="button outline" type="button"><i class="fa-regular fa-file-csv"></i> Download CSV</button>
-                <button class="button outline" type="button"><i class="fa-regular fa-file-pdf"></i> Download PDF</button>
-                <button class="button outline" type="button">Discard draft</button>
-              </div>
-            </div>
-          </div>
-
         </div>
+        <div class="panel-body">
+          <div id="chat-messages"></div>
+          <div id="chat-footer">
+            <label class="button button-icon" id="attach-btn">
+              <i class="fa-regular fa-paperclip"></i>
+              <input hidden multiple type="file" />
+            </label>
+            <input id="chat-input" placeholder="Message…" type="text" />
+            <button class="button button-icon" id="send-btn">
+              <i class="fa-solid fa-paper-plane"></i>
+            </button>
+          </div>
+        </div>
+      </aside>
 
-        <aside id="detail-panel" class="collapsed">
-          <button class="button button-icon" id="detail-toggle">
+      <div id="main-content">
+        <div class="toolbar" id="workspace-bar">
+          <b id="workspace-title">Workspace</b>
+          <span class="inline-separator">—</span>
+          <span id="workspace-status">New session</span>
+          <button class="button" id="reset-btn" type="button">
+            <i class="fa-regular fa-trash-can"></i>Reset workspace
+          </button>
+        </div>
+        <div class="toolbar" id="workflow-bar"></div>
+        <div class="toolbar" id="tab-bar">
+          <button class="chip-tab active" data-tab="files">Files</button>
+          <button class="chip-tab" data-tab="model">Model</button>
+          <button class="chip-tab" data-tab="attributes">Attributes</button>
+          <button class="chip-tab" data-tab="rules">Rules</button>
+          <button class="chip-tab" data-tab="equations">Equations</button>
+          <button class="chip-tab" data-tab="results">Results</button>
+          <button class="chip-tab" data-tab="preview">Preview</button>
+          <button class="chip-tab" data-tab="commit">Commit</button>
+        </div>
+        <div id="tab-content">
+          <div class="tab-pane active" id="pane-files">
+            <div class="pane-overview"><b>Overview</b></div>
+          </div>
+          <div class="tab-pane" id="pane-model">
+            <div class="pane-overview"><b>Overview</b></div>
+          </div>
+          <div class="tab-pane" id="pane-attributes">
+            <div class="pane-overview"><b>Overview</b></div>
+          </div>
+          <div class="tab-pane" id="pane-rules">
+            <div class="pane-overview"><b>Overview</b></div>
+          </div>
+          <div class="tab-pane" id="pane-equations">
+            <div class="pane-overview"><b>Overview</b></div>
+          </div>
+          <div class="tab-pane" id="pane-results">
+            <div class="pane-overview"><b>Overview</b></div>
+          </div>
+          <div class="tab-pane" id="pane-preview">
+            <div class="pane-overview"><b>Overview</b></div>
+          </div>
+          <div class="tab-pane" id="pane-commit">
+            <div class="pane-overview"><b>Overview</b></div>
+          </div>
+        </div>
+      </div>
+
+      <aside id="detail-panel" class="panel collapsed">
+        <div class="panel-header">
+          <span>Details</span>
+          <button class="button button-icon panel-toggle" id="detail-toggle">
             <i class="fa-solid fa-angle-left"></i>
           </button>
-          <div id="detail-content">
-            <nav id="detail-tabs">
-              <button class="button detail-tab active" data-detail-tab="details">Details</button>
-              <button class="button detail-tab" data-detail-tab="preview">Preview</button>
-              <button class="button detail-tab" data-detail-tab="activity">Activity</button>
-            </nav>
-            <div class="detail-pane active" id="detail-pane-details">
-              <div id="detail-empty">
-                <i class="fa-regular fa-sidebar-flip"></i>
-                <span>Click an input, rule, or group to view its details here.</span>
-              </div>
-            </div>
-            <div class="detail-pane" id="detail-pane-preview"></div>
-            <div class="detail-pane" id="detail-pane-activity"></div>
-          </div>
-        </aside>
-
-          </div>
-
         </div>
-
-      </div>
+        <div class="panel-body" id="detail-content"></div>
+      </aside>
 
     </div>
 
-    <script defer src="admin.js"></script>
+    <script defer src="scripts.js"></script>
   </body>
 </html>

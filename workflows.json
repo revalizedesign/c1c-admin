@@ -1,0 +1,14 @@
+{
+  "commit-to-cloud": {
+    "name": "Commit to cloud",
+    "steps": ["Operation selection", "Writing product", "Writing skeleton", "Writing rules", "Writing BOM", "Binding validation"]
+  },
+  "first-use": {
+    "name": "First use",
+    "steps": ["Industry", "Role", "Collaborators"]
+  },
+  "generate-model": {
+    "name": "Generate model",
+    "steps": ["Document parsed", "Input groups", "Logic model", "Rules", "Equations", "BOM mapping"]
+  }
+}

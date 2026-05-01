@@ -1,0 +1,347 @@
+:root {
+  --color-brand: #0856cf;
+  --color-danger: #f00;
+  --color-danger-bg: #f003;
+  --color-success: #22c55e;
+}
+
+.inline-separator {
+  color: var(--color-light);
+}
+
+body {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Toolbar (shared) */
+
+.toolbar {
+  align-items: center;
+  border-bottom: 1px solid var(--color-light);
+  display: flex;
+  gap: 0.5rem;
+  min-width: 0;
+  overflow: hidden;
+  padding: 0.5rem 1rem;
+  white-space: nowrap;
+}
+
+/* Collapsible panel (shared) */
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  overflow: hidden;
+  transition: width 0.2s ease;
+}
+
+.panel.collapsed {
+  cursor: pointer;
+}
+
+.panel.collapsed:hover {
+  background: var(--color-lighter);
+}
+
+.panel-header {
+  align-items: center;
+  border-bottom: 1px solid var(--color-light);
+  display: flex;
+  flex-shrink: 0;
+  gap: 0.5rem;
+  padding: 8px 10px;
+  white-space: nowrap;
+}
+
+.panel-header span {
+  font-weight: 600;
+}
+
+.panel-header i {
+  color: var(--color-half);
+}
+
+.panel-toggle i {
+  transition: transform 0.2s ease;
+}
+
+.panel:not(.collapsed) .panel-toggle i {
+  transform: rotate(180deg);
+}
+
+.panel.collapsed .panel-header > span,
+.panel.collapsed .panel-header > i {
+  display: none;
+}
+
+.panel.collapsed .panel-header {
+  border-bottom: none;
+  padding: 0;
+}
+
+.panel.collapsed .panel-toggle {
+  border-radius: 0;
+  justify-content: flex-start;
+  margin-left: 0;
+  padding: 0.75rem;
+  width: 100%;
+}
+
+.panel-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.panel.collapsed .panel-body {
+  display: none;
+}
+
+/* Sidenav */
+
+#sidenav {
+  border-right: 1px solid var(--color-light);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  overflow: hidden;
+  transition: width 0.2s ease;
+  width: 7rem;
+}
+
+#sidenav.collapsed {
+  cursor: pointer;
+  width: 2.5rem;
+}
+
+#sidenav.collapsed:hover {
+  background: var(--color-lighter);
+}
+
+#nav-toggle {
+  border-radius: 0;
+  flex-shrink: 0;
+  justify-content: flex-start;
+  padding: 0.75rem;
+  width: 100%;
+}
+
+#nav-toggle i {
+  transition: transform 0.2s ease;
+}
+
+#sidenav:not(.collapsed) #nav-toggle i {
+  transform: rotate(180deg);
+}
+
+#nav-items {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding: 0.25rem;
+}
+
+#sidenav.collapsed #nav-items {
+  display: none;
+}
+
+.nav-item {
+  gap: 0.75rem;
+  justify-content: flex-start;
+}
+
+.nav-item i {
+  color: var(--color-half);
+  width: 1rem;
+}
+
+.nav-item.active {
+  background: var(--color-lighter);
+}
+
+/* App layout */
+
+#app-right {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+}
+
+#main-content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+}
+
+/* Chat panel */
+
+#chat-panel {
+  border-right: 1px solid var(--color-light);
+  width: 25rem;
+}
+
+#chat-panel.collapsed {
+  width: 2.5rem;
+}
+
+#chat-toggle {
+  margin-left: auto;
+}
+
+#chat-messages {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 0.5rem;
+  overflow-y: auto;
+  padding: 0.75rem;
+}
+
+#chat-footer {
+  align-items: center;
+  border-top: 1px solid var(--color-light);
+  display: flex;
+  flex-shrink: 0;
+  gap: 4px;
+  padding: 6px;
+}
+
+#chat-input {
+  background: none;
+  border: none;
+  color: var(--color-darkest);
+  flex: 1;
+  min-width: 0;
+  outline: none;
+  padding: 0;
+}
+
+#chat-input::placeholder {
+  color: var(--color-half);
+}
+
+/* Detail panel */
+
+#detail-panel {
+  border-left: 1px solid var(--color-light);
+  width: 25rem;
+}
+
+#detail-panel.collapsed {
+  width: 2.5rem;
+}
+
+#detail-toggle {
+  margin-left: auto;
+}
+
+/* Workspace bar */
+
+#workspace-status {
+  color: var(--color-half);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#reset-btn {
+  margin-left: auto;
+}
+
+/* Workflow bar */
+
+.workflow-dot {
+  background: var(--color-light);
+  border-radius: 50%;
+  flex-shrink: 0;
+  height: 0.5rem;
+  width: 0.5rem;
+}
+
+#workflow-status {
+  color: var(--color-light);
+  margin-left: auto;
+}
+
+.workflow-step {
+  color: var(--color-half);
+}
+
+/* Tab bar */
+
+#tab-bar {
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.chip-tab {
+  background: none;
+  border: none;
+  border-radius: var(--radius);
+  color: var(--color-half);
+  cursor: pointer;
+  font-family: inherit;
+  letter-spacing: inherit;
+  padding: 3px 10px;
+}
+
+#tab-content {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.tab-pane {
+  display: none;
+  flex-direction: column;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.tab-pane.active {
+  display: flex;
+}
+
+.pane-overview {
+  padding: 1rem;
+}
+
+.pane-overview b {
+  font-size: 1.5rem;
+}
+
+.chip-tab:hover {
+  background: var(--color-lighter);
+  color: var(--color-darker);
+}
+
+/* Theme */
+
+.workflow-dot.active {
+  background: var(--color-brand);
+}
+
+.workflow-dot.done {
+  background: var(--color-success);
+}
+
+#workflow-status.running {
+  color: var(--color-brand);
+}
+
+.chip-tab.active {
+  background: var(--color-brand);
+  color: var(--color-always-white);
+}
+
+#reset-btn:hover {
+  background: var(--color-danger-bg);
+  color: var(--color-danger);
+}

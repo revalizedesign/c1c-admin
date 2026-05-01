@@ -1,3 +1,7 @@
+if (new URLSearchParams(location.search).has('dev')) document.body.classList.add('dev')
+
+const isSuperadmin = () => document.getElementById('superadmin-check')?.checked
+
 const g = document.getElementById.bind(document)
 const q = document.querySelectorAll.bind(document)
 
@@ -17,8 +21,47 @@ const makeStub = (iconClass, title) => {
   return stub
 }
 
+const FEATURES = [
+  { label: 'Two-pane layout (Chat + Workspace)', status: 'shipped' },
+  { label: 'Guided onboarding flow', status: 'shipped' },
+  { label: 'AI generation with step-by-step progress', status: 'shipped' },
+  { label: 'Tab reveal during generation', status: 'shipped' },
+  { label: 'Model tree with input inspection', status: 'shipped' },
+  { label: 'Rules & equations display', status: 'shipped' },
+  { label: 'BOM results grid', status: 'shipped' },
+  { label: 'Interactive configuration preview', status: 'prototype' },
+  { label: 'Build approval flow', status: 'shipped' },
+  { label: 'Commit simulation with audit trail', status: 'shipped' },
+  { label: 'AI health signal (post-commit)', status: 'shipped' },
+  { label: '5-stage workflow', status: 'shipped' },
+  { label: 'Session persistence', status: 'shipped' },
+  { label: 'Superadmin mode', status: 'shipped' },
+  { label: 'No-delete guardrails (v1)', status: 'shipped' },
+  { label: 'Attributes UX', status: 'soon' },
+  { label: 'Chat Q&A responses', status: 'prototype' },
+  { label: 'Refinement loop (inline + chat edits)', status: 'prototype' },
+  { label: 'Q&A → generation handoff', status: 'prototype' },
+  { label: 'Domain knowledge injection (vertical-specific)', status: 'prototype' },
+  { label: 'Confidence indicators per row', status: 'out' },
+  { label: 'Inline validation warnings', status: 'out' },
+  { label: 'Undo / action archiving', status: 'subagent' },
+  { label: 'Data retention & GDPR compliance', status: 'subagent' },
+  { label: 'Cost benchmarking & rate limiting', status: 'subagent' },
+  { label: 'Regional model availability', status: 'subagent' },
+  { label: 'Human benchmarking & quality baselines', status: 'subagent' },
+]
+
 const INDUSTRIES = ['Automotive', 'Construction', 'Healthcare', 'Manufacturing', 'Retail', 'Technology', 'Other']
-const PRODUCT_STEPS = ['Model', 'Rules', 'BOM', 'Preview', 'Publish']
+const PRODUCT_STEPS = ['Model', 'Rules', 'BOM', 'Preview', 'Commit']
+
+const COMMIT_STEPS = [
+  { detail: '3 new · 0 edits', ms: 1500, name: 'Operation selection', reasoning: ['Classifying draft items as new or edit…'] },
+  { detail: 'Product created', ms: 2000, name: 'Writing product', reasoning: ['Creating product record in C1C…'] },
+  { detail: '4 groups · 12 inputs', ms: 2500, name: 'Writing skeleton', reasoning: ['Committing input groups and inputs…', 'Validating attribute references…'] },
+  { detail: '3 logic items', ms: 2000, name: 'Writing rules', reasoning: ['Committing logic items and drivens…', 'Validating dependency order…'] },
+  { detail: '8 line items', ms: 2000, name: 'Writing BOM', reasoning: ['Committing BOM line items…', 'Linking item masters…'] },
+  { detail: 'All checks passed', ms: 1500, name: 'Binding validation', reasoning: ['Running schema validation…', 'Checking reference integrity…'] },
+]
 
 const GEN_STEPS = [
   { detail: '847 tokens · 12 pages', ms: 1500, name: 'Document parsed', reasoning: null },
@@ -164,16 +207,6 @@ const renderDraft = draft => {
   view.hidden = false
 }
 
-// BOM Review (Verify stage)
-
-let bomReviewGrid = null
-
-const renderBomReview = items => {
-  if (!items?.length) return
-  if (bomReviewGrid) bomReviewGrid.destroy()
-  bomReviewGrid = agGrid.createGrid(g('bom-review-grid'), gridOpts({ columnDefs: draftCols, rowData: flattenBOM(items) }))
-}
-
 // Chat cards
 
 const makeDraftCard = draft => {
@@ -204,6 +237,44 @@ const makeBuildCard = build => {
   card.appendChild(info)
   const chevron = makeEl('i')
   chevron.className = 'fa-solid fa-angle-right'
+  card.appendChild(chevron)
+  return card
+}
+
+const makeGenerationCard = session => {
+  const card = makeEl('div', 'draft-card')
+  card.addEventListener('click', () => { activateStage('build'); activateTab('model') })
+  const icon = makeEl('i'); icon.className = 'fa-regular fa-sparkles'
+  card.appendChild(icon)
+  const info = makeEl('div', 'draft-info')
+  info.appendChild(makeEl('span', 'draft-label', 'Generation'))
+  const groups = getInputGroups(session)
+  const inputs = groups.flatMap(ig => ig.inputs)
+  info.appendChild(makeEl('span', 'draft-version', [
+    `${groups.length} input groups`,
+    `${inputs.length} inputs`,
+    `${(session.rules ?? []).length} rules`,
+    `${(session.equations ?? []).length} equations`,
+    `${(session.build?.results ?? []).length} BOM items`,
+  ].join(' · ')))
+  card.appendChild(info)
+  const chevron = makeEl('i'); chevron.className = 'fa-solid fa-angle-right'
+  card.appendChild(chevron)
+  return card
+}
+
+const makeCommitCard = () => {
+  const card = makeEl('div', 'draft-card')
+  card.addEventListener('click', () => activateStage('commit'))
+  const icon = makeEl('i'); icon.className = 'fa-regular fa-rocket-launch'
+  card.appendChild(icon)
+  const info = makeEl('div', 'draft-info')
+  info.appendChild(makeEl('span', 'draft-label', 'Committed'))
+  const manifest = getDraftManifest(activeSession)
+  const total = manifest.reduce((s, [c]) => s + c, 0)
+  info.appendChild(makeEl('span', 'draft-version', `${total} items · v2.14 · ${new Date().toLocaleTimeString()}`))
+  card.appendChild(info)
+  const chevron = makeEl('i'); chevron.className = 'fa-solid fa-angle-right'
   card.appendChild(chevron)
   return card
 }
@@ -287,12 +358,53 @@ const initStrip = (stripId, toggleId) => {
   strip.addEventListener('click', () => { if (strip.classList.contains('collapsed')) strip.classList.remove('collapsed') })
 }
 
+let notifPanel = null
+
+const toggleNotifications = () => {
+  if (notifPanel) { notifPanel.remove(); notifPanel = null; return }
+  notifPanel = makeEl('div', 'notif-panel')
+
+  const addSection = (label, items, iconClass, rowClass) => {
+    notifPanel.appendChild(makeEl('span', 'notif-section-label', label))
+    for (const f of items) {
+      const row = makeEl('div', rowClass ? `notif-row ${rowClass}` : 'notif-row')
+      const icon = makeEl('i'); icon.className = iconClass
+      row.appendChild(icon)
+      row.appendChild(makeEl('span', null, f.label))
+      notifPanel.appendChild(row)
+    }
+  }
+
+  addSection('Shipped', FEATURES.filter(f => f.status === 'shipped'), 'fa-solid fa-check')
+  addSection('Coming Soon', FEATURES.filter(f => f.status === 'soon'), 'fa-regular fa-clock', 'coming-soon')
+  addSection('Eng Prototype Only', FEATURES.filter(f => f.status === 'prototype'), 'fa-regular fa-flask', 'coming-soon')
+  addSection('Dedicated Sub-Agent', FEATURES.filter(f => f.status === 'subagent'), 'fa-regular fa-robot', 'coming-soon')
+  addSection('Out of MVP Scope', FEATURES.filter(f => f.status === 'out'), 'fa-regular fa-circle-xmark', 'out-of-scope')
+
+  document.body.appendChild(notifPanel)
+  const rect = g('notif-btn').getBoundingClientRect()
+  notifPanel.style.top = rect.bottom + 4 + 'px'
+  notifPanel.style.right = (window.innerWidth - rect.right) + 'px'
+
+  setTimeout(() => {
+    const close = e => {
+      if (!notifPanel?.contains(e.target) && e.target !== g('notif-btn')) {
+        notifPanel?.remove(); notifPanel = null
+        document.removeEventListener('click', close)
+      }
+    }
+    document.addEventListener('click', close)
+  })
+}
+
 initStrip('sidenav', 'nav-toggle')
 initStrip('workspace-list', 'workspace-toggle')
 initStrip('chat-panel', 'chat-toggle')
 initStrip('detail-panel', 'detail-toggle')
 
+g('notif-btn').addEventListener('click', toggleNotifications)
 g('workspace-new').addEventListener('click', e => { e.stopPropagation(); createNewSession() })
+g('reset-btn').addEventListener('click', () => { localStorage.removeItem(STORAGE_KEY); createNewSession() })
 g('files-add').addEventListener('click', e => e.stopPropagation())
 g('files-header').addEventListener('click', () => g('files-panel').classList.toggle('collapsed'))
 g('chat-header').addEventListener('click', () => g('chat-section').classList.toggle('collapsed'))
@@ -300,7 +412,10 @@ g('quick-actions-header').addEventListener('click', () => g('quick-actions-panel
 
 q('.pill').forEach(pill =>
   pill.addEventListener('click', () => {
-    if (pill.textContent === 'Build') {
+    if (pill.textContent === 'Commit') {
+      activateStage('commit')
+      setTimeout(() => simulateCommit(), 300)
+    } else if (pill.textContent === 'Build') {
       const messages = g('chat-messages')
       messages.appendChild(makeEl('div', 'chat-bubble ai', "I've reviewed the draft history and references. Here's a summary of what will be included in this build:"))
       messages.appendChild(makeApprovalCard())
@@ -347,6 +462,10 @@ const renderChat = (messages, draftMap) => {
       if (draft) container.appendChild(makeDraftCard(draft))
     } else if (msg.type === 'build-card') {
       container.appendChild(makeBuildCard(activeSession.build))
+    } else if (msg.type === 'generation-card') {
+      container.appendChild(makeGenerationCard(activeSession))
+    } else if (msg.type === 'commit-card') {
+      container.appendChild(makeCommitCard())
     }
   }
   container.scrollTop = container.scrollHeight
@@ -600,17 +719,263 @@ const makeProductPicker = currentSession => {
   return picker
 }
 
+const ENV_INFO = [['Instance', 'c1c-prod-us'], ['Region', 'us-east-1'], ['Server', 'app-04.c1c.revalize.com'], ['Database', 'c1c_main_7f2a']]
+
+const getDraftManifest = session => {
+  const groups = getInputGroups(session)
+  const inputs = groups.flatMap(ig => ig.inputs)
+  return [
+    [1, 'Product'],
+    [groups.length, 'Input Groups'],
+    [inputs.length, 'Inputs'],
+    [(session.rules ?? []).length, 'Logic Rules'],
+    [(session.equations ?? []).length, 'Equations'],
+    [(session.build?.results ?? []).length, 'BOM Line Items'],
+  ].filter(([c]) => c)
+}
+
+const makePublishSection = (label, desc, content) => {
+  const sec = makeEl('div', 'publish-section')
+  sec.appendChild(makeEl('h3', 'publish-section-heading', label))
+  if (desc) sec.appendChild(makeEl('p', 'publish-section-desc', desc))
+  sec.appendChild(content)
+  return sec
+}
+
+const makeEnvGrid = () => {
+  const grid = makeEl('div', 'publish-env')
+  for (const [k, v] of ENV_INFO) {
+    const item = makeEl('div', 'publish-env-item')
+    item.appendChild(makeEl('span', 'publish-env-key', k))
+    item.appendChild(makeEl('span', 'publish-env-val', v))
+    grid.appendChild(item)
+  }
+  return grid
+}
+
+const renderPublish = session => {
+  const pane = g('stage-commit')
+  pane.replaceChildren()
+
+  const manifest = getDraftManifest(session)
+  const total = manifest.reduce((s, [c]) => s + c, 0)
+
+  if (!total) { pane.appendChild(makeStub('fa-regular fa-rocket-launch', 'Nothing to commit')); return }
+
+  const view = makeEl('div', 'publish-view')
+  view.appendChild(makeEl('h2', 'publish-heading', 'Publish'))
+  view.appendChild(makeEl('p', 'publish-desc', 'Review the draft summary and environment before committing to ConfigureOne Cloud.'))
+
+  view.appendChild(makePublishSection('Environment', 'Target instance and infrastructure for this commit.', makeEnvGrid()))
+
+  const mList = makeEl('div', 'publish-manifest')
+  for (const [count, label] of manifest) {
+    const row = makeEl('div', 'publish-manifest-row')
+    row.appendChild(makeEl('span', 'publish-manifest-count', String(count)))
+    row.appendChild(makeEl('span', 'publish-manifest-label', label))
+    row.appendChild(makeEl('span', 'badge', 'NEW'))
+    mList.appendChild(row)
+  }
+  mList.appendChild(makeEl('div', 'publish-manifest-total', `${total} items total`))
+  view.appendChild(makePublishSection('Draft Summary', 'Items staged for commit. All items write atomically in hierarchy order.', mList))
+
+  const gatesList = makeEl('div', 'publish-gates')
+  const GATES = [
+    ['Schema validation', 'All required fields present and correctly typed.'],
+    ['Reference integrity', 'No broken references between inputs, rules, and BOM items.'],
+    ['No conflicts detected', 'No overlapping logic rules or duplicate identifiers.'],
+    ['Naming conventions', 'Labels follow the customer context layer naming patterns.'],
+  ]
+  for (const [label, desc] of GATES) {
+    const gate = makeEl('div', 'publish-gate')
+    const left = makeEl('div', 'publish-gate-left')
+    const icon = makeEl('i'); icon.className = 'fa-solid fa-circle-check'
+    left.appendChild(icon)
+    const text = makeEl('div', 'publish-gate-text')
+    text.appendChild(makeEl('span', 'publish-gate-label', label))
+    text.appendChild(makeEl('span', 'publish-gate-desc', desc))
+    left.appendChild(text)
+    gate.appendChild(left)
+    const action = makeEl('button', 'button outline compact', 'View details')
+    action.type = 'button'
+    gate.appendChild(action)
+    gatesList.appendChild(gate)
+  }
+  view.appendChild(makePublishSection('Readiness', 'All validation gates must pass before committing.', gatesList))
+
+  const actions = makeEl('div', 'publish-actions')
+  const commitBtn = makeEl('button', 'button primary', 'Commit — make it live')
+  commitBtn.type = 'button'
+  commitBtn.addEventListener('click', () => simulateCommit())
+  actions.appendChild(commitBtn)
+  for (const [iconCls, label] of [['fa-regular fa-file-csv', 'Download CSV'], ['fa-regular fa-file-pdf', 'Download PDF']]) {
+    const btn = makeEl('button', 'button outline')
+    btn.type = 'button'
+    const ico = makeEl('i'); ico.className = iconCls
+    btn.appendChild(ico)
+    btn.appendChild(document.createTextNode(` ${label}`))
+    actions.appendChild(btn)
+  }
+  const discardBtn = makeEl('button', 'button outline', 'Discard draft')
+  discardBtn.type = 'button'
+  actions.appendChild(discardBtn)
+  view.appendChild(actions)
+
+  pane.appendChild(view)
+}
+
+const showCommitSuccess = pane => {
+  pane.replaceChildren()
+  const wrap = makeEl('div', 'publish-view')
+
+  const successIcon = makeEl('i'); successIcon.className = 'fa-regular fa-circle-check publish-success-icon'
+  wrap.appendChild(successIcon)
+  wrap.appendChild(makeEl('h2', 'publish-heading', 'Successfully committed'))
+
+  const manifest = getDraftManifest(activeSession)
+  const total = manifest.reduce((s, [c]) => s + c, 0)
+  wrap.appendChild(makeEl('p', 'publish-desc', `${total} items committed to ConfigureOne Cloud`))
+
+  wrap.appendChild(makePublishSection('Environment', null, makeEnvGrid()))
+
+  const commitId = `cmt-${Math.random().toString(36).slice(2, 10)}`
+  const duration = (COMMIT_STEPS.reduce((s, step) => s + step.ms, 0) / 1000).toFixed(1)
+  const detailGrid = makeEl('div', 'publish-env')
+  for (const [k, v] of [['Commit ID', commitId], ['Version', 'v2.14'], ['Duration', `${duration}s`], ['Initiated by', 'Admin']]) {
+    const item = makeEl('div', 'publish-env-item')
+    item.appendChild(makeEl('span', 'publish-env-key', k))
+    item.appendChild(makeEl('span', 'publish-env-val', v))
+    detailGrid.appendChild(item)
+  }
+  wrap.appendChild(makePublishSection('Commit Details', null, detailGrid))
+
+  const itemsList = makeEl('div', 'publish-manifest')
+  for (const [count, label] of manifest) {
+    const row = makeEl('div', 'publish-manifest-row')
+    const icon = makeEl('i'); icon.className = 'fa-solid fa-check publish-item-check'
+    row.appendChild(icon)
+    row.appendChild(makeEl('span', 'publish-manifest-label', `${label} (${count})`))
+    row.appendChild(makeEl('span', 'badge', 'NEW'))
+    itemsList.appendChild(row)
+  }
+  wrap.appendChild(makePublishSection('Items Committed', null, itemsList))
+
+  const now = new Date()
+  const totalMs = COMMIT_STEPS.reduce((s, step) => s + step.ms, 0)
+  let offset = -totalMs
+  const auditList = makeEl('div', 'publish-audit')
+  for (const step of COMMIT_STEPS) {
+    const t = new Date(now.getTime() + offset)
+    const ts = t.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })
+    const row = makeEl('div', 'publish-audit-row')
+    row.appendChild(makeEl('span', 'publish-audit-time', ts))
+    row.appendChild(makeEl('span', 'publish-audit-step', step.name))
+    row.appendChild(makeEl('span', 'publish-audit-result', step.detail))
+    auditList.appendChild(row)
+    offset += step.ms
+  }
+  wrap.appendChild(makePublishSection('Audit Trail', 'Each step logged with timestamp for post-commit investigation.', auditList))
+
+  const health = makeEl('div', 'commit-health')
+  const hIcon = makeEl('i'); hIcon.className = 'fa-regular fa-chart-line-up'
+  health.appendChild(hIcon)
+  health.appendChild(makeEl('span', null, 'Your AI acceptance rate this month: 89% — up from 74% last month.'))
+  wrap.appendChild(health)
+
+  const actions = makeEl('div', 'publish-actions')
+  const buildBtn = makeEl('button', 'button outline', 'Return to Build')
+  buildBtn.type = 'button'
+  buildBtn.addEventListener('click', () => { activateStage('build'); activateTab('model') })
+  actions.appendChild(buildBtn)
+  const newBtn = makeEl('button', 'button outline', 'Start new draft')
+  newBtn.type = 'button'
+  newBtn.addEventListener('click', () => createNewSession())
+  actions.appendChild(newBtn)
+  wrap.appendChild(actions)
+
+  pane.appendChild(wrap)
+}
+
+const simulateCommit = () => {
+  const pane = g('stage-commit')
+  pane.replaceChildren()
+  const wrap = makeEl('div', 'publish-view')
+  wrap.appendChild(makeEl('h2', 'publish-heading', 'Committing to ConfigureOne Cloud'))
+  wrap.appendChild(makeEl('p', 'publish-desc', 'Writing draft to C1C in hierarchy order. All items commit atomically.'))
+
+  const card = makeEl('div', 'progress-card')
+  const stepsEl = makeEl('div', 'progress-steps')
+  card.appendChild(stepsEl)
+  wrap.appendChild(card)
+  pane.appendChild(wrap)
+
+  const stepRows = COMMIT_STEPS.map(step => {
+    const row = makeEl('div', 'progress-step pending')
+    const iconWrap = makeEl('div', 'step-icon')
+    const icon = makeEl('i'); icon.className = 'fa-regular fa-circle'
+    iconWrap.appendChild(icon)
+    row.appendChild(iconWrap)
+    const body = makeEl('div', 'step-body')
+    body.appendChild(makeEl('span', 'step-name', step.name))
+    const detail = makeEl('span', 'step-detail')
+    body.appendChild(detail)
+    row.appendChild(body)
+    stepsEl.appendChild(row)
+    return { detail, icon, row }
+  })
+
+  let reasoningInterval = null
+
+  const complete = idx => {
+    if (reasoningInterval) { clearInterval(reasoningInterval); reasoningInterval = null }
+    const { row, icon, detail } = stepRows[idx]
+    row.className = 'progress-step done'
+    icon.className = 'fa-solid fa-check'
+    detail.textContent = COMMIT_STEPS[idx].detail
+  }
+
+  const activate = idx => {
+    const { row, icon, detail } = stepRows[idx]
+    row.className = 'progress-step active'
+    icon.className = 'fa-solid fa-spinner fa-spin'
+    const step = COMMIT_STEPS[idx]
+    if (step.reasoning?.length) {
+      let ri = 0
+      detail.textContent = step.reasoning[0]
+      reasoningInterval = setInterval(() => { ri = (ri + 1) % step.reasoning.length; detail.textContent = step.reasoning[ri] }, 1600)
+    }
+  }
+
+  let idx = 0
+  const advance = () => {
+    if (idx > 0) complete(idx - 1)
+    if (idx === COMMIT_STEPS.length) {
+      activeSession.chat.push({ id: `m-commit-${Date.now()}`, type: 'commit-card' })
+      activeSession.chat.push({ id: `m-cai-${Date.now()}`, role: 'ai', content: 'Committed to ConfigureOne Cloud. Click the card above for full details.' })
+      persist()
+      setTimeout(() => showCommitSuccess(pane), 600)
+      return
+    }
+    activate(idx)
+    setTimeout(advance, COMMIT_STEPS[idx].ms)
+    idx++
+  }
+
+  advance()
+}
+
 const simulateUpload = session => {
   session.files = [{ name: 'Product Spec.pdf', size: '2.4 MB', type: 'pdf' }]
   renderFiles(session.files)
 
-  const template = sessions.find(s => s.model && !s.onboarding)
-  if (template) {
-    session.model = JSON.parse(JSON.stringify(template.model))
-    session.rules = JSON.parse(JSON.stringify(template.rules ?? []))
-    session.equations = JSON.parse(JSON.stringify(template.equations ?? []))
-    session.build = JSON.parse(JSON.stringify(template.build ?? null))
+  const modelSource = sessions.find(s => s.model && !s.onboarding)
+  const buildSource = sessions.find(s => s.build?.results?.length && !s.onboarding)
+  if (modelSource) {
+    session.model = JSON.parse(JSON.stringify(modelSource.model))
+    session.rules = JSON.parse(JSON.stringify(modelSource.rules ?? []))
+    session.equations = JSON.parse(JSON.stringify(modelSource.equations ?? []))
   }
+  if (buildSource) session.build = JSON.parse(JSON.stringify(buildSource.build))
   renderModelTree(session)
   renderRules(session)
   renderEquations(session)
@@ -682,7 +1047,7 @@ const simulateUpload = session => {
       session.stage = 'build'
       session.activeTab = 'model'
       session.chat.push({ id: `m-u-${Date.now()}`, role: 'user', content: 'Upload Spec' })
-      if (session.build) session.chat.push({ id: `m-build-${Date.now()}`, type: 'build-card' })
+      session.chat.push({ id: `m-gen-${Date.now()}`, type: 'generation-card' })
       session.chat.push({ id: `m-ai-${Date.now()}`, role: 'ai', content: 'Model generated. Review and refine in the Build tab, or ask me to adjust any part.' })
       persist()
       container.appendChild(makeEl('div', 'chat-bubble ai', 'Model generated. Review and refine in the Build tab, or ask me to adjust any part.'))
@@ -703,10 +1068,16 @@ const renderOnboarding = session => {
   container.replaceChildren()
   const ob = session.onboarding
 
-  container.appendChild(makeEl('div', 'chat-bubble ai', 'Welcome to ConfigureOne Cloud. What industry is this product for?'))
-  container.appendChild(makeIndustryPills(session))
-
-  if (ob.step === 'industry') { container.scrollTop = container.scrollHeight; return }
+  if (isSuperadmin()) {
+    container.appendChild(makeEl('div', 'chat-bubble ai', 'Welcome to ConfigureOne Cloud. What industry is this product for?'))
+    container.appendChild(makeIndustryPills(session))
+    if (ob.step === 'industry') { container.scrollTop = container.scrollHeight; return }
+  } else if (ob.step === 'industry') {
+    ob.step = 'route'
+    ob.industry = 'Manufacturing'
+    session.name = 'New Manufacturing Product'
+    persist()
+  }
 
   container.appendChild(makeEl('div', 'chat-bubble user', ob.industry))
   container.appendChild(makeEl('div', 'chat-bubble ai', `Got it — ${ob.industry}. Are you configuring a new product or working with an existing one?`))
@@ -783,11 +1154,11 @@ const renderSession = () => {
   } else {
     renderChat(activeSession.chat, draftMap)
   }
-  renderBomReview(latestDraft?.items ?? [])
   renderResultsGrid(activeSession.build?.results ?? [])
   renderModelTree(activeSession)
   renderRules(activeSession)
   renderEquations(activeSession)
+  renderPublish(activeSession)
   renderDetailPreview(activeSession)
   renderActivity(activeSession)
   activateStage(activeSession.stage ?? 'context')

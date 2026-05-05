@@ -5,81 +5,356 @@
       "build": {
         "inputs": 8,
         "results": [
-          { "description": "Replacement Optic Adjustable Zoom", "partNumber": "RO-A-A2-1", "quantity": 1, "unit": "ea" },
-          { "description": "Replacement Optic Wallwash", "partNumber": "RO-A-W-1", "quantity": 1, "unit": "ea" },
-          { "description": "Replacement Optic 60 Degree", "partNumber": "RO-A-60-1", "quantity": 2, "unit": "ea" },
-          { "description": "Replacement Optic 25 Degree", "partNumber": "RO-A-25-1", "quantity": 1, "unit": "ea" },
-          { "description": "Replacement Optic 15 Degree", "partNumber": "RO-A-15-1", "quantity": 1, "unit": "ea" },
-          { "description": "Replacement Optic 30 Degree", "partNumber": "RO-A-30-1", "quantity": 1, "unit": "ea" },
-          { "description": "Round Fixture Panel, 4 in Wide", "partNumber": "P-A2R-4", "quantity": 1, "unit": "ea" },
-          { "description": "Square Fixture Panel, 4 in Wide", "partNumber": "P-A2S-4", "quantity": 1, "unit": "ea" },
-          { "description": "Clear Film", "partNumber": "COL-AR", "quantity": 1, "unit": "ea" },
-          { "description": "Soft Focus Film", "partNumber": "SFL-AR", "quantity": 1, "unit": "ea" },
-          { "description": "Honeycomb Louver", "partNumber": "HCL-AR", "quantity": 1, "unit": "ea" },
-          { "description": "Linear Spread Film", "partNumber": "LSL-AR", "quantity": 1, "unit": "ea" },
-          { "description": "Wide Distribution Film", "partNumber": "WOL-AR", "quantity": 1, "unit": "ea" },
-          { "description": "Adjustment Tool Hex 050", "partNumber": "TOOL-HEX-050", "quantity": 1, "unit": "ea" },
-          { "description": "5/16 in T-Grid Mounting Bracket", "partNumber": "PANEL-BRACKET", "quantity": 1, "unit": "ea" }
+          {
+            "description": "Replacement Optic Adjustable Zoom",
+            "partNumber": "RO-A-A2-1",
+            "quantity": 1,
+            "unit": "ea"
+          },
+          {
+            "description": "Replacement Optic Wallwash",
+            "partNumber": "RO-A-W-1",
+            "quantity": 1,
+            "unit": "ea"
+          },
+          {
+            "description": "Replacement Optic 60 Degree",
+            "partNumber": "RO-A-60-1",
+            "quantity": 2,
+            "unit": "ea"
+          },
+          {
+            "description": "Replacement Optic 25 Degree",
+            "partNumber": "RO-A-25-1",
+            "quantity": 1,
+            "unit": "ea"
+          },
+          {
+            "description": "Replacement Optic 15 Degree",
+            "partNumber": "RO-A-15-1",
+            "quantity": 1,
+            "unit": "ea"
+          },
+          {
+            "description": "Replacement Optic 30 Degree",
+            "partNumber": "RO-A-30-1",
+            "quantity": 1,
+            "unit": "ea"
+          },
+          {
+            "description": "Round Fixture Panel, 4 in Wide",
+            "partNumber": "P-A2R-4",
+            "quantity": 1,
+            "unit": "ea"
+          },
+          {
+            "description": "Square Fixture Panel, 4 in Wide",
+            "partNumber": "P-A2S-4",
+            "quantity": 1,
+            "unit": "ea"
+          },
+          {
+            "description": "Clear Film",
+            "partNumber": "COL-AR",
+            "quantity": 1,
+            "unit": "ea"
+          },
+          {
+            "description": "Soft Focus Film",
+            "partNumber": "SFL-AR",
+            "quantity": 1,
+            "unit": "ea"
+          },
+          {
+            "description": "Honeycomb Louver",
+            "partNumber": "HCL-AR",
+            "quantity": 1,
+            "unit": "ea"
+          },
+          {
+            "description": "Linear Spread Film",
+            "partNumber": "LSL-AR",
+            "quantity": 1,
+            "unit": "ea"
+          },
+          {
+            "description": "Wide Distribution Film",
+            "partNumber": "WOL-AR",
+            "quantity": 1,
+            "unit": "ea"
+          },
+          {
+            "description": "Adjustment Tool Hex 050",
+            "partNumber": "TOOL-HEX-050",
+            "quantity": 1,
+            "unit": "ea"
+          },
+          {
+            "description": "5/16 in T-Grid Mounting Bracket",
+            "partNumber": "PANEL-BRACKET",
+            "quantity": 1,
+            "unit": "ea"
+          }
         ],
         "rules": 12,
         "time": "11:15 AM",
         "zones": 3
       },
       "chat": [
-        { "id": "m1", "role": "user", "content": "Can you build a BOM for this product?" },
-        { "id": "m2", "role": "ai", "content": "Sure — analyzing the Parelux Atomos Renew configuration now." },
-        { "id": "m3", "type": "draft-card", "draftId": "d1" },
-        { "id": "m4", "role": "ai", "content": "Here's the initial BOM. Want me to verify against the spec sheet?" },
-        { "id": "m5", "role": "user", "content": "Yes, verify it then update." },
-        { "id": "m6", "role": "ai", "content": "Verified — found 2 discrepancies. Updated quantities on RO-A-60-1 and added the mounting bracket." },
-        { "id": "m7", "type": "draft-card", "draftId": "d2" },
-        { "id": "m8", "role": "ai", "content": "Updated BOM is ready. Click the card to review in the Draft tab." }
+        {
+          "id": "m1",
+          "role": "user",
+          "content": "Can you build a BOM for this product?"
+        },
+        {
+          "id": "m2",
+          "role": "ai",
+          "content": "Sure \u2014 analyzing the Parelux Atomos Renew configuration now."
+        },
+        {
+          "id": "m3",
+          "type": "draft-card",
+          "draftId": "d1"
+        },
+        {
+          "id": "m4",
+          "role": "ai",
+          "content": "Here's the initial BOM. Want me to verify against the spec sheet?"
+        },
+        {
+          "id": "m5",
+          "role": "user",
+          "content": "Yes, verify it then update."
+        },
+        {
+          "id": "m6",
+          "role": "ai",
+          "content": "Verified \u2014 found 2 discrepancies. Updated quantities on RO-A-60-1 and added the mounting bracket."
+        },
+        {
+          "id": "m7",
+          "type": "draft-card",
+          "draftId": "d2"
+        },
+        {
+          "id": "m8",
+          "role": "ai",
+          "content": "Updated BOM is ready. Click the card to review in the Draft tab."
+        }
       ],
       "drafts": [
         {
-          "groups": 4, "id": "d1", "inputs": 15, "time": "10:51 AM", "values": 15,
+          "groups": 4,
+          "id": "d1",
+          "inputs": 15,
+          "time": "10:51 AM",
+          "values": 15,
           "items": [
-            { "description": "Replacement Optic Adjustable Zoom", "partNumber": "RO-A-A2-1", "quantity": 1, "unit": "ea" },
-            { "description": "Replacement Optic Wallwash", "partNumber": "RO-A-W-1", "quantity": 1, "unit": "ea" },
-            { "description": "Replacement Optic 60 Degree", "partNumber": "RO-A-60-1", "quantity": 1, "unit": "ea" },
-            { "description": "Replacement Optic 25 Degree", "partNumber": "RO-A-25-1", "quantity": 1, "unit": "ea" },
-            { "description": "Replacement Optic 15 Degree", "partNumber": "RO-A-15-1", "quantity": 1, "unit": "ea" },
-            { "description": "Replacement Optic 30 Degree", "partNumber": "RO-A-30-1", "quantity": 1, "unit": "ea" },
-            { "description": "Round Fixture Panel, 4 in Wide", "partNumber": "P-A2R-4", "quantity": 1, "unit": "ea" },
-            { "description": "Square Fixture Panel, 4 in Wide", "partNumber": "P-A2S-4", "quantity": 1, "unit": "ea" },
-            { "description": "Clear Film", "partNumber": "COL-AR", "quantity": 1, "unit": "ea" },
-            { "description": "Soft Focus Film", "partNumber": "SFL-AR", "quantity": 1, "unit": "ea" },
-            { "description": "Honeycomb Louver", "partNumber": "HCL-AR", "quantity": 1, "unit": "ea" },
-            { "description": "Linear Spread Film", "partNumber": "LSL-AR", "quantity": 1, "unit": "ea" },
-            { "description": "Wide Distribution Film", "partNumber": "WOL-AR", "quantity": 1, "unit": "ea" },
-            { "description": "Adjustment Tool Hex 050", "partNumber": "TOOL-HEX-050", "quantity": 1, "unit": "ea" }
+            {
+              "description": "Replacement Optic Adjustable Zoom",
+              "partNumber": "RO-A-A2-1",
+              "quantity": 1,
+              "unit": "ea"
+            },
+            {
+              "description": "Replacement Optic Wallwash",
+              "partNumber": "RO-A-W-1",
+              "quantity": 1,
+              "unit": "ea"
+            },
+            {
+              "description": "Replacement Optic 60 Degree",
+              "partNumber": "RO-A-60-1",
+              "quantity": 1,
+              "unit": "ea"
+            },
+            {
+              "description": "Replacement Optic 25 Degree",
+              "partNumber": "RO-A-25-1",
+              "quantity": 1,
+              "unit": "ea"
+            },
+            {
+              "description": "Replacement Optic 15 Degree",
+              "partNumber": "RO-A-15-1",
+              "quantity": 1,
+              "unit": "ea"
+            },
+            {
+              "description": "Replacement Optic 30 Degree",
+              "partNumber": "RO-A-30-1",
+              "quantity": 1,
+              "unit": "ea"
+            },
+            {
+              "description": "Round Fixture Panel, 4 in Wide",
+              "partNumber": "P-A2R-4",
+              "quantity": 1,
+              "unit": "ea"
+            },
+            {
+              "description": "Square Fixture Panel, 4 in Wide",
+              "partNumber": "P-A2S-4",
+              "quantity": 1,
+              "unit": "ea"
+            },
+            {
+              "description": "Clear Film",
+              "partNumber": "COL-AR",
+              "quantity": 1,
+              "unit": "ea"
+            },
+            {
+              "description": "Soft Focus Film",
+              "partNumber": "SFL-AR",
+              "quantity": 1,
+              "unit": "ea"
+            },
+            {
+              "description": "Honeycomb Louver",
+              "partNumber": "HCL-AR",
+              "quantity": 1,
+              "unit": "ea"
+            },
+            {
+              "description": "Linear Spread Film",
+              "partNumber": "LSL-AR",
+              "quantity": 1,
+              "unit": "ea"
+            },
+            {
+              "description": "Wide Distribution Film",
+              "partNumber": "WOL-AR",
+              "quantity": 1,
+              "unit": "ea"
+            },
+            {
+              "description": "Adjustment Tool Hex 050",
+              "partNumber": "TOOL-HEX-050",
+              "quantity": 1,
+              "unit": "ea"
+            }
           ]
         },
         {
-          "groups": 4, "id": "d2", "inputs": 15, "time": "11:03 AM", "values": 16,
+          "groups": 4,
+          "id": "d2",
+          "inputs": 15,
+          "time": "11:03 AM",
+          "values": 16,
           "items": [
-            { "description": "Replacement Optic Adjustable Zoom", "partNumber": "RO-A-A2-1", "quantity": 1, "unit": "ea" },
-            { "description": "Replacement Optic Wallwash", "partNumber": "RO-A-W-1", "quantity": 1, "unit": "ea" },
-            { "description": "Replacement Optic 60 Degree", "partNumber": "RO-A-60-1", "quantity": 2, "unit": "ea" },
-            { "description": "Replacement Optic 25 Degree", "partNumber": "RO-A-25-1", "quantity": 1, "unit": "ea" },
-            { "description": "Replacement Optic 15 Degree", "partNumber": "RO-A-15-1", "quantity": 1, "unit": "ea" },
-            { "description": "Replacement Optic 30 Degree", "partNumber": "RO-A-30-1", "quantity": 1, "unit": "ea" },
-            { "description": "Round Fixture Panel, 4 in Wide", "partNumber": "P-A2R-4", "quantity": 1, "unit": "ea" },
-            { "description": "Square Fixture Panel, 4 in Wide", "partNumber": "P-A2S-4", "quantity": 1, "unit": "ea" },
-            { "description": "Clear Film", "partNumber": "COL-AR", "quantity": 1, "unit": "ea" },
-            { "description": "Soft Focus Film", "partNumber": "SFL-AR", "quantity": 1, "unit": "ea" },
-            { "description": "Honeycomb Louver", "partNumber": "HCL-AR", "quantity": 1, "unit": "ea" },
-            { "description": "Linear Spread Film", "partNumber": "LSL-AR", "quantity": 1, "unit": "ea" },
-            { "description": "Wide Distribution Film", "partNumber": "WOL-AR", "quantity": 1, "unit": "ea" },
-            { "description": "Adjustment Tool Hex 050", "partNumber": "TOOL-HEX-050", "quantity": 1, "unit": "ea" },
-            { "description": "5/16 in T-Grid Mounting Bracket", "partNumber": "PANEL-BRACKET", "quantity": 1, "unit": "ea" }
+            {
+              "description": "Replacement Optic Adjustable Zoom",
+              "partNumber": "RO-A-A2-1",
+              "quantity": 1,
+              "unit": "ea"
+            },
+            {
+              "description": "Replacement Optic Wallwash",
+              "partNumber": "RO-A-W-1",
+              "quantity": 1,
+              "unit": "ea"
+            },
+            {
+              "description": "Replacement Optic 60 Degree",
+              "partNumber": "RO-A-60-1",
+              "quantity": 2,
+              "unit": "ea"
+            },
+            {
+              "description": "Replacement Optic 25 Degree",
+              "partNumber": "RO-A-25-1",
+              "quantity": 1,
+              "unit": "ea"
+            },
+            {
+              "description": "Replacement Optic 15 Degree",
+              "partNumber": "RO-A-15-1",
+              "quantity": 1,
+              "unit": "ea"
+            },
+            {
+              "description": "Replacement Optic 30 Degree",
+              "partNumber": "RO-A-30-1",
+              "quantity": 1,
+              "unit": "ea"
+            },
+            {
+              "description": "Round Fixture Panel, 4 in Wide",
+              "partNumber": "P-A2R-4",
+              "quantity": 1,
+              "unit": "ea"
+            },
+            {
+              "description": "Square Fixture Panel, 4 in Wide",
+              "partNumber": "P-A2S-4",
+              "quantity": 1,
+              "unit": "ea"
+            },
+            {
+              "description": "Clear Film",
+              "partNumber": "COL-AR",
+              "quantity": 1,
+              "unit": "ea"
+            },
+            {
+              "description": "Soft Focus Film",
+              "partNumber": "SFL-AR",
+              "quantity": 1,
+              "unit": "ea"
+            },
+            {
+              "description": "Honeycomb Louver",
+              "partNumber": "HCL-AR",
+              "quantity": 1,
+              "unit": "ea"
+            },
+            {
+              "description": "Linear Spread Film",
+              "partNumber": "LSL-AR",
+              "quantity": 1,
+              "unit": "ea"
+            },
+            {
+              "description": "Wide Distribution Film",
+              "partNumber": "WOL-AR",
+              "quantity": 1,
+              "unit": "ea"
+            },
+            {
+              "description": "Adjustment Tool Hex 050",
+              "partNumber": "TOOL-HEX-050",
+              "quantity": 1,
+              "unit": "ea"
+            },
+            {
+              "description": "5/16 in T-Grid Mounting Bracket",
+              "partNumber": "PANEL-BRACKET",
+              "quantity": 1,
+              "unit": "ea"
+            }
           ]
         }
       ],
       "files": [
-        { "id": "f1", "name": "Parelux Atomos Renew Specification v2.1", "size": "2.4 MB", "type": "pdf" },
-        { "id": "f2", "name": "Optics Configuration Playbook", "size": "1.1 MB", "type": "pdf" },
-        { "id": "f3", "name": "Panel Mounting Guidelines", "size": "840 KB", "type": "pdf" }
+        {
+          "id": "f1",
+          "name": "Parelux Atomos Renew Specification v2.1",
+          "size": "2.4 MB",
+          "type": "pdf"
+        },
+        {
+          "id": "f2",
+          "name": "Optics Configuration Playbook",
+          "size": "1.1 MB",
+          "type": "pdf"
+        },
+        {
+          "id": "f3",
+          "name": "Panel Mounting Guidelines",
+          "size": "840 KB",
+          "type": "pdf"
+        }
       ],
       "id": "parelux-atomos-renew",
       "name": "Parelux Atomos Renew",
@@ -90,8 +365,14 @@
       "attributes": [
         {
           "dimensions": [
-            { "inputId": "body_height", "value": "90in" },
-            { "inputId": "side_door_type", "value": "sliding" }
+            {
+              "inputId": "body_height",
+              "value": "90in"
+            },
+            {
+              "inputId": "side_door_type",
+              "value": "sliding"
+            }
           ],
           "id": "attr-side-door",
           "label": "Side Door Part by Height and Type",
@@ -103,49 +384,211 @@
       ],
       "build": null,
       "chat": [
-        { "id": "m1", "role": "user", "content": "We need to build a BOM for the AAA Freight Truck. I've uploaded the MindManager BOM report." },
-        { "id": "m2", "role": "ai", "content": "Got it — I can see the MindManager BOM file. Before I generate a draft, I need a few configuration details. What body height are you targeting: 90\", 96\", or 102\"?" },
-        { "id": "m3", "role": "user", "content": "90 inch. And we'll want the sliding side door and a roll-up rear door." },
-        { "id": "m4", "role": "ai", "content": "Got it. What interior construction type — Aluminum, FRP, Full Plywood, Poly, Refrigerated, or Sheet and Post?" },
-        { "id": "m5", "role": "user", "content": "Aluminum. Also include the E-Track load bar and the walkramp." },
-        { "id": "m6", "role": "ai", "content": "Understood. Any optional packages — Off-Road (FX4), Snow Plough Prep, or Heavy Service?" },
-        { "id": "m7", "role": "user", "content": "Heavy Service only." },
-        { "id": "m8", "role": "ai", "content": "Thanks — generating the initial BOM draft now based on 90\" body height, sliding side door (72\"×36\"), aluminum interior construction, roll-up rear door with full TRD assembly, E-Track load bar, walkramp, and Heavy Service package." },
-        { "id": "m9", "type": "draft-card", "draftId": "d1" },
-        { "id": "m10", "role": "ai", "content": "Here's the initial draft BOM. The roll-up door assembly (TRD) is fully expanded with all sub-components. Ready to verify against the spec or adjust any selections?" }
+        {
+          "id": "m1",
+          "role": "user",
+          "content": "We need to build a BOM for the AAA Freight Truck. I've uploaded the MindManager BOM report."
+        },
+        {
+          "id": "m2",
+          "role": "ai",
+          "content": "Got it \u2014 I can see the MindManager BOM file. Before I generate a draft, I need a few configuration details. What body height are you targeting: 90\", 96\", or 102\"?"
+        },
+        {
+          "id": "m3",
+          "role": "user",
+          "content": "90 inch. And we'll want the sliding side door and a roll-up rear door."
+        },
+        {
+          "id": "m4",
+          "role": "ai",
+          "content": "Got it. What interior construction type \u2014 Aluminum, FRP, Full Plywood, Poly, Refrigerated, or Sheet and Post?"
+        },
+        {
+          "id": "m5",
+          "role": "user",
+          "content": "Aluminum. Also include the E-Track load bar and the walkramp."
+        },
+        {
+          "id": "m6",
+          "role": "ai",
+          "content": "Understood. Any optional packages \u2014 Off-Road (FX4), Snow Plough Prep, or Heavy Service?"
+        },
+        {
+          "id": "m7",
+          "role": "user",
+          "content": "Heavy Service only."
+        },
+        {
+          "id": "m8",
+          "role": "ai",
+          "content": "Thanks \u2014 generating the initial BOM draft now based on 90\" body height, sliding side door (72\"\u00d736\"), aluminum interior construction, roll-up rear door with full TRD assembly, E-Track load bar, walkramp, and Heavy Service package."
+        },
+        {
+          "id": "m9",
+          "type": "draft-card",
+          "draftId": "d1"
+        },
+        {
+          "id": "m10",
+          "role": "ai",
+          "content": "Here's the initial draft BOM. The roll-up door assembly (TRD) is fully expanded with all sub-components. Ready to verify against the spec or adjust any selections?"
+        }
       ],
       "drafts": [
         {
-          "groups": 6, "id": "d1", "inputs": 22, "time": "9:14 AM", "values": 22,
+          "groups": 6,
+          "id": "d1",
+          "inputs": 22,
+          "time": "9:14 AM",
+          "values": 22,
           "items": [
-            { "description": "Heavy Service Package", "partNumber": "OPTION_HEAVY_SERVICE", "quantity": 1, "unit": "lot" },
-            { "description": "Freight Truck Body", "partNumber": "FTB-001", "quantity": 1, "unit": "ea" },
-            { "description": "Paint — White", "partNumber": "PAINT-WHT", "quantity": 2, "unit": "gal" },
-            { "description": "Rear Bumper", "partNumber": "RB-001", "quantity": 1, "unit": "ea" },
-            { "description": "Exterior Lighting", "partNumber": "EXT-LIGHT", "quantity": 1, "unit": "set" },
-            { "description": "Hood", "partNumber": "HOOD-001", "quantity": 1, "unit": "ea" },
-            { "description": "Front Bumper", "partNumber": "FB-001", "quantity": 1, "unit": "ea" },
-            { "description": "Spare Wheel", "partNumber": "SPARE-WHL", "quantity": 1, "unit": "ea" },
-            { "description": "Driver Seat", "partNumber": "SEAT-DRV", "quantity": 1, "unit": "ea" },
-            { "description": "Interior Construction — Aluminum", "partNumber": "WIV11200", "quantity": 1, "unit": "lot" },
-            { "description": "E-Track Load Bar", "partNumber": "WIV00923", "quantity": 1, "unit": "ea" },
-            { "description": "Walkramp", "partNumber": "WALKRAMP", "quantity": 1, "unit": "ea" },
-            { "description": "Sliding Side Door 72\"×36\"", "partNumber": "SD65418", "quantity": 1, "unit": "ea" },
             {
-              "description": "Roll Up Rear Door", "partNumber": "WIV1000", "quantity": 1, "unit": "ea",
+              "description": "Heavy Service Package",
+              "partNumber": "OPTION_HEAVY_SERVICE",
+              "quantity": 1,
+              "unit": "lot"
+            },
+            {
+              "description": "Freight Truck Body",
+              "partNumber": "FTB-001",
+              "quantity": 1,
+              "unit": "ea"
+            },
+            {
+              "description": "Paint \u2014 White",
+              "partNumber": "PAINT-WHT",
+              "quantity": 2,
+              "unit": "gal"
+            },
+            {
+              "description": "Rear Bumper",
+              "partNumber": "RB-001",
+              "quantity": 1,
+              "unit": "ea"
+            },
+            {
+              "description": "Exterior Lighting",
+              "partNumber": "EXT-LIGHT",
+              "quantity": 1,
+              "unit": "set"
+            },
+            {
+              "description": "Hood",
+              "partNumber": "HOOD-001",
+              "quantity": 1,
+              "unit": "ea"
+            },
+            {
+              "description": "Front Bumper",
+              "partNumber": "FB-001",
+              "quantity": 1,
+              "unit": "ea"
+            },
+            {
+              "description": "Spare Wheel",
+              "partNumber": "SPARE-WHL",
+              "quantity": 1,
+              "unit": "ea"
+            },
+            {
+              "description": "Driver Seat",
+              "partNumber": "SEAT-DRV",
+              "quantity": 1,
+              "unit": "ea"
+            },
+            {
+              "description": "Interior Construction \u2014 Aluminum",
+              "partNumber": "WIV11200",
+              "quantity": 1,
+              "unit": "lot"
+            },
+            {
+              "description": "E-Track Load Bar",
+              "partNumber": "WIV00923",
+              "quantity": 1,
+              "unit": "ea"
+            },
+            {
+              "description": "Walkramp",
+              "partNumber": "WALKRAMP",
+              "quantity": 1,
+              "unit": "ea"
+            },
+            {
+              "description": "Sliding Side Door 72\"\u00d736\"",
+              "partNumber": "SD65418",
+              "quantity": 1,
+              "unit": "ea"
+            },
+            {
+              "description": "Roll Up Rear Door",
+              "partNumber": "WIV1000",
+              "quantity": 1,
+              "unit": "ea",
               "children": [
-                { "description": "Poly Slat", "partNumber": "TRD-S2300", "quantity": 1, "unit": "ea" },
-                { "description": "Slat Endlock", "partNumber": "TRD-E3111", "quantity": 1, "unit": "ea" },
-                { "description": "SS Bushing", "partNumber": "TRD-B1022", "quantity": 1, "unit": "ea" },
-                { "description": "Fastening Section", "partNumber": "TRD-FAST-SEC", "quantity": 2, "unit": "ea" },
-                { "description": "Slat Weather Strip", "partNumber": "TRD-W0991", "quantity": 1, "unit": "ea" },
-                { "description": "Endplug", "partNumber": "TRD-715-030", "quantity": 2, "unit": "ea" },
-                { "description": "Frame Mounting Hardware", "partNumber": "TRD-FR-MTG", "quantity": 10, "unit": "ea" }
+                {
+                  "description": "Poly Slat",
+                  "partNumber": "TRD-S2300",
+                  "quantity": 1,
+                  "unit": "ea"
+                },
+                {
+                  "description": "Slat Endlock",
+                  "partNumber": "TRD-E3111",
+                  "quantity": 1,
+                  "unit": "ea"
+                },
+                {
+                  "description": "SS Bushing",
+                  "partNumber": "TRD-B1022",
+                  "quantity": 1,
+                  "unit": "ea"
+                },
+                {
+                  "description": "Fastening Section",
+                  "partNumber": "TRD-FAST-SEC",
+                  "quantity": 2,
+                  "unit": "ea"
+                },
+                {
+                  "description": "Slat Weather Strip",
+                  "partNumber": "TRD-W0991",
+                  "quantity": 1,
+                  "unit": "ea"
+                },
+                {
+                  "description": "Endplug",
+                  "partNumber": "TRD-715-030",
+                  "quantity": 2,
+                  "unit": "ea"
+                },
+                {
+                  "description": "Frame Mounting Hardware",
+                  "partNumber": "TRD-FR-MTG",
+                  "quantity": 10,
+                  "unit": "ea"
+                }
               ]
             },
-            { "description": "Labor", "partNumber": "LAB006", "quantity": 1, "unit": "lot" },
-            { "description": "Installation", "partNumber": "INSTALLATION", "quantity": 1, "unit": "lot" },
-            { "description": "Warranty", "partNumber": "WARRANTY", "quantity": 1, "unit": "lot" }
+            {
+              "description": "Labor",
+              "partNumber": "LAB006",
+              "quantity": 1,
+              "unit": "lot"
+            },
+            {
+              "description": "Installation",
+              "partNumber": "INSTALLATION",
+              "quantity": 1,
+              "unit": "lot"
+            },
+            {
+              "description": "Warranty",
+              "partNumber": "WARRANTY",
+              "quantity": 1,
+              "unit": "lot"
+            }
           ]
         }
       ],
@@ -155,26 +598,102 @@
           "id": "eq-paint",
           "label": "Paint Quantity",
           "outputField": "PAINT-WHT.quantity",
-          "variables": [{ "inputId": "body_height", "name": "body_height_ft" }]
+          "variables": [
+            {
+              "inputId": "body_height",
+              "name": "body_height_ft"
+            }
+          ]
         }
       ],
       "files": [
-        { "id": "f1", "name": "AAA_Freight_Truck_Bom_Report_1777483077637", "size": "48 KB", "type": "mm" }
+        {
+          "id": "f1",
+          "name": "AAA_Freight_Truck_Bom_Report_1777483077637",
+          "size": "48 KB",
+          "type": "mm"
+        }
       ],
       "id": "aaa-freight-truck",
       "itemFamilies": [
-        { "children": ["rear-door", "interior-const"], "id": "aaa-freight-truck", "name": "AAA Freight Truck" },
-        { "children": ["trd"], "id": "rear-door", "name": "Rear Door Assemblies", "parent": "aaa-freight-truck" },
-        { "children": [], "id": "trd", "name": "Roll-up Door (TRD)", "parent": "rear-door" },
-        { "children": [], "id": "interior-const", "name": "Interior Construction", "parent": "aaa-freight-truck" }
+        {
+          "children": [
+            "rear-door",
+            "interior-const"
+          ],
+          "id": "aaa-freight-truck",
+          "name": "AAA Freight Truck"
+        },
+        {
+          "children": [
+            "trd"
+          ],
+          "id": "rear-door",
+          "name": "Rear Door Assemblies",
+          "parent": "aaa-freight-truck"
+        },
+        {
+          "children": [],
+          "id": "trd",
+          "name": "Roll-up Door (TRD)",
+          "parent": "rear-door"
+        },
+        {
+          "children": [],
+          "id": "interior-const",
+          "name": "Interior Construction",
+          "parent": "aaa-freight-truck"
+        }
       ],
       "itemMasters": [
-        { "cost": 450.00, "description": "Roll Up Rear Door", "familyId": "rear-door", "id": "WIV1000", "type": "manufactured", "unit": "ea" },
-        { "cost": 85.00, "description": "Poly Slat", "familyId": "trd", "id": "TRD-S2300", "type": "purchased", "unit": "ea" },
-        { "cost": 12.50, "description": "Fastening Section", "familyId": "trd", "id": "TRD-FAST-SEC", "type": "purchased", "unit": "ea" },
-        { "cost": 1200.00, "description": "Interior Construction — Aluminum", "familyId": "interior-const", "id": "WIV11200", "type": "manufactured", "unit": "lot" },
-        { "cost": 380.00, "description": "Sliding Side Door 72\"×36\"", "familyId": "aaa-freight-truck", "id": "SD65418", "type": "purchased", "unit": "ea" },
-        { "cost": 42.00, "description": "Paint — White", "familyId": "aaa-freight-truck", "id": "PAINT-WHT", "type": "purchased", "unit": "gal" }
+        {
+          "cost": 450.0,
+          "description": "Roll Up Rear Door",
+          "familyId": "rear-door",
+          "id": "WIV1000",
+          "type": "manufactured",
+          "unit": "ea"
+        },
+        {
+          "cost": 85.0,
+          "description": "Poly Slat",
+          "familyId": "trd",
+          "id": "TRD-S2300",
+          "type": "purchased",
+          "unit": "ea"
+        },
+        {
+          "cost": 12.5,
+          "description": "Fastening Section",
+          "familyId": "trd",
+          "id": "TRD-FAST-SEC",
+          "type": "purchased",
+          "unit": "ea"
+        },
+        {
+          "cost": 1200.0,
+          "description": "Interior Construction \u2014 Aluminum",
+          "familyId": "interior-const",
+          "id": "WIV11200",
+          "type": "manufactured",
+          "unit": "lot"
+        },
+        {
+          "cost": 380.0,
+          "description": "Sliding Side Door 72\"\u00d736\"",
+          "familyId": "aaa-freight-truck",
+          "id": "SD65418",
+          "type": "purchased",
+          "unit": "ea"
+        },
+        {
+          "cost": 42.0,
+          "description": "Paint \u2014 White",
+          "familyId": "aaa-freight-truck",
+          "id": "PAINT-WHT",
+          "type": "purchased",
+          "unit": "gal"
+        }
       ],
       "model": {
         "id": "rlg-aaa-001",
@@ -188,8 +707,18 @@
               {
                 "drivens": [
                   {
-                    "action": { "targetId": "side_door_part", "type": "filter", "values": ["SD65418"] },
-                    "condition": { "inputId": "body_height", "operator": "eq", "value": "90in" },
+                    "action": {
+                      "targetId": "side_door_part",
+                      "type": "filter",
+                      "values": [
+                        "SD65418"
+                      ]
+                    },
+                    "condition": {
+                      "inputId": "body_height",
+                      "operator": "eq",
+                      "value": "90in"
+                    },
                     "id": "drv-001"
                   }
                 ],
@@ -198,31 +727,109 @@
                   {
                     "id": "ig-body",
                     "inputs": [
-                      { "default": "90in", "id": "body_height", "label": "Body Height", "options": ["90in", "96in", "102in"], "required": true, "type": "dropdown" }
+                      {
+                        "default": "90in",
+                        "id": "body_height",
+                        "label": "Body Height",
+                        "options": [
+                          "90in",
+                          "96in",
+                          "102in"
+                        ],
+                        "required": true,
+                        "type": "dropdown"
+                      }
                     ],
                     "label": "Body Dimensions"
                   },
                   {
                     "id": "ig-doors",
                     "inputs": [
-                      { "default": "sliding", "id": "side_door_type", "label": "Side Door Type", "options": ["access", "double_swing", "panel", "roll_up", "sliding"], "required": true, "type": "dropdown" },
-                      { "default": "roll_up", "id": "rear_door_type", "label": "Rear Door Type", "options": ["roll_up", "tri_panel_swing", "two_panel_swing"], "required": true, "type": "dropdown" }
+                      {
+                        "default": "sliding",
+                        "id": "side_door_type",
+                        "label": "Side Door Type",
+                        "options": [
+                          "access",
+                          "double_swing",
+                          "panel",
+                          "roll_up",
+                          "sliding"
+                        ],
+                        "required": true,
+                        "type": "dropdown"
+                      },
+                      {
+                        "default": "roll_up",
+                        "id": "rear_door_type",
+                        "label": "Rear Door Type",
+                        "options": [
+                          "roll_up",
+                          "tri_panel_swing",
+                          "two_panel_swing"
+                        ],
+                        "required": true,
+                        "type": "dropdown"
+                      }
                     ],
                     "label": "Door Selection"
                   },
                   {
                     "id": "ig-interior",
                     "inputs": [
-                      { "default": "aluminum", "id": "interior_construction", "label": "Interior Construction", "options": ["aluminum", "frp", "full_plywood", "poly", "refrigerated", "sheet_and_post"], "required": true, "type": "dropdown" },
-                      { "default": "none", "id": "load_bar", "label": "Load Bar", "options": ["e_track", "f_track", "none"], "required": false, "type": "dropdown" },
-                      { "default": false, "id": "walkramp", "label": "Walkramp", "required": false, "type": "toggle" }
+                      {
+                        "default": "aluminum",
+                        "id": "interior_construction",
+                        "label": "Interior Construction",
+                        "options": [
+                          "aluminum",
+                          "frp",
+                          "full_plywood",
+                          "poly",
+                          "refrigerated",
+                          "sheet_and_post"
+                        ],
+                        "required": true,
+                        "type": "dropdown"
+                      },
+                      {
+                        "default": "none",
+                        "id": "load_bar",
+                        "label": "Load Bar",
+                        "options": [
+                          "e_track",
+                          "f_track",
+                          "none"
+                        ],
+                        "required": false,
+                        "type": "dropdown"
+                      },
+                      {
+                        "default": false,
+                        "id": "walkramp",
+                        "label": "Walkramp",
+                        "required": false,
+                        "type": "toggle"
+                      }
                     ],
                     "label": "Interior"
                   },
                   {
                     "id": "ig-packages",
                     "inputs": [
-                      { "default": "none", "id": "option_package", "label": "Option Package", "options": ["fx4_off_road", "heavy_service", "none", "snow_plough_prep"], "required": false, "type": "dropdown" }
+                      {
+                        "default": "none",
+                        "id": "option_package",
+                        "label": "Option Package",
+                        "options": [
+                          "fx4_off_road",
+                          "heavy_service",
+                          "none",
+                          "snow_plough_prep"
+                        ],
+                        "required": false,
+                        "type": "dropdown"
+                      }
                     ],
                     "label": "Option Packages"
                   }
@@ -249,18 +856,131 @@
       "activeTab": null,
       "build": null,
       "chat": [
-        { "id": "m1", "role": "user", "content": "I want to build a BOM for the Lumos Track 1-Circuit." },
-        { "id": "m2", "role": "ai", "content": "Got it — I'll need the spec sheet to get started. Can you upload it?" },
-        { "id": "m3", "role": "user", "content": "Just uploaded it." },
-        { "id": "m4", "role": "ai", "content": "Thanks — reviewing the Lumos Track System Spec Sheet now. I'll have a draft BOM ready shortly." }
+        {
+          "id": "m1",
+          "role": "user",
+          "content": "I want to build a BOM for the Lumos Track 1-Circuit."
+        },
+        {
+          "id": "m2",
+          "role": "ai",
+          "content": "Got it \u2014 I'll need the spec sheet to get started. Can you upload it?"
+        },
+        {
+          "id": "m3",
+          "role": "user",
+          "content": "Just uploaded it."
+        },
+        {
+          "id": "m4",
+          "role": "ai",
+          "content": "Thanks \u2014 reviewing the Lumos Track System Spec Sheet now. I'll have a draft BOM ready shortly."
+        }
       ],
       "drafts": [],
       "files": [
-        { "id": "f1", "name": "Lumos Track System Spec Sheet v1.0", "size": "1.8 MB", "type": "pdf" }
+        {
+          "id": "f1",
+          "name": "Lumos Track System Spec Sheet v1.0",
+          "size": "1.8 MB",
+          "type": "pdf"
+        }
       ],
       "id": "lumos-track-1-circuit",
       "name": "Lumos Track 1-Circuit",
       "stage": "context"
+    }
+  ],
+  "modelStats": [
+    {
+      "count": 1,
+      "icon": "fa-regular fa-folder-tree",
+      "label": "root logic group"
+    },
+    {
+      "count": 0,
+      "icon": "fa-regular fa-folder",
+      "label": "logic groups"
+    },
+    {
+      "count": 0,
+      "icon": "fa-regular fa-cube",
+      "label": "logic items"
+    },
+    {
+      "count": 0,
+      "icon": "fa-regular fa-layer-group",
+      "label": "input groups"
+    },
+    {
+      "count": 0,
+      "icon": "fa-regular fa-input-text",
+      "label": "inputs"
+    },
+    {
+      "count": 0,
+      "icon": "fa-regular fa-list",
+      "label": "input values"
+    },
+    {
+      "count": 0,
+      "icon": "fa-regular fa-table-cells",
+      "label": "attributes"
+    },
+    {
+      "count": 0,
+      "icon": "fa-regular fa-code-branch",
+      "label": "drivens"
+    },
+    {
+      "count": 0,
+      "icon": "fa-regular fa-filter",
+      "label": "filters"
+    },
+    {
+      "count": 0,
+      "icon": "fa-regular fa-repeat",
+      "label": "iterators"
+    },
+    {
+      "count": 0,
+      "icon": "fa-regular fa-superscript",
+      "label": "equations"
+    },
+    {
+      "count": 1,
+      "icon": "fa-regular fa-box",
+      "label": "product"
+    },
+    {
+      "count": 0,
+      "icon": "fa-regular fa-sitemap",
+      "label": "item families"
+    },
+    {
+      "count": 0,
+      "icon": "fa-regular fa-barcode",
+      "label": "item masters"
+    },
+    {
+      "count": 0,
+      "icon": "fa-regular fa-diagram-project",
+      "label": "BOM nodes"
+    },
+    {
+      "count": 0,
+      "icon": "fa-regular fa-code-merge",
+      "label": "BOM logic items"
+    },
+    {
+      "count": 0,
+      "icon": "fa-regular fa-arrow-right-arrow-left",
+      "label": "driven item masters"
+    },
+    {
+      "count": 0,
+      "icon": "fa-regular fa-square-poll-horizontal",
+      "label": "product outputs"
     }
   ]
 }

@@ -34,7 +34,35 @@
           </button>
         </div>
         <div class="panel-body">
-          <div id="chat-messages"></div>
+          <div id="chat-messages">
+            <div id="chat-fork">
+              <div class="fork-card" id="fork-new">
+                <i class="fa-regular fa-sparkles"></i>
+                <div class="fork-card-text"><b>New product</b><span>Build a configuration model from scratch</span></div>
+              </div>
+              <div class="fork-card" id="fork-edit">
+                <i class="fa-regular fa-pen-to-square"></i>
+                <div class="fork-card-text"><b>Edit product</b><span>Update an existing configuration model</span></div>
+              </div>
+              <div class="fork-card" id="fork-demo">
+                <i class="fa-regular fa-link"></i>
+                <div class="fork-card-text"><b>Demo from link</b><span>Load a product from a URL</span></div>
+              </div>
+            </div>
+          </div>
+          <div id="quick-actions">
+            <div id="quick-actions-header">
+              <span>Quick Actions</span>
+              <button class="button button-icon" id="quick-actions-toggle" type="button"><i class="fa-solid fa-angle-up"></i></button>
+            </div>
+            <div id="quick-actions-content">
+              <div class="action-pills">
+                <button class="pill" type="button">BOM</button>
+                <button class="pill" type="button">Build</button>
+                <button class="pill" type="button">Commit</button>
+              </div>
+            </div>
+          </div>
           <div id="chat-footer">
             <label class="button button-icon" id="attach-btn">
               <i class="fa-regular fa-paperclip"></i>
@@ -70,10 +98,37 @@
         </div>
         <div id="tab-content">
           <div class="tab-pane active" id="pane-files">
-            <div class="pane-overview"><b>Overview</b></div>
+            <div class="pane-overview">
+              <b>Overview</b>
+              <div class="overview-stats">
+                <span class="overview-stat"><i class="fa-regular fa-arrow-up-from-bracket"></i>0 uploaded</span>
+                <span class="overview-stat"><i class="fa-regular fa-sparkles"></i>0 generated</span>
+              </div>
+            </div>
+            <div class="pane-section">
+              <b>Uploaded</b>
+              <div class="drop-zone" id="drop-zone">
+                <i class="fa-regular fa-cloud-arrow-up"></i>
+                <span>Drag and drop files here</span>
+                <label class="button outline" id="upload-btn">
+                  Upload
+                  <input hidden multiple type="file" />
+                </label>
+              </div>
+            </div>
+            <div class="pane-section">
+              <b>Generated</b>
+              <div class="empty-state">
+                <i class="fa-regular fa-sparkles"></i>
+                <span>No files have been generated yet</span>
+              </div>
+            </div>
           </div>
           <div class="tab-pane" id="pane-model">
-            <div class="pane-overview"><b>Overview</b></div>
+            <div class="pane-overview">
+              <b>Overview</b>
+              <div class="overview-stats" id="model-stats"></div>
+            </div>
           </div>
           <div class="tab-pane" id="pane-attributes">
             <div class="pane-overview"><b>Overview</b></div>

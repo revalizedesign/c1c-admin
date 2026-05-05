@@ -73,9 +73,35 @@ fetch('workflows.json').then(r => r.json()).then(data => {
   renderWorkflow('first-use')
 })
 
+fetch('fixtures.json').then(r => r.json()).then(data => {
+  const container = g('model-stats')
+  data.modelStats.forEach(({ count, icon, label }) => {
+    const stat = makeEl('span', 'overview-stat')
+    const i = makeEl('i'); i.className = icon
+    stat.appendChild(i)
+    stat.appendChild(document.createTextNode(`${count} ${label}`))
+    container.appendChild(stat)
+  })
+})
+
+const selectFork = label => {
+  const fork = g('chat-fork')
+  const messages = g('chat-messages')
+  fork.remove()
+  const bubble = makeEl('div', 'chat-bubble', label)
+  messages.appendChild(bubble)
+  if (label === 'Demo from link') g('chat-input').placeholder = 'Paste URL…'
+}
+
+g('fork-new').addEventListener('click', () => selectFork('New product'))
+g('fork-edit').addEventListener('click', () => selectFork('Edit product'))
+g('fork-demo').addEventListener('click', () => selectFork('Demo from link'))
+
 initStrip('sidenav', 'nav-toggle')
 initStrip('chat-panel', 'chat-toggle')
 initStrip('detail-panel', 'detail-toggle')
+
+g('quick-actions-header').addEventListener('click', () => g('quick-actions').classList.toggle('collapsed'))
 
 q('.chip-tab').forEach(tab => tab.addEventListener('click', () => {
   q('.chip-tab').forEach(t => t.classList.remove('active'))

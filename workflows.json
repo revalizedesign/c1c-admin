@@ -1,4 +1,8 @@
 {
+  "file-ingress": {
+    "name": "File ingress",
+    "steps": ["Download", "Read", "Analyze", "Summarize"]
+  },
   "commit-to-cloud": {
     "name": "Commit to cloud",
     "steps": ["Operation selection", "Writing product", "Writing skeleton", "Writing rules", "Writing BOM", "Binding validation"]

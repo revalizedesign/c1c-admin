@@ -334,10 +334,234 @@ body {
 }
 
 .chat-bubble {
+  align-self: flex-start;
+}
+
+.chat-bubble:not(.agent) {
   align-self: flex-end;
   background: var(--color-lighter);
   border-radius: var(--radius);
   padding: 0.5rem 0.75rem;
+}
+
+.progress-card {
+  align-self: stretch;
+  border: 1px solid var(--color-light);
+  border-radius: var(--radius);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.progress-steps {
+  display: flex;
+  flex-direction: column;
+  padding: 4px 0;
+}
+
+.progress-step {
+  align-items: flex-start;
+  display: flex;
+  gap: 0.5rem;
+  padding: 5px 10px;
+}
+
+.step-icon {
+  flex-shrink: 0;
+  margin-top: 2px;
+  width: 12px;
+}
+
+.progress-step.pending .step-icon i { color: var(--color-light); }
+.progress-step.active .step-icon i { color: var(--color-brand); }
+.progress-step.done .step-icon i { color: var(--color-success); }
+
+.step-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.step-name { font-weight: 500; }
+
+.step-detail {
+  color: var(--color-half);
+  min-height: 1rem;
+}
+
+.progress-step.pending .step-name { color: var(--color-half); }
+
+.file-card {
+  align-items: center;
+  align-self: stretch;
+  border: 1px solid var(--color-light);
+  border-radius: var(--radius);
+  cursor: pointer;
+  display: flex;
+  gap: 0.75rem;
+  padding: 0.75rem;
+}
+
+.file-card:hover {
+  background: var(--color-lighter);
+  border-color: var(--color-half);
+}
+
+.file-card .fork-card-text b { font-size: inherit; }
+.file-card > i:first-child { color: var(--color-half); }
+.file-card > i:last-child { color: var(--color-light); margin-left: auto; }
+.file-card:hover > i:last-child { color: var(--color-half); }
+
+.ingress-card {
+  align-items: center;
+  align-self: stretch;
+  border: 1px solid var(--color-light);
+  border-radius: var(--radius);
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.75rem;
+}
+
+.ingress-card-icon {
+  color: var(--color-half);
+}
+
+.chat-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.chat-tool {
+  align-self: flex-start;
+  border-left: 2px solid var(--color-light);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 0.25rem 0.75rem;
+}
+
+.chat-tool-label {
+  font-weight: 600;
+}
+
+.chat-tool-detail {
+  color: var(--color-half);
+}
+
+/* File table */
+
+.file-table {
+  display: flex;
+  flex-direction: column;
+}
+
+.file-row {
+  align-items: center;
+  border-radius: var(--radius);
+  cursor: pointer;
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+}
+
+.file-row:hover {
+  background: var(--color-lighter);
+}
+
+.file-row.selected {
+  background: var(--color-lighter);
+}
+
+.file-row i {
+  color: var(--color-half);
+}
+
+.file-row-name {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.file-row-meta {
+  color: var(--color-half);
+  white-space: nowrap;
+}
+
+/* Detail view */
+
+.detail-empty {
+  color: var(--color-half);
+  padding: 1rem;
+}
+
+.detail-view {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  overflow-y: auto;
+  padding: 1rem;
+}
+
+.detail-meta {
+  color: var(--color-half);
+}
+
+.detail-summary {
+  color: var(--color-half);
+  line-height: 1.5;
+}
+
+.detail-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.detail-section-label {
+  letter-spacing: -0.03em;
+}
+
+.detail-stats {
+  display: grid;
+  gap: 0.5rem;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.detail-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.detail-stat-val {
+  font-weight: 600;
+}
+
+.detail-stat-label {
+  color: var(--color-half);
+}
+
+.detail-estimates {
+  display: flex;
+  flex-direction: column;
+}
+
+.detail-est-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 4px 0;
+}
+
+.detail-est-row + .detail-est-row {
+  border-top: 1px solid var(--color-light);
+}
+
+.detail-est-val {
+  color: var(--color-half);
 }
 
 #chat-input {
@@ -378,6 +602,8 @@ body {
 }
 
 #reset-btn {
+  background: none;
+  color: var(--color-half);
   margin-left: auto;
 }
 
@@ -391,8 +617,20 @@ body {
   width: 0.5rem;
 }
 
+.workflow-dot.running {
+  animation: spin 1s linear infinite;
+  background: none;
+  border: 1.5px solid var(--color-light);
+  border-top-color: var(--color-half);
+  height: 0.5rem;
+  width: 0.5rem;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
 #workflow-status {
-  color: var(--color-light);
   margin-left: auto;
 }
 
@@ -440,6 +678,10 @@ body {
   flex-direction: column;
   gap: 0.75rem;
   padding: 1rem;
+}
+
+.pane-grid {
+  min-height: 8rem;
 }
 
 .pane-overview b,
@@ -517,6 +759,10 @@ body {
 
 .workflow-dot.done {
   background: var(--color-success);
+}
+
+#workflow-status {
+  color: var(--color-light);
 }
 
 #workflow-status.running {

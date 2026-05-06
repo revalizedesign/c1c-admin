@@ -34,22 +34,7 @@
           </button>
         </div>
         <div class="panel-body">
-          <div id="chat-messages">
-            <div id="chat-fork">
-              <div class="fork-card" id="fork-new">
-                <i class="fa-regular fa-sparkles"></i>
-                <div class="fork-card-text"><b>New product</b><span>Build a configuration model from scratch</span></div>
-              </div>
-              <div class="fork-card" id="fork-edit">
-                <i class="fa-regular fa-pen-to-square"></i>
-                <div class="fork-card-text"><b>Edit product</b><span>Update an existing configuration model</span></div>
-              </div>
-              <div class="fork-card" id="fork-demo">
-                <i class="fa-regular fa-link"></i>
-                <div class="fork-card-text"><b>Demo from link</b><span>Load a product from a URL</span></div>
-              </div>
-            </div>
-          </div>
+          <div id="chat-messages"></div>
           <div id="quick-actions">
             <div id="quick-actions-header">
               <span>Quick Actions</span>
@@ -87,7 +72,7 @@
         </div>
         <div class="toolbar" id="workflow-bar"></div>
         <div class="toolbar" id="tab-bar">
-          <button class="chip-tab active" data-tab="files">Files</button>
+          <button class="chip-tab" data-tab="files">Files</button>
           <button class="chip-tab" data-tab="model">Model</button>
           <button class="chip-tab" data-tab="attributes">Attributes</button>
           <button class="chip-tab" data-tab="rules">Rules</button>
@@ -97,10 +82,10 @@
           <button class="chip-tab" data-tab="commit">Commit</button>
         </div>
         <div id="tab-content">
-          <div class="tab-pane active" id="pane-files">
+          <div class="tab-pane" id="pane-files">
             <div class="pane-overview">
               <b>Overview</b>
-              <div class="overview-stats">
+              <div class="overview-stats" id="files-stats">
                 <span class="overview-stat"><i class="fa-regular fa-arrow-up-from-bracket"></i>0 uploaded</span>
                 <span class="overview-stat"><i class="fa-regular fa-sparkles"></i>0 generated</span>
               </div>
@@ -115,13 +100,15 @@
                   <input hidden multiple type="file" />
                 </label>
               </div>
+              <div id="files-uploaded-grid" class="pane-grid"></div>
             </div>
             <div class="pane-section">
               <b>Generated</b>
-              <div class="empty-state">
+              <div class="empty-state" id="generated-empty">
                 <i class="fa-regular fa-sparkles"></i>
                 <span>No files have been generated yet</span>
               </div>
+              <div id="files-generated-grid" class="pane-grid"></div>
             </div>
           </div>
           <div class="tab-pane" id="pane-model">

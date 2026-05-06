@@ -1,4 +1,188 @@
 {
+  "demoExamples": [
+    {
+      "assessment": {
+        "figures": 24,
+        "inputGroups": "4\u20135",
+        "inputValues": "~120",
+        "inputs": "~11",
+        "modelEstimates": {
+          "attributes": "15\u201320",
+          "bomNodes": "50+",
+          "drivens": "8\u201310",
+          "equations": "2\u20133",
+          "filters": "3\u20135",
+          "inputGroups": "4\u20135",
+          "inputValues": "~120",
+          "inputs": "~11",
+          "itemFamilies": "2\u20133",
+          "itemMasters": "15+",
+          "logicGroups": "2\u20133",
+          "logicItems": "3\u20134"
+        },
+        "pages": 102,
+        "summary": "Gearmotor/reducer product with structured nomenclature breakdown. Configurable dimensions include output shaft orientation, housing style, input connection, motor capacity, frame size, shaft specification, ratio, brake option, and multiple specification code suffixes. Strong candidate for automated model generation.",
+        "tables": 18,
+        "tokens": "~45,000"
+      },
+      "file": {
+        "name": "cyclo_6000_o_and_m_v7_web.pdf",
+        "path": "files/cyclo_6000_o_and_m_v7_web.pdf",
+        "size": "4.2 MB",
+        "type": "pdf"
+      },
+      "id": "cyclo-6000",
+      "ingress": [
+        {
+          "detail": "cyclo_6000_o_and_m_v7_web.pdf \u00b7 4.2 MB",
+          "ms": 2000,
+          "statusFrames": [
+            "Downloading 0.0 of 4.2 MB",
+            "Downloading 1.4 of 4.2 MB",
+            "Downloading 2.9 of 4.2 MB",
+            "Downloading 4.2 of 4.2 MB"
+          ],
+          "step": "Download"
+        },
+        {
+          "detail": "102 pages read \u00b7 ~45,000 tokens",
+          "ms": 3000,
+          "statusFrames": [
+            "Reading page 0 of 102",
+            "Reading page 26 of 102",
+            "Reading page 51 of 102",
+            "Reading page 78 of 102",
+            "Reading page 102 of 102"
+          ],
+          "step": "Read"
+        },
+        {
+          "detail": "18 tables \u00b7 24 figures \u00b7 nomenclature section identified",
+          "ms": 4000,
+          "statusFrames": [
+            "Analyzing \u2014 3 elements found",
+            "Analyzing \u2014 9 elements found",
+            "Analyzing \u2014 18 elements found",
+            "Analyzing \u2014 31 elements found",
+            "Analyzing \u2014 42 elements found"
+          ],
+          "step": "Analyze"
+        },
+        {
+          "detail": "~11 inputs \u00b7 ~120 values \u00b7 strong configurability signal",
+          "ms": 3000,
+          "statusFrames": [
+            "Summarizing \u2014 generating overview",
+            "Summarizing \u2014 estimating model complexity",
+            "Summarizing \u2014 assessing configurability"
+          ],
+          "step": "Summarize"
+        }
+      ],
+      "label": "Sumitomo Cyclo 6000",
+      "url": "https://us.sumitomodrive.com/en-us/product/cyclo-6000-gearmotor#documentation"
+    }
+  ],
+  "modelStats": [
+    {
+      "count": 1,
+      "icon": "fa-regular fa-folder-tree",
+      "label": "root logic group"
+    },
+    {
+      "count": 0,
+      "icon": "fa-regular fa-folder",
+      "label": "logic groups"
+    },
+    {
+      "count": 0,
+      "icon": "fa-regular fa-cube",
+      "label": "logic items"
+    },
+    {
+      "count": 0,
+      "icon": "fa-regular fa-layer-group",
+      "label": "input groups"
+    },
+    {
+      "count": 0,
+      "icon": "fa-regular fa-input-text",
+      "label": "inputs"
+    },
+    {
+      "count": 0,
+      "icon": "fa-regular fa-list",
+      "label": "input values"
+    },
+    {
+      "count": 0,
+      "icon": "fa-regular fa-table-cells",
+      "label": "attributes"
+    },
+    {
+      "count": 0,
+      "icon": "fa-regular fa-code-branch",
+      "label": "drivens"
+    },
+    {
+      "count": 0,
+      "icon": "fa-regular fa-filter",
+      "label": "filters"
+    },
+    {
+      "count": 0,
+      "icon": "fa-regular fa-repeat",
+      "label": "iterators"
+    },
+    {
+      "count": 0,
+      "icon": "fa-regular fa-superscript",
+      "label": "equations"
+    },
+    {
+      "count": 1,
+      "icon": "fa-regular fa-box",
+      "label": "product"
+    },
+    {
+      "count": 0,
+      "icon": "fa-regular fa-sitemap",
+      "label": "item families"
+    },
+    {
+      "count": 0,
+      "icon": "fa-regular fa-barcode",
+      "label": "item masters"
+    },
+    {
+      "count": 0,
+      "icon": "fa-regular fa-diagram-project",
+      "label": "BOM nodes"
+    },
+    {
+      "count": 0,
+      "icon": "fa-regular fa-code-merge",
+      "label": "BOM logic items"
+    },
+    {
+      "count": 0,
+      "icon": "fa-regular fa-arrow-right-arrow-left",
+      "label": "driven item masters"
+    },
+    {
+      "count": 0,
+      "icon": "fa-regular fa-square-poll-horizontal",
+      "label": "product outputs"
+    }
+  ],
+  "referenceFiles": [
+    {
+      "name": "cyclo_6000_o_and_m_v7_web.pdf",
+      "path": "files/cyclo_6000_o_and_m_v7_web.pdf",
+      "source": "https://us.sumitomodrive.com/en-us/product/cyclo-6000-gearmotor#documentation",
+      "type": "pdf"
+    }
+  ],
   "sessions": [
     {
       "activeTab": "results",
@@ -102,44 +286,44 @@
       },
       "chat": [
         {
+          "content": "Can you build a BOM for this product?",
           "id": "m1",
-          "role": "user",
-          "content": "Can you build a BOM for this product?"
+          "role": "user"
         },
         {
+          "content": "Sure \u2014 analyzing the Parelux Atomos Renew configuration now.",
           "id": "m2",
-          "role": "ai",
-          "content": "Sure \u2014 analyzing the Parelux Atomos Renew configuration now."
+          "role": "ai"
         },
         {
+          "draftId": "d1",
           "id": "m3",
-          "type": "draft-card",
-          "draftId": "d1"
+          "type": "draft-card"
         },
         {
+          "content": "Here's the initial BOM. Want me to verify against the spec sheet?",
           "id": "m4",
-          "role": "ai",
-          "content": "Here's the initial BOM. Want me to verify against the spec sheet?"
+          "role": "ai"
         },
         {
+          "content": "Yes, verify it then update.",
           "id": "m5",
-          "role": "user",
-          "content": "Yes, verify it then update."
+          "role": "user"
         },
         {
+          "content": "Verified \u2014 found 2 discrepancies. Updated quantities on RO-A-60-1 and added the mounting bracket.",
           "id": "m6",
-          "role": "ai",
-          "content": "Verified \u2014 found 2 discrepancies. Updated quantities on RO-A-60-1 and added the mounting bracket."
+          "role": "ai"
         },
         {
+          "draftId": "d2",
           "id": "m7",
-          "type": "draft-card",
-          "draftId": "d2"
+          "type": "draft-card"
         },
         {
+          "content": "Updated BOM is ready. Click the card to review in the Draft tab.",
           "id": "m8",
-          "role": "ai",
-          "content": "Updated BOM is ready. Click the card to review in the Draft tab."
+          "role": "ai"
         }
       ],
       "drafts": [
@@ -147,8 +331,6 @@
           "groups": 4,
           "id": "d1",
           "inputs": 15,
-          "time": "10:51 AM",
-          "values": 15,
           "items": [
             {
               "description": "Replacement Optic Adjustable Zoom",
@@ -234,14 +416,14 @@
               "quantity": 1,
               "unit": "ea"
             }
-          ]
+          ],
+          "time": "10:51 AM",
+          "values": 15
         },
         {
           "groups": 4,
           "id": "d2",
           "inputs": 15,
-          "time": "11:03 AM",
-          "values": 16,
           "items": [
             {
               "description": "Replacement Optic Adjustable Zoom",
@@ -333,7 +515,9 @@
               "quantity": 1,
               "unit": "ea"
             }
-          ]
+          ],
+          "time": "11:03 AM",
+          "values": 16
         }
       ],
       "files": [
@@ -385,54 +569,54 @@
       "build": null,
       "chat": [
         {
+          "content": "We need to build a BOM for the AAA Freight Truck. I've uploaded the MindManager BOM report.",
           "id": "m1",
-          "role": "user",
-          "content": "We need to build a BOM for the AAA Freight Truck. I've uploaded the MindManager BOM report."
+          "role": "user"
         },
         {
+          "content": "Got it \u2014 I can see the MindManager BOM file. Before I generate a draft, I need a few configuration details. What body height are you targeting: 90\", 96\", or 102\"?",
           "id": "m2",
-          "role": "ai",
-          "content": "Got it \u2014 I can see the MindManager BOM file. Before I generate a draft, I need a few configuration details. What body height are you targeting: 90\", 96\", or 102\"?"
+          "role": "ai"
         },
         {
+          "content": "90 inch. And we'll want the sliding side door and a roll-up rear door.",
           "id": "m3",
-          "role": "user",
-          "content": "90 inch. And we'll want the sliding side door and a roll-up rear door."
+          "role": "user"
         },
         {
+          "content": "Got it. What interior construction type \u2014 Aluminum, FRP, Full Plywood, Poly, Refrigerated, or Sheet and Post?",
           "id": "m4",
-          "role": "ai",
-          "content": "Got it. What interior construction type \u2014 Aluminum, FRP, Full Plywood, Poly, Refrigerated, or Sheet and Post?"
+          "role": "ai"
         },
         {
+          "content": "Aluminum. Also include the E-Track load bar and the walkramp.",
           "id": "m5",
-          "role": "user",
-          "content": "Aluminum. Also include the E-Track load bar and the walkramp."
+          "role": "user"
         },
         {
+          "content": "Understood. Any optional packages \u2014 Off-Road (FX4), Snow Plough Prep, or Heavy Service?",
           "id": "m6",
-          "role": "ai",
-          "content": "Understood. Any optional packages \u2014 Off-Road (FX4), Snow Plough Prep, or Heavy Service?"
+          "role": "ai"
         },
         {
+          "content": "Heavy Service only.",
           "id": "m7",
-          "role": "user",
-          "content": "Heavy Service only."
+          "role": "user"
         },
         {
+          "content": "Thanks \u2014 generating the initial BOM draft now based on 90\" body height, sliding side door (72\"\u00d736\"), aluminum interior construction, roll-up rear door with full TRD assembly, E-Track load bar, walkramp, and Heavy Service package.",
           "id": "m8",
-          "role": "ai",
-          "content": "Thanks \u2014 generating the initial BOM draft now based on 90\" body height, sliding side door (72\"\u00d736\"), aluminum interior construction, roll-up rear door with full TRD assembly, E-Track load bar, walkramp, and Heavy Service package."
+          "role": "ai"
         },
         {
+          "draftId": "d1",
           "id": "m9",
-          "type": "draft-card",
-          "draftId": "d1"
+          "type": "draft-card"
         },
         {
+          "content": "Here's the initial draft BOM. The roll-up door assembly (TRD) is fully expanded with all sub-components. Ready to verify against the spec or adjust any selections?",
           "id": "m10",
-          "role": "ai",
-          "content": "Here's the initial draft BOM. The roll-up door assembly (TRD) is fully expanded with all sub-components. Ready to verify against the spec or adjust any selections?"
+          "role": "ai"
         }
       ],
       "drafts": [
@@ -440,8 +624,6 @@
           "groups": 6,
           "id": "d1",
           "inputs": 22,
-          "time": "9:14 AM",
-          "values": 22,
           "items": [
             {
               "description": "Heavy Service Package",
@@ -522,10 +704,6 @@
               "unit": "ea"
             },
             {
-              "description": "Roll Up Rear Door",
-              "partNumber": "WIV1000",
-              "quantity": 1,
-              "unit": "ea",
               "children": [
                 {
                   "description": "Poly Slat",
@@ -569,7 +747,11 @@
                   "quantity": 10,
                   "unit": "ea"
                 }
-              ]
+              ],
+              "description": "Roll Up Rear Door",
+              "partNumber": "WIV1000",
+              "quantity": 1,
+              "unit": "ea"
             },
             {
               "description": "Labor",
@@ -589,7 +771,9 @@
               "quantity": 1,
               "unit": "lot"
             }
-          ]
+          ],
+          "time": "9:14 AM",
+          "values": 22
         }
       ],
       "equations": [
@@ -857,24 +1041,24 @@
       "build": null,
       "chat": [
         {
+          "content": "I want to build a BOM for the Lumos Track 1-Circuit.",
           "id": "m1",
-          "role": "user",
-          "content": "I want to build a BOM for the Lumos Track 1-Circuit."
+          "role": "user"
         },
         {
+          "content": "Got it \u2014 I'll need the spec sheet to get started. Can you upload it?",
           "id": "m2",
-          "role": "ai",
-          "content": "Got it \u2014 I'll need the spec sheet to get started. Can you upload it?"
+          "role": "ai"
         },
         {
+          "content": "Just uploaded it.",
           "id": "m3",
-          "role": "user",
-          "content": "Just uploaded it."
+          "role": "user"
         },
         {
+          "content": "Thanks \u2014 reviewing the Lumos Track System Spec Sheet now. I'll have a draft BOM ready shortly.",
           "id": "m4",
-          "role": "ai",
-          "content": "Thanks \u2014 reviewing the Lumos Track System Spec Sheet now. I'll have a draft BOM ready shortly."
+          "role": "ai"
         }
       ],
       "drafts": [],
@@ -889,98 +1073,6 @@
       "id": "lumos-track-1-circuit",
       "name": "Lumos Track 1-Circuit",
       "stage": "context"
-    }
-  ],
-  "modelStats": [
-    {
-      "count": 1,
-      "icon": "fa-regular fa-folder-tree",
-      "label": "root logic group"
-    },
-    {
-      "count": 0,
-      "icon": "fa-regular fa-folder",
-      "label": "logic groups"
-    },
-    {
-      "count": 0,
-      "icon": "fa-regular fa-cube",
-      "label": "logic items"
-    },
-    {
-      "count": 0,
-      "icon": "fa-regular fa-layer-group",
-      "label": "input groups"
-    },
-    {
-      "count": 0,
-      "icon": "fa-regular fa-input-text",
-      "label": "inputs"
-    },
-    {
-      "count": 0,
-      "icon": "fa-regular fa-list",
-      "label": "input values"
-    },
-    {
-      "count": 0,
-      "icon": "fa-regular fa-table-cells",
-      "label": "attributes"
-    },
-    {
-      "count": 0,
-      "icon": "fa-regular fa-code-branch",
-      "label": "drivens"
-    },
-    {
-      "count": 0,
-      "icon": "fa-regular fa-filter",
-      "label": "filters"
-    },
-    {
-      "count": 0,
-      "icon": "fa-regular fa-repeat",
-      "label": "iterators"
-    },
-    {
-      "count": 0,
-      "icon": "fa-regular fa-superscript",
-      "label": "equations"
-    },
-    {
-      "count": 1,
-      "icon": "fa-regular fa-box",
-      "label": "product"
-    },
-    {
-      "count": 0,
-      "icon": "fa-regular fa-sitemap",
-      "label": "item families"
-    },
-    {
-      "count": 0,
-      "icon": "fa-regular fa-barcode",
-      "label": "item masters"
-    },
-    {
-      "count": 0,
-      "icon": "fa-regular fa-diagram-project",
-      "label": "BOM nodes"
-    },
-    {
-      "count": 0,
-      "icon": "fa-regular fa-code-merge",
-      "label": "BOM logic items"
-    },
-    {
-      "count": 0,
-      "icon": "fa-regular fa-arrow-right-arrow-left",
-      "label": "driven item masters"
-    },
-    {
-      "count": 0,
-      "icon": "fa-regular fa-square-poll-horizontal",
-      "label": "product outputs"
     }
   ]
 }

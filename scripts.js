@@ -23,19 +23,23 @@ const gridTheme = () => agGrid.themeQuartz.withParams({
 })
 
 const fileCols = [
-  { field: 'name', flex: 1, headerName: 'Name' },
-  { field: 'type', headerName: 'Type', valueFormatter: p => p.value?.toUpperCase(), width: 80 },
-  { field: 'size', headerName: 'Size', width: 100 },
-  { field: 'pages', headerName: 'Pages', width: 80 },
+  { cellRenderer: p => p.data?.locked ? '<i class="fa-solid fa-lock" title="Will be preserved when workspace is reset"></i>' : '', headerName: '', sortable: false },
+  { field: 'source', headerName: 'Source' },
+  { field: 'name', headerName: 'Name', suppressSizeToFit: false },
+  { field: 'type', headerName: 'Type', valueFormatter: p => ({ md: 'Markdown', pdf: 'PDF' })[p.value] ?? p.value?.toUpperCase() },
+  { field: 'size', headerName: 'Size', type: 'rightAligned' },
+  { field: 'pages', headerName: 'Pages', type: 'rightAligned' },
+  { field: 'owner', headerName: 'Owner' },
+  { field: 'created', headerName: 'Created' },
 ]
 
-let uploadedGrid = null
-let generatedGrid = null
+let filesGrid = null
 
 // State
 
 const INITIAL_STATE = {
   activeTab: 'files',
+  context: 6,
   files: [],
   messages: [],
   placeholder: 'Message…',
@@ -139,48 +143,26 @@ const renderChat = () => {
 }
 
 const renderFilesList = () => {
-  const uploadedEl = g('files-uploaded-grid')
-  const generatedEl = g('files-generated-grid')
-  const dropZone = g('drop-zone')
-  if (!uploadedEl) return
-  if (dropZone) dropZone.style.display = state.files.length ? 'none' : ''
-  uploadedEl.style.display = state.files.length ? '' : 'none'
-  const genEmpty = g('generated-empty')
-  if (genEmpty) genEmpty.style.display = ''
-  generatedEl.style.display = 'none'
-
-  const gridOpts = (el, rows) => ({
+  const el = g('files-grid')
+  if (!el) return
+  const contextFiles = (fixtures.customerContext?.files ?? []).map(f => ({ ...f, locked: f.locked ?? false, source: 'Generated' }))
+  const uploaded = state.files.map(f => ({ created: f.created ?? '', locked: f.locked ?? false, name: f.name, owner: f.owner ?? 'Agent', pages: f.assessment?.pages ?? f.pages ?? '', size: f.size, source: f.source ?? 'Uploaded', type: f.type }))
+  const rows = [...contextFiles, ...uploaded]
+  if (filesGrid) filesGrid.destroy()
+  filesGrid = agGrid.createGrid(el, {
+    autoSizeStrategy: { type: 'fitCellContents', scaleUpToFitGridWidth: true },
     columnDefs: fileCols,
-    defaultColDef: { resizable: false, sortable: true },
-    domLayout: rows.length ? 'autoHeight' : undefined,
-    overlayNoRowsTemplate: 'No files',
+    defaultColDef: { resizable: false, sortable: true, suppressSizeToFit: true },
     popupParent: document.body,
     rowData: rows,
-    rowSelection: { mode: 'singleRow' },
+    rowSelection: { checkboxes: true, headerCheckbox: true, mode: 'multiRow' },
+    selectionColumnDef: { pinned: 'left', suppressSizeToFit: true },
     theme: gridTheme(),
-  })
-
-  const uploadedRows = state.files.map(f => ({ name: f.name, pages: f.assessment?.pages ?? '', size: f.size, type: f.type }))
-  if (uploadedGrid) uploadedGrid.destroy()
-  uploadedGrid = agGrid.createGrid(uploadedEl, {
-    ...gridOpts(uploadedEl, uploadedRows),
     onRowClicked: e => {
-      state.selectedFile = state.files.find(f => f.name === e.data.name)
-      g('detail-panel').classList.remove('collapsed')
-      renderDetail()
+      const file = state.files.find(f => f.name === e.data.name) ?? (fixtures.customerContext?.files ?? []).find(f => f.name === e.data.name)
+      if (file) { state.selectedFile = file; g('detail-panel').classList.remove('collapsed'); renderDetail() }
     },
   })
-
-  if (generatedGrid) generatedGrid.destroy()
-  generatedGrid = agGrid.createGrid(generatedEl, gridOpts(generatedEl, []))
-
-  const stats = g('files-stats')
-  if (stats) {
-    stats.replaceChildren()
-    const mkStat = (icon, text) => { const s = makeEl('span', 'overview-stat'); const i = makeEl('i'); i.className = icon; s.appendChild(i); s.appendChild(document.createTextNode(text)); return s }
-    stats.appendChild(mkStat('fa-regular fa-arrow-up-from-bracket', `${state.files.length} uploaded`))
-    stats.appendChild(mkStat('fa-regular fa-sparkles', '0 generated'))
-  }
 }
 
 const renderDetail = () => {
@@ -191,7 +173,22 @@ const renderDetail = () => {
   const file = state.selectedFile
   const view = makeEl('div', 'detail-view')
   view.appendChild(makeEl('b', null, file.name))
-  if (file.size) view.appendChild(makeEl('span', 'detail-meta', `${file.type.toUpperCase()} · ${file.size}`))
+  const typeName = ({ md: 'Markdown', pdf: 'PDF' })[file.type] ?? file.type?.toUpperCase()
+  if (typeName) view.appendChild(makeEl('span', 'detail-meta', file.size && file.size !== '—' ? `${typeName} · ${file.size}` : typeName))
+  if (file.details) {
+    const d = file.details
+    view.appendChild(makeEl('p', 'detail-summary', d.summary))
+    if (d.fields) {
+      const grid = makeEl('div', 'detail-estimates')
+      d.fields.forEach(([k, v]) => {
+        const row = makeEl('div', 'detail-est-row')
+        row.appendChild(makeEl('span', null, k))
+        row.appendChild(makeEl('span', 'detail-est-val', v))
+        grid.appendChild(row)
+      })
+      view.appendChild(grid)
+    }
+  }
   if (file.assessment) {
     const a = file.assessment
     view.appendChild(makeEl('p', 'detail-summary', a.summary))
@@ -212,11 +209,11 @@ const renderDetail = () => {
   content.appendChild(view)
 }
 
-const renderModelStats = () => {
-  const el = g('model-stats')
-  if (!el || !fixtures.modelStats) return
+const renderStats = (containerId, stats) => {
+  const el = g(containerId)
+  if (!el || !stats) return
   el.replaceChildren()
-  fixtures.modelStats.forEach(({ count, icon, label }) => {
+  stats.forEach(({ count, icon, label }) => {
     const stat = makeEl('span', 'overview-stat')
     const i = makeEl('i'); i.className = icon
     stat.appendChild(i)
@@ -225,18 +222,28 @@ const renderModelStats = () => {
   })
 }
 
+const renderAllStats = () => {
+  renderStats('overview-files-stats', [
+    { count: state.files.length, icon: 'fa-regular fa-arrow-up-from-bracket', label: 'uploaded' },
+    { count: 0, icon: 'fa-regular fa-sparkles', label: 'generated' },
+  ])
+  if (!fixtures.tabStats) return
+  for (const [tab, stats] of Object.entries(fixtures.tabStats)) renderStats(`overview-${tab}-stats`, stats)
+}
+
 // Main render
 
 const render = () => {
   g('workspace-title').textContent = state.workspace.title
   g('workspace-status').textContent = state.workspace.status
+  g('workspace-context').textContent = `Context ${state.context}%`
   g('chat-input').placeholder = state.placeholder
   q('.chip-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === state.activeTab))
   q('.tab-pane').forEach(p => p.classList.toggle('active', p.id === `pane-${state.activeTab}`))
   renderWorkflowBar()
   renderChat()
   renderFilesList()
-  renderModelStats()
+  renderAllStats()
   renderDetail()
 }
 
@@ -319,13 +326,41 @@ const advanceIngress = () => {
   if (statusInterval) { clearInterval(statusInterval); statusInterval = null }
 
   if (activeIngress.stepIdx >= example.ingress.length) {
-    state.files.push({ ...example.file, assessment: example.assessment })
-    state.selectedFile = state.files[state.files.length - 1]
+    const file = { ...example.file, assessment: example.assessment }
+    state.files.push(file)
+    const existingProduct = state.files.find(f => f.name === 'PRODUCT.md')
+    const prevAssessment = existingProduct?.assessment ?? {}
+    const newA = example.assessment
+    const merged = {
+      ...prevAssessment,
+      ...newA,
+      pages: (prevAssessment.pages ?? 0) + (newA.pages ?? 0),
+      tables: (prevAssessment.tables ?? 0) + (newA.tables ?? 0),
+      figures: (prevAssessment.figures ?? 0) + (newA.figures ?? 0),
+      tokens: `~${Math.round((parseInt(prevAssessment.tokens?.replace(/\D/g,'') ?? '0') + parseInt(newA.tokens?.replace(/\D/g,'') ?? '0')) / 1000)}k`,
+      summary: prevAssessment.summary ? `${prevAssessment.summary}\n\n${newA.summary}` : newA.summary,
+      modelEstimates: { ...prevAssessment.modelEstimates, ...newA.modelEstimates },
+    }
+    const productMd = {
+      assessment: merged,
+      created: new Date().toISOString().slice(0, 10),
+      locked: false,
+      name: 'PRODUCT.md',
+      owner: 'Agent',
+      pages: 1,
+      size: existingProduct ? '5.1 kb' : '3.4 kb',
+      type: 'md',
+    }
+    const idx = state.files.findIndex(f => f.name === 'PRODUCT.md')
+    if (idx >= 0) state.files[idx] = productMd
+    else state.files.push(productMd)
+    state.selectedFile = file
     state.workflow.step = example.ingress.length
     state.status = null
     state.activeTab = 'files'
     state.workspace.status = example.label
-    state.messages.push({ type: 'file-card', file: state.selectedFile })
+    state.messages.push({ type: 'file-card', file })
+    if (example.updatedModelStats) fixtures.tabStats = example.updatedModelStats
     activeIngress = null
     g('detail-panel').classList.remove('collapsed')
     render()
@@ -334,6 +369,7 @@ const advanceIngress = () => {
 
   const step = example.ingress[activeIngress.stepIdx]
   state.workflow.step = activeIngress.stepIdx
+  if (step.context) state.context = step.context
   const frames = step.statusFrames ?? [`${step.step}…`]
   state.status = frames[0]
   render()
@@ -368,7 +404,26 @@ initStrip('detail-panel', 'detail-toggle')
 
 g('quick-actions-header').addEventListener('click', () => g('quick-actions').classList.toggle('collapsed'))
 
-q('.chip-tab').forEach(tab => tab.addEventListener('click', () => { state.activeTab = tab.dataset.tab; render() }))
+q('.pill').forEach(pill => pill.addEventListener('click', () => {
+  if (pill.textContent === 'Update' && fixtures.updateExample) startIngress(fixtures.updateExample)
+}))
+
+q('.sub-tab').forEach(tab => tab.addEventListener('click', () => {
+  const parent = tab.closest('.tab-pane')
+  parent.querySelectorAll('.sub-tab').forEach(t => t.classList.remove('active'))
+  parent.querySelectorAll('.sub-pane').forEach(p => p.classList.remove('active'))
+  tab.classList.add('active')
+  parent.querySelector(`#subpane-${tab.dataset.subtab}`)?.classList.add('active')
+}))
+
+q('.chip-tab').forEach(tab => tab.addEventListener('click', () => {
+  state.activeTab = tab.dataset.tab
+  render()
+  if (tab.dataset.tab === 'files' && filesGrid) {
+    filesGrid.autoSizeAllColumns()
+    filesGrid.sizeColumnsToFit()
+  }
+}))
 
 g('reset-btn').addEventListener('click', () => { reset(); render() })
 

@@ -9,7 +9,7 @@
   },
   "first-use": {
     "name": "First use",
-    "steps": ["Industry", "Role", "Collaborators"]
+    "steps": ["Industry", "Company", "Role", "Collaborators"]
   },
   "generate-model": {
     "name": "Generate model",

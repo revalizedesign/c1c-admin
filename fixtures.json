@@ -1,4 +1,134 @@
 {
+  "customerContext": {
+    "files": [
+      {
+        "created": "2026-04-15",
+        "details": {
+          "fields": [
+            [
+              "Company",
+              "Sumitomo Heavy Industries, Ltd."
+            ],
+            [
+              "HQ",
+              "Tokyo, Japan"
+            ],
+            [
+              "US Office",
+              "Chesapeake, VA"
+            ],
+            [
+              "Industry",
+              "Industrial Power Transmission"
+            ],
+            [
+              "Products",
+              "Speed reducers, gearmotors, servo systems"
+            ],
+            [
+              "Verticals",
+              "Material handling, F&B, packaging, mining, energy"
+            ],
+            [
+              "C1C Tenant",
+              "sumitomo-us-prod"
+            ]
+          ],
+          "summary": "Sumitomo Heavy Industries, Ltd. Global manufacturer of power transmission equipment including Cyclo speed reducers, gearmotors, and precision gearboxes. Headquartered in Tokyo with US operations in Chesapeake, VA. Key verticals: material handling, food & beverage, packaging, mining, energy. Over 130 years in operation."
+        },
+        "locked": true,
+        "name": "COMPANY.md",
+        "owner": "Admin",
+        "pages": 1,
+        "size": "1.2 kb",
+        "type": "md"
+      },
+      {
+        "created": "2026-04-15",
+        "details": {
+          "fields": [
+            [
+              "Name",
+              "Sarah Chen"
+            ],
+            [
+              "Role",
+              "Sr. Product Configuration Engineer"
+            ],
+            [
+              "Department",
+              "Engineering Systems"
+            ],
+            [
+              "Location",
+              "Chesapeake, VA"
+            ],
+            [
+              "Email",
+              "schen@sumitomodrive.com"
+            ],
+            [
+              "Experience",
+              "8 years in CPQ administration"
+            ],
+            [
+              "Scope",
+              "Cyclo 6000, Cyclo Bevel Buddybox, Hansen P4"
+            ]
+          ],
+          "summary": "Senior Product Configuration Engineer responsible for maintaining and extending the Cyclo product line in ConfigureOne Cloud. Primary contact for new product onboarding and model validation. Reports to Director of Engineering Systems."
+        },
+        "locked": true,
+        "name": "USER.md",
+        "owner": "Admin",
+        "pages": 1,
+        "size": "0.8 kb",
+        "type": "md"
+      },
+      {
+        "created": "2026-04-15",
+        "details": {
+          "fields": [
+            [
+              "Vertical",
+              "Industrial Power Transmission"
+            ],
+            [
+              "Complexity",
+              "High \u2014 200-400 inputs per product"
+            ],
+            [
+              "Configuration style",
+              "Engineer-to-order"
+            ],
+            [
+              "Key constraints",
+              "Frame/motor/ratio interdependencies"
+            ],
+            [
+              "BOM depth",
+              "3-5 levels typical"
+            ],
+            [
+              "Regulatory",
+              "IE3/IE4 motor efficiency standards, ATEX zones"
+            ],
+            [
+              "Naming convention",
+              "Alphanumeric model codes (e.g. CHHM10-6165YB-EP-29)"
+            ]
+          ],
+          "summary": "Industrial power transmission vertical profile. Products are engineer-to-order with deep configurability across mechanical, electrical, and mounting dimensions. Typical models have 200-400 inputs with complex interdependencies between frame size, motor capacity, ratio, and shaft specification."
+        },
+        "locked": true,
+        "name": "VERTICAL.md",
+        "owner": "Admin",
+        "pages": 1,
+        "size": "2.1 kb",
+        "type": "md"
+      }
+    ]
+  },
   "demoExamples": [
     {
       "assessment": {
@@ -26,25 +156,29 @@
         "tokens": "~45,000"
       },
       "file": {
+        "created": "2026-05-06",
         "name": "cyclo_6000_o_and_m_v7_web.pdf",
+        "owner": "Agent",
         "path": "files/cyclo_6000_o_and_m_v7_web.pdf",
-        "size": "4.2 MB",
+        "size": "4.2 mb",
         "type": "pdf"
       },
       "id": "cyclo-6000",
       "ingress": [
         {
-          "detail": "cyclo_6000_o_and_m_v7_web.pdf \u00b7 4.2 MB",
+          "context": 9,
+          "detail": "cyclo_6000_o_and_m_v7_web.pdf \u00b7 4.2 mb",
           "ms": 2000,
           "statusFrames": [
-            "Downloading 0.0 of 4.2 MB",
-            "Downloading 1.4 of 4.2 MB",
-            "Downloading 2.9 of 4.2 MB",
-            "Downloading 4.2 of 4.2 MB"
+            "Downloading 0.0 of 4.2 mb",
+            "Downloading 1.4 of 4.2 mb",
+            "Downloading 2.9 of 4.2 mb",
+            "Downloading 4.2 of 4.2 mb"
           ],
           "step": "Download"
         },
         {
+          "context": 12,
           "detail": "102 pages read \u00b7 ~45,000 tokens",
           "ms": 3000,
           "statusFrames": [
@@ -57,6 +191,7 @@
           "step": "Read"
         },
         {
+          "context": 16,
           "detail": "18 tables \u00b7 24 figures \u00b7 nomenclature section identified",
           "ms": 4000,
           "statusFrames": [
@@ -69,6 +204,7 @@
           "step": "Analyze"
         },
         {
+          "context": 19,
           "detail": "~11 inputs \u00b7 ~120 values \u00b7 strong configurability signal",
           "ms": 3000,
           "statusFrames": [
@@ -81,98 +217,6 @@
       ],
       "label": "Sumitomo Cyclo 6000",
       "url": "https://us.sumitomodrive.com/en-us/product/cyclo-6000-gearmotor#documentation"
-    }
-  ],
-  "modelStats": [
-    {
-      "count": 1,
-      "icon": "fa-regular fa-folder-tree",
-      "label": "root logic group"
-    },
-    {
-      "count": 0,
-      "icon": "fa-regular fa-folder",
-      "label": "logic groups"
-    },
-    {
-      "count": 0,
-      "icon": "fa-regular fa-cube",
-      "label": "logic items"
-    },
-    {
-      "count": 0,
-      "icon": "fa-regular fa-layer-group",
-      "label": "input groups"
-    },
-    {
-      "count": 0,
-      "icon": "fa-regular fa-input-text",
-      "label": "inputs"
-    },
-    {
-      "count": 0,
-      "icon": "fa-regular fa-list",
-      "label": "input values"
-    },
-    {
-      "count": 0,
-      "icon": "fa-regular fa-table-cells",
-      "label": "attributes"
-    },
-    {
-      "count": 0,
-      "icon": "fa-regular fa-code-branch",
-      "label": "drivens"
-    },
-    {
-      "count": 0,
-      "icon": "fa-regular fa-filter",
-      "label": "filters"
-    },
-    {
-      "count": 0,
-      "icon": "fa-regular fa-repeat",
-      "label": "iterators"
-    },
-    {
-      "count": 0,
-      "icon": "fa-regular fa-superscript",
-      "label": "equations"
-    },
-    {
-      "count": 1,
-      "icon": "fa-regular fa-box",
-      "label": "product"
-    },
-    {
-      "count": 0,
-      "icon": "fa-regular fa-sitemap",
-      "label": "item families"
-    },
-    {
-      "count": 0,
-      "icon": "fa-regular fa-barcode",
-      "label": "item masters"
-    },
-    {
-      "count": 0,
-      "icon": "fa-regular fa-diagram-project",
-      "label": "BOM nodes"
-    },
-    {
-      "count": 0,
-      "icon": "fa-regular fa-code-merge",
-      "label": "BOM logic items"
-    },
-    {
-      "count": 0,
-      "icon": "fa-regular fa-arrow-right-arrow-left",
-      "label": "driven item masters"
-    },
-    {
-      "count": 0,
-      "icon": "fa-regular fa-square-poll-horizontal",
-      "label": "product outputs"
     }
   ],
   "referenceFiles": [
@@ -1074,5 +1118,272 @@
       "name": "Lumos Track 1-Circuit",
       "stage": "context"
     }
-  ]
+  ],
+  "tabStats": {
+    "attributes": [
+      {
+        "count": 0,
+        "icon": "fa-regular fa-box",
+        "label": "product attributes"
+      },
+      {
+        "count": 0,
+        "icon": "fa-regular fa-table-cells",
+        "label": "input attributes"
+      }
+    ],
+    "equations": [
+      {
+        "count": 0,
+        "icon": "fa-regular fa-superscript",
+        "label": "equations"
+      }
+    ],
+    "model": [
+      {
+        "count": 0,
+        "icon": "fa-regular fa-layer-group",
+        "label": "input groups"
+      },
+      {
+        "count": 0,
+        "icon": "fa-regular fa-input-text",
+        "label": "inputs"
+      },
+      {
+        "count": 0,
+        "icon": "fa-regular fa-list",
+        "label": "input values"
+      }
+    ],
+    "results": [
+      {
+        "count": 0,
+        "icon": "fa-regular fa-sitemap",
+        "label": "item families"
+      },
+      {
+        "count": 0,
+        "icon": "fa-regular fa-barcode",
+        "label": "item masters"
+      },
+      {
+        "count": 0,
+        "icon": "fa-regular fa-diagram-project",
+        "label": "BOM nodes"
+      },
+      {
+        "count": 0,
+        "icon": "fa-regular fa-square-poll-horizontal",
+        "label": "product outputs"
+      },
+      {
+        "count": 0,
+        "icon": "fa-regular fa-arrow-right-arrow-left",
+        "label": "driven item masters"
+      }
+    ],
+    "rules": [
+      {
+        "count": 1,
+        "icon": "fa-regular fa-folder-tree",
+        "label": "root logic group"
+      },
+      {
+        "count": 0,
+        "icon": "fa-regular fa-folder",
+        "label": "logic groups"
+      },
+      {
+        "count": 0,
+        "icon": "fa-regular fa-cube",
+        "label": "logic items"
+      },
+      {
+        "count": 0,
+        "icon": "fa-regular fa-code-branch",
+        "label": "drivens"
+      },
+      {
+        "count": 0,
+        "icon": "fa-regular fa-filter",
+        "label": "filters"
+      },
+      {
+        "count": 0,
+        "icon": "fa-regular fa-repeat",
+        "label": "iterators"
+      }
+    ]
+  },
+  "updateExample": {
+    "assessment": {
+      "figures": 6,
+      "modelEstimates": {
+        "attributes": "8\u201312",
+        "drivens": "3\u20134",
+        "filters": "2",
+        "inputGroups": "1\u20132",
+        "inputValues": "~45",
+        "inputs": "~6"
+      },
+      "pages": 24,
+      "summary": "Supplemental options and accessories catalog for the Cyclo 6000 line. Adds specification codes, mounting accessories, seal options, and paint/coating configurations. Merges with existing product model to extend input values and attributes.",
+      "tables": 8,
+      "tokens": "~12,000"
+    },
+    "file": {
+      "created": "2026-05-06",
+      "name": "cyclo_6000_options_catalog.pdf",
+      "owner": "Agent",
+      "size": "1.8 mb",
+      "type": "pdf"
+    },
+    "id": "cyclo-6000-options",
+    "ingress": [
+      {
+        "context": 22,
+        "detail": "cyclo_6000_options_catalog.pdf \u00b7 1.8 mb",
+        "ms": 1500,
+        "statusFrames": [
+          "Downloading 0.0 of 1.8 mb",
+          "Downloading 0.9 of 1.8 mb",
+          "Downloading 1.8 of 1.8 mb"
+        ],
+        "step": "Download"
+      },
+      {
+        "context": 24,
+        "detail": "24 pages read \u00b7 ~12,000 tokens",
+        "ms": 2000,
+        "statusFrames": [
+          "Reading page 0 of 24",
+          "Reading page 8 of 24",
+          "Reading page 16 of 24",
+          "Reading page 24 of 24"
+        ],
+        "step": "Read"
+      },
+      {
+        "context": 26,
+        "detail": "8 tables \u00b7 6 figures \u00b7 options matrix identified",
+        "ms": 2500,
+        "statusFrames": [
+          "Analyzing \u2014 2 elements found",
+          "Analyzing \u2014 7 elements found",
+          "Analyzing \u2014 14 elements found"
+        ],
+        "step": "Analyze"
+      },
+      {
+        "context": 27,
+        "detail": "~6 inputs \u00b7 ~45 values \u00b7 extending existing model",
+        "ms": 2000,
+        "statusFrames": [
+          "Merging with existing model\u2026",
+          "Updating PRODUCT.md\u2026",
+          "Extending attributes\u2026"
+        ],
+        "step": "Summarize"
+      }
+    ],
+    "label": "Cyclo 6000 Options & Accessories",
+    "updatedModelStats": {
+      "attributes": [
+        {
+          "count": 4,
+          "icon": "fa-regular fa-box",
+          "label": "product attributes"
+        },
+        {
+          "count": 23,
+          "icon": "fa-regular fa-table-cells",
+          "label": "input attributes"
+        }
+      ],
+      "equations": [
+        {
+          "count": 3,
+          "icon": "fa-regular fa-superscript",
+          "label": "equations"
+        }
+      ],
+      "model": [
+        {
+          "count": 6,
+          "icon": "fa-regular fa-layer-group",
+          "label": "input groups"
+        },
+        {
+          "count": 17,
+          "icon": "fa-regular fa-input-text",
+          "label": "inputs"
+        },
+        {
+          "count": 165,
+          "icon": "fa-regular fa-list",
+          "label": "input values"
+        }
+      ],
+      "results": [
+        {
+          "count": 2,
+          "icon": "fa-regular fa-sitemap",
+          "label": "item families"
+        },
+        {
+          "count": 15,
+          "icon": "fa-regular fa-barcode",
+          "label": "item masters"
+        },
+        {
+          "count": 0,
+          "icon": "fa-regular fa-diagram-project",
+          "label": "BOM nodes"
+        },
+        {
+          "count": 0,
+          "icon": "fa-regular fa-square-poll-horizontal",
+          "label": "product outputs"
+        },
+        {
+          "count": 0,
+          "icon": "fa-regular fa-arrow-right-arrow-left",
+          "label": "driven item masters"
+        }
+      ],
+      "rules": [
+        {
+          "count": 1,
+          "icon": "fa-regular fa-folder-tree",
+          "label": "root logic group"
+        },
+        {
+          "count": 3,
+          "icon": "fa-regular fa-folder",
+          "label": "logic groups"
+        },
+        {
+          "count": 4,
+          "icon": "fa-regular fa-cube",
+          "label": "logic items"
+        },
+        {
+          "count": 12,
+          "icon": "fa-regular fa-code-branch",
+          "label": "drivens"
+        },
+        {
+          "count": 5,
+          "icon": "fa-regular fa-filter",
+          "label": "filters"
+        },
+        {
+          "count": 2,
+          "icon": "fa-regular fa-repeat",
+          "label": "iterators"
+        }
+      ]
+    }
+  }
 }

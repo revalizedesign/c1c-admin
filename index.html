@@ -42,6 +42,7 @@
             </div>
             <div id="quick-actions-content">
               <div class="action-pills">
+                <button class="pill" type="button">Update</button>
                 <button class="pill" type="button">BOM</button>
                 <button class="pill" type="button">Build</button>
                 <button class="pill" type="button">Commit</button>
@@ -66,12 +67,14 @@
           <b id="workspace-title">Workspace</b>
           <span class="inline-separator">—</span>
           <span id="workspace-status">New session</span>
+          <span id="workspace-context">Context 6%</span>
           <button class="button" id="reset-btn" type="button">
             <i class="fa-regular fa-trash-can"></i>Reset workspace
           </button>
         </div>
         <div class="toolbar" id="workflow-bar"></div>
         <div class="toolbar" id="tab-bar">
+          <button class="chip-tab" data-tab="overview">Overview</button>
           <button class="chip-tab" data-tab="files">Files</button>
           <button class="chip-tab" data-tab="model">Model</button>
           <button class="chip-tab" data-tab="attributes">Attributes</button>
@@ -82,59 +85,51 @@
           <button class="chip-tab" data-tab="commit">Commit</button>
         </div>
         <div id="tab-content">
+          <div class="tab-pane" id="pane-overview">
+            <div class="pane-section">
+              <b>Files</b>
+              <div class="overview-stats" id="overview-files-stats"></div>
+            </div>
+            <div class="pane-section">
+              <b>Model</b>
+              <div class="overview-stats" id="overview-model-stats"></div>
+            </div>
+            <div class="pane-section">
+              <b>Attributes</b>
+              <div class="overview-stats" id="overview-attributes-stats"></div>
+            </div>
+            <div class="pane-section">
+              <b>Rules</b>
+              <div class="overview-stats" id="overview-rules-stats"></div>
+            </div>
+            <div class="pane-section">
+              <b>Equations</b>
+              <div class="overview-stats" id="overview-equations-stats"></div>
+            </div>
+            <div class="pane-section">
+              <b>Results</b>
+              <div class="overview-stats" id="overview-results-stats"></div>
+            </div>
+          </div>
           <div class="tab-pane" id="pane-files">
-            <div class="pane-overview">
-              <b>Overview</b>
-              <div class="overview-stats" id="files-stats">
-                <span class="overview-stat"><i class="fa-regular fa-arrow-up-from-bracket"></i>0 uploaded</span>
-                <span class="overview-stat"><i class="fa-regular fa-sparkles"></i>0 generated</span>
-              </div>
-            </div>
-            <div class="pane-section">
-              <b>Uploaded</b>
-              <div class="drop-zone" id="drop-zone">
-                <i class="fa-regular fa-cloud-arrow-up"></i>
-                <span>Drag and drop files here</span>
-                <label class="button outline" id="upload-btn">
-                  Upload
-                  <input hidden multiple type="file" />
-                </label>
-              </div>
-              <div id="files-uploaded-grid" class="pane-grid"></div>
-            </div>
-            <div class="pane-section">
-              <b>Generated</b>
-              <div class="empty-state" id="generated-empty">
-                <i class="fa-regular fa-sparkles"></i>
-                <span>No files have been generated yet</span>
-              </div>
-              <div id="files-generated-grid" class="pane-grid"></div>
-            </div>
+            <div id="files-grid" class="pane-grid-full"></div>
           </div>
           <div class="tab-pane" id="pane-model">
-            <div class="pane-overview">
-              <b>Overview</b>
-              <div class="overview-stats" id="model-stats"></div>
+            <div class="sub-tabs">
+              <button class="sub-tab active" data-subtab="model-tree">Tree</button>
+              <button class="sub-tab" data-subtab="model-graph">Graph</button>
+              <button class="sub-tab" data-subtab="model-json">Raw JSON</button>
             </div>
+            <div class="sub-pane active" id="subpane-model-tree"></div>
+            <div class="sub-pane" id="subpane-model-graph"></div>
+            <div class="sub-pane" id="subpane-model-json"></div>
           </div>
-          <div class="tab-pane" id="pane-attributes">
-            <div class="pane-overview"><b>Overview</b></div>
-          </div>
-          <div class="tab-pane" id="pane-rules">
-            <div class="pane-overview"><b>Overview</b></div>
-          </div>
-          <div class="tab-pane" id="pane-equations">
-            <div class="pane-overview"><b>Overview</b></div>
-          </div>
-          <div class="tab-pane" id="pane-results">
-            <div class="pane-overview"><b>Overview</b></div>
-          </div>
-          <div class="tab-pane" id="pane-preview">
-            <div class="pane-overview"><b>Overview</b></div>
-          </div>
-          <div class="tab-pane" id="pane-commit">
-            <div class="pane-overview"><b>Overview</b></div>
-          </div>
+          <div class="tab-pane" id="pane-attributes"></div>
+          <div class="tab-pane" id="pane-rules"></div>
+          <div class="tab-pane" id="pane-equations"></div>
+          <div class="tab-pane" id="pane-results"></div>
+          <div class="tab-pane" id="pane-preview"></div>
+          <div class="tab-pane" id="pane-commit"></div>
         </div>
       </div>
 

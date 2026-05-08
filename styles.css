@@ -315,13 +315,13 @@ body {
   font-size: 1.5rem;
 }
 
-.fork-card-text {
+.card-text {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
 }
 
-.fork-card-text b {
+.fork-card .card-text b {
   font-size: 1.25rem;
   letter-spacing: -0.03em;
   line-height: 1.5rem;
@@ -409,23 +409,41 @@ body {
   border-color: var(--color-half);
 }
 
-.file-card .fork-card-text b { font-size: inherit; }
 .file-card > i:first-child { color: var(--color-half); }
 .file-card > i:last-child { color: var(--color-light); margin-left: auto; }
 .file-card:hover > i:last-child { color: var(--color-half); }
 
-.ingress-card {
+.status-card {
   align-items: center;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.chat-status-card {
   align-self: stretch;
   border: 1px solid var(--color-light);
   border-radius: var(--radius);
-  display: flex;
-  gap: 0.5rem;
   padding: 0.75rem;
 }
 
-.ingress-card-icon {
-  color: var(--color-half);
+.spinner {
+  animation: spin 1s linear infinite;
+  border: 2px solid var(--color-light);
+  border-radius: 50%;
+  border-top-color: currentColor;
+  display: inline-block;
+  flex-shrink: 0;
+  height: 0.75rem;
+  width: 0.75rem;
+}
+
+.spinner-sm {
+  height: 0.5rem;
+  width: 0.5rem;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 
 .chat-actions {
@@ -626,12 +644,6 @@ body {
   background: none;
   border: 1.5px solid var(--color-light);
   border-top-color: var(--color-half);
-  height: 0.5rem;
-  width: 0.5rem;
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
 }
 
 #workflow-status {
@@ -737,6 +749,161 @@ body {
   display: flex;
 }
 
+.tree-row {
+  align-items: center;
+  border-bottom: 1px solid var(--color-light);
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.5rem 0;
+}
+
+.tree-group {
+  background: var(--color-lighter);
+  margin-top: 0.5rem;
+  padding: 0.5rem 0.75rem;
+}
+
+.tree-group:first-child {
+  margin-top: 0;
+}
+
+.tree-input {
+  cursor: pointer;
+  padding-left: 1.5rem;
+}
+
+.tree-input:hover {
+  background: var(--color-lighter);
+}
+
+.tree-count,
+.tree-type {
+  color: var(--color-half);
+}
+
+.tree-count {
+  margin-left: auto;
+}
+
+.data-grid {
+  display: flex;
+  flex-direction: column;
+}
+
+.data-row {
+  align-items: center;
+  border-bottom: 1px solid var(--color-light);
+  display: flex;
+  gap: 0.75rem;
+  padding: 0.5rem 0;
+}
+
+.data-row:last-child {
+  border-bottom: none;
+}
+
+.data-count {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  min-width: 2rem;
+  text-align: right;
+}
+
+.data-key {
+  font-weight: 500;
+  min-width: 10rem;
+}
+
+.data-row-total {
+  border-top: 1px solid var(--color-light);
+  color: var(--color-half);
+  font-weight: 500;
+  padding: 0.5rem 0;
+}
+
+.data-type {
+  color: var(--color-half);
+}
+
+.equation-card {
+  border: 1px solid var(--color-light);
+  border-radius: var(--radius);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.75rem;
+}
+
+.equation-card + .equation-card {
+  margin-top: 0.5rem;
+}
+
+.equation-expr {
+  background: var(--color-lighter);
+  border-radius: var(--radius);
+  display: block;
+  padding: 0.5rem 0.75rem;
+}
+
+.equation-header {
+  align-items: center;
+  display: flex;
+  gap: 0.75rem;
+}
+
+.equation-vars {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.json-view {
+  background: var(--color-lighter);
+  border-radius: var(--radius);
+  margin: 0;
+  overflow: auto;
+  padding: 0.75rem;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.preview-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.preview-field input,
+.preview-field select {
+  background: var(--color-lightest);
+  border: 1px solid var(--color-light);
+  border-radius: var(--radius);
+  padding: 0.25rem 0.5rem;
+}
+
+.preview-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.preview-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.preview-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.commit-view {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
 .pane-grid {
   min-height: 8rem;
 }
@@ -822,11 +989,8 @@ body {
   background: var(--color-success);
 }
 
-#workflow-status {
-  color: var(--color-light);
-}
 
-#workflow-status.running {
+.status-card {
   color: var(--color-brand);
 }
 

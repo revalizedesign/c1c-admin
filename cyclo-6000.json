@@ -1,0 +1,168 @@
+{
+  "product": {
+    "category": "Speed Reducers & Gearmotors",
+    "code": "CYCLO-6000",
+    "id": "prod-cyclo-6000",
+    "name": "Cyclo 6000 Gearmotor"
+  },
+
+  "model": {
+    "inputGroups": [
+      { "id": "ig-1", "name": "Product Type", "num": 1 },
+      { "id": "ig-2", "name": "Output Configuration", "num": 2 },
+      { "id": "ig-3", "name": "Motor & Drive", "num": 3 },
+      { "id": "ig-4", "name": "Mechanical Specification", "num": 4 },
+      { "id": "ig-5", "name": "Options & Accessories", "num": 5 }
+    ],
+    "inputs": [
+      { "default": "C", "groupNum": 1, "id": "inp-1", "label": "Product Line", "name": "product_line", "num": 1, "options": ["C", "P"], "type": "dropdown" },
+      { "default": "H", "groupNum": 2, "id": "inp-2", "label": "Output Shaft Orientation", "name": "output_orientation", "num": 2, "options": ["H", "V", "W", "N"], "type": "dropdown" },
+      { "default": "H", "groupNum": 2, "id": "inp-3", "label": "Housing Style", "name": "housing_style", "num": 3, "options": ["H", "F", "V"], "type": "dropdown" },
+      { "default": "M", "groupNum": 3, "id": "inp-4", "label": "Input Connection", "name": "input_connection", "num": 4, "options": ["M", "JM", "XM", "J", "X"], "type": "dropdown" },
+      { "default": "10", "groupNum": 3, "id": "inp-5", "label": "Motor Capacity (HP)", "name": "motor_capacity", "num": 5, "options": ["0.125", "0.25", "0.33", "0.5", "0.75", "1", "1.5", "2", "3", "4", "5", "7.5", "10", "15", "20", "25", "30", "40", "50", "60", "75"], "type": "dropdown" },
+      { "default": "6165", "groupNum": 4, "id": "inp-6", "label": "Frame Size", "name": "frame_size", "num": 6, "options": ["6060", "6065", "6070", "6075", "6080", "6085", "6090", "6095", "6100", "6105", "6110", "6115", "6120", "6125", "6130", "6135", "6140", "6145", "6155", "6160", "6165", "6170", "6175", "6180", "6185", "6190", "6195", "6205", "6215", "6225", "6235", "6245", "6255", "6265", "6275"], "type": "dropdown" },
+      { "default": "YB", "groupNum": 4, "id": "inp-7", "label": "Shaft Specification", "name": "shaft_spec", "num": 7, "options": ["Y", "YA", "YB", "YC", "G", "E"], "type": "dropdown" },
+      { "default": "29", "groupNum": 4, "id": "inp-8", "label": "Nominal Ratio", "name": "ratio", "num": 8, "options": ["3", "5", "6", "7", "8", "9", "11", "13", "15", "17", "21", "25", "29", "35", "43", "47", "59", "71", "87", "89", "104", "119", "121", "143", "165", "187", "195", "231", "289", "377", "493", "595", "731", "841", "1003", "1225", "1505", "1849"], "type": "dropdown" },
+      { "default": false, "groupNum": 5, "id": "inp-9", "label": "Brake", "name": "brake", "num": 9, "type": "toggle" },
+      { "default": false, "groupNum": 5, "id": "inp-10", "label": "Special Modification", "name": "special_mod", "num": 10, "type": "toggle" },
+      { "default": "EP", "groupNum": 5, "id": "inp-11", "label": "Motor Specification", "name": "motor_spec", "num": 11, "options": ["EP", "AF", "none"], "type": "dropdown" }
+    ],
+    "inputValues": [
+      { "inputNum": 1, "label": "Cyclo 6000 (ratios 6:1+)", "value": "C" },
+      { "inputNum": 1, "label": "Planetary (ratios 3:1, 5:1)", "value": "P" },
+      { "inputNum": 2, "label": "Horizontal", "value": "H" },
+      { "inputNum": 2, "label": "Vertical", "value": "V" },
+      { "inputNum": 2, "label": "Vertical Up", "value": "W" },
+      { "inputNum": 2, "label": "Universal Direction", "value": "N" },
+      { "inputNum": 3, "label": "Foot Mount", "value": "H" },
+      { "inputNum": 3, "label": "Flange Mount", "value": "F" },
+      { "inputNum": 3, "label": "V-Flange Mount", "value": "V" },
+      { "inputNum": 4, "label": "Integral Motor", "value": "M" },
+      { "inputNum": 4, "label": "C-Face Adapter", "value": "JM" },
+      { "inputNum": 4, "label": "Hollow Input Shaft", "value": "XM" },
+      { "inputNum": 4, "label": "C-Face Adapter (Reducer)", "value": "J" },
+      { "inputNum": 4, "label": "Hollow Input Shaft (Reducer)", "value": "X" },
+      { "inputNum": 7, "label": "Metric JIS", "value": "Y" },
+      { "inputNum": 7, "label": "Inch AGMA I", "value": "YA" },
+      { "inputNum": 7, "label": "Inch AGMA II", "value": "YB" },
+      { "inputNum": 7, "label": "Inch AGMA III", "value": "YC" },
+      { "inputNum": 7, "label": "Standard Metric DIN G (up to 6125)", "value": "G" },
+      { "inputNum": 7, "label": "Standard Metric DIN E (up to 6145)", "value": "E" },
+      { "inputNum": 11, "label": "Three-Phase Premium Efficiency (IE3)", "value": "EP" },
+      { "inputNum": 11, "label": "Inverter Duty (1/8–3/4 HP)", "value": "AF" },
+      { "inputNum": 11, "label": "Standard (no suffix)", "value": "none" }
+    ]
+  },
+
+  "attributes": {
+    "productAttributes": [
+      { "id": "pa-1", "name": "product_code_prefix", "value": "C" },
+      { "id": "pa-2", "name": "product_family", "value": "Cyclo 6000" },
+      { "id": "pa-3", "name": "nomenclature_pattern", "value": "{line}{orient}{housing}{connection}{capacity}-{frame}{shaft}-{spec}-{ratio}" },
+      { "id": "pa-4", "name": "max_stages", "value": "3" }
+    ],
+    "inputAttributes": [
+      { "driverInputNum": 7, "id": "ia-1", "name": "shaft_max_frame", "type": "range", "values": { "E": "6145", "G": "6125" } },
+      { "driverInputNum": 1, "id": "ia-2", "name": "available_ratios", "type": "list", "values": { "C": "6,7,8,9,11,13,15,17,21,25,29,35,43,47,59,71,87,89,104,119", "P": "3,5" } },
+      { "driverInputNum": 2, "id": "ia-3", "name": "field_changeable", "type": "boolean", "values": { "H": "false", "N": "true", "V": "false", "W": "false" } },
+      { "driverInputNum": 2, "id": "ia-4", "name": "lubrication_type", "type": "text", "values": { "H": "oil", "N": "grease (maintenance-free)", "V": "oil", "W": "oil" } },
+      { "driverInputNum": 6, "id": "ia-5", "name": "planetary_available", "type": "boolean", "values": { "6100": "true", "6105": "true", "6120": "true", "6125": "true", "6140": "true", "6145": "true", "6160": "true", "6165": "true" } }
+    ]
+  },
+
+  "rules": {
+    "logicGroups": [
+      { "id": "lg-1", "name": "Configuration Constraints", "num": 1 },
+      { "id": "lg-2", "name": "Motor Validation", "num": 2 },
+      { "id": "lg-3", "name": "BOM Logic", "num": 3 }
+    ],
+    "logicItems": [
+      { "groupNum": 1, "id": "li-1", "name": "Planetary restricts ratios to 3 and 5", "num": 1, "type": "set_input_to_value" },
+      { "groupNum": 1, "id": "li-2", "name": "DIN G shaft limited to frame ≤ 6125", "num": 2, "type": "hide_input" },
+      { "groupNum": 1, "id": "li-3", "name": "DIN E shaft limited to frame ≤ 6145", "num": 3, "type": "hide_input" },
+      { "groupNum": 1, "id": "li-4", "name": "Universal direction forces grease lubrication", "num": 4, "type": "set_input_to_value" },
+      { "groupNum": 2, "id": "li-5", "name": "AF motor spec only valid for 1/8–3/4 HP", "num": 5, "type": "error_message" },
+      { "groupNum": 2, "id": "li-6", "name": "EP motor spec requires 1+ HP", "num": 6, "type": "warning_message" },
+      { "groupNum": 2, "id": "li-7", "name": "Reducer hides motor capacity", "num": 7, "type": "hide_input" },
+      { "groupNum": 3, "id": "li-8", "name": "Brake adds B suffix to model number", "num": 8, "type": "set_input_to_value" }
+    ],
+    "drivenInputs": [
+      { "description": "Frame size determines available motor capacities", "driver1InputNum": 6, "drivenInputNum": 5, "id": "di-1" },
+      { "description": "Product line determines available ratios", "driver1InputNum": 1, "drivenInputNum": 8, "id": "di-2" },
+      { "description": "Housing style constrains mounting bolt pattern", "driver1InputNum": 3, "drivenInputNum": 6, "id": "di-3" }
+    ],
+    "inputFilters": [
+      { "attribute": "shaft_max_frame", "filteredInputNum": 6, "filteringInputNum": 7, "id": "if-1" },
+      { "attribute": "planetary_available", "filteredInputNum": 6, "filteringInputNum": 1, "id": "if-2" },
+      { "attribute": "available_ratios", "filteredInputNum": 8, "filteringInputNum": 1, "id": "if-3" }
+    ],
+    "iterators": [
+      { "code": "STAGE", "id": "it-1", "quantityInputNum": null, "description": "Multi-stage reduction (DA, TA suffixes) — iterates BOM per reduction stage" },
+      { "code": "SUFFIX", "id": "it-2", "quantityInputNum": null, "description": "Specification code suffixes — iterates alphabetically when multiple selected" }
+    ]
+  },
+
+  "equations": [
+    { "expression": "frame_size_table[frame_size][ratio]", "id": "eq-1", "label": "Output Torque", "outputField": "output_torque_lbft", "variables": [{ "inputNum": 6, "name": "frame_size" }, { "inputNum": 8, "name": "ratio" }] },
+    { "expression": "motor_rpm / ratio", "id": "eq-2", "label": "Output Speed", "outputField": "output_speed_rpm", "variables": [{ "inputNum": 5, "name": "motor_rpm" }, { "inputNum": 8, "name": "ratio" }] },
+    { "expression": "base_price[frame_size] + motor_price[motor_capacity] + option_adders", "id": "eq-3", "label": "List Price", "outputField": "list_price_usd", "variables": [{ "inputNum": 6, "name": "frame_size" }, { "inputNum": 5, "name": "motor_capacity" }] }
+  ],
+
+  "results": {
+    "itemFamilies": [
+      { "description": "Cyclo speed reducer housings and internals", "id": "if-1", "name": "Cyclo Reducer Assembly", "unitOfMeasure": "ea" },
+      { "description": "Electric motors for gearmotor configurations", "id": "if-2", "name": "Motors", "unitOfMeasure": "ea" },
+      { "description": "Brake assemblies and rectifiers", "id": "if-3", "name": "Brake Components", "unitOfMeasure": "ea" }
+    ],
+    "itemMasters": [
+      { "description": "Cyclo 6165 reducer casing assembly", "id": "im-1", "itemNumber": "C6165-ASSY", "smartPartNumber": "C6165-ASSY", "type": "manufactured", "unitOfMeasure": "ea" },
+      { "description": "Eccentric bearing set for 6165", "id": "im-2", "itemNumber": "BRG-6165-ECC", "smartPartNumber": "BRG-6165-ECC", "type": "purchased", "unitOfMeasure": "ea" },
+      { "description": "Cycloid disc set for 6165", "id": "im-3", "itemNumber": "DISC-6165", "smartPartNumber": "DISC-6165", "type": "manufactured", "unitOfMeasure": "ea" },
+      { "description": "Output shaft — inch AGMA II for 6165", "id": "im-4", "itemNumber": "SHAFT-6165-YB", "smartPartNumber": "SHAFT-6165-YB", "type": "manufactured", "unitOfMeasure": "ea" },
+      { "description": "10HP 3-phase premium efficiency motor", "id": "im-5", "itemNumber": "MTR-10HP-EP", "smartPartNumber": "MTR-10HP-EP", "type": "purchased", "unitOfMeasure": "ea" },
+      { "description": "Foot mount housing for 6165", "id": "im-6", "itemNumber": "HSG-6165-H", "smartPartNumber": "HSG-6165-H", "type": "manufactured", "unitOfMeasure": "ea" },
+      { "description": "Ring gear for 6165", "id": "im-7", "itemNumber": "RING-6165", "smartPartNumber": "RING-6165", "type": "manufactured", "unitOfMeasure": "ea" },
+      { "description": "Oil seal kit for 6165", "id": "im-8", "itemNumber": "SEAL-6165", "smartPartNumber": "SEAL-6165", "type": "purchased", "unitOfMeasure": "ea" },
+      { "description": "Fan cover for 6165", "id": "im-9", "itemNumber": "FAN-6165", "smartPartNumber": "FAN-6165", "type": "manufactured", "unitOfMeasure": "ea" },
+      { "description": "Brake assembly 10HP", "id": "im-10", "itemNumber": "BRK-10HP", "smartPartNumber": "BRK-10HP", "type": "purchased", "unitOfMeasure": "ea" },
+      { "description": "Brake rectifier module", "id": "im-11", "itemNumber": "BRK-RECT-01", "smartPartNumber": "BRK-RECT-01", "type": "purchased", "unitOfMeasure": "ea" },
+      { "description": "High capacity bearing upgrade", "id": "im-12", "itemNumber": "BRG-6165-R1", "smartPartNumber": "BRG-6165-R1", "type": "purchased", "unitOfMeasure": "ea" },
+      { "description": "Ductile iron casing upgrade", "id": "im-13", "itemNumber": "CSG-6165-R2", "smartPartNumber": "CSG-6165-R2", "type": "manufactured", "unitOfMeasure": "ea" },
+      { "description": "Low backlash conversion kit", "id": "im-14", "itemNumber": "LB-6165", "smartPartNumber": "LB-6165", "type": "purchased", "unitOfMeasure": "ea" },
+      { "description": "Torque limiter assembly", "id": "im-15", "itemNumber": "TL-6165", "smartPartNumber": "TL-6165", "type": "purchased", "unitOfMeasure": "ea" }
+    ],
+    "bomSkeleton": [
+      { "id": "bom-1", "includedByDefault": true, "level": 0, "quantity": { "type": "value", "value": 1 }, "referenceId": "im-1", "referenceName": "Cyclo 6165 reducer casing assembly", "type": "item_master" },
+      { "id": "bom-2", "includedByDefault": true, "level": 1, "quantity": { "type": "value", "value": 1 }, "referenceId": "im-3", "referenceName": "Cycloid disc set", "type": "item_master" },
+      { "id": "bom-3", "includedByDefault": true, "level": 1, "quantity": { "type": "value", "value": 2 }, "referenceId": "im-2", "referenceName": "Eccentric bearing set", "type": "item_master" },
+      { "id": "bom-4", "includedByDefault": true, "level": 1, "quantity": { "type": "value", "value": 1 }, "referenceId": "im-7", "referenceName": "Ring gear", "type": "item_master" },
+      { "id": "bom-5", "includedByDefault": true, "level": 1, "quantity": { "type": "value", "value": 1 }, "referenceId": "im-8", "referenceName": "Oil seal kit", "type": "item_master" },
+      { "id": "bom-6", "includedByDefault": true, "level": 0, "quantity": { "type": "product_input", "inputName": "housing_style" }, "referenceId": "im-6", "referenceName": "Housing", "type": "item_master" },
+      { "id": "bom-7", "includedByDefault": true, "level": 0, "quantity": { "type": "value", "value": 1 }, "referenceId": "im-4", "referenceName": "Output shaft", "type": "item_master" },
+      { "id": "bom-8", "includedByDefault": true, "level": 0, "quantity": { "type": "value", "value": 1 }, "referenceId": "im-5", "referenceName": "Motor", "type": "item_master" },
+      { "id": "bom-9", "includedByDefault": true, "level": 0, "quantity": { "type": "value", "value": 1 }, "referenceId": "im-9", "referenceName": "Fan cover", "type": "item_master" },
+      { "id": "bom-10", "includedByDefault": false, "level": 0, "quantity": { "type": "value", "value": 1 }, "referenceId": "im-10", "referenceName": "Brake assembly", "type": "item_master" },
+      { "id": "bom-11", "includedByDefault": false, "level": 1, "quantity": { "type": "value", "value": 1 }, "referenceId": "im-11", "referenceName": "Brake rectifier", "type": "item_master" }
+    ],
+    "drivenItemMasters": [
+      { "description": "Frame size drives reducer casing part number", "driverInputNum": 6, "drivenItemId": "im-1", "id": "dim-1" },
+      { "description": "Motor capacity drives motor part number", "driverInputNum": 5, "drivenItemId": "im-5", "id": "dim-2" },
+      { "description": "Shaft spec drives output shaft part number", "driverInputNum": 7, "drivenItemId": "im-4", "id": "dim-3" },
+      { "description": "Housing style drives housing part number", "driverInputNum": 3, "drivenItemId": "im-6", "id": "dim-4" }
+    ],
+    "productOutputs": [
+      { "description": "Complete model number string", "id": "po-1", "name": "Model Number", "type": "text" },
+      { "description": "Calculated output torque", "id": "po-2", "name": "Output Torque (lb-ft)", "type": "numeric" },
+      { "description": "Calculated output speed", "id": "po-3", "name": "Output Speed (RPM)", "type": "numeric" },
+      { "description": "Unit list price", "id": "po-4", "name": "List Price (USD)", "type": "numeric" }
+    ]
+  },
+
+  "_tabMapping": {
+    "model": ["inputGroups", "inputs", "inputValues"],
+    "attributes": ["productAttributes", "inputAttributes"],
+    "rules": ["logicGroups", "logicItems", "drivenInputs", "inputFilters", "iterators"],
+    "equations": ["equations"],
+    "results": ["itemFamilies", "itemMasters", "bomSkeleton", "drivenItemMasters", "productOutputs"]
+  }
+}

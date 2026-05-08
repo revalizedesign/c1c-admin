@@ -1,4 +1,127 @@
 {
+  "buildPhases": {
+    "bom": [
+      {
+        "context": 76,
+        "detail": "3 item families \u00b7 15 item masters",
+        "ms": 3000,
+        "statusFrames": [
+          "Creating Cyclo Reducer Assembly family\u2026",
+          "Creating Motors family\u2026",
+          "Mapping 15 part numbers\u2026"
+        ],
+        "step": "Item masters"
+      },
+      {
+        "context": 79,
+        "detail": "11 BOM skeleton lines",
+        "ms": 2500,
+        "statusFrames": [
+          "Building casing assembly hierarchy\u2026",
+          "Adding motor and housing lines\u2026",
+          "Adding optional brake assembly\u2026"
+        ],
+        "step": "BOM skeleton"
+      },
+      {
+        "context": 80,
+        "detail": "4 driven item masters \u00b7 4 product outputs",
+        "ms": 2000,
+        "statusFrames": [
+          "Linking frame to casing part\u2026",
+          "Linking motor capacity to motor part\u2026",
+          "Creating product output fields\u2026"
+        ],
+        "step": "Driven items"
+      }
+    ],
+    "constraints": [
+      {
+        "context": 60,
+        "detail": "3 driven inputs \u00b7 5 input attributes",
+        "ms": 3000,
+        "statusFrames": [
+          "Building frame/motor capacity matrix\u2026",
+          "Building product line/ratio matrix\u2026",
+          "Building housing/frame constraint\u2026"
+        ],
+        "step": "Driven inputs"
+      },
+      {
+        "context": 68,
+        "detail": "3 logic groups \u00b7 8 logic items \u00b7 3 filters \u00b7 2 iterators",
+        "ms": 3500,
+        "statusFrames": [
+          "Inferring configuration constraints\u2026",
+          "Mapping motor validation rules\u2026",
+          "Building input filter chains\u2026",
+          "Defining iterator logic\u2026"
+        ],
+        "step": "Rules"
+      },
+      {
+        "context": 72,
+        "detail": "3 equations \u2014 torque, speed, price",
+        "ms": 2500,
+        "statusFrames": [
+          "Deriving output torque formula\u2026",
+          "Calculating output speed expression\u2026",
+          "Building list price equation\u2026"
+        ],
+        "step": "Equations"
+      }
+    ],
+    "skeleton": [
+      {
+        "context": 35,
+        "detail": "102 pages \u00b7 18 tables referenced",
+        "ms": 2000,
+        "statusFrames": [
+          "Parsing document structure\u2026",
+          "Extracting nomenclature tables\u2026",
+          "Identifying configurable sections\u2026"
+        ],
+        "step": "Parse document"
+      },
+      {
+        "context": 42,
+        "detail": "5 input groups created",
+        "ms": 2500,
+        "statusFrames": [
+          "Building Product Type group\u2026",
+          "Building Output Configuration group\u2026",
+          "Building Motor & Drive group\u2026",
+          "Building Mechanical Specification group\u2026",
+          "Building Options & Accessories group\u2026"
+        ],
+        "step": "Input groups"
+      },
+      {
+        "context": 50,
+        "detail": "11 inputs mapped",
+        "ms": 3000,
+        "statusFrames": [
+          "Mapping product line input\u2026",
+          "Mapping output orientation\u2026",
+          "Mapping motor capacity\u2026",
+          "Mapping frame size\u2026",
+          "Mapping shaft specification\u2026"
+        ],
+        "step": "Inputs"
+      },
+      {
+        "context": 55,
+        "detail": "23 input values resolved",
+        "ms": 2000,
+        "statusFrames": [
+          "Resolving orientation values\u2026",
+          "Resolving housing values\u2026",
+          "Resolving shaft spec values\u2026"
+        ],
+        "step": "Input values"
+      }
+    ]
+  },
   "customerContext": {
     "files": [
       {
@@ -195,11 +318,11 @@
           "detail": "18 tables \u00b7 24 figures \u00b7 nomenclature section identified",
           "ms": 4000,
           "statusFrames": [
-            "Analyzing \u2014 3 elements found",
-            "Analyzing \u2014 9 elements found",
-            "Analyzing \u2014 18 elements found",
-            "Analyzing \u2014 31 elements found",
-            "Analyzing \u2014 42 elements found"
+            "Analyzing 2 elements\u2026",
+            "Analyzing 7 elements\u2026",
+            "Analyzing 14 elements\u2026",
+            "Analyzing 26 elements\u2026",
+            "Analyzing 42 elements\u2026"
           ],
           "step": "Analyze"
         },
@@ -1269,9 +1392,9 @@
         "detail": "8 tables \u00b7 6 figures \u00b7 options matrix identified",
         "ms": 2500,
         "statusFrames": [
-          "Analyzing \u2014 2 elements found",
-          "Analyzing \u2014 7 elements found",
-          "Analyzing \u2014 14 elements found"
+          "Analyzing 2 elements\u2026",
+          "Analyzing 7 elements\u2026",
+          "Analyzing 14 elements\u2026"
         ],
         "step": "Analyze"
       },

@@ -1,4 +1,16 @@
 {
+  "triage": {
+    "name": "New session",
+    "steps": ["Triage"]
+  },
+  "new-product": {
+    "name": "New product",
+    "steps": ["Upload", "Build", "Review", "Iterate", "Commit"]
+  },
+  "edit-product": {
+    "name": "Edit product",
+    "steps": ["Select", "Iterate", "Commit"]
+  },
   "file-ingress": {
     "name": "File ingress",
     "steps": ["Download", "Read", "Analyze", "Summarize"]
@@ -11,8 +23,16 @@
     "name": "First use",
     "steps": ["Industry", "Company", "Role", "Collaborators"]
   },
-  "generate-model": {
-    "name": "Generate model",
-    "steps": ["Document parsed", "Input groups", "Logic model", "Rules", "Equations", "BOM mapping"]
+  "generate-skeleton": {
+    "name": "Generate skeleton",
+    "steps": ["Parse document", "Input groups", "Inputs", "Input values"]
+  },
+  "generate-constraints": {
+    "name": "Generate constraints",
+    "steps": ["Driven inputs", "Rules", "Equations"]
+  },
+  "generate-bom": {
+    "name": "Generate BOM",
+    "steps": ["Item masters", "BOM skeleton", "Driven items"]
   }
 }

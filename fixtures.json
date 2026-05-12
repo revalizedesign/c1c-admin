@@ -342,6 +342,50 @@
       "url": "https://us.sumitomodrive.com/en-us/product/cyclo-6000-gearmotor#documentation"
     }
   ],
+  "onboarding": {
+    "company": {
+      "agent": "Hi \u2014 I'm your C1C admin agent. Before we dig in, tell me about your company. A URL works, or type a few sentences \u2014 whatever's easiest.",
+      "placeholder": "Type, paste a URL, or attach a file\u2026"
+    },
+    "industryNeeded": {
+      "agent": "I need a bit more context about your industry to get started. Can you confirm or correct what I've found?",
+      "card": {
+        "Company": "Sumitomo Heavy Industries",
+        "Geography": "North America",
+        "Industry": "Motor Vehicles",
+        "Production": "Engineer-to-order",
+        "Segments": "Truck bodies, fleet customers",
+        "Size": "~800 employees, 31 manufacturing facilities"
+      }
+    },
+    "industrySkipped": {
+      "agent": "I identified your industry as Motor Vehicles based on what you shared. Moving on."
+    },
+    "review": {
+      "agent": "All set. I've saved your context to the workspace:",
+      "files": [
+        {
+          "desc": "your company context",
+          "icon": "fa-regular fa-building",
+          "label": "company.md"
+        },
+        {
+          "desc": "Motor Vehicles knowledge",
+          "icon": "fa-regular fa-industry",
+          "label": "vertical.md"
+        },
+        {
+          "desc": "your role and collaborators",
+          "icon": "fa-regular fa-user",
+          "label": "user.md"
+        }
+      ]
+    },
+    "user": {
+      "agent": "Tell me about yourself \u2014 what's your role, and will anyone else be using this workspace?",
+      "placeholder": "e.g. Sr. Configuration Engineer, just me for now\u2026"
+    }
+  },
   "referenceFiles": [
     {
       "name": "cyclo_6000_o_and_m_v7_web.pdf",

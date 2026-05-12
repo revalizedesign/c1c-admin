@@ -21,7 +21,7 @@
   },
   "first-use": {
     "name": "First use",
-    "steps": ["Industry", "Company", "Role", "Collaborators"]
+    "steps": ["Company", "Industry", "User", "Review"]
   },
   "generate-skeleton": {
     "name": "Generate skeleton",

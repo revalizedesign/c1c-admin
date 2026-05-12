@@ -55,7 +55,9 @@ const reset = () => {
   if (statusInterval) { clearInterval(statusInterval); statusInterval = null }
   productData = null
   activeBuild = null
+  industryNeeded = Math.random() > 0.5
   Object.assign(state, { ...INITIAL_STATE, files: [], messages: [], workflow: { ...INITIAL_STATE.workflow } })
+  if (fixtures.onboarding) state.messages.push({ type: 'agent', text: fixtures.onboarding.company.agent })
 }
 
 // Data
@@ -149,14 +151,7 @@ const renderChat = () => {
     el.appendChild(renderFork())
   } else if (state.workflow?.id === 'first-use') {
     state.messages.forEach(msg => el.appendChild(renderMessage(msg)))
-    const btn = makeEl('button', 'button outline', 'Base context is ready')
-    btn.type = 'button'
-    btn.addEventListener('click', () => {
-      state.messages.push('Base context is ready')
-      state.workflow = { id: 'triage', step: 0 }
-      render()
-    })
-    el.appendChild(btn)
+    renderOnboardingStep(el)
   } else {
     state.messages.forEach(msg => el.appendChild(renderMessage(msg)))
     if ((activeIngress || activeBuild) && state.status) {
@@ -174,10 +169,7 @@ const renderChat = () => {
 const renderFilesList = () => {
   const el = g('files-grid')
   if (!el) return
-  const contextReady = state.workflow?.id !== 'first-use'
-  const contextFiles = contextReady ? (fixtures.customerContext?.files ?? []).map(f => ({ ...f, locked: f.locked ?? false, source: 'Generated' })) : []
-  const uploaded = state.files.map(f => ({ created: f.created ?? '', locked: f.locked ?? false, name: f.name, owner: f.owner ?? 'Agent', pages: f.assessment?.pages ?? f.pages ?? '', size: f.size, source: f.source ?? 'Uploaded', type: f.type }))
-  const rows = [...contextFiles, ...uploaded]
+  const rows = state.files.map(f => ({ created: f.created ?? '', locked: f.locked ?? false, name: f.name, owner: f.owner ?? 'Agent', pages: f.assessment?.pages ?? f.pages ?? '', size: f.size, source: f.source ?? 'Uploaded', type: f.type }))
   if (filesGrid) filesGrid.destroy()
   filesGrid = agGrid.createGrid(el, {
     autoSizeStrategy: { type: 'fitCellContents', scaleUpToFitGridWidth: true },
@@ -569,6 +561,79 @@ const renderFork = () => {
   return el
 }
 
+// Onboarding
+
+let industryNeeded = Math.random() > 0.5
+
+const advanceOnboarding = () => {
+  const completed = state.workflow.step
+  let next = completed + 1
+
+  const now = new Date().toISOString().slice(0, 10)
+  const addFile = name => {
+    const src = (fixtures.customerContext?.files ?? []).find(f => f.name === name)
+    if (src && !state.files.some(f => f.name === name)) state.files.push({ ...src, created: now, locked: true, source: 'Generated' })
+  }
+
+  if (completed === 0) addFile('COMPANY.md')
+  if (completed === 1 || (completed === 0 && !industryNeeded)) addFile('VERTICAL.md')
+  if (completed === 2) addFile('USER.md')
+
+  const ob = fixtures.onboarding
+  if (next === 1 && !industryNeeded) {
+    state.messages.push({ type: 'agent', text: ob.industrySkipped.agent })
+    next = 2
+  }
+  if (next === 1) state.messages.push({ type: 'agent', text: ob.industryNeeded.agent })
+  if (next === 2) state.messages.push({ type: 'agent', text: ob.user.agent })
+  if (next === 3) state.messages.push({ type: 'agent', text: ob.review.agent })
+  state.workflow.step = next
+  render()
+}
+
+const renderOnboardingStep = el => {
+  const ob = fixtures.onboarding
+  if (!ob) return
+  const step = state.workflow.step
+
+  if (step === 0) {
+    state.placeholder = ob.company.placeholder
+  } else if (step === 1) {
+    const card = makeEl('div', 'verification-card')
+    Object.entries(ob.industryNeeded.card).forEach(([k, v]) => {
+      const row = makeEl('div', 'verification-row')
+      row.appendChild(makeEl('span', 'verification-key', k))
+      row.appendChild(makeEl('span', null, v))
+      card.appendChild(row)
+    })
+    el.appendChild(card)
+    state.placeholder = 'Confirm or correct…'
+  } else if (step === 2) {
+    state.placeholder = ob.user.placeholder
+  } else if (step === 3) {
+    const fileList = makeEl('div', 'review-files')
+    ob.review.files.forEach(f => {
+      const row = makeEl('div', 'review-file-row')
+      const icon = makeEl('i'); icon.className = f.icon
+      row.appendChild(icon)
+      row.appendChild(makeEl('b', null, f.label))
+      row.appendChild(makeEl('span', null, ` → ${f.desc}`))
+      fileList.appendChild(row)
+    })
+    el.appendChild(fileList)
+    const btn = makeEl('button', 'button outline', "I'm done")
+    btn.type = 'button'
+    btn.addEventListener('click', () => {
+      state.messages.push("I'm done")
+      state.workflow = { id: 'triage', step: 0 }
+      state.context = 6
+      state.placeholder = 'Message…'
+      render()
+    })
+    el.appendChild(btn)
+  }
+}
+
 // Demo flow
 
 const startDemoFlow = () => {
@@ -815,6 +880,10 @@ const submitInput = () => {
   input.value = ''
   state.messages = state.messages.filter(m => m.type !== 'actions')
   state.messages.push(val)
+  if (state.workflow?.id === 'first-use' && state.workflow.step <= 2) {
+    advanceOnboarding()
+    return
+  }
   render()
 }
 
@@ -828,4 +897,10 @@ g('reset-btn').addEventListener('click', () => { reset(); render() })
 Promise.all([
   fetch('workflows.json').then(r => r.json()),
   fetch('fixtures.json').then(r => r.json()),
-]).then(([wf, fx]) => { workflows = wf; fixtures = fx; render() })
+]).then(([wf, fx]) => {
+  workflows = wf; fixtures = fx
+  if (state.workflow?.id === 'first-use' && !state.messages.length) {
+    state.messages.push({ type: 'agent', text: fx.onboarding.company.agent })
+  }
+  render()
+})

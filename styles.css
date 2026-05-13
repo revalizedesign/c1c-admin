@@ -489,6 +489,60 @@ body {
   gap: 4px;
 }
 
+.recap-card {
+  align-self: stretch;
+  background: var(--color-lighter);
+  border-radius: var(--radius);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.75rem;
+}
+
+.recap-header {
+  align-items: center;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.recap-header > i { color: var(--color-success); }
+
+.recap-meta {
+  color: var(--color-half);
+  margin-left: auto;
+}
+
+.recap-files {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.recap-file {
+  align-items: center;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.recap-file > i { color: var(--color-half); }
+.recap-file > span { color: var(--color-half); }
+
+.recap-toggle {
+  align-items: center;
+  align-self: flex-start;
+  background: none;
+  border: 0;
+  color: var(--color-half);
+  cursor: pointer;
+  display: flex;
+  font: inherit;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+  padding: 0;
+}
+
+.recap-toggle:hover { color: var(--color-darker); }
+
 .chat-tool {
   align-self: flex-start;
   border-left: 2px solid var(--color-light);

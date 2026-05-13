@@ -113,6 +113,36 @@ const renderMessage = msg => {
     })
     return wrap
   }
+  if (msg.type === 'onboarding-recap') {
+    const frag = document.createDocumentFragment()
+    if (msg.expanded) msg.archived.forEach(m => frag.appendChild(renderMessage(m)))
+    const card = makeEl('div', 'recap-card')
+    const header = makeEl('div', 'recap-header')
+    const check = makeEl('i'); check.className = 'fa-solid fa-circle-check'
+    header.appendChild(check)
+    header.appendChild(makeEl('b', null, 'Onboarding complete'))
+    header.appendChild(makeEl('span', 'recap-meta', `${msg.files.length} files saved`))
+    card.appendChild(header)
+    const list = makeEl('div', 'recap-files')
+    msg.files.forEach(f => {
+      const row = makeEl('div', 'recap-file')
+      const icon = makeEl('i'); icon.className = f.icon
+      row.appendChild(icon)
+      row.appendChild(makeEl('b', null, f.label))
+      row.appendChild(makeEl('span', null, ` — ${f.desc}`))
+      list.appendChild(row)
+    })
+    card.appendChild(list)
+    const toggle = makeEl('button', 'recap-toggle')
+    toggle.type = 'button'
+    const chev = makeEl('i'); chev.className = msg.expanded ? 'fa-solid fa-angle-up' : 'fa-solid fa-angle-down'
+    toggle.appendChild(chev)
+    toggle.appendChild(makeEl('span', null, msg.expanded ? 'Hide conversation' : 'Show conversation'))
+    toggle.addEventListener('click', () => { msg.expanded = !msg.expanded; render() })
+    card.appendChild(toggle)
+    frag.appendChild(card)
+    return frag
+  }
   return makeEl('div', 'chat-bubble', String(msg))
 }
 
@@ -624,7 +654,8 @@ const renderOnboardingStep = el => {
     const btn = makeEl('button', 'button outline', "I'm done")
     btn.type = 'button'
     btn.addEventListener('click', () => {
-      state.messages.push("I'm done")
+      const archived = [...state.messages, "I'm done"]
+      state.messages = [{ type: 'onboarding-recap', archived, expanded: false, files: ob.review.files }]
       state.workflow = { id: 'triage', step: 0 }
       state.context = 6
       state.placeholder = 'Message…'

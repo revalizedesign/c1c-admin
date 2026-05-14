@@ -1,258 +1,138 @@
 {
-  "buildPhases": {
-    "bom": [
-      {
-        "context": 76,
-        "detail": "3 item families \u00b7 15 item masters",
-        "ms": 3000,
-        "statusFrames": [
-          "Creating Cyclo Reducer Assembly family\u2026",
-          "Creating Motors family\u2026",
-          "Mapping 15 part numbers\u2026"
-        ],
-        "step": "Item masters"
-      },
-      {
-        "context": 79,
-        "detail": "11 BOM skeleton lines",
-        "ms": 2500,
-        "statusFrames": [
-          "Building casing assembly hierarchy\u2026",
-          "Adding motor and housing lines\u2026",
-          "Adding optional brake assembly\u2026"
-        ],
-        "step": "BOM skeleton"
-      },
-      {
-        "context": 80,
-        "detail": "4 driven item masters \u00b7 4 product outputs",
-        "ms": 2000,
-        "statusFrames": [
-          "Linking frame to casing part\u2026",
-          "Linking motor capacity to motor part\u2026",
-          "Creating product output fields\u2026"
-        ],
-        "step": "Driven items"
-      }
-    ],
-    "constraints": [
-      {
-        "context": 60,
-        "detail": "3 driven inputs \u00b7 5 input attributes",
-        "ms": 3000,
-        "statusFrames": [
-          "Building frame/motor capacity matrix\u2026",
-          "Building product line/ratio matrix\u2026",
-          "Building housing/frame constraint\u2026"
-        ],
-        "step": "Driven inputs"
-      },
-      {
-        "context": 68,
-        "detail": "3 logic groups \u00b7 8 logic items \u00b7 3 filters \u00b7 2 iterators",
-        "ms": 3500,
-        "statusFrames": [
-          "Inferring configuration constraints\u2026",
-          "Mapping motor validation rules\u2026",
-          "Building input filter chains\u2026",
-          "Defining iterator logic\u2026"
-        ],
-        "step": "Rules"
-      },
-      {
-        "context": 72,
-        "detail": "3 equations \u2014 torque, speed, price",
-        "ms": 2500,
-        "statusFrames": [
-          "Deriving output torque formula\u2026",
-          "Calculating output speed expression\u2026",
-          "Building list price equation\u2026"
-        ],
-        "step": "Equations"
-      }
-    ],
-    "skeleton": [
-      {
-        "context": 35,
-        "detail": "102 pages \u00b7 18 tables referenced",
-        "ms": 2000,
-        "statusFrames": [
-          "Parsing document structure\u2026",
-          "Extracting nomenclature tables\u2026",
-          "Identifying configurable sections\u2026"
-        ],
-        "step": "Parse document"
-      },
-      {
-        "context": 42,
-        "detail": "5 input groups created",
-        "ms": 2500,
-        "statusFrames": [
-          "Building Product Type group\u2026",
-          "Building Output Configuration group\u2026",
-          "Building Motor & Drive group\u2026",
-          "Building Mechanical Specification group\u2026",
-          "Building Options & Accessories group\u2026"
-        ],
-        "step": "Input groups"
-      },
-      {
-        "context": 50,
-        "detail": "11 inputs mapped",
-        "ms": 3000,
-        "statusFrames": [
-          "Mapping product line input\u2026",
-          "Mapping output orientation\u2026",
-          "Mapping motor capacity\u2026",
-          "Mapping frame size\u2026",
-          "Mapping shaft specification\u2026"
-        ],
-        "step": "Inputs"
-      },
-      {
-        "context": 55,
-        "detail": "23 input values resolved",
-        "ms": 2000,
-        "statusFrames": [
-          "Resolving orientation values\u2026",
-          "Resolving housing values\u2026",
-          "Resolving shaft spec values\u2026"
-        ],
-        "step": "Input values"
-      }
-    ]
-  },
-  "customerContext": {
-    "files": [
-      {
+  "demo": [
+    {
+      "agent": "Hi \u2014 I\u2019m your C1C admin agent. Before we dig in, tell me about your company. A URL works, or type a few sentences \u2014 whatever\u2019s easiest.",
+      "file": {
         "created": "2026-04-15",
-        "details": {
-          "fields": [
-            [
-              "Company",
-              "Sumitomo Heavy Industries, Ltd."
-            ],
-            [
-              "HQ",
-              "Tokyo, Japan"
-            ],
-            [
-              "US Office",
-              "Chesapeake, VA"
-            ],
-            [
-              "Industry",
-              "Industrial Power Transmission"
-            ],
-            [
-              "Products",
-              "Speed reducers, gearmotors, servo systems"
-            ],
-            [
-              "Verticals",
-              "Material handling, F&B, packaging, mining, energy"
-            ],
-            [
-              "C1C Tenant",
-              "sumitomo-us-prod"
-            ]
-          ],
-          "summary": "Sumitomo Heavy Industries, Ltd. Global manufacturer of power transmission equipment including Cyclo speed reducers, gearmotors, and precision gearboxes. Headquartered in Tokyo with US operations in Chesapeake, VA. Key verticals: material handling, food & beverage, packaging, mining, energy. Over 130 years in operation."
-        },
         "locked": true,
         "name": "COMPANY.md",
         "owner": "Admin",
         "pages": 1,
-        "size": "1.2 kb",
+        "path": "files/COMPANY.md",
+        "size": "5.7 kb",
         "type": "md"
       },
-      {
-        "created": "2026-04-15",
-        "details": {
-          "fields": [
-            [
-              "Name",
-              "Sarah Chen"
-            ],
-            [
-              "Role",
-              "Sr. Product Configuration Engineer"
-            ],
-            [
-              "Department",
-              "Engineering Systems"
-            ],
-            [
-              "Location",
-              "Chesapeake, VA"
-            ],
-            [
-              "Email",
-              "schen@sumitomodrive.com"
-            ],
-            [
-              "Experience",
-              "8 years in CPQ administration"
-            ],
-            [
-              "Scope",
-              "Cyclo 6000, Cyclo Bevel Buddybox, Hansen P4"
-            ]
-          ],
-          "summary": "Senior Product Configuration Engineer responsible for maintaining and extending the Cyclo product line in ConfigureOne Cloud. Primary contact for new product onboarding and model validation. Reports to Director of Engineering Systems."
-        },
-        "locked": true,
-        "name": "USER.md",
-        "owner": "Admin",
-        "pages": 1,
-        "size": "0.8 kb",
-        "type": "md"
+      "placeholder": "Type, paste a URL, or attach a file\u2026",
+      "preloadFiles": [
+        {
+          "locked": true,
+          "name": "AGENTS.md",
+          "owner": "System",
+          "pages": 1,
+          "path": "files/AGENTS.md",
+          "size": "1.8 kb",
+          "source": "System",
+          "type": "md"
+        }
+      ],
+      "response": "https://us.sumitomodrive.com",
+      "workflow": "first-use"
+    },
+    {
+      "agent": "I need a bit more context about your industry to get started. Can you confirm or correct what I\u2019ve found?",
+      "card": {
+        "Company": "Sumitomo Drive Technologies",
+        "Geography": "North America (Chesapeake, VA)",
+        "Industry": "Industrial Power Transmission",
+        "Production": "Engineer-to-order / Configure-to-order",
+        "Products": "Cyclo speed reducers, gearmotors, servo systems",
+        "Segments": "Material handling, F&B, packaging, mining, energy",
+        "Size": "~800 employees (NA), ~25,000 globally"
       },
-      {
+      "file": {
         "created": "2026-04-15",
-        "details": {
-          "fields": [
-            [
-              "Vertical",
-              "Industrial Power Transmission"
-            ],
-            [
-              "Complexity",
-              "High \u2014 200-400 inputs per product"
-            ],
-            [
-              "Configuration style",
-              "Engineer-to-order"
-            ],
-            [
-              "Key constraints",
-              "Frame/motor/ratio interdependencies"
-            ],
-            [
-              "BOM depth",
-              "3-5 levels typical"
-            ],
-            [
-              "Regulatory",
-              "IE3/IE4 motor efficiency standards, ATEX zones"
-            ],
-            [
-              "Naming convention",
-              "Alphanumeric model codes (e.g. CHHM10-6165YB-EP-29)"
-            ]
-          ],
-          "summary": "Industrial power transmission vertical profile. Products are engineer-to-order with deep configurability across mechanical, electrical, and mounting dimensions. Typical models have 200-400 inputs with complex interdependencies between frame size, motor capacity, ratio, and shaft specification."
-        },
         "locked": true,
         "name": "VERTICAL.md",
         "owner": "Admin",
         "pages": 1,
-        "size": "2.1 kb",
-        "type": "md"
+        "size": "46.0 kb",
+        "source": "System",
+        "type": "md",
+        "verticalId": "industrial-drives"
+      },
+      "placeholder": "Confirm or correct\u2026",
+      "response": "Looks good",
+      "skip": {
+        "agent": "I identified your industry as Industrial Power Transmission based on what you shared. Moving on."
       }
-    ]
-  },
-  "demoExamples": [
+    },
+    {
+      "agent": "Tell me about yourself \u2014 what\u2019s your role, and will anyone else be using this workspace?",
+      "file": {
+        "created": "2026-04-15",
+        "locked": true,
+        "name": "TEAM.md",
+        "owner": "Admin",
+        "pages": 1,
+        "path": "files/TEAM.md",
+        "size": "2.0 kb",
+        "type": "md"
+      },
+      "placeholder": "e.g. CPQ Development Manager, working with Cadell\u2026",
+      "response": "Wesh Russell, CPQ Development Manager. Cadell Crisp also has admin access."
+    },
+    {
+      "agent": "All set. I\u2019ve saved your context to the workspace:",
+      "button": "I\u2019m done",
+      "context": 6,
+      "files": [
+        {
+          "desc": "your company context",
+          "icon": "fa-regular fa-building",
+          "label": "COMPANY.md"
+        },
+        {
+          "desc": "Industrial Power Transmission knowledge",
+          "icon": "fa-regular fa-industry",
+          "label": "VERTICAL.md"
+        },
+        {
+          "desc": "your role and collaborators",
+          "icon": "fa-regular fa-users",
+          "label": "TEAM.md"
+        }
+      ],
+      "recap": true
+    },
+    {
+      "actions": [
+        {
+          "desc": "Build a configuration model from scratch",
+          "icon": "fa-regular fa-sparkles",
+          "label": "New product",
+          "workflow": "new-product"
+        },
+        {
+          "actions": [
+            "Cyclo 6000 Gearmotor",
+            "Cyclo Bevel Buddybox",
+            "Hansen P4 Industrial",
+            "Fine Cyclo F2C",
+            "Paramax 9000",
+            "SM-Hyponic RH Series",
+            "Alta Series AC Drive",
+            "Lafert HPS Motor"
+          ],
+          "desc": "Update an existing configuration model",
+          "icon": "fa-regular fa-pen-to-square",
+          "label": "Edit product",
+          "placeholder": "Search products\u2026",
+          "response": "You can ask me to search for it or select from this list of recently modified products:",
+          "workflow": "edit-product"
+        },
+        {
+          "desc": "Load a product from a URL",
+          "disabled": true,
+          "icon": "fa-regular fa-link",
+          "label": "Demo from link"
+        }
+      ],
+      "workflow": "triage"
+    },
+    {
+      "agent": "Upload a product manual or spec file to get started. You can drag files into the chat or use the attach button.",
+      "workflow": "new-product"
+    },
     {
       "assessment": {
         "figures": 24,
@@ -283,11 +163,12 @@
         "name": "cyclo_6000_o_and_m_v7_web.pdf",
         "owner": "Agent",
         "path": "files/cyclo_6000_o_and_m_v7_web.pdf",
-        "size": "4.2 mb",
+        "size": "5.7 mb",
         "type": "pdf"
       },
-      "id": "cyclo-6000",
-      "ingress": [
+      "label": "Sumitomo Cyclo 6000",
+      "productSummary": "PRODUCT.md",
+      "steps": [
         {
           "context": 9,
           "detail": "cyclo_6000_o_and_m_v7_web.pdf \u00b7 4.2 mb",
@@ -338,54 +219,223 @@
           "step": "Summarize"
         }
       ],
-      "label": "Sumitomo Cyclo 6000",
-      "url": "https://us.sumitomodrive.com/en-us/product/cyclo-6000-gearmotor#documentation"
+      "workflow": "file-ingress"
+    },
+    {
+      "buildPhase": true,
+      "label": "Skeleton generated",
+      "productData": "cyclo-6000.json",
+      "steps": [
+        {
+          "context": 35,
+          "detail": "102 pages \u00b7 18 tables referenced",
+          "ms": 2000,
+          "statusFrames": [
+            "Parsing document structure\u2026",
+            "Extracting nomenclature tables\u2026",
+            "Identifying configurable sections\u2026"
+          ],
+          "step": "Parse document"
+        },
+        {
+          "context": 42,
+          "detail": "5 input groups created",
+          "ms": 2500,
+          "statusFrames": [
+            "Building Product Type group\u2026",
+            "Building Output Configuration group\u2026",
+            "Building Motor & Drive group\u2026",
+            "Building Mechanical Specification group\u2026",
+            "Building Options & Accessories group\u2026"
+          ],
+          "step": "Input groups"
+        },
+        {
+          "context": 50,
+          "detail": "11 inputs mapped",
+          "ms": 3000,
+          "statusFrames": [
+            "Mapping product line input\u2026",
+            "Mapping output orientation\u2026",
+            "Mapping motor capacity\u2026",
+            "Mapping frame size\u2026",
+            "Mapping shaft specification\u2026"
+          ],
+          "step": "Inputs"
+        },
+        {
+          "context": 55,
+          "detail": "23 input values resolved",
+          "ms": 2000,
+          "statusFrames": [
+            "Resolving orientation values\u2026",
+            "Resolving housing values\u2026",
+            "Resolving shaft spec values\u2026"
+          ],
+          "step": "Input values"
+        }
+      ],
+      "tab": "model",
+      "workflow": "generate-skeleton"
+    },
+    {
+      "buildPhase": true,
+      "label": "Constraints generated",
+      "steps": [
+        {
+          "context": 60,
+          "detail": "3 driven inputs \u00b7 5 input attributes",
+          "ms": 3000,
+          "statusFrames": [
+            "Building frame/motor capacity matrix\u2026",
+            "Building product line/ratio matrix\u2026",
+            "Building housing/frame constraint\u2026"
+          ],
+          "step": "Driven inputs"
+        },
+        {
+          "context": 68,
+          "detail": "3 logic groups \u00b7 8 logic items \u00b7 3 filters \u00b7 2 iterators",
+          "ms": 3500,
+          "statusFrames": [
+            "Inferring configuration constraints\u2026",
+            "Mapping motor validation rules\u2026",
+            "Building input filter chains\u2026",
+            "Defining iterator logic\u2026"
+          ],
+          "step": "Rules"
+        },
+        {
+          "context": 72,
+          "detail": "3 equations \u2014 torque, speed, price",
+          "ms": 2500,
+          "statusFrames": [
+            "Deriving output torque formula\u2026",
+            "Calculating output speed expression\u2026",
+            "Building list price equation\u2026"
+          ],
+          "step": "Equations"
+        }
+      ],
+      "tab": "rules",
+      "workflow": "generate-constraints"
+    },
+    {
+      "buildPhase": true,
+      "label": "BOM generated",
+      "steps": [
+        {
+          "context": 76,
+          "detail": "3 item families \u00b7 15 item masters",
+          "ms": 3000,
+          "statusFrames": [
+            "Creating Cyclo Reducer Assembly family\u2026",
+            "Creating Motors family\u2026",
+            "Mapping 15 part numbers\u2026"
+          ],
+          "step": "Item masters"
+        },
+        {
+          "context": 79,
+          "detail": "11 BOM skeleton lines",
+          "ms": 2500,
+          "statusFrames": [
+            "Building casing assembly hierarchy\u2026",
+            "Adding motor and housing lines\u2026",
+            "Adding optional brake assembly\u2026"
+          ],
+          "step": "BOM skeleton"
+        },
+        {
+          "context": 80,
+          "detail": "4 driven item masters \u00b7 4 product outputs",
+          "ms": 2000,
+          "statusFrames": [
+            "Linking frame to casing part\u2026",
+            "Linking motor capacity to motor part\u2026",
+            "Creating product output fields\u2026"
+          ],
+          "step": "Driven items"
+        }
+      ],
+      "tab": "results",
+      "workflow": "generate-bom"
+    },
+    {
+      "assessment": {
+        "figures": 6,
+        "modelEstimates": {
+          "attributes": "8\u201312",
+          "drivens": "3\u20134",
+          "filters": "2",
+          "inputGroups": "1\u20132",
+          "inputValues": "~45",
+          "inputs": "~6"
+        },
+        "pages": 24,
+        "summary": "Supplemental options and accessories catalog for the Cyclo 6000 line. Adds specification codes, mounting accessories, seal options, and paint/coating configurations. Merges with existing product model to extend input values and attributes.",
+        "tables": 8,
+        "tokens": "~12,000"
+      },
+      "file": {
+        "created": "2026-05-06",
+        "name": "cyclo_6000_options_catalog.pdf",
+        "owner": "Agent",
+        "size": "1.8 mb",
+        "type": "pdf"
+      },
+      "label": "Cyclo 6000 Options & Accessories",
+      "productSummary": "PRODUCT.md",
+      "steps": [
+        {
+          "context": 22,
+          "detail": "cyclo_6000_options_catalog.pdf \u00b7 1.8 mb",
+          "ms": 1500,
+          "statusFrames": [
+            "Downloading 0.0 of 1.8 mb",
+            "Downloading 0.9 of 1.8 mb",
+            "Downloading 1.8 of 1.8 mb"
+          ],
+          "step": "Download"
+        },
+        {
+          "context": 24,
+          "detail": "24 pages read \u00b7 ~12,000 tokens",
+          "ms": 2000,
+          "statusFrames": [
+            "Reading page 0 of 24",
+            "Reading page 8 of 24",
+            "Reading page 16 of 24",
+            "Reading page 24 of 24"
+          ],
+          "step": "Read"
+        },
+        {
+          "context": 26,
+          "detail": "8 tables \u00b7 6 figures \u00b7 options matrix identified",
+          "ms": 2500,
+          "statusFrames": [
+            "Analyzing 2 elements\u2026",
+            "Analyzing 7 elements\u2026",
+            "Analyzing 14 elements\u2026"
+          ],
+          "step": "Analyze"
+        },
+        {
+          "context": 27,
+          "detail": "~6 inputs \u00b7 ~45 values \u00b7 extending existing model",
+          "ms": 2000,
+          "statusFrames": [
+            "Merging with existing model\u2026",
+            "Updating PRODUCT.md\u2026",
+            "Extending attributes\u2026"
+          ],
+          "step": "Summarize"
+        }
+      ],
+      "workflow": "file-ingress"
     }
   ],
-  "onboarding": {
-    "company": {
-      "agent": "Hi \u2014 I'm your C1C admin agent. Before we dig in, tell me about your company. A URL works, or type a few sentences \u2014 whatever's easiest.",
-      "placeholder": "Type, paste a URL, or attach a file\u2026"
-    },
-    "industryNeeded": {
-      "agent": "I need a bit more context about your industry to get started. Can you confirm or correct what I've found?",
-      "card": {
-        "Company": "Sumitomo Heavy Industries",
-        "Geography": "North America",
-        "Industry": "Motor Vehicles",
-        "Production": "Engineer-to-order",
-        "Segments": "Truck bodies, fleet customers",
-        "Size": "~800 employees, 31 manufacturing facilities"
-      }
-    },
-    "industrySkipped": {
-      "agent": "I identified your industry as Motor Vehicles based on what you shared. Moving on."
-    },
-    "review": {
-      "agent": "All set. I've saved your context to the workspace:",
-      "files": [
-        {
-          "desc": "your company context",
-          "icon": "fa-regular fa-building",
-          "label": "company.md"
-        },
-        {
-          "desc": "Motor Vehicles knowledge",
-          "icon": "fa-regular fa-industry",
-          "label": "vertical.md"
-        },
-        {
-          "desc": "your role and collaborators",
-          "icon": "fa-regular fa-user",
-          "label": "user.md"
-        }
-      ]
-    },
-    "user": {
-      "agent": "Tell me about yourself \u2014 what's your role, and will anyone else be using this workspace?",
-      "placeholder": "e.g. Sr. Configuration Engineer, just me for now\u2026"
-    }
-  },
   "referenceFiles": [
     {
       "name": "cyclo_6000_o_and_m_v7_web.pdf",
@@ -512,7 +562,7 @@
           "type": "draft-card"
         },
         {
-          "content": "Here's the initial BOM. Want me to verify against the spec sheet?",
+          "content": "Here\u2019s the initial BOM. Want me to verify against the spec sheet?",
           "id": "m4",
           "role": "ai"
         },
@@ -780,7 +830,7 @@
       "build": null,
       "chat": [
         {
-          "content": "We need to build a BOM for the AAA Freight Truck. I've uploaded the MindManager BOM report.",
+          "content": "We need to build a BOM for the AAA Freight Truck. I\u2019ve uploaded the MindManager BOM report.",
           "id": "m1",
           "role": "user"
         },
@@ -790,7 +840,7 @@
           "role": "ai"
         },
         {
-          "content": "90 inch. And we'll want the sliding side door and a roll-up rear door.",
+          "content": "90 inch. And we\u2019ll want the sliding side door and a roll-up rear door.",
           "id": "m3",
           "role": "user"
         },
@@ -825,7 +875,7 @@
           "type": "draft-card"
         },
         {
-          "content": "Here's the initial draft BOM. The roll-up door assembly (TRD) is fully expanded with all sub-components. Ready to verify against the spec or adjust any selections?",
+          "content": "Here\u2019s the initial draft BOM. The roll-up door assembly (TRD) is fully expanded with all sub-components. Ready to verify against the spec or adjust any selections?",
           "id": "m10",
           "role": "ai"
         }
@@ -1257,7 +1307,7 @@
           "role": "user"
         },
         {
-          "content": "Got it \u2014 I'll need the spec sheet to get started. Can you upload it?",
+          "content": "Got it \u2014 I\u2019ll need the spec sheet to get started. Can you upload it?",
           "id": "m2",
           "role": "ai"
         },
@@ -1267,7 +1317,7 @@
           "role": "user"
         },
         {
-          "content": "Thanks \u2014 reviewing the Lumos Track System Spec Sheet now. I'll have a draft BOM ready shortly.",
+          "content": "Thanks \u2014 reviewing the Lumos Track System Spec Sheet now. I\u2019ll have a draft BOM ready shortly.",
           "id": "m4",
           "role": "ai"
         }
@@ -1286,270 +1336,133 @@
       "stage": "context"
     }
   ],
-  "tabStats": {
-    "attributes": [
-      {
-        "count": 0,
-        "icon": "fa-regular fa-box",
-        "label": "product attributes"
-      },
-      {
-        "count": 0,
-        "icon": "fa-regular fa-table-cells",
-        "label": "input attributes"
-      }
-    ],
-    "equations": [
-      {
-        "count": 0,
-        "icon": "fa-regular fa-superscript",
-        "label": "equations"
-      }
-    ],
-    "model": [
-      {
-        "count": 0,
-        "icon": "fa-regular fa-layer-group",
-        "label": "input groups"
-      },
-      {
-        "count": 0,
-        "icon": "fa-regular fa-input-text",
-        "label": "inputs"
-      },
-      {
-        "count": 0,
-        "icon": "fa-regular fa-list",
-        "label": "input values"
-      }
-    ],
-    "results": [
-      {
-        "count": 0,
-        "icon": "fa-regular fa-sitemap",
-        "label": "item families"
-      },
-      {
-        "count": 0,
-        "icon": "fa-regular fa-barcode",
-        "label": "item masters"
-      },
-      {
-        "count": 0,
-        "icon": "fa-regular fa-diagram-project",
-        "label": "BOM nodes"
-      },
-      {
-        "count": 0,
-        "icon": "fa-regular fa-square-poll-horizontal",
-        "label": "product outputs"
-      },
-      {
-        "count": 0,
-        "icon": "fa-regular fa-arrow-right-arrow-left",
-        "label": "driven item masters"
-      }
-    ],
-    "rules": [
-      {
-        "count": 1,
-        "icon": "fa-regular fa-folder-tree",
-        "label": "root logic group"
-      },
-      {
-        "count": 0,
-        "icon": "fa-regular fa-folder",
-        "label": "logic groups"
-      },
-      {
-        "count": 0,
-        "icon": "fa-regular fa-cube",
-        "label": "logic items"
-      },
-      {
-        "count": 0,
-        "icon": "fa-regular fa-code-branch",
-        "label": "drivens"
-      },
-      {
-        "count": 0,
-        "icon": "fa-regular fa-filter",
-        "label": "filters"
-      },
-      {
-        "count": 0,
-        "icon": "fa-regular fa-repeat",
-        "label": "iterators"
-      }
-    ]
-  },
-  "updateExample": {
-    "assessment": {
-      "figures": 6,
-      "modelEstimates": {
-        "attributes": "8\u201312",
-        "drivens": "3\u20134",
-        "filters": "2",
-        "inputGroups": "1\u20132",
-        "inputValues": "~45",
-        "inputs": "~6"
-      },
-      "pages": 24,
-      "summary": "Supplemental options and accessories catalog for the Cyclo 6000 line. Adds specification codes, mounting accessories, seal options, and paint/coating configurations. Merges with existing product model to extend input values and attributes.",
-      "tables": 8,
-      "tokens": "~12,000"
+  "verticals": [
+    {
+      "id": "building-materials",
+      "label": "Building Materials",
+      "path": "files/verticals/building-materials.md",
+      "size": "32.0 kb"
     },
-    "file": {
-      "created": "2026-05-06",
-      "name": "cyclo_6000_options_catalog.pdf",
-      "owner": "Agent",
-      "size": "1.8 mb",
-      "type": "pdf"
+    {
+      "id": "fluid-handling",
+      "label": "Fluid Handling",
+      "path": "files/verticals/fluid-handling.md",
+      "size": "27.3 kb"
     },
-    "id": "cyclo-6000-options",
-    "ingress": [
-      {
-        "context": 22,
-        "detail": "cyclo_6000_options_catalog.pdf \u00b7 1.8 mb",
-        "ms": 1500,
-        "statusFrames": [
-          "Downloading 0.0 of 1.8 mb",
-          "Downloading 0.9 of 1.8 mb",
-          "Downloading 1.8 of 1.8 mb"
-        ],
-        "step": "Download"
-      },
-      {
-        "context": 24,
-        "detail": "24 pages read \u00b7 ~12,000 tokens",
-        "ms": 2000,
-        "statusFrames": [
-          "Reading page 0 of 24",
-          "Reading page 8 of 24",
-          "Reading page 16 of 24",
-          "Reading page 24 of 24"
-        ],
-        "step": "Read"
-      },
-      {
-        "context": 26,
-        "detail": "8 tables \u00b7 6 figures \u00b7 options matrix identified",
-        "ms": 2500,
-        "statusFrames": [
-          "Analyzing 2 elements\u2026",
-          "Analyzing 7 elements\u2026",
-          "Analyzing 14 elements\u2026"
-        ],
-        "step": "Analyze"
-      },
-      {
-        "context": 27,
-        "detail": "~6 inputs \u00b7 ~45 values \u00b7 extending existing model",
-        "ms": 2000,
-        "statusFrames": [
-          "Merging with existing model\u2026",
-          "Updating PRODUCT.md\u2026",
-          "Extending attributes\u2026"
-        ],
-        "step": "Summarize"
-      }
-    ],
-    "label": "Cyclo 6000 Options & Accessories",
-    "updatedModelStats": {
-      "attributes": [
-        {
-          "count": 4,
-          "icon": "fa-regular fa-box",
-          "label": "product attributes"
-        },
-        {
-          "count": 23,
-          "icon": "fa-regular fa-table-cells",
-          "label": "input attributes"
-        }
-      ],
-      "equations": [
-        {
-          "count": 3,
-          "icon": "fa-regular fa-superscript",
-          "label": "equations"
-        }
-      ],
-      "model": [
-        {
-          "count": 6,
-          "icon": "fa-regular fa-layer-group",
-          "label": "input groups"
-        },
-        {
-          "count": 17,
-          "icon": "fa-regular fa-input-text",
-          "label": "inputs"
-        },
-        {
-          "count": 165,
-          "icon": "fa-regular fa-list",
-          "label": "input values"
-        }
-      ],
-      "results": [
-        {
-          "count": 2,
-          "icon": "fa-regular fa-sitemap",
-          "label": "item families"
-        },
-        {
-          "count": 15,
-          "icon": "fa-regular fa-barcode",
-          "label": "item masters"
-        },
-        {
-          "count": 0,
-          "icon": "fa-regular fa-diagram-project",
-          "label": "BOM nodes"
-        },
-        {
-          "count": 0,
-          "icon": "fa-regular fa-square-poll-horizontal",
-          "label": "product outputs"
-        },
-        {
-          "count": 0,
-          "icon": "fa-regular fa-arrow-right-arrow-left",
-          "label": "driven item masters"
-        }
-      ],
-      "rules": [
-        {
-          "count": 1,
-          "icon": "fa-regular fa-folder-tree",
-          "label": "root logic group"
-        },
-        {
-          "count": 3,
-          "icon": "fa-regular fa-folder",
-          "label": "logic groups"
-        },
-        {
-          "count": 4,
-          "icon": "fa-regular fa-cube",
-          "label": "logic items"
-        },
-        {
-          "count": 12,
-          "icon": "fa-regular fa-code-branch",
-          "label": "drivens"
-        },
-        {
-          "count": 5,
-          "icon": "fa-regular fa-filter",
-          "label": "filters"
-        },
-        {
-          "count": 2,
-          "icon": "fa-regular fa-repeat",
-          "label": "iterators"
-        }
+    {
+      "id": "foodservice",
+      "label": "Foodservice",
+      "path": "files/verticals/foodservice.md",
+      "size": "30.2 kb"
+    },
+    {
+      "id": "hvac",
+      "label": "Hvac",
+      "path": "files/verticals/hvac.md",
+      "size": "27.7 kb"
+    },
+    {
+      "id": "industrial-drives",
+      "label": "Industrial Drives",
+      "path": "files/verticals/industrial-drives.md",
+      "size": "46.4 kb"
+    },
+    {
+      "id": "industrial-machinery",
+      "label": "Industrial Machinery",
+      "path": "files/verticals/industrial-machinery.md",
+      "size": "32.2 kb"
+    },
+    {
+      "id": "medical-devices",
+      "label": "Medical Devices",
+      "path": "files/verticals/medical-devices.md",
+      "size": "35.0 kb"
+    },
+    {
+      "id": "motor-vehicles",
+      "label": "Motor Vehicles",
+      "path": "files/verticals/motor-vehicles.md",
+      "size": "32.8 kb"
+    }
+  ],
+  "workflows": {
+    "commit-to-cloud": {
+      "name": "Commit to cloud",
+      "steps": [
+        "Operation selection",
+        "Writing product",
+        "Writing skeleton",
+        "Writing rules",
+        "Writing BOM",
+        "Binding validation"
+      ]
+    },
+    "edit-product": {
+      "name": "Edit product",
+      "steps": [
+        "Select",
+        "Iterate",
+        "Commit"
+      ]
+    },
+    "file-ingress": {
+      "name": "File ingress",
+      "steps": [
+        "Download",
+        "Read",
+        "Analyze",
+        "Summarize"
+      ]
+    },
+    "first-use": {
+      "name": "Onboarding",
+      "steps": [
+        "Company",
+        "Industry",
+        "User",
+        "Review"
+      ]
+    },
+    "generate-bom": {
+      "name": "Generate BOM",
+      "steps": [
+        "Item masters",
+        "BOM skeleton",
+        "Driven items"
+      ]
+    },
+    "generate-constraints": {
+      "name": "Generate constraints",
+      "steps": [
+        "Driven inputs",
+        "Rules",
+        "Equations"
+      ]
+    },
+    "generate-skeleton": {
+      "name": "Generate skeleton",
+      "steps": [
+        "Parse document",
+        "Input groups",
+        "Inputs",
+        "Input values"
+      ]
+    },
+    "new-product": {
+      "name": "New product",
+      "steps": [
+        "Upload",
+        "Build",
+        "Review",
+        "Iterate",
+        "Commit"
+      ]
+    },
+    "triage": {
+      "name": "New session",
+      "steps": [
+        "Triage"
       ]
     }
   }

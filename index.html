@@ -8,9 +8,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&display=swap" rel="stylesheet" />
     <script crossorigin="anonymous" defer src="https://kit.fontawesome.com/46660cdeff.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@5/github-markdown-light.min.css" />
     <link rel="stylesheet" href="minterface.css" />
     <link rel="stylesheet" href="styles.css" />
     <script defer src="https://cdn.jsdelivr.net/npm/ag-grid-enterprise@35.2.0/dist/ag-grid-enterprise.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/marked/lib/marked.umd.min.js"></script>
   </head>
   <body class="app compact">
 
@@ -27,14 +29,15 @@
 
       <aside id="chat-panel" class="panel">
         <div class="panel-header">
-          <i class="fa-regular fa-robot"></i>
-          <span>Admin Agent</span>
+          <span class="architect-logo">A</span>
+          <span>Architect</span>
           <button class="button button-icon panel-toggle" id="chat-toggle">
             <i class="fa-solid fa-angle-right"></i>
           </button>
         </div>
         <div class="panel-body">
           <div id="chat-messages"></div>
+          <div id="chat-status"></div>
           <div id="quick-actions">
             <div id="quick-actions-header">
               <span>Quick Actions</span>
@@ -42,6 +45,7 @@
             </div>
             <div id="quick-actions-content">
               <div class="action-pills">
+                <button class="pill pill-demo" type="button" id="pill-continue">Continue</button>
                 <button class="pill" type="button">Update</button>
                 <button class="pill" type="button">BOM</button>
                 <button class="pill" type="button">Build</button>
@@ -133,17 +137,18 @@
         </div>
       </div>
 
-      <aside id="detail-panel" class="panel collapsed">
-        <div class="panel-header">
-          <span>Details</span>
-          <button class="button button-icon panel-toggle" id="detail-toggle">
-            <i class="fa-solid fa-angle-left"></i>
-          </button>
-        </div>
-        <div class="panel-body" id="detail-content"></div>
-      </aside>
-
     </div>
+
+    <div id="detail-overlay" hidden></div>
+    <aside id="detail-panel" class="collapsed">
+      <div class="panel-header">
+        <span>Details</span>
+        <button class="button button-icon" id="detail-toggle">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <div class="panel-body" id="detail-content"></div>
+    </aside>
 
     <script defer src="scripts.js"></script>
   </body>

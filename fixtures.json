@@ -12,6 +12,15 @@
         "size": "5.7 kb",
         "type": "md"
       },
+      "pills": [
+        {
+          "label": "Paste link"
+        },
+        {
+          "demo": true,
+          "label": "Next"
+        }
+      ],
       "placeholder": "Type, paste a URL, or attach a file\u2026",
       "preloadFiles": [
         {
@@ -50,6 +59,15 @@
         "type": "md",
         "verticalId": "industrial-drives"
       },
+      "pills": [
+        {
+          "label": "Looks good"
+        },
+        {
+          "demo": true,
+          "label": "Next"
+        }
+      ],
       "placeholder": "Confirm or correct\u2026",
       "response": "Looks good",
       "skip": {
@@ -68,6 +86,12 @@
         "size": "2.0 kb",
         "type": "md"
       },
+      "pills": [
+        {
+          "demo": true,
+          "label": "Next"
+        }
+      ],
       "placeholder": "e.g. CPQ Development Manager, working with Cadell\u2026",
       "response": "Wesh Russell, CPQ Development Manager. Cadell Crisp also has admin access."
     },
@@ -90,6 +114,12 @@
           "desc": "your role and collaborators",
           "icon": "fa-regular fa-users",
           "label": "TEAM.md"
+        }
+      ],
+      "pills": [
+        {
+          "demo": true,
+          "label": "Next"
         }
       ],
       "recap": true
@@ -127,10 +157,26 @@
           "label": "Demo from link"
         }
       ],
+      "pills": [
+        {
+          "demo": true,
+          "label": "Next"
+        }
+      ],
       "workflow": "triage"
     },
     {
       "agent": "Upload a product manual or spec file to get started. You can drag files into the chat or use the attach button.",
+      "pills": [
+        {
+          "label": "Upload file"
+        },
+        {
+          "demo": true,
+          "label": "Next"
+        }
+      ],
+      "response": null,
       "workflow": "new-product"
     },
     {
@@ -167,7 +213,17 @@
         "type": "pdf"
       },
       "label": "Sumitomo Cyclo 6000",
+      "pills": [
+        {
+          "label": "Build model"
+        },
+        {
+          "demo": true,
+          "label": "Next"
+        }
+      ],
       "productSummary": "PRODUCT.md",
+      "response": "Build model",
       "steps": [
         {
           "context": 9,
@@ -224,7 +280,17 @@
     {
       "buildPhase": true,
       "label": "Skeleton generated",
+      "pills": [
+        {
+          "label": "Build rules"
+        },
+        {
+          "demo": true,
+          "label": "Next"
+        }
+      ],
       "productData": "cyclo-6000.json",
+      "response": "Build rules",
       "steps": [
         {
           "context": 35,
@@ -281,6 +347,16 @@
     {
       "buildPhase": true,
       "label": "Constraints generated",
+      "pills": [
+        {
+          "label": "Build BOM"
+        },
+        {
+          "demo": true,
+          "label": "Next"
+        }
+      ],
+      "response": "Build BOM",
       "steps": [
         {
           "context": 60,
@@ -323,6 +399,16 @@
     {
       "buildPhase": true,
       "label": "BOM generated",
+      "pills": [
+        {
+          "label": "Update"
+        },
+        {
+          "demo": true,
+          "label": "Next"
+        }
+      ],
+      "response": "Update",
       "steps": [
         {
           "context": 76,
@@ -385,7 +471,17 @@
         "type": "pdf"
       },
       "label": "Cyclo 6000 Options & Accessories",
+      "pills": [
+        {
+          "label": "Verify"
+        },
+        {
+          "demo": true,
+          "label": "Next"
+        }
+      ],
       "productSummary": "PRODUCT.md",
+      "response": "Verify",
       "steps": [
         {
           "context": 22,
@@ -434,6 +530,132 @@
         }
       ],
       "workflow": "file-ingress"
+    },
+    {
+      "agent": "Running validation checks before commit.",
+      "label": "Validation complete",
+      "pills": [
+        {
+          "label": "Commit"
+        },
+        {
+          "demo": true,
+          "label": "Next"
+        }
+      ],
+      "response": "Commit",
+      "steps": [
+        {
+          "context": 85,
+          "detail": "Schema validation passed",
+          "ms": 1500,
+          "statusFrames": [
+            "Validating schema\u2026",
+            "Checking required fields\u2026"
+          ],
+          "step": "Schema"
+        },
+        {
+          "context": 88,
+          "detail": "All references resolved",
+          "ms": 2000,
+          "statusFrames": [
+            "Checking input references\u2026",
+            "Validating driven input targets\u2026"
+          ],
+          "step": "References"
+        },
+        {
+          "context": 90,
+          "detail": "No conflicts detected",
+          "ms": 1500,
+          "statusFrames": [
+            "Scanning for rule conflicts\u2026",
+            "Checking name uniqueness\u2026"
+          ],
+          "step": "Conflicts"
+        },
+        {
+          "context": 92,
+          "detail": "Naming conventions matched",
+          "ms": 1500,
+          "statusFrames": [
+            "Comparing against customer context\u2026",
+            "Verifying label patterns\u2026"
+          ],
+          "step": "Naming"
+        }
+      ],
+      "tab": "preview",
+      "workflow": "validate"
+    },
+    {
+      "agent": "Committing to ConfigureOne Cloud.",
+      "label": "Commit complete",
+      "pills": [],
+      "response": null,
+      "steps": [
+        {
+          "context": 94,
+          "detail": "3 new \u00b7 0 edits",
+          "ms": 1500,
+          "statusFrames": [
+            "Classifying draft items\u2026"
+          ],
+          "step": "Operation selection"
+        },
+        {
+          "context": 95,
+          "detail": "Product created",
+          "ms": 2000,
+          "statusFrames": [
+            "Creating product in C1C\u2026"
+          ],
+          "step": "Writing product"
+        },
+        {
+          "context": 96,
+          "detail": "4 groups \u00b7 12 inputs",
+          "ms": 2500,
+          "statusFrames": [
+            "Committing input groups\u2026",
+            "Committing inputs\u2026"
+          ],
+          "step": "Writing skeleton"
+        },
+        {
+          "context": 97,
+          "detail": "3 logic items",
+          "ms": 2000,
+          "statusFrames": [
+            "Committing logic items\u2026",
+            "Committing driven inputs\u2026"
+          ],
+          "step": "Writing rules"
+        },
+        {
+          "context": 98,
+          "detail": "8 line items",
+          "ms": 2000,
+          "statusFrames": [
+            "Committing BOM lines\u2026",
+            "Linking item masters\u2026"
+          ],
+          "step": "Writing BOM"
+        },
+        {
+          "context": 100,
+          "detail": "All checks passed",
+          "ms": 1500,
+          "statusFrames": [
+            "Running binding validation\u2026",
+            "Checking reference integrity\u2026"
+          ],
+          "step": "Binding validation"
+        }
+      ],
+      "tab": "commit",
+      "workflow": "commit-to-cloud"
     }
   ],
   "referenceFiles": [
@@ -1463,6 +1685,15 @@
       "name": "New session",
       "steps": [
         "Triage"
+      ]
+    },
+    "validate": {
+      "name": "Validate",
+      "steps": [
+        "Schema",
+        "References",
+        "Conflicts",
+        "Naming"
       ]
     }
   }

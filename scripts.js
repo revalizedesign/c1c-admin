@@ -69,7 +69,6 @@ const reset = () => {
   if (statusInterval) { clearInterval(statusInterval); statusInterval = null }
   productData = null
   activeAutomation = null
-  buildQueue = []
   state.lastElapsed = null
   skipIndustry = Math.random() > 0.5
   Object.assign(state, { ...INITIAL_STATE, files: [], messages: [] })
@@ -81,9 +80,9 @@ const reset = () => {
 const enterStep = idx => {
   state.demoIndex = idx
   const step = demo()[idx]
-  if (!step) return
+  if (!step) { state.status = null; render(); return }
   if (step.workflow) state.workflow = { id: step.workflow, step: 0 }
-  if (step.placeholder) state.placeholder = step.placeholder
+  state.placeholder = step.placeholder ?? 'Message…'
   if (step.preloadFiles) step.preloadFiles.forEach(f => addContextFile(f))
 
   // Skippable step
@@ -177,6 +176,8 @@ const advanceAutomation = () => {
     state.workflow.step = steps.length
     state.status = null
 
+    if (step.tab) state.activeTab = step.tab
+
     if (step.file) {
       const a = step.assessment ?? {}
       const detail = [a.pages && `${a.pages} pages`, a.tables && `${a.tables} tables`].filter(Boolean).join(' · ')
@@ -184,7 +185,7 @@ const advanceAutomation = () => {
       state.files.push(file)
       if (step.productSummary) updateProductSummary(step.productSummary, step.assessment)
       state.selectedFile = file
-      state.activeTab = 'files'
+      if (!step.tab) state.activeTab = 'files'
       state.workspace.status = step.label ?? file.name
       if (activeAutomation.fileMsg) {
         activeAutomation.fileMsg.file = file
@@ -192,16 +193,21 @@ const advanceAutomation = () => {
         state.messages.push({ type: 'file-card', file })
       }
     } else if (step.label) {
-      // Build phase complete
       const detail = steps.map(s => s.detail).pop()
       state.messages.push({ type: 'result-card', label: step.label, detail, tab: step.tab })
+      if (step.productData) {
+        fetch(step.productData).then(r => r.json()).then(pd => {
+          productData = pd
+          state.workspace.status = pd.product.name
+          render()
+        })
+      }
     }
 
     pushElapsed()
     activeAutomation = null
     if (step.file) openDetail()
     render()
-    if (buildQueue.length) setTimeout(nextBuildPhase, 1500)
     return
   }
 
@@ -253,11 +259,51 @@ const updateProductSummary = (name, assessment) => {
 
 const pushElapsed = () => {
   if (!workflowStartTime) return
-  state.lastElapsed = `✻ Workflow ran for ${Math.round((Date.now() - workflowStartTime) / 1000)}s`
+  state.lastElapsed = `Workflow ran for ${Math.round((Date.now() - workflowStartTime) / 1000)}s`
   workflowStartTime = null
 }
 
 // Render helpers
+
+const renderCard = msg => {
+  const card = makeEl('div', 'file-card')
+  // Icon
+  const iconClass = msg.icon ?? (msg.file?.type === 'pdf' ? 'fa-regular fa-file-pdf' : msg.file ? 'fa-regular fa-file' : 'fa-regular fa-cube')
+  const icon = makeEl('i'); icon.className = iconClass
+  card.appendChild(icon)
+  // Title + optional detail
+  const title = msg.label ?? msg.file?.name
+  const fileMeta = msg.file ? [msg.file.size, msg.file.detail].filter(Boolean) : []
+  const detail = msg.detail ?? (fileMeta.length > 1 ? fileMeta.join(' · ') : null)
+  const meta = detail ?? (msg.files ? `${msg.files.length} files saved` : fileMeta.length === 1 ? fileMeta[0] : null)
+  if (title && detail) {
+    const text = makeEl('div', 'card-text')
+    text.appendChild(makeEl('b', 'file-card-name', title))
+    text.appendChild(makeEl('span', 'file-card-meta', detail))
+    card.appendChild(text)
+  } else {
+    if (title) card.appendChild(makeEl('b', 'file-card-name', title))
+    if (meta) card.appendChild(makeEl('span', 'file-card-meta', meta))
+  }
+  // Chevron
+  const chevron = makeEl('i'); chevron.className = 'fa-solid fa-angle-right'
+  card.appendChild(chevron)
+  // Progress bar
+  const progress = msg.file?.progress
+  if (progress !== undefined && !msg.file?.detail) {
+    const bar = makeEl('div', 'file-card-progress')
+    bar.style.width = `${Math.round(progress * 100)}%`
+    card.appendChild(bar)
+  }
+  // Click
+  card.addEventListener('click', () => {
+    if (msg.file) { state.selectedFile = msg.file; state.activeTab = 'files'; openDetail() }
+    else if (msg.tab) state.activeTab = msg.tab
+    else state.activeTab = 'files'
+    render()
+  })
+  return card
+}
 
 const renderMessage = msg => {
   if (typeof msg === 'string') return makeEl('div', 'chat-bubble', msg)
@@ -268,43 +314,8 @@ const renderMessage = msg => {
     el.appendChild(makeEl('span', 'chat-tool-detail', msg.detail))
     return el
   }
-  if (msg.type === 'result-card' || msg.type === 'build-card') {
-    const card = makeEl('div', 'file-card')
-    const icon = makeEl('i'); icon.className = 'fa-regular fa-cube'
-    card.appendChild(icon)
-    const text = makeEl('div', 'card-text')
-    text.appendChild(makeEl('b', null, msg.label))
-    text.appendChild(makeEl('span', null, msg.detail))
-    card.appendChild(text)
-    const chevron = makeEl('i'); chevron.className = 'fa-solid fa-angle-right'
-    card.appendChild(chevron)
-    card.addEventListener('click', () => { state.activeTab = msg.tab ?? 'model'; render() })
-    return card
-  }
-  if (msg.type === 'file-card') {
-    const f = msg.file
-    const card = makeEl('div', 'file-card')
-    const icon = makeEl('i'); icon.className = f.type === 'pdf' ? 'fa-regular fa-file-pdf' : 'fa-regular fa-file'
-    card.appendChild(icon)
-    const meta = [f.size, f.detail].filter(Boolean)
-    if (meta.length > 1) {
-      const text = makeEl('div', 'card-text')
-      text.appendChild(makeEl('span', 'file-card-name', f.name))
-      text.appendChild(makeEl('span', 'file-card-meta', meta.join(' · ')))
-      card.appendChild(text)
-    } else {
-      card.appendChild(makeEl('span', 'file-card-name', f.name))
-      if (meta.length) card.appendChild(makeEl('span', 'file-card-meta', meta[0]))
-    }
-    const chevron = makeEl('i'); chevron.className = 'fa-solid fa-angle-right'
-    card.appendChild(chevron)
-    if (f.progress !== undefined && !f.detail) {
-      const bar = makeEl('div', 'file-card-progress')
-      bar.style.width = `${Math.round(f.progress * 100)}%`
-      card.appendChild(bar)
-    }
-    card.addEventListener('click', () => { state.selectedFile = f; state.activeTab = 'files'; openDetail(); render() })
-    return card
+  if (msg.type === 'card' || msg.type === 'result-card' || msg.type === 'build-card' || msg.type === 'file-card' || msg.type === 'recap') {
+    return renderCard(msg)
   }
   if (msg.type === 'actions') {
     const wrap = makeEl('div', 'chat-actions')
@@ -328,17 +339,6 @@ const renderMessage = msg => {
     frag.appendChild(toggle)
     return frag
   }
-  if (msg.type === 'recap') {
-    const card = makeEl('div', 'file-card')
-    const icon = makeEl('i'); icon.className = 'fa-solid fa-circle-check'
-    card.appendChild(icon)
-    card.appendChild(makeEl('b', null, msg.label))
-    card.appendChild(makeEl('span', 'file-card-meta', `${msg.files.length} files saved`))
-    const chevron = makeEl('i'); chevron.className = 'fa-solid fa-angle-right'
-    card.appendChild(chevron)
-    card.addEventListener('click', () => { state.activeTab = 'files'; render() })
-    return card
-  }
   return makeEl('div', 'chat-bubble', String(msg))
 }
 
@@ -359,14 +359,14 @@ const renderWorkflowBar = () => {
       bar.appendChild(makeEl('span', 'workflow-step', step))
     })
   }
-  const status = makeEl('span', state.status ? 'status-card' : '', state.status ? undefined : '✻ Awaiting human input')
-  status.id = 'workflow-status'
-  if (!state.status) status.style.color = 'var(--color-light)'
   if (state.status) {
-    status.appendChild(makeEl('span', 'spinner'))
-    status.appendChild(makeEl('span', 'status-text', state.status))
+    const sc = makeEl('div', 'status-card')
+    sc.appendChild(makeEl('span', 'spinner'))
+    sc.appendChild(makeEl('span', 'status-text', state.status))
+    bar.appendChild(sc)
+  } else {
+    bar.appendChild(makeEl('span', 'status', state.lastElapsed ?? 'Awaiting human input'))
   }
-  bar.appendChild(status)
 }
 
 const renderChat = () => {
@@ -460,8 +460,8 @@ const renderChat = () => {
   el.scrollTop = el.scrollHeight
 }
 
-const renderChatStatus = () => {
-  const el = g('chat-status')
+const renderStatusAndActions = () => {
+  const el = g('status-and-actions')
   if (!el) return
   el.replaceChildren()
   if (state.status) {
@@ -469,10 +469,22 @@ const renderChatStatus = () => {
     inner.appendChild(makeEl('span', 'spinner'))
     inner.appendChild(makeEl('span', 'status-text', state.status))
     el.appendChild(inner)
-  } else if (state.lastElapsed) {
-    el.appendChild(makeEl('span', 'status-elapsed', state.lastElapsed))
   } else {
-    el.appendChild(makeEl('span', 'status-elapsed', '✻ Awaiting human input'))
+    el.appendChild(makeEl('span', 'status', state.lastElapsed ?? 'Awaiting human input'))
+    const step = currentStep()
+    const pills = activeAutomation ? [] : (step?.pills ?? [])
+    if (pills.length) {
+      const wrap = makeEl('div', 'action-pills')
+      pills.forEach(p => {
+        const pill = makeEl('button', p.demo ? 'pill pill-demo' : 'pill', p.label)
+        pill.type = 'button'
+        pill.addEventListener('click', () => {
+          demoContinue()
+        })
+        wrap.appendChild(pill)
+      })
+      el.appendChild(wrap)
+    }
   }
 }
 
@@ -562,6 +574,7 @@ const renderStats = (containerId, stats) => {
   const el = g(containerId)
   if (!el || !stats) return
   el.replaceChildren()
+  if (!stats.some(s => s.count)) { el.appendChild(makeEl('span', 'empty-state', 'Nothing has been generated, yet.')); return }
   stats.forEach(({ count, icon, label }) => {
     const stat = makeEl('span', 'overview-stat')
     const i = makeEl('i'); i.className = icon
@@ -580,7 +593,7 @@ const buildStats = () => {
     { count: state.files.filter(f => f.source === 'Generated').length, icon: 'fa-regular fa-sparkles', label: 'generated' },
     { count: state.files.filter(f => f.source === 'System').length, icon: 'fa-regular fa-robot', label: 'system' },
   ]
-  if (!p) return { files }
+  if (!p) return { attributes: [], equations: [], files, model: [], results: [], rules: [] }
   return {
     attributes: [
       { count: countFrom(p.attributes, 'productAttributes'), icon: 'fa-regular fa-box', label: 'product attributes' },
@@ -721,7 +734,9 @@ const renderCommitTab = () => {
   view.appendChild(list); el.appendChild(view)
 }
 
+
 const renderTabContent = () => { if (!productData) return; renderModelTab(); renderAttributesTab(); renderRulesTab(); renderEquationsTab(); renderResultsTab(); renderPreviewTab(); renderCommitTab() }
+
 
 // Main render
 
@@ -734,7 +749,7 @@ const render = () => {
   q('.tab-pane').forEach(p => p.classList.toggle('active', p.id === `pane-${state.activeTab}`))
   renderWorkflowBar()
   renderChat()
-  renderChatStatus()
+  renderStatusAndActions()
   renderFilesList()
   renderAllStats()
   renderTabContent()
@@ -748,50 +763,19 @@ const demoContinue = userText => {
   if (!step) return
   if (activeAutomation) return
 
-  // If next step is a build phase, trigger build
-  const next = demo()[state.demoIndex + 1]
-  if (next?.buildPhase) {
-    startBuild()
-    return
-  }
-
-  const msg = userText ?? (step.actions ? step.actions.find(a => !a.disabled)?.label : step.response)
+  const msg = userText ?? step.response
   if (msg) state.messages.push(msg)
-  state.status = 'Architect is working…'
-  render()
 
-  setTimeout(() => {
-    state.status = null
-    advanceStep()
-  }, 1000)
-}
-
-// Build — finds and chains all build-phase steps
-
-let buildQueue = []
-
-const startBuild = () => {
-  if (activeAutomation) return
-  state.messages.push('Build')
-  buildQueue = demo().reduce((acc, s, i) => i > state.demoIndex && s.buildPhase ? [...acc, i] : acc, [])
-  nextBuildPhase()
-}
-
-const nextBuildPhase = () => {
-  if (!buildQueue.length) {
-    const source = demo().find(s => s.productData)
-    if (!source) return
-    fetch(source.productData).then(r => r.json()).then(pd => {
-      productData = pd
-      state.workspace.status = pd.product.name
-      state.activeTab = 'model'
-      state.messages.push({ type: 'result-card', label: 'Build complete', detail: `${pd.model.inputs.length} inputs · ${pd.rules.logicItems.length} logic items · ${pd.results.bomSkeleton.length} BOM lines`, tab: 'model' })
-      render()
-    })
-    return
+  const next = demo()[state.demoIndex + 1]
+  if (next?.steps) {
+    enterStep(state.demoIndex + 1)
+  } else {
+    state.status = 'Architect is working…'
+    render()
+    setTimeout(() => { state.status = null; advanceStep() }, 1000)
   }
-  enterStep(buildQueue.shift())
 }
+
 
 // Collapsible panels
 
@@ -806,16 +790,19 @@ initStrip('chat-panel', 'chat-toggle')
 
 const openDetail = () => { g('detail-panel').classList.remove('collapsed'); g('detail-overlay').hidden = false }
 const closeDetail = () => { g('detail-panel').classList.add('collapsed'); g('detail-overlay').hidden = true }
+g('detail-back').addEventListener('click', closeDetail)
 g('detail-toggle').addEventListener('click', closeDetail)
 g('detail-overlay').addEventListener('click', closeDetail)
+g('detail-open').addEventListener('click', () => { if (state.selectedFile?.path) window.open(state.selectedFile.path, '_blank') })
+g('detail-download').addEventListener('click', () => {
+  if (!state.selectedFile?.path) return
+  const a = document.createElement('a')
+  a.href = state.selectedFile.path
+  a.download = state.selectedFile.name
+  a.click()
+})
 
-g('quick-actions-header').addEventListener('click', () => g('quick-actions').classList.toggle('collapsed'))
 
-q('.pill').forEach(pill => pill.addEventListener('click', () => {
-  if (pill.textContent === 'Continue') demoContinue()
-  if (pill.textContent === 'Update') { const idx = demo().findIndex((s, i) => i > state.demoIndex && s.steps && !s.buildPhase); if (idx >= 0) enterStep(idx) }
-  if (pill.textContent === 'Build') startBuild()
-}))
 
 q('.sub-tab').forEach(tab => tab.addEventListener('click', () => {
   const parent = tab.closest('.tab-pane')

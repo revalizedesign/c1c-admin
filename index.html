@@ -37,22 +37,7 @@
         </div>
         <div class="panel-body">
           <div id="chat-messages"></div>
-          <div id="chat-status"></div>
-          <div id="quick-actions">
-            <div id="quick-actions-header">
-              <span>Quick Actions</span>
-              <button class="button button-icon" id="quick-actions-toggle" type="button"><i class="fa-solid fa-angle-up"></i></button>
-            </div>
-            <div id="quick-actions-content">
-              <div class="action-pills">
-                <button class="pill pill-demo" type="button" id="pill-continue">Continue</button>
-                <button class="pill" type="button">Update</button>
-                <button class="pill" type="button">BOM</button>
-                <button class="pill" type="button">Build</button>
-                <button class="pill" type="button">Commit</button>
-              </div>
-            </div>
-          </div>
+          <div id="status-and-actions"></div>
           <div id="chat-footer">
             <label class="button button-icon" id="attach-btn">
               <i class="fa-regular fa-paperclip"></i>
@@ -142,7 +127,15 @@
     <div id="detail-overlay" hidden></div>
     <aside id="detail-panel" class="collapsed">
       <div class="panel-header">
-        <span>Details</span>
+        <button class="button button-link" id="detail-back">
+          ← Back to workspace
+        </button>
+        <button class="button" id="detail-open" title="Open in new tab">
+          <i class="fa-solid fa-arrow-up-right-from-square"></i>Open in new tab
+        </button>
+        <button class="button" id="detail-download" title="Download file">
+          <i class="fa-solid fa-download"></i>Download file
+        </button>
         <button class="button button-icon" id="detail-toggle">
           <i class="fa-solid fa-xmark"></i>
         </button>

@@ -234,57 +234,32 @@ body {
   padding: 6px;
 }
 
-#chat-status {
-  flex-shrink: 0;
-  padding: 0.75rem;
-}
-
-#chat-status:empty {
-  display: none;
-}
-
-#quick-actions {
-  border-top: 1px solid var(--color-light);
-  flex-shrink: 0;
-}
-
-#quick-actions.collapsed #quick-actions-content {
-  display: none;
-}
-
-#quick-actions-header {
+#status-and-actions {
   align-items: center;
-  cursor: pointer;
   display: flex;
-  justify-content: space-between;
-  padding: 6px 10px;
-}
-
-#quick-actions-header:hover {
-  background: var(--color-lighter);
-}
-
-#quick-actions-header span {
-  color: var(--color-half);
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-}
-
-#quick-actions-toggle i {
-  transition: transform 0.2s ease;
-}
-
-#quick-actions.collapsed #quick-actions-toggle i {
-  transform: rotate(180deg);
-}
-
-#quick-actions-content {
-  display: flex;
-  flex-direction: column;
+  flex-shrink: 0;
   gap: 0.5rem;
-  padding: 0.5rem 10px;
+  padding: 0 0.75rem 0.75rem;
+}
+
+.status {
+  color: var(--color-half);
+  flex: 1;
+  padding: 0.25rem;
+}
+
+.toolbar .status,
+.toolbar .status-card {
+  flex: none;
+  margin-left: auto;
+}
+
+.status::before {
+  content: "✻";
+  display: inline-block;
+  margin-right: 0.5rem;
+  text-align: center;
+  width: 0.75rem;
 }
 
 .action-pills {
@@ -426,17 +401,18 @@ body {
   align-items: center;
   display: flex;
   gap: 0.5rem;
+  padding: 0.25rem;
 }
 
 .spinner {
   animation: spin 1s linear infinite;
-  border: 2px solid var(--color-light);
+  border: 1.5px solid var(--color-light);
   border-radius: 50%;
   border-top-color: currentColor;
   display: inline-block;
   flex-shrink: 0;
-  height: 0.75rem;
-  width: 0.75rem;
+  height: 0.5rem;
+  width: 0.5rem;
 }
 
 @keyframes spin {
@@ -455,7 +431,7 @@ body {
 .verification-row {
   display: flex;
   gap: 0.75rem;
-  padding: 0.25rem 0;
+  padding: 0.25rem;
 }
 
 .verification-key {
@@ -575,7 +551,7 @@ body {
 .detail-est-row {
   display: flex;
   justify-content: space-between;
-  padding: 4px 0;
+  padding: 0.25rem;
 }
 
 .detail-est-row + .detail-est-row {
@@ -628,9 +604,10 @@ body {
   transform: translateX(100%);
 }
 
-#detail-toggle {
-  margin-left: auto;
+#detail-back {
+  margin-right: auto;
 }
+
 
 /* Workspace bar */
 
@@ -712,11 +689,14 @@ body {
   display: flex;
 }
 
-.pane-overview {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  padding: 1rem;
+#pane-overview {
+  max-width: 60rem;
+}
+
+#pane-overview b,
+.pane-section b {
+  font-size: 1.5rem;
+  letter-spacing: -0.03em;
 }
 
 .sub-tabs {
@@ -922,12 +902,6 @@ body {
   min-height: 0;
 }
 
-.pane-overview b,
-.pane-section b {
-  font-size: 1.5rem;
-  letter-spacing: -0.03em;
-}
-
 .overview-stats {
   border: 1px solid var(--color-light);
   border-radius: var(--radius);
@@ -942,6 +916,11 @@ body {
   color: var(--color-half);
   display: flex;
   gap: 0.25rem;
+}
+
+.empty-state {
+  color: var(--color-half);
+  font-style: italic;
 }
 
 .pane-section {
@@ -969,9 +948,6 @@ body {
   color: var(--color-half);
 }
 
-.status-elapsed {
-  color: var(--color-half);
-}
 
 .chip-tab.active {
   background: var(--color-brand);

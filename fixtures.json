@@ -1,5 +1,8 @@
 {
-  "demo": [
+  "sequences": {
+    "onboarding": {
+      "next": "triage",
+      "steps": [
     {
       "agent": "Hi \u2014 I\u2019m your C1C admin agent. Before we dig in, tell me about your company. A URL works, or type a few sentences \u2014 whatever\u2019s easiest.",
       "file": {
@@ -93,7 +96,7 @@
         }
       ],
       "placeholder": "e.g. CPQ Development Manager, working with Cadell\u2026",
-      "response": "Wesh Russell, CPQ Development Manager. Cadell Crisp also has admin access."
+      "response": "Russell Wesh, CPQ Development Manager. Cadell Crisp also has admin access."
     },
     {
       "agent": "All set. I\u2019ve saved your context to the workspace:",
@@ -123,50 +126,62 @@
         }
       ],
       "recap": true
+    }
+      ]
     },
-    {
-      "actions": [
-        {
-          "desc": "Build a configuration model from scratch",
-          "icon": "fa-regular fa-sparkles",
-          "label": "New product",
-          "workflow": "new-product"
-        },
+    "triage": {
+      "steps": [
         {
           "actions": [
-            "Cyclo 6000 Gearmotor",
-            "Cyclo Bevel Buddybox",
-            "Hansen P4 Industrial",
-            "Fine Cyclo F2C",
-            "Paramax 9000",
-            "SM-Hyponic RH Series",
-            "Alta Series AC Drive",
-            "Lafert HPS Motor"
+            {
+              "desc": "Build a configuration model from scratch",
+              "icon": "fa-regular fa-sparkles",
+              "label": "New product",
+              "sequence": "new-product",
+              "workflow": "new-product"
+            },
+            {
+              "actions": [
+                "Cyclo 6000 Gearmotor",
+                "Cyclo Bevel Buddybox",
+                "Hansen P4 Industrial",
+                "Fine Cyclo F2C",
+                "Paramax 9000",
+                "SM-Hyponic RH Series",
+                "Alta Series AC Drive",
+                "Lafert HPS Motor"
+              ],
+              "desc": "Update an existing configuration model",
+              "icon": "fa-regular fa-pen-to-square",
+              "label": "Edit product",
+              "placeholder": "Search products\u2026",
+              "response": "You can ask me to search for it or select from this list of recently modified products:",
+              "sequence": "edit-product",
+              "workflow": "edit-product"
+            },
+            {
+              "desc": "Load a product from a URL",
+              "disabled": true,
+              "icon": "fa-regular fa-link",
+              "label": "Demo from link"
+            }
           ],
-          "desc": "Update an existing configuration model",
-          "icon": "fa-regular fa-pen-to-square",
-          "label": "Edit product",
-          "placeholder": "Search products\u2026",
-          "response": "You can ask me to search for it or select from this list of recently modified products:",
-          "workflow": "edit-product"
-        },
-        {
-          "desc": "Load a product from a URL",
-          "disabled": true,
-          "icon": "fa-regular fa-link",
-          "label": "Demo from link"
+          "pills": [
+            {
+              "demo": true,
+              "label": "Next"
+            }
+          ],
+          "workflow": "triage",
+          "workspace": "New session"
         }
-      ],
-      "pills": [
-        {
-          "demo": true,
-          "label": "Next"
-        }
-      ],
-      "workflow": "triage"
+      ]
     },
-    {
-      "agent": "Upload a product manual or spec file to get started. You can drag files into the chat or use the attach button.",
+    "new-product": {
+      "steps": [
+        {
+          "agent": "Upload a product manual or spec file to get started. You can drag files into the chat or use the attach button.",
+          "workspace": "New product",
       "pills": [
         {
           "label": "Upload file"
@@ -212,7 +227,7 @@
         "size": "5.7 mb",
         "type": "pdf"
       },
-      "label": "Sumitomo Cyclo 6000",
+      "label": "Cyclo 6000",
       "pills": [
         {
           "label": "Build model"
@@ -401,14 +416,14 @@
       "label": "BOM generated",
       "pills": [
         {
-          "label": "Update"
+          "label": "Validate"
         },
         {
           "demo": true,
           "label": "Next"
         }
       ],
-      "response": "Update",
+      "response": "Validate",
       "steps": [
         {
           "context": 76,
@@ -446,218 +461,230 @@
       ],
       "tab": "results",
       "workflow": "generate-bom"
-    },
-    {
-      "assessment": {
-        "figures": 6,
-        "modelEstimates": {
-          "attributes": "8\u201312",
-          "drivens": "3\u20134",
-          "filters": "2",
-          "inputGroups": "1\u20132",
-          "inputValues": "~45",
-          "inputs": "~6"
-        },
-        "pages": 24,
-        "summary": "Supplemental options and accessories catalog for the Cyclo 6000 line. Adds specification codes, mounting accessories, seal options, and paint/coating configurations. Merges with existing product model to extend input values and attributes.",
-        "tables": 8,
-        "tokens": "~12,000"
-      },
-      "file": {
-        "created": "2026-05-06",
-        "name": "cyclo_6000_options_catalog.pdf",
-        "owner": "Agent",
-        "size": "1.8 mb",
-        "type": "pdf"
-      },
-      "label": "Cyclo 6000 Options & Accessories",
-      "pills": [
-        {
-          "label": "Verify"
-        },
-        {
-          "demo": true,
-          "label": "Next"
-        }
-      ],
-      "productSummary": "PRODUCT.md",
-      "response": "Verify",
-      "steps": [
-        {
-          "context": 22,
-          "detail": "cyclo_6000_options_catalog.pdf \u00b7 1.8 mb",
-          "ms": 1500,
-          "statusFrames": [
-            "Downloading 0.0 of 1.8 mb",
-            "Downloading 0.9 of 1.8 mb",
-            "Downloading 1.8 of 1.8 mb"
-          ],
-          "step": "Download"
-        },
-        {
-          "context": 24,
-          "detail": "24 pages read \u00b7 ~12,000 tokens",
-          "ms": 2000,
-          "statusFrames": [
-            "Reading page 0 of 24",
-            "Reading page 8 of 24",
-            "Reading page 16 of 24",
-            "Reading page 24 of 24"
-          ],
-          "step": "Read"
-        },
-        {
-          "context": 26,
-          "detail": "8 tables \u00b7 6 figures \u00b7 options matrix identified",
-          "ms": 2500,
-          "statusFrames": [
-            "Analyzing 2 elements\u2026",
-            "Analyzing 7 elements\u2026",
-            "Analyzing 14 elements\u2026"
-          ],
-          "step": "Analyze"
-        },
-        {
-          "context": 27,
-          "detail": "~6 inputs \u00b7 ~45 values \u00b7 extending existing model",
-          "ms": 2000,
-          "statusFrames": [
-            "Merging with existing model\u2026",
-            "Updating PRODUCT.md\u2026",
-            "Extending attributes\u2026"
-          ],
-          "step": "Summarize"
-        }
-      ],
-      "workflow": "file-ingress"
-    },
-    {
-      "agent": "Running validation checks before commit.",
-      "label": "Validation complete",
-      "pills": [
-        {
-          "label": "Commit"
-        },
-        {
-          "demo": true,
-          "label": "Next"
-        }
-      ],
-      "response": "Commit",
-      "steps": [
-        {
-          "context": 85,
-          "detail": "Schema validation passed",
-          "ms": 1500,
-          "statusFrames": [
-            "Validating schema\u2026",
-            "Checking required fields\u2026"
-          ],
-          "step": "Schema"
-        },
-        {
-          "context": 88,
-          "detail": "All references resolved",
-          "ms": 2000,
-          "statusFrames": [
-            "Checking input references\u2026",
-            "Validating driven input targets\u2026"
-          ],
-          "step": "References"
-        },
-        {
-          "context": 90,
-          "detail": "No conflicts detected",
-          "ms": 1500,
-          "statusFrames": [
-            "Scanning for rule conflicts\u2026",
-            "Checking name uniqueness\u2026"
-          ],
-          "step": "Conflicts"
-        },
-        {
-          "context": 92,
-          "detail": "Naming conventions matched",
-          "ms": 1500,
-          "statusFrames": [
-            "Comparing against customer context\u2026",
-            "Verifying label patterns\u2026"
-          ],
-          "step": "Naming"
-        }
-      ],
-      "tab": "preview",
-      "workflow": "validate"
-    },
-    {
-      "agent": "Committing to ConfigureOne Cloud.",
-      "label": "Commit complete",
-      "pills": [],
-      "response": null,
-      "steps": [
-        {
-          "context": 94,
-          "detail": "3 new \u00b7 0 edits",
-          "ms": 1500,
-          "statusFrames": [
-            "Classifying draft items\u2026"
-          ],
-          "step": "Operation selection"
-        },
-        {
-          "context": 95,
-          "detail": "Product created",
-          "ms": 2000,
-          "statusFrames": [
-            "Creating product in C1C\u2026"
-          ],
-          "step": "Writing product"
-        },
-        {
-          "context": 96,
-          "detail": "4 groups \u00b7 12 inputs",
-          "ms": 2500,
-          "statusFrames": [
-            "Committing input groups\u2026",
-            "Committing inputs\u2026"
-          ],
-          "step": "Writing skeleton"
-        },
-        {
-          "context": 97,
-          "detail": "3 logic items",
-          "ms": 2000,
-          "statusFrames": [
-            "Committing logic items\u2026",
-            "Committing driven inputs\u2026"
-          ],
-          "step": "Writing rules"
-        },
-        {
-          "context": 98,
-          "detail": "8 line items",
-          "ms": 2000,
-          "statusFrames": [
-            "Committing BOM lines\u2026",
-            "Linking item masters\u2026"
-          ],
-          "step": "Writing BOM"
-        },
-        {
-          "context": 100,
-          "detail": "All checks passed",
-          "ms": 1500,
-          "statusFrames": [
-            "Running binding validation\u2026",
-            "Checking reference integrity\u2026"
-          ],
-          "step": "Binding validation"
-        }
-      ],
-      "tab": "commit",
-      "workflow": "commit-to-cloud"
     }
-  ],
+      ],
+      "next": "end-game"
+    },
+    "edit-product": {
+      "next": "end-game",
+      "steps": [
+        {
+          "assessment": {
+            "figures": 6,
+            "modelEstimates": {
+              "attributes": "8\u201312",
+              "drivens": "3\u20134",
+              "filters": "2",
+              "inputGroups": "1\u20132",
+              "inputValues": "~45",
+              "inputs": "~6"
+            },
+            "pages": 24,
+            "summary": "Supplemental options and accessories catalog for the Cyclo 6000 line. Adds specification codes, mounting accessories, seal options, and paint/coating configurations. Merges with existing product model to extend input values and attributes.",
+            "tables": 8,
+            "tokens": "~12,000"
+          },
+          "file": {
+            "created": "2026-05-06",
+            "name": "cyclo_6000_options_catalog.pdf",
+            "owner": "Agent",
+            "size": "1.8 mb",
+            "type": "pdf"
+          },
+          "label": "Cyclo 6000 Options & Accessories",
+          "pills": [
+            {
+              "label": "Verify"
+            },
+            {
+              "demo": true,
+              "label": "Next"
+            }
+          ],
+          "productSummary": "PRODUCT.md",
+          "response": "Verify",
+          "steps": [
+            {
+              "context": 22,
+              "detail": "cyclo_6000_options_catalog.pdf \u00b7 1.8 mb",
+              "ms": 1500,
+              "statusFrames": [
+                "Downloading 0.0 of 1.8 mb",
+                "Downloading 0.9 of 1.8 mb",
+                "Downloading 1.8 of 1.8 mb"
+              ],
+              "step": "Download"
+            },
+            {
+              "context": 24,
+              "detail": "24 pages read \u00b7 ~12,000 tokens",
+              "ms": 2000,
+              "statusFrames": [
+                "Reading page 0 of 24",
+                "Reading page 8 of 24",
+                "Reading page 16 of 24",
+                "Reading page 24 of 24"
+              ],
+              "step": "Read"
+            },
+            {
+              "context": 26,
+              "detail": "8 tables \u00b7 6 figures \u00b7 options matrix identified",
+              "ms": 2500,
+              "statusFrames": [
+                "Analyzing 2 elements\u2026",
+                "Analyzing 7 elements\u2026",
+                "Analyzing 14 elements\u2026"
+              ],
+              "step": "Analyze"
+            },
+            {
+              "context": 27,
+              "detail": "~6 inputs \u00b7 ~45 values \u00b7 extending existing model",
+              "ms": 2000,
+              "statusFrames": [
+                "Merging with existing model\u2026",
+                "Updating PRODUCT.md\u2026",
+                "Extending attributes\u2026"
+              ],
+              "step": "Summarize"
+            }
+          ],
+          "workflow": "file-ingress"
+        }
+      ]
+    },
+    "end-game": {
+      "steps": [
+        {
+          "agent": "Running validation checks before commit.",
+          "label": "Validation complete",
+          "pills": [
+            {
+              "label": "Commit"
+            },
+            {
+              "demo": true,
+              "label": "Next"
+            }
+          ],
+          "response": "Commit",
+          "steps": [
+            {
+              "context": 85,
+              "detail": "Schema validation passed",
+              "ms": 1500,
+              "statusFrames": [
+                "Validating schema\u2026",
+                "Checking required fields\u2026"
+              ],
+              "step": "Schema"
+            },
+            {
+              "context": 88,
+              "detail": "All references resolved",
+              "ms": 2000,
+              "statusFrames": [
+                "Checking input references\u2026",
+                "Validating driven input targets\u2026"
+              ],
+              "step": "References"
+            },
+            {
+              "context": 90,
+              "detail": "No conflicts detected",
+              "ms": 1500,
+              "statusFrames": [
+                "Scanning for rule conflicts\u2026",
+                "Checking name uniqueness\u2026"
+              ],
+              "step": "Conflicts"
+            },
+            {
+              "context": 92,
+              "detail": "Naming conventions matched",
+              "ms": 1500,
+              "statusFrames": [
+                "Comparing against customer context\u2026",
+                "Verifying label patterns\u2026"
+              ],
+              "step": "Naming"
+            }
+          ],
+          "tab": "preview",
+          "workflow": "validate"
+        },
+        {
+          "agent": "Committing to ConfigureOne Cloud.",
+          "label": "Commit complete",
+          "pills": [],
+          "response": null,
+          "steps": [
+            {
+              "context": 94,
+              "detail": "3 new \u00b7 0 edits",
+              "ms": 1500,
+              "statusFrames": [
+                "Classifying draft items\u2026"
+              ],
+              "step": "Operation selection"
+            },
+            {
+              "context": 95,
+              "detail": "Product created",
+              "ms": 2000,
+              "statusFrames": [
+                "Creating product in C1C\u2026"
+              ],
+              "step": "Writing product"
+            },
+            {
+              "context": 96,
+              "detail": "4 groups \u00b7 12 inputs",
+              "ms": 2500,
+              "statusFrames": [
+                "Committing input groups\u2026",
+                "Committing inputs\u2026"
+              ],
+              "step": "Writing skeleton"
+            },
+            {
+              "context": 97,
+              "detail": "3 logic items",
+              "ms": 2000,
+              "statusFrames": [
+                "Committing logic items\u2026",
+                "Committing driven inputs\u2026"
+              ],
+              "step": "Writing rules"
+            },
+            {
+              "context": 98,
+              "detail": "8 line items",
+              "ms": 2000,
+              "statusFrames": [
+                "Committing BOM lines\u2026",
+                "Linking item masters\u2026"
+              ],
+              "step": "Writing BOM"
+            },
+            {
+              "context": 100,
+              "detail": "All checks passed",
+              "ms": 1500,
+              "statusFrames": [
+                "Running binding validation\u2026",
+                "Checking reference integrity\u2026"
+              ],
+              "step": "Binding validation"
+            }
+          ],
+          "tab": "commit",
+          "workflow": "commit-to-cloud"
+        }
+      ]
+    }
+  },
   "referenceFiles": [
     {
       "name": "cyclo_6000_o_and_m_v7_web.pdf",

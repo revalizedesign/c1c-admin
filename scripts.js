@@ -8,6 +8,7 @@ const makeEl = (tag, cls, text) => {
   return el
 }
 
+
 // AG Grid
 
 agGrid.ModuleRegistry.registerModules([agGrid.AllCommunityModule, agGrid.AllEnterpriseModule])
@@ -33,45 +34,63 @@ const fileCols = [
   { field: 'created', headerName: 'Created' },
 ]
 
-let filesGrid = null
 
 // State
 
-const INITIAL_STATE = {
+const createWorkspace = (sequence = 'onboarding') => ({
+  activeAutomation: null,
   activeTab: 'files',
   context: 0,
   demoIndex: 0,
   files: [],
+  lastElapsed: null,
   messages: [],
+  name: 'New workspace',
   placeholder: 'Message…',
+  productData: null,
   selectedFile: null,
+  sequence,
+  skipIndustry: Math.random() > 0.5,
   status: null,
+  statusInterval: null,
   workflow: null,
-  workspace: { status: 'New session', title: 'Workspace' },
-}
-
-const state = { ...INITIAL_STATE }
-
-// Data
+  workflowStartTime: null,
+})
 
 let workflows = {}
 let fixtures = {}
-let productData = null
-let statusInterval = null
-let workflowStartTime = null
-let activeAutomation = null
-let skipIndustry = Math.random() > 0.5
+let filesGrid = null
+const workspaces = [createWorkspace('onboarding')]
+let activeWorkspaceId = 0
+let state = workspaces[0]
 
-const demo = () => fixtures.demo ?? []
+const demo = () => fixtures.sequences?.[state.sequence]?.steps ?? []
 const currentStep = () => demo()[state.demoIndex]
+const pushMsg = msg => { if (typeof msg === 'object' && msg !== null) msg.time = new Date().toLocaleTimeString(); state.messages.push(msg) }
+
+const switchWorkspace = id => {
+  activeWorkspaceId = id
+  state = workspaces[id]
+  render()
+}
+
+const lockedFiles = () => workspaces.flatMap(ws => ws.files.filter(f => f.locked))
+
+const addWorkspace = () => {
+  const ws = createWorkspace('triage')
+  const seen = new Set()
+  lockedFiles().forEach(f => { if (!seen.has(f.name)) { seen.add(f.name); ws.files.push({ ...f }) } })
+  workspaces.push(ws)
+  switchWorkspace(workspaces.length - 1)
+  enterStep(0)
+}
 
 const reset = () => {
-  if (statusInterval) { clearInterval(statusInterval); statusInterval = null }
-  productData = null
-  activeAutomation = null
-  state.lastElapsed = null
-  skipIndustry = Math.random() > 0.5
-  Object.assign(state, { ...INITIAL_STATE, files: [], messages: [] })
+  if (state.statusInterval) { clearInterval(state.statusInterval); state.statusInterval = null }
+  const seq = state.sequence
+  const id = activeWorkspaceId
+  workspaces[id] = createWorkspace(seq)
+  state = workspaces[id]
   enterStep(0)
 }
 
@@ -80,30 +99,35 @@ const reset = () => {
 const enterStep = idx => {
   state.demoIndex = idx
   const step = demo()[idx]
-  if (!step) { state.status = null; render(); return }
+  if (!step) {
+    const next = fixtures.sequences?.[state.sequence]?.next
+    if (next) { state.sequence = next; enterStep(0); return }
+    state.status = null; render(); return
+  }
+  if (step.workspace) state.name = step.workspace
   if (step.workflow) state.workflow = { id: step.workflow, step: 0 }
   state.placeholder = step.placeholder ?? 'Message…'
   if (step.preloadFiles) step.preloadFiles.forEach(f => addContextFile(f))
 
   // Skippable step
-  if (step.skip && skipIndustry) {
-    state.messages.push({ type: 'agent', text: step.skip.agent })
+  if (step.skip && state.skipIndustry) {
+    pushMsg({ type: 'agent', text: step.skip.agent })
     if (step.file) addContextFile(step.file)
     enterStep(idx + 1)
     return
   }
 
-  if (step.agent) state.messages.push({ type: 'agent', text: step.agent })
+  if (step.agent) pushMsg({ type: 'agent', text: step.agent })
 
   // Automated step — has sub-steps to run
   if (step.steps) {
-    workflowStartTime = Date.now()
+    state.workflowStartTime = Date.now()
     if (step.file) {
       const pendingFile = { ...step.file, progress: 0 }
-      state.messages.push({ type: 'file-card', file: pendingFile })
-      activeAutomation = { stepIdx: 0, fileMsg: state.messages[state.messages.length - 1] }
+      pushMsg({ type: 'file-card', file: pendingFile })
+      state.activeAutomation = { stepIdx: 0, fileMsg: state.messages[state.messages.length - 1] }
     } else {
-      activeAutomation = { stepIdx: 0 }
+      state.activeAutomation = { stepIdx: 0 }
     }
     render()
     setTimeout(advanceAutomation, 500)
@@ -118,7 +142,7 @@ const advanceStep = userText => {
   if (!step) return
 
   // Push user message
-  if (userText) state.messages.push(userText)
+  if (userText) pushMsg(userText)
 
   // Add file if step produces one
   if (step.file) addContextFile(step.file)
@@ -127,13 +151,13 @@ const advanceStep = userText => {
   if (step.recap) {
     if (step.files) step.files.forEach(f => {
       const file = state.files.find(sf => sf.name === f.label)
-      if (file) state.messages.push({ type: 'file-card', file })
+      if (file) pushMsg({ type: 'file-card', file })
     })
     const archived = [...state.messages]
     state.messages = [{ type: 'collapsed-messages', archived, expanded: false }]
     if (step.files) {
       const wf = state.workflow && workflows[state.workflow.id]
-      state.messages.push({ type: 'recap', files: step.files, label: `${wf?.name ?? 'Workflow'} complete` })
+      pushMsg({ type: 'recap', files: step.files, label: `${wf?.name ?? 'Workflow'} complete` })
     }
     if (step.context) state.context = step.context
   }
@@ -142,10 +166,11 @@ const advanceStep = userText => {
   if (step.actions) {
     const action = step.actions.find(a => a.label === userText) ?? step.actions.find(a => !a.disabled)
     if (action.workflow) state.workflow = { id: action.workflow, step: 0 }
-    if (action.response) state.messages.push({ type: 'agent', text: action.response })
-    if (action.actions) state.messages.push({ type: 'actions', actions: action.actions.map(label => ({ label, handler: () => { state.messages = state.messages.filter(m => m.type !== 'actions'); state.messages.push(label); state.workspace.status = label; render() } })) })
+    if (action.response) pushMsg({ type: 'agent', text: action.response })
+    if (action.actions) pushMsg({ type: 'actions', actions: action.actions.map(label => ({ label, handler: () => { state.messages = state.messages.filter(m => m.type !== 'actions'); pushMsg(label); state.name = label; render() } })) })
     if (action.placeholder) state.placeholder = action.placeholder
-    enterStep(state.demoIndex + 1)
+    if (action.sequence) { state.sequence = action.sequence; enterStep(0) }
+    else enterStep(state.demoIndex + 1)
     return
   }
 
@@ -166,13 +191,13 @@ const addContextFile = src => {
 // Automation engine (ingress + build phases)
 
 const advanceAutomation = () => {
-  if (!activeAutomation) return
+  if (!state.activeAutomation) return
   const step = currentStep()
   const steps = step.steps ?? []
-  if (statusInterval) { clearInterval(statusInterval); statusInterval = null }
+  if (state.statusInterval) { clearInterval(state.statusInterval); state.statusInterval = null }
 
-  if (activeAutomation.stepIdx >= steps.length) {
-    if (activeAutomation.fileMsg) activeAutomation.fileMsg.file.progress = 1
+  if (state.activeAutomation.stepIdx >= steps.length) {
+    if (state.activeAutomation.fileMsg) state.activeAutomation.fileMsg.file.progress = 1
     state.workflow.step = steps.length
     state.status = null
 
@@ -186,57 +211,57 @@ const advanceAutomation = () => {
       if (step.productSummary) updateProductSummary(step.productSummary, step.assessment)
       state.selectedFile = file
       if (!step.tab) state.activeTab = 'files'
-      state.workspace.status = step.label ?? file.name
-      if (activeAutomation.fileMsg) {
-        activeAutomation.fileMsg.file = file
+      state.name = step.label ?? file.name
+      if (state.activeAutomation.fileMsg) {
+        state.activeAutomation.fileMsg.file = file
       } else {
-        state.messages.push({ type: 'file-card', file })
+        pushMsg({ type: 'file-card', file })
       }
     } else if (step.label) {
       const detail = steps.map(s => s.detail).pop()
-      state.messages.push({ type: 'result-card', label: step.label, detail, tab: step.tab })
+      pushMsg({ type: 'result-card', label: step.label, detail, tab: step.tab })
       if (step.productData) {
         fetch(step.productData).then(r => r.json()).then(pd => {
-          productData = pd
-          state.workspace.status = pd.product.name
+          state.productData = pd
+          state.name = pd.product.name
           render()
         })
       }
     }
 
     pushElapsed()
-    activeAutomation = null
+    state.activeAutomation = null
     if (step.file) openDetail()
     render()
     return
   }
 
-  const sub = steps[activeAutomation.stepIdx]
-  state.workflow.step = activeAutomation.stepIdx
+  const sub = steps[state.activeAutomation.stepIdx]
+  state.workflow.step = state.activeAutomation.stepIdx
   if (sub.context) state.context = sub.context
   const totalFrames = steps.reduce((n, s) => n + (s.statusFrames?.length ?? 1), 0)
-  const framesCompleted = steps.slice(0, activeAutomation.stepIdx).reduce((n, s) => n + (s.statusFrames?.length ?? 1), 0)
-  if (activeAutomation.fileMsg) activeAutomation.fileMsg.file.progress = framesCompleted / totalFrames
+  const framesCompleted = steps.slice(0, state.activeAutomation.stepIdx).reduce((n, s) => n + (s.statusFrames?.length ?? 1), 0)
+  if (state.activeAutomation.fileMsg) state.activeAutomation.fileMsg.file.progress = framesCompleted / totalFrames
   const frames = sub.statusFrames ?? [`${sub.step}…`]
   state.status = frames[0]
   render()
 
   if (frames.length > 1) {
     let frameIdx = 0
-    statusInterval = setInterval(() => {
+    state.statusInterval = setInterval(() => {
       frameIdx++
       if (frameIdx >= frames.length) frameIdx = 0
       state.status = frames[frameIdx]
       q('.status-text').forEach(el => el.textContent = frames[frameIdx])
-      if (activeAutomation?.fileMsg) {
+      if (state.activeAutomation?.fileMsg) {
         const p = (framesCompleted + frameIdx + 1) / totalFrames
-        activeAutomation.fileMsg.file.progress = p
+        state.activeAutomation.fileMsg.file.progress = p
         q('.file-card-progress').forEach(el => el.style.width = `${Math.round(p * 100)}%`)
       }
     }, sub.ms / frames.length)
   }
 
-  activeAutomation.stepIdx++
+  state.activeAutomation.stepIdx++
   setTimeout(advanceAutomation, sub.ms)
 }
 
@@ -258,9 +283,13 @@ const updateProductSummary = (name, assessment) => {
 }
 
 const pushElapsed = () => {
-  if (!workflowStartTime) return
-  state.lastElapsed = `Workflow ran for ${Math.round((Date.now() - workflowStartTime) / 1000)}s`
-  workflowStartTime = null
+  if (!state.workflowStartTime) return
+  const secs = Math.round((Date.now() - state.workflowStartTime) / 1000)
+  const wf = state.workflow && workflows[state.workflow.id]
+  const label = `${wf?.name ?? 'Workflow'} ran for ${secs}s`
+  state.lastElapsed = label
+  pushMsg({ type: 'agent', text: label })
+  state.workflowStartTime = null
 }
 
 // Render helpers
@@ -306,16 +335,18 @@ const renderCard = msg => {
 }
 
 const renderMessage = msg => {
+  const t = msg?.time ?? ''
+  const stamped = el => { if (t) el.title = t; return el }
   if (typeof msg === 'string') return makeEl('div', 'chat-bubble', msg)
-  if (msg.type === 'agent') return makeEl('div', 'chat-bubble agent', msg.text)
+  if (msg.type === 'agent') return stamped(makeEl('div', 'chat-bubble agent', msg.text))
   if (msg.type === 'tool') {
     const el = makeEl('div', 'chat-tool')
     el.appendChild(makeEl('span', 'chat-tool-label', msg.label))
     el.appendChild(makeEl('span', 'chat-tool-detail', msg.detail))
-    return el
+    return stamped(el)
   }
   if (msg.type === 'card' || msg.type === 'result-card' || msg.type === 'build-card' || msg.type === 'file-card' || msg.type === 'recap') {
-    return renderCard(msg)
+    return stamped(renderCard(msg))
   }
   if (msg.type === 'actions') {
     const wrap = makeEl('div', 'chat-actions')
@@ -388,7 +419,7 @@ const renderChat = () => {
   if (!step) { el.scrollTop = el.scrollHeight; return }
 
   // Card — key/value verification
-  if (step.card && !activeAutomation) {
+  if (step.card && !state.activeAutomation) {
     const card = makeEl('div', 'verification-card')
     Object.entries(step.card).forEach(([k, v]) => {
       const row = makeEl('div', 'verification-row')
@@ -400,7 +431,7 @@ const renderChat = () => {
   }
 
   // Files — review list
-  if (step.files && !activeAutomation) {
+  if (step.files && !state.activeAutomation) {
     const group = makeEl('div', 'card-group')
     step.files.forEach(f => {
       const file = state.files.find(sf => sf.name === f.label)
@@ -410,7 +441,7 @@ const renderChat = () => {
   }
 
   // Button
-  if (step.button && !activeAutomation) {
+  if (step.button && !state.activeAutomation) {
     const btn = makeEl('button', 'button primary', step.button)
     btn.style.alignSelf = 'flex-start'
     btn.type = 'button'
@@ -419,7 +450,7 @@ const renderChat = () => {
   }
 
   // Actions
-  if (step.actions && !activeAutomation) {
+  if (step.actions && !state.activeAutomation) {
     const group = makeEl('div', 'card-group')
     step.actions.forEach(action => {
       const card = makeEl('div', action.disabled ? 'file-card disabled' : 'file-card')
@@ -439,7 +470,7 @@ const renderChat = () => {
   }
 
   // Workflow card during automation
-  if (activeAutomation && state.workflow) {
+  if (state.activeAutomation && state.workflow) {
     const wf = workflows[state.workflow.id]
     if (wf) {
       const card = makeEl('div', 'chat-workflow-card')
@@ -472,15 +503,13 @@ const renderStatusAndActions = () => {
   } else {
     el.appendChild(makeEl('span', 'status', state.lastElapsed ?? 'Awaiting human input'))
     const step = currentStep()
-    const pills = activeAutomation ? [] : (step?.pills ?? [])
+    const pills = state.activeAutomation ? [] : (step?.pills ?? [])
     if (pills.length) {
       const wrap = makeEl('div', 'action-pills')
       pills.forEach(p => {
         const pill = makeEl('button', p.demo ? 'pill pill-demo' : 'pill', p.label)
         pill.type = 'button'
-        pill.addEventListener('click', () => {
-          demoContinue()
-        })
+        pill.addEventListener('click', () => demoContinue())
         wrap.appendChild(pill)
       })
       el.appendChild(wrap)
@@ -502,6 +531,7 @@ const renderFilesList = () => {
     autoSizeStrategy: { type: 'fitCellContents', scaleUpToFitGridWidth: true },
     columnDefs: fileCols,
     defaultColDef: { resizable: false, sortable: true, suppressSizeToFit: true },
+    getRowClass: p => p.data?.name === state.selectedFile?.name ? 'row-active' : '',
     popupParent: document.body,
     rowData: rows,
     rowSelection: { checkboxes: true, headerCheckbox: true, mode: 'multiRow' },
@@ -509,7 +539,7 @@ const renderFilesList = () => {
     theme: gridTheme(),
     onRowClicked: e => {
       const file = state.files.find(f => f.name === e.data.name)
-      if (file) { state.selectedFile = file; openDetail(); renderDetail() }
+      if (file) { state.selectedFile = file; filesGrid.redrawRows(); openDetail(); renderDetail() }
     },
   })
 }
@@ -587,20 +617,14 @@ const renderStats = (containerId, stats) => {
 const countFrom = (obj, ...keys) => keys.reduce((n, k) => n + (Array.isArray(obj?.[k]) ? obj[k].length : 0), 0)
 
 const buildStats = () => {
-  const p = productData
-  const files = [
-    { count: state.files.filter(f => f.source === 'Uploaded').length, icon: 'fa-regular fa-arrow-up-from-bracket', label: 'uploaded' },
-    { count: state.files.filter(f => f.source === 'Generated').length, icon: 'fa-regular fa-sparkles', label: 'generated' },
-    { count: state.files.filter(f => f.source === 'System').length, icon: 'fa-regular fa-robot', label: 'system' },
-  ]
-  if (!p) return { attributes: [], equations: [], files, model: [], results: [], rules: [] }
+  const p = state.productData
+  if (!p) return { attributes: [], equations: [], model: [], results: [], rules: [] }
   return {
     attributes: [
       { count: countFrom(p.attributes, 'productAttributes'), icon: 'fa-regular fa-box', label: 'product attributes' },
       { count: countFrom(p.attributes, 'inputAttributes'), icon: 'fa-regular fa-table-cells', label: 'input attributes' },
     ],
     equations: [{ count: p.equations?.length ?? 0, icon: 'fa-regular fa-superscript', label: 'equations' }],
-    files,
     model: [
       { count: countFrom(p.model, 'inputGroups'), icon: 'fa-regular fa-layer-group', label: 'input groups' },
       { count: countFrom(p.model, 'inputs'), icon: 'fa-regular fa-input-text', label: 'inputs' },
@@ -629,14 +653,14 @@ const renderAllStats = () => {
   for (const [tab, items] of Object.entries(stats)) renderStats(`overview-${tab}-stats`, items)
 }
 
-// Tab content renderers (unchanged — driven by productData)
+// Tab content renderers (unchanged — driven by state.productData)
 
 const renderModelTab = () => {
   const tree = g('subpane-model-tree')
   const json = g('subpane-model-json')
-  if (!tree || !productData) return
+  if (!tree || !state.productData) return
   tree.replaceChildren()
-  const m = productData.model
+  const m = state.productData.model
   ;(m.inputGroups ?? []).forEach(group => {
     const groupEl = makeEl('div', 'tree-row tree-group')
     groupEl.appendChild(makeEl('b', null, group.name))
@@ -655,12 +679,12 @@ const renderModelTab = () => {
       tree.appendChild(row)
     })
   })
-  if (json) { json.replaceChildren(); json.appendChild(makeEl('pre', 'json-view', JSON.stringify(productData.model, null, 2))) }
+  if (json) { json.replaceChildren(); json.appendChild(makeEl('pre', 'json-view', JSON.stringify(state.productData.model, null, 2))) }
 }
 
 const renderAttributesTab = () => {
-  const el = g('pane-attributes'); if (!el || !productData) return; el.replaceChildren()
-  const a = productData.attributes
+  const el = g('pane-attributes'); if (!el || !state.productData) return; el.replaceChildren()
+  const a = state.productData.attributes
   ;[['Product Attributes', a.productAttributes, attr => [attr.name, String(attr.value)]], ['Input Attributes', a.inputAttributes, attr => [attr.name, `${attr.type}: ${JSON.stringify(attr.values)}`]]].forEach(([label, items, fmt]) => {
     if (!items?.length) return
     const sec = makeEl('div', 'pane-section'); sec.appendChild(makeEl('b', null, label))
@@ -671,8 +695,8 @@ const renderAttributesTab = () => {
 }
 
 const renderRulesTab = () => {
-  const el = g('pane-rules'); if (!el || !productData) return; el.replaceChildren()
-  const r = productData.rules
+  const el = g('pane-rules'); if (!el || !state.productData) return; el.replaceChildren()
+  const r = state.productData.rules
   ;[['Logic Groups', r.logicGroups, i => i.name], ['Logic Items', r.logicItems, i => `${i.name} (${i.type})`], ['Driven Inputs', r.drivenInputs, i => i.description], ['Input Filters', r.inputFilters, i => `Input ${i.filteredInputNum} filtered by ${i.filteringInputNum} (${i.attribute})`], ['Iterators', r.iterators, i => `${i.code} — ${i.description}`]].forEach(([label, items, fmt]) => {
     if (!items?.length) return
     const sec = makeEl('div', 'pane-section'); sec.appendChild(makeEl('b', null, label))
@@ -683,8 +707,8 @@ const renderRulesTab = () => {
 }
 
 const renderEquationsTab = () => {
-  const el = g('pane-equations'); if (!el || !productData) return; el.replaceChildren()
-  ;(productData.equations ?? []).forEach(eq => {
+  const el = g('pane-equations'); if (!el || !state.productData) return; el.replaceChildren()
+  ;(state.productData.equations ?? []).forEach(eq => {
     const sec = makeEl('div', 'equation-card')
     const header = makeEl('div', 'equation-header'); header.appendChild(makeEl('b', null, eq.label)); header.appendChild(makeEl('span', 'data-type', `→ ${eq.outputField}`)); sec.appendChild(header)
     sec.appendChild(makeEl('code', 'equation-expr', eq.expression))
@@ -694,8 +718,8 @@ const renderEquationsTab = () => {
 }
 
 const renderResultsTab = () => {
-  const el = g('pane-results'); if (!el || !productData) return; el.replaceChildren()
-  const r = productData.results
+  const el = g('pane-results'); if (!el || !state.productData) return; el.replaceChildren()
+  const r = state.productData.results
   ;[['Item Families', r.itemFamilies, i => `${i.name} — ${i.description}`], ['Item Masters', r.itemMasters, i => `${i.smartPartNumber} — ${i.description} (${i.type})`], ['BOM Skeleton', r.bomSkeleton, i => `${'  '.repeat(i.level)}${i.referenceName} × ${i.quantity.value ?? i.quantity.inputName ?? i.quantity.equationName}${i.includedByDefault ? '' : ' (optional)'}`], ['Driven Item Masters', r.drivenItemMasters, i => i.description], ['Product Outputs', r.productOutputs, i => `${i.name} (${i.type})`]].forEach(([label, items, fmt]) => {
     if (!items?.length) return
     const sec = makeEl('div', 'pane-section'); sec.appendChild(makeEl('b', null, label))
@@ -706,12 +730,12 @@ const renderResultsTab = () => {
 }
 
 const renderPreviewTab = () => {
-  const el = g('pane-preview'); if (!el || !productData) return; el.replaceChildren()
+  const el = g('pane-preview'); if (!el || !state.productData) return; el.replaceChildren()
   const form = makeEl('div', 'preview-form')
-  ;(productData.model.inputGroups ?? []).forEach(group => {
+  ;(state.productData.model.inputGroups ?? []).forEach(group => {
     const sec = makeEl('div', 'preview-section'); sec.appendChild(makeEl('b', null, group.name))
     const fields = makeEl('div', 'preview-fields')
-    ;(productData.model.inputs ?? []).filter(i => i.groupNum === group.num).forEach(input => {
+    ;(state.productData.model.inputs ?? []).filter(i => i.groupNum === group.num).forEach(input => {
       const field = makeEl('div', 'preview-field'); field.appendChild(makeEl('label', null, input.label))
       if (input.type === 'dropdown') { const sel = document.createElement('select'); (input.options ?? []).forEach(opt => { const o = document.createElement('option'); o.value = opt; o.textContent = opt; if (opt === String(input.default)) o.selected = true; sel.appendChild(o) }); field.appendChild(sel) }
       else if (input.type === 'toggle') { const chk = document.createElement('input'); chk.type = 'checkbox'; chk.checked = !!input.default; field.appendChild(chk) }
@@ -724,8 +748,8 @@ const renderPreviewTab = () => {
 }
 
 const renderCommitTab = () => {
-  const el = g('pane-commit'); if (!el || !productData) return; el.replaceChildren()
-  const manifest = [[1, 'Product'], [productData.model.inputGroups?.length ?? 0, 'Input Groups'], [productData.model.inputs?.length ?? 0, 'Inputs'], [productData.model.inputValues?.length ?? 0, 'Input Values'], [productData.rules.logicGroups?.length ?? 0, 'Logic Groups'], [productData.rules.logicItems?.length ?? 0, 'Logic Items'], [productData.equations?.length ?? 0, 'Equations'], [productData.results.itemMasters?.length ?? 0, 'Item Masters'], [productData.results.bomSkeleton?.length ?? 0, 'BOM Lines']].filter(([c]) => c)
+  const el = g('commit-content'); if (!el || !state.productData) return; el.replaceChildren()
+  const manifest = [[1, 'Product'], [state.productData.model.inputGroups?.length ?? 0, 'Input Groups'], [state.productData.model.inputs?.length ?? 0, 'Inputs'], [state.productData.model.inputValues?.length ?? 0, 'Input Values'], [state.productData.rules.logicGroups?.length ?? 0, 'Logic Groups'], [state.productData.rules.logicItems?.length ?? 0, 'Logic Items'], [state.productData.equations?.length ?? 0, 'Equations'], [state.productData.results.itemMasters?.length ?? 0, 'Item Masters'], [state.productData.results.bomSkeleton?.length ?? 0, 'BOM Lines']].filter(([c]) => c)
   const total = manifest.reduce((s, [c]) => s + c, 0)
   const view = makeEl('div', 'commit-view'); view.appendChild(makeEl('b', null, 'Draft Summary'))
   const list = makeEl('div', 'data-grid')
@@ -735,18 +759,64 @@ const renderCommitTab = () => {
 }
 
 
-const renderTabContent = () => { if (!productData) return; renderModelTab(); renderAttributesTab(); renderRulesTab(); renderEquationsTab(); renderResultsTab(); renderPreviewTab(); renderCommitTab() }
+const clearTabContent = () => { ['subpane-model-tree', 'subpane-model-json', 'pane-attributes', 'pane-rules', 'pane-equations', 'pane-results', 'pane-preview', 'commit-content'].forEach(id => g(id)?.replaceChildren()) }
+
+const renderTabContent = () => { if (!state.productData) { clearTabContent(); return } renderModelTab(); renderAttributesTab(); renderRulesTab(); renderEquationsTab(); renderResultsTab(); renderPreviewTab(); renderCommitTab() }
 
 
 // Main render
 
+const renderWorkspaces = () => {
+  const el = g('workspaces-list')
+  if (!el) return
+  el.replaceChildren()
+  workspaces.forEach((ws, i) => {
+    const item = makeEl('button', `button nav-item${i === activeWorkspaceId ? ' active' : ''}`)
+    item.appendChild(makeEl('span', null, ws.name))
+    const menuId = `ws-menu-${i}`
+    const btn = makeEl('button', 'button button-icon nav-menu')
+    btn.type = 'button'
+    btn.setAttribute('popovertarget', menuId)
+    btn.style.anchorName = `--ws-menu-${i}`
+    const icon = makeEl('i'); icon.className = 'fa-regular fa-ellipsis'
+    btn.appendChild(icon)
+    btn.addEventListener('click', e => e.stopPropagation())
+    item.appendChild(btn)
+    const dd = makeEl('div', 'dropdown-content ws-dropdown')
+    dd.id = menuId
+    dd.setAttribute('popover', '')
+    dd.style.positionAnchor = `--ws-menu-${i}`
+    const del = makeEl('button', 'dropdown-item destructive', 'Delete workspace')
+    del.type = 'button'
+    del.addEventListener('click', () => {
+      dd.hidePopover()
+      if (workspaces.length < 2) return
+      workspaces.splice(i, 1)
+      if (activeWorkspaceId >= workspaces.length) activeWorkspaceId = workspaces.length - 1
+      state = workspaces[activeWorkspaceId]
+      render()
+    })
+    dd.appendChild(del)
+    item.appendChild(dd)
+    item.addEventListener('click', () => switchWorkspace(i))
+    el.appendChild(item)
+  })
+}
+
 const render = () => {
-  g('workspace-title').textContent = state.workspace.title
-  g('workspace-status').textContent = state.workspace.status
-  g('workspace-context').textContent = `Context ${state.context}%`
+  g('workspace-title').textContent = 'Workspace'
+  g('workspace-status').textContent = state.name
+  g('menu-context').textContent = `Context ${state.context}%`
+  const ring = document.querySelector('.context-ring-fill')
+  if (ring) {
+    const c = 100.53
+    ring.setAttribute('stroke-dashoffset', c - (c * state.context / 100))
+    ring.classList.toggle('danger', state.context > 40)
+  }
   g('chat-input').placeholder = state.placeholder
   q('.chip-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === state.activeTab))
   q('.tab-pane').forEach(p => p.classList.toggle('active', p.id === `pane-${state.activeTab}`))
+  renderWorkspaces()
   renderWorkflowBar()
   renderChat()
   renderStatusAndActions()
@@ -761,10 +831,10 @@ const render = () => {
 const demoContinue = userText => {
   const step = currentStep()
   if (!step) return
-  if (activeAutomation) return
+  if (state.activeAutomation) return
 
   const msg = userText ?? step.response
-  if (msg) state.messages.push(msg)
+  if (msg) pushMsg(msg)
 
   const next = demo()[state.demoIndex + 1]
   if (next?.steps) {
@@ -786,10 +856,12 @@ const initStrip = (stripId, toggleId) => {
 }
 
 initStrip('sidenav', 'nav-toggle')
+initStrip('workspaces-panel', 'workspaces-toggle')
 initStrip('chat-panel', 'chat-toggle')
+g('new-workspace-btn').addEventListener('click', addWorkspace)
 
 const openDetail = () => { g('detail-panel').classList.remove('collapsed'); g('detail-overlay').hidden = false }
-const closeDetail = () => { g('detail-panel').classList.add('collapsed'); g('detail-overlay').hidden = true }
+const closeDetail = () => { g('detail-panel').classList.add('collapsed'); g('detail-overlay').hidden = true; state.selectedFile = null; if (filesGrid) filesGrid.redrawRows() }
 g('detail-back').addEventListener('click', closeDetail)
 g('detail-toggle').addEventListener('click', closeDetail)
 g('detail-overlay').addEventListener('click', closeDetail)
@@ -828,7 +900,19 @@ const submitInput = () => {
 
 g('chat-input').addEventListener('keydown', e => { if (e.key === 'Enter') submitInput() })
 g('send-btn').addEventListener('click', submitInput)
-g('reset-btn').addEventListener('click', () => { reset(); render() })
+
+g('menu-reset').addEventListener('click', () => {
+  g('workspace-menu').hidePopover()
+  if (!confirm('Reset this workspace? All progress will be lost.')) return
+  reset(); render()
+})
+g('menu-workflow-toggle').addEventListener('click', () => {
+  const bar = g('workflow-bar')
+  const sw = g('menu-workflow-toggle')
+  const on = sw.getAttribute('aria-checked') !== 'true'
+  sw.setAttribute('aria-checked', on)
+  bar.hidden = !on
+})
 
 // Init
 

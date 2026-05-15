@@ -25,12 +25,25 @@
       </div>
     </nav>
 
+    <aside id="workspaces-panel" class="panel collapsed">
+      <div class="panel-header">
+        <span>Workspaces</span>
+        <button class="button button-icon panel-toggle" id="workspaces-toggle">
+          <i class="fa-solid fa-angle-right"></i>
+        </button>
+      </div>
+      <div class="panel-body" id="workspaces-list"></div>
+    </aside>
+
     <div id="app-right">
 
       <aside id="chat-panel" class="panel">
         <div class="panel-header">
           <span class="architect-logo">A</span>
           <span>Architect</span>
+          <button class="button" id="new-workspace-btn">
+            <i class="fa-solid fa-plus"></i>New workspace
+          </button>
           <button class="button button-icon panel-toggle" id="chat-toggle">
             <i class="fa-solid fa-angle-right"></i>
           </button>
@@ -56,14 +69,30 @@
           <b id="workspace-title">Workspace</b>
           <span class="inline-separator">—</span>
           <span id="workspace-status">New session</span>
-          <span id="workspace-context">Context 6%</span>
-          <button class="button" id="reset-btn" type="button">
-            <i class="fa-regular fa-trash-can"></i>Reset workspace
+          <button class="button button-icon" id="workspace-menu-btn" popovertarget="workspace-menu">
+            <i class="fa-regular fa-ellipsis"></i>
           </button>
+          <div class="dropdown-content" id="workspace-menu" popover>
+            <div class="dropdown-header context-meter">
+              <svg class="context-ring" viewBox="0 0 36 36">
+                <circle cx="18" cy="18" fill="none" r="16" stroke="var(--color-light)" stroke-width="3" />
+                <circle class="context-ring-fill" cx="18" cy="18" fill="none" r="16" stroke="var(--color-brand)" stroke-dasharray="100.53 100.53" stroke-dashoffset="94.5" stroke-linecap="round" stroke-width="3" transform="rotate(-90 18 18)" />
+              </svg>
+              <span id="menu-context">Context 6%</span>
+            </div>
+            <div class="dropdown-sep"></div>
+            <div class="dropdown-header">
+              <span>Workflow toolbar</span>
+              <button class="switch" id="menu-workflow-toggle" role="switch" aria-checked="false" type="button"></button>
+            </div>
+            <div class="dropdown-sep"></div>
+            <div class="dropdown-item destructive" id="menu-reset">
+              <i class="fa-regular fa-trash-can"></i>Reset workspace
+            </div>
+          </div>
         </div>
-        <div class="toolbar" id="workflow-bar"></div>
+        <div class="toolbar" id="workflow-bar" hidden></div>
         <div class="toolbar" id="tab-bar">
-          <button class="chip-tab" data-tab="overview">Overview</button>
           <button class="chip-tab" data-tab="files">Files</button>
           <button class="chip-tab" data-tab="model">Model</button>
           <button class="chip-tab" data-tab="attributes">Attributes</button>
@@ -74,11 +103,26 @@
           <button class="chip-tab" data-tab="commit">Commit</button>
         </div>
         <div id="tab-content">
-          <div class="tab-pane" id="pane-overview">
-            <div class="pane-section">
-              <b>Files</b>
-              <div class="overview-stats" id="overview-files-stats"></div>
+          <div class="tab-pane" id="pane-files">
+            <div id="files-grid" class="pane-grid-full"></div>
+          </div>
+          <div class="tab-pane" id="pane-model">
+            <div class="sub-tabs">
+              <button class="sub-tab active" data-subtab="model-tree">Tree</button>
+              <button class="sub-tab" data-subtab="model-graph">Graph</button>
+              <button class="sub-tab" data-subtab="model-json">Raw JSON</button>
             </div>
+            <div class="sub-pane active" id="subpane-model-tree"></div>
+            <div class="sub-pane" id="subpane-model-graph"></div>
+            <div class="sub-pane" id="subpane-model-json"></div>
+          </div>
+          <div class="tab-pane" id="pane-attributes"></div>
+          <div class="tab-pane" id="pane-rules"></div>
+          <div class="tab-pane" id="pane-equations"></div>
+          <div class="tab-pane" id="pane-results"></div>
+          <div class="tab-pane" id="pane-preview"></div>
+          <div class="tab-pane" id="pane-commit">
+            <div id="commit-content"></div>
             <div class="pane-section">
               <b>Model</b>
               <div class="overview-stats" id="overview-model-stats"></div>
@@ -100,25 +144,6 @@
               <div class="overview-stats" id="overview-results-stats"></div>
             </div>
           </div>
-          <div class="tab-pane" id="pane-files">
-            <div id="files-grid" class="pane-grid-full"></div>
-          </div>
-          <div class="tab-pane" id="pane-model">
-            <div class="sub-tabs">
-              <button class="sub-tab active" data-subtab="model-tree">Tree</button>
-              <button class="sub-tab" data-subtab="model-graph">Graph</button>
-              <button class="sub-tab" data-subtab="model-json">Raw JSON</button>
-            </div>
-            <div class="sub-pane active" id="subpane-model-tree"></div>
-            <div class="sub-pane" id="subpane-model-graph"></div>
-            <div class="sub-pane" id="subpane-model-json"></div>
-          </div>
-          <div class="tab-pane" id="pane-attributes"></div>
-          <div class="tab-pane" id="pane-rules"></div>
-          <div class="tab-pane" id="pane-equations"></div>
-          <div class="tab-pane" id="pane-results"></div>
-          <div class="tab-pane" id="pane-preview"></div>
-          <div class="tab-pane" id="pane-commit"></div>
         </div>
       </div>
 

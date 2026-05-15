@@ -80,7 +80,8 @@ body {
 }
 
 .panel.collapsed .panel-header > span,
-.panel.collapsed .panel-header > i {
+.panel.collapsed .panel-header > i,
+.panel.collapsed .panel-header > .button:not(.panel-toggle) {
   display: none;
 }
 
@@ -171,6 +172,42 @@ body {
   background: var(--color-lighter);
 }
 
+/* Workspaces panel */
+
+#workspaces-panel {
+  border-right: 1px solid var(--color-light);
+  width: 10rem;
+}
+
+#workspaces-panel.collapsed {
+  width: 2.5rem;
+}
+
+#workspaces-list {
+  gap: 0.25rem;
+  padding: 0.25rem;
+}
+
+.nav-item {
+  position: relative;
+}
+
+.nav-menu {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.nav-item:hover .nav-menu {
+  display: flex;
+}
+
+#workspaces-toggle {
+  margin-left: auto;
+}
+
 /* App layout */
 
 #app-right {
@@ -212,8 +249,11 @@ body {
   width: 1.5rem;
 }
 
-#chat-toggle {
+#new-workspace-btn {
   margin-left: auto;
+}
+
+#chat-toggle {
 }
 
 #chat-messages {
@@ -296,6 +336,7 @@ body {
   cursor: pointer;
   display: flex;
   gap: 0.5rem;
+  overflow: hidden;
   padding: 0.5rem;
   position: relative;
 }
@@ -375,7 +416,7 @@ body {
 
 .file-card > i:first-child { color: var(--color-half); }
 .file-card-meta { color: var(--color-half); }
-.file-card-progress { background: var(--color-brand); border-radius: 0 0 0 var(--radius); bottom: 0; height: 3px; left: 0; position: absolute; transition: width 0.3s ease; }
+.file-card-progress { background: var(--color-brand); bottom: 0; height: 3px; left: 0; position: absolute; transition: width 0.3s ease; }
 .file-card-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
 .chat-workflow-card {
@@ -617,15 +658,56 @@ body {
   text-overflow: ellipsis;
 }
 
-#workspace-context {
-  color: var(--color-half);
+#workspace-menu-btn {
+  anchor-name: --workspace-menu;
   margin-left: auto;
 }
 
-#reset-btn {
-  background: none;
-  color: var(--color-half);
+[popover].dropdown-content {
+  inset: unset;
+  position: fixed;
 }
+
+[popover].dropdown-content:popover-open {
+  display: flex;
+}
+
+#workspace-menu {
+  position-anchor: --workspace-menu;
+  right: anchor(right);
+  top: anchor(bottom);
+}
+
+#workspace-menu .dropdown-header {
+  align-items: center;
+  display: flex;
+  gap: 0.5rem;
+  white-space: nowrap;
+}
+
+#workspace-menu .switch {
+  margin-left: auto;
+}
+
+.ws-dropdown {
+  left: anchor(right);
+  top: anchor(top);
+}
+
+
+.row-active .ag-cell {
+  background: color-mix(in srgb, var(--color-brand) 10%, transparent);
+}
+
+.context-ring {
+  height: 1rem;
+  width: 1rem;
+}
+
+.context-ring-fill.danger {
+  stroke: var(--color-danger);
+}
+
 
 /* Workflow bar */
 
@@ -689,11 +771,6 @@ body {
   display: flex;
 }
 
-#pane-overview {
-  max-width: 60rem;
-}
-
-#pane-overview b,
 .pane-section b {
   font-size: 1.5rem;
   letter-spacing: -0.03em;
@@ -885,6 +962,10 @@ body {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+}
+
+#pane-commit {
+  max-width: 60rem;
 }
 
 .commit-view {

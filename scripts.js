@@ -8,6 +8,26 @@ const makeEl = (tag, cls, text) => {
   return el
 }
 
+const renderFilterBar = (options, activeSet, onToggle) => {
+  if (!options.length) return null
+  const bar = makeEl('div', 'filter-bar')
+  const allChip = makeEl('button', `sub-tab${activeSet === null ? ' active' : ''}`, 'All')
+  allChip.type = 'button'
+  allChip.addEventListener('click', () => onToggle(null))
+  bar.appendChild(allChip)
+  options.forEach(opt => {
+    const chip = makeEl('button', `sub-tab${activeSet?.has(opt.value) ? ' active' : ''}`, opt.label)
+    chip.type = 'button'
+    chip.addEventListener('click', () => {
+      const next = activeSet ? new Set(activeSet) : new Set([opt.value])
+      if (activeSet) { if (next.has(opt.value)) next.delete(opt.value); else next.add(opt.value) }
+      onToggle(next.size === 0 ? null : next)
+    })
+    bar.appendChild(chip)
+  })
+  return bar
+}
+
 
 // AG Grid
 
@@ -26,8 +46,14 @@ const gridTheme = () => agGrid.themeQuartz.withParams({
 const fileCols = [
   { cellRenderer: p => p.data?.locked ? '<i class="fa-solid fa-lock" title="Will be preserved when workspace is reset"></i>' : '', headerName: '', sortable: false },
   { field: 'source', headerName: 'Source' },
-  { field: 'name', headerName: 'Name', suppressSizeToFit: false },
-  { field: 'type', headerName: 'Type', valueFormatter: p => ({ md: 'Markdown', pdf: 'PDF' })[p.value] ?? p.value?.toUpperCase() },
+  { field: 'name', headerName: 'Name', minWidth: 160, suppressSizeToFit: false },
+  { cellRenderer: p => {
+    const labels = { csv: 'CSV', md: 'Markdown', pdf: 'PDF' }
+    const label = labels[p.value] ?? p.value?.toUpperCase()
+    const el = makeEl('span', 'cell-filter', label)
+    el.addEventListener('click', e => { e.stopPropagation(); state.filters.files = new Set([p.value]); filesGrid.onFilterChanged(); renderFilesFilter() })
+    return el
+  }, field: 'type', headerName: 'Type' },
   { field: 'size', headerName: 'Size', type: 'rightAligned' },
   { field: 'pages', headerName: 'Pages', type: 'rightAligned' },
   { field: 'owner', headerName: 'Owner' },
@@ -49,6 +75,7 @@ const createWorkspace = (sequence = 'onboarding') => ({
   placeholder: 'Message…',
   productData: null,
   selectedFile: null,
+  filters: {},
   sequence,
   skipIndustry: Math.random() > 0.5,
   status: null,
@@ -71,6 +98,8 @@ const pushMsg = msg => { if (typeof msg === 'object' && msg !== null) msg.time =
 const switchWorkspace = id => {
   activeWorkspaceId = id
   state = workspaces[id]
+  if (modelTree) { modelTree.destroy(); modelTree = null }
+  if (rulesTree) { rulesTree.destroy(); rulesTree = null }
   render()
 }
 
@@ -87,6 +116,8 @@ const addWorkspace = () => {
 
 const reset = () => {
   if (state.statusInterval) { clearInterval(state.statusInterval); state.statusInterval = null }
+  if (modelTree) { modelTree.destroy(); modelTree = null }
+  if (rulesTree) { rulesTree.destroy(); rulesTree = null }
   const seq = state.sequence
   const id = activeWorkspaceId
   workspaces[id] = createWorkspace(seq)
@@ -517,6 +548,19 @@ const renderStatusAndActions = () => {
   }
 }
 
+const renderFilesFilter = () => {
+  const pane = g('pane-files')
+  pane.querySelector('.filter-bar')?.remove()
+  const types = [...new Set(state.files.map(f => f.type))].sort()
+  const labels = { csv: 'CSV', md: 'Markdown', pdf: 'PDF' }
+  const bar = renderFilterBar(types.map(t => ({ label: labels[t] ?? t.toUpperCase(), value: t })), state.filters.files ?? null, set => {
+    state.filters.files = set
+    if (filesGrid) filesGrid.onFilterChanged()
+    renderFilesFilter()
+  })
+  if (bar) pane.insertBefore(bar, pane.firstChild)
+}
+
 const renderFilesList = () => {
   const el = g('files-grid')
   if (!el) return
@@ -524,6 +568,7 @@ const renderFilesList = () => {
   if (filesGrid) {
     filesGrid.setGridOption('rowData', rows)
     if (state.activeTab === 'files') { filesGrid.autoSizeAllColumns(); filesGrid.sizeColumnsToFit() }
+    renderFilesFilter()
     return
   }
   if (state.activeTab !== 'files') return
@@ -531,7 +576,9 @@ const renderFilesList = () => {
     autoSizeStrategy: { type: 'fitCellContents', scaleUpToFitGridWidth: true },
     columnDefs: fileCols,
     defaultColDef: { resizable: false, sortable: true, suppressSizeToFit: true },
+    doesExternalFilterPass: node => state.filters.files.has(node.data.type),
     getRowClass: p => p.data?.name === state.selectedFile?.name ? 'row-active' : '',
+    isExternalFilterPresent: () => state.filters.files != null,
     popupParent: document.body,
     rowData: rows,
     rowSelection: { checkboxes: true, headerCheckbox: true, mode: 'multiRow' },
@@ -542,6 +589,7 @@ const renderFilesList = () => {
       if (file) { state.selectedFile = file; filesGrid.redrawRows(); openDetail(); renderDetail() }
     },
   })
+  renderFilesFilter()
 }
 
 const renderDetail = () => {
@@ -655,29 +703,46 @@ const renderAllStats = () => {
 
 // Tab content renderers (unchanged — driven by state.productData)
 
+let modelTree = null
+let rulesTree = null
+
 const renderModelTab = () => {
-  const tree = g('subpane-model-tree')
+  const el = g('subpane-model-tree')
   const json = g('subpane-model-json')
-  if (!tree || !state.productData) return
-  tree.replaceChildren()
+  if (!el || !state.productData) return
+  if (modelTree) return
+  el.replaceChildren()
   const m = state.productData.model
-  ;(m.inputGroups ?? []).forEach(group => {
-    const groupEl = makeEl('div', 'tree-row tree-group')
-    groupEl.appendChild(makeEl('b', null, group.name))
-    groupEl.appendChild(makeEl('span', 'tree-count', `${(m.inputs ?? []).filter(i => i.groupNum === group.num).length} inputs`))
-    tree.appendChild(groupEl)
-    ;(m.inputs ?? []).filter(i => i.groupNum === group.num).forEach(input => {
-      const row = makeEl('div', 'tree-row tree-input')
-      row.appendChild(makeEl('span', null, input.label))
-      row.appendChild(makeEl('span', 'tree-type', input.type))
-      if (input.options) row.appendChild(makeEl('span', 'tree-count', `${input.options.length} options`))
-      row.addEventListener('click', () => {
-        state.selectedFile = { name: input.label, details: { summary: `Input: ${input.name} (${input.type})`, fields: [['ID', input.id], ['Group', group.name], ['Default', String(input.default ?? '—')], ['Required', input.required ? 'Yes' : 'No'], ...input.options ? [['Options', input.options.join(', ')]] : []] } }
-        openDetail()
-        renderDetail()
-      })
-      tree.appendChild(row)
-    })
+  const nodes = (m.inputGroups ?? []).map(group => ({
+    data: { group: group.name, name: group.name, nodeType: 'group' },
+    nodes: (m.inputs ?? []).filter(i => i.groupNum === group.num).map(input => ({
+      data: { ...input, group: group.name, nodeType: 'input' },
+      nodes: (m.inputValues ?? []).filter(v => v.inputNum === input.num).map(val => ({
+        data: { label: val.label, nodeType: 'value', value: val.value },
+        nodes: []
+      }))
+    }))
+  }))
+  const grip = '<i class="fa-solid fa-grip-vertical tree-grip"></i>'
+  modelTree = new SortableTree({
+    element: el,
+    icons: { collapsed: '<i class="fa-solid fa-angle-right"></i>', open: '<i class="fa-solid fa-angle-down"></i>' },
+    initCollapseLevel: 2,
+    lockRootLevel: true,
+    nodes,
+    onChange: () => {},
+    onClick: (e, node) => {
+      const d = node.data
+      if (d.nodeType !== 'input') return
+      state.selectedFile = { name: d.label, details: { summary: `Input: ${d.name} (${d.type})`, fields: [['ID', d.id], ['Group', d.group], ['Default', String(d.default ?? '—')], ['Required', d.required ? 'Yes' : 'No'], ...d.options ? [['Options', d.options.join(', ')]] : []] } }
+      openDetail()
+      renderDetail()
+    },
+    renderLabel: d => {
+      if (d.nodeType === 'value') return `${grip}<span>${d.label}</span><span class="tree-type">${d.value}</span>`
+      if (d.nodeType === 'input') return `${grip}<span>${d.label}</span><span class="tree-type">${d.type}</span>`
+      return `${grip}<b>${d.name}</b>`
+    },
   })
   if (json) { json.replaceChildren(); json.appendChild(makeEl('pre', 'json-view', JSON.stringify(state.productData.model, null, 2))) }
 }
@@ -685,8 +750,14 @@ const renderModelTab = () => {
 const renderAttributesTab = () => {
   const el = g('pane-attributes'); if (!el || !state.productData) return; el.replaceChildren()
   const a = state.productData.attributes
-  ;[['Product Attributes', a.productAttributes, attr => [attr.name, String(attr.value)]], ['Input Attributes', a.inputAttributes, attr => [attr.name, `${attr.type}: ${JSON.stringify(attr.values)}`]]].forEach(([label, items, fmt]) => {
+  const sections = [['Product Attributes', a.productAttributes, attr => [attr.name, String(attr.value)]], ['Input Attributes', a.inputAttributes, attr => [attr.name, `${attr.type}: ${JSON.stringify(attr.values)}`]]]
+  const active = state.filters.attributes ?? null
+  const opts = sections.filter(([, items]) => items?.length).map(([label]) => ({ label, value: label }))
+  const bar = renderFilterBar(opts, active, set => { state.filters.attributes = set; renderAttributesTab() })
+  if (bar) el.appendChild(bar)
+  sections.forEach(([label, items, fmt]) => {
     if (!items?.length) return
+    if (active && !active.has(label)) return
     const sec = makeEl('div', 'pane-section'); sec.appendChild(makeEl('b', null, label))
     const grid = makeEl('div', 'data-grid')
     items.forEach(item => { const [k, v] = fmt(item); const row = makeEl('div', 'data-row'); row.appendChild(makeEl('span', 'data-key', k)); row.appendChild(makeEl('span', null, v)); grid.appendChild(row) })
@@ -695,15 +766,38 @@ const renderAttributesTab = () => {
 }
 
 const renderRulesTab = () => {
-  const el = g('pane-rules'); if (!el || !state.productData) return; el.replaceChildren()
+  const el = g('subpane-rules-tree')
+  const json = g('subpane-rules-json')
+  if (!el || !state.productData) return
+  if (rulesTree) return
+  el.replaceChildren()
   const r = state.productData.rules
-  ;[['Logic Groups', r.logicGroups, i => i.name], ['Logic Items', r.logicItems, i => `${i.name} (${i.type})`], ['Driven Inputs', r.drivenInputs, i => i.description], ['Input Filters', r.inputFilters, i => `Input ${i.filteredInputNum} filtered by ${i.filteringInputNum} (${i.attribute})`], ['Iterators', r.iterators, i => `${i.code} — ${i.description}`]].forEach(([label, items, fmt]) => {
-    if (!items?.length) return
-    const sec = makeEl('div', 'pane-section'); sec.appendChild(makeEl('b', null, label))
-    const grid = makeEl('div', 'data-grid')
-    items.forEach(item => { const row = makeEl('div', 'data-row'); row.appendChild(makeEl('span', null, fmt(item))); grid.appendChild(row) })
-    sec.appendChild(grid); el.appendChild(sec)
+  const nodes = (r.logicGroups ?? []).map(group => ({
+    data: { name: group.name, nodeType: 'group' },
+    nodes: (r.logicItems ?? []).filter(i => i.groupNum === group.num).map(item => ({
+      data: { meta: item.type.replace(/_/g, ' '), name: item.name, nodeType: 'item' },
+      nodes: []
+    }))
+  }))
+  const addSection = (name, items, fmt) => { if (items?.length) nodes.push({ data: { name, nodeType: 'section' }, nodes: items.map(i => ({ data: { ...fmt(i), nodeType: 'leaf' }, nodes: [] })) }) }
+  addSection('Driven Inputs', r.drivenInputs, i => ({ name: i.description }))
+  addSection('Input Filters', r.inputFilters, i => ({ meta: i.attribute, name: `Input ${i.filteredInputNum} filtered by ${i.filteringInputNum}` }))
+  addSection('Iterators', r.iterators, i => ({ meta: i.description, name: i.code }))
+  const grip = '<i class="fa-solid fa-grip-vertical tree-grip"></i>'
+  rulesTree = new SortableTree({
+    element: el,
+    icons: { collapsed: '<i class="fa-solid fa-angle-right"></i>', open: '<i class="fa-solid fa-angle-down"></i>' },
+    initCollapseLevel: 2,
+    lockRootLevel: true,
+    nodes,
+    onChange: () => {},
+    renderLabel: d => {
+      const meta = d.meta ? `<span class="tree-type">${d.meta}</span>` : ''
+      if (d.nodeType === 'group' || d.nodeType === 'section') return `${grip}<b>${d.name}</b>`
+      return `${grip}<span>${d.name}</span>${meta}`
+    },
   })
+  if (json) { json.replaceChildren(); json.appendChild(makeEl('pre', 'json-view', JSON.stringify(state.productData.rules, null, 2))) }
 }
 
 const renderEquationsTab = () => {
@@ -720,8 +814,14 @@ const renderEquationsTab = () => {
 const renderResultsTab = () => {
   const el = g('pane-results'); if (!el || !state.productData) return; el.replaceChildren()
   const r = state.productData.results
-  ;[['Item Families', r.itemFamilies, i => `${i.name} — ${i.description}`], ['Item Masters', r.itemMasters, i => `${i.smartPartNumber} — ${i.description} (${i.type})`], ['BOM Skeleton', r.bomSkeleton, i => `${'  '.repeat(i.level)}${i.referenceName} × ${i.quantity.value ?? i.quantity.inputName ?? i.quantity.equationName}${i.includedByDefault ? '' : ' (optional)'}`], ['Driven Item Masters', r.drivenItemMasters, i => i.description], ['Product Outputs', r.productOutputs, i => `${i.name} (${i.type})`]].forEach(([label, items, fmt]) => {
+  const sections = [['Item Families', r.itemFamilies, i => `${i.name} — ${i.description}`], ['Item Masters', r.itemMasters, i => `${i.smartPartNumber} — ${i.description} (${i.type})`], ['BOM Skeleton', r.bomSkeleton, i => `${'  '.repeat(i.level)}${i.referenceName} × ${i.quantity.value ?? i.quantity.inputName ?? i.quantity.equationName}${i.includedByDefault ? '' : ' (optional)'}`], ['Driven Item Masters', r.drivenItemMasters, i => i.description], ['Product Outputs', r.productOutputs, i => `${i.name} (${i.type})`]]
+  const active = state.filters.results ?? null
+  const opts = sections.filter(([, items]) => items?.length).map(([label]) => ({ label, value: label }))
+  const bar = renderFilterBar(opts, active, set => { state.filters.results = set; renderResultsTab() })
+  if (bar) el.appendChild(bar)
+  sections.forEach(([label, items, fmt]) => {
     if (!items?.length) return
+    if (active && !active.has(label)) return
     const sec = makeEl('div', 'pane-section'); sec.appendChild(makeEl('b', null, label))
     const grid = makeEl('div', 'data-grid')
     items.forEach(item => { const row = makeEl('div', 'data-row'); row.appendChild(makeEl('span', null, fmt(item))); grid.appendChild(row) })
@@ -759,7 +859,11 @@ const renderCommitTab = () => {
 }
 
 
-const clearTabContent = () => { ['subpane-model-tree', 'subpane-model-json', 'pane-attributes', 'pane-rules', 'pane-equations', 'pane-results', 'pane-preview', 'commit-content'].forEach(id => g(id)?.replaceChildren()) }
+const clearTabContent = () => {
+  if (modelTree) { modelTree.destroy(); modelTree = null }
+  if (rulesTree) { rulesTree.destroy(); rulesTree = null }
+  ;['subpane-model-tree', 'subpane-model-json', 'pane-attributes', 'subpane-rules-tree', 'subpane-rules-json', 'pane-equations', 'pane-results', 'pane-preview', 'commit-content'].forEach(id => g(id)?.replaceChildren())
+}
 
 const renderTabContent = () => { if (!state.productData) { clearTabContent(); return } renderModelTab(); renderAttributesTab(); renderRulesTab(); renderEquationsTab(); renderResultsTab(); renderPreviewTab(); renderCommitTab() }
 
@@ -860,7 +964,7 @@ initStrip('workspaces-panel', 'workspaces-toggle')
 initStrip('chat-panel', 'chat-toggle')
 g('new-workspace-btn').addEventListener('click', addWorkspace)
 
-const openDetail = () => { g('detail-panel').classList.remove('collapsed'); g('detail-overlay').hidden = false }
+const openDetail = () => { const p = g('detail-panel'); p.classList.remove('collapsed'); p.classList.toggle('narrow', !!state.selectedFile?.details); g('detail-overlay').hidden = false }
 const closeDetail = () => { g('detail-panel').classList.add('collapsed'); g('detail-overlay').hidden = true; state.selectedFile = null; if (filesGrid) filesGrid.redrawRows() }
 g('detail-back').addEventListener('click', closeDetail)
 g('detail-toggle').addEventListener('click', closeDetail)

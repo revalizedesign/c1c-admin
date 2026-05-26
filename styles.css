@@ -335,6 +335,7 @@ body {
   border-radius: var(--radius);
   cursor: pointer;
   display: flex;
+  flex-shrink: 0;
   gap: 0.5rem;
   overflow: hidden;
   padding: 0.5rem;
@@ -641,6 +642,10 @@ body {
   z-index: 1;
 }
 
+#detail-panel.narrow {
+  width: 28rem;
+}
+
 #detail-panel.collapsed {
   transform: translateX(100%);
 }
@@ -694,6 +699,15 @@ body {
   top: anchor(top);
 }
 
+
+.cell-filter {
+  cursor: pointer;
+}
+
+.cell-filter:hover {
+  color: var(--color-brand);
+  text-decoration: underline;
+}
 
 .row-active .ag-cell {
   background: color-mix(in srgb, var(--color-brand) 10%, transparent);
@@ -776,6 +790,12 @@ body {
   letter-spacing: -0.03em;
 }
 
+.filter-bar {
+  display: flex;
+  flex-shrink: 0;
+  gap: 4px;
+}
+
 .sub-tabs {
   display: flex;
   gap: 4px;
@@ -813,41 +833,62 @@ body {
 
 .sub-pane.active {
   display: flex;
+  overflow-y: auto;
 }
 
-.tree-row {
+/* Sortable tree overrides */
+
+sortable-tree-node {
+  --st-label-height: auto;
+  --st-subnodes-padding-left: 1.25rem;
+}
+
+.tree__label {
   align-items: center;
   border-bottom: 1px solid var(--color-light);
+  cursor: grab;
   display: flex;
   gap: 0.5rem;
-  padding: 0.5rem 0;
+  padding: 0.5rem 0.25rem;
 }
 
-.tree-group {
-  background: var(--color-lighter);
-  margin-top: 0.5rem;
-  padding: 0.5rem 0.75rem;
-}
-
-.tree-group:first-child {
-  margin-top: 0;
-}
-
-.tree-input {
-  cursor: pointer;
-  padding-left: 1.5rem;
-}
-
-.tree-input:hover {
+.tree__node--hover > .tree__label {
   background: var(--color-lighter);
 }
 
-.tree-count,
-.tree-type {
+.tree__node--dragging {
+  opacity: 0.4;
+}
+
+.tree__node--drop-before > .tree__label {
+  box-shadow: 0 -2px 0 var(--color-brand);
+}
+
+.tree__node--drop-after > .tree__label {
+  box-shadow: 0 2px 0 var(--color-brand);
+}
+
+.tree__node--drop-inside > .tree__label {
+  background: color-mix(in srgb, var(--color-brand) 10%, transparent);
+  box-shadow: inset 0 0 0 1px var(--color-brand);
+}
+
+.tree__collapse {
   color: var(--color-half);
 }
 
-.tree-count {
+.tree-grip {
+  color: var(--color-light);
+  cursor: grab;
+  flex-shrink: 0;
+}
+
+.tree__label:hover .tree-grip {
+  color: var(--color-half);
+}
+
+.tree-type {
+  color: var(--color-half);
   margin-left: auto;
 }
 

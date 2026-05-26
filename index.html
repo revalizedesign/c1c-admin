@@ -9,9 +9,11 @@
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&display=swap" rel="stylesheet" />
     <script crossorigin="anonymous" defer src="https://kit.fontawesome.com/46660cdeff.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@5/github-markdown-light.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/sortable-tree/dist/sortable-tree.css" />
     <link rel="stylesheet" href="minterface.css" />
     <link rel="stylesheet" href="styles.css" />
     <script defer src="https://cdn.jsdelivr.net/npm/ag-grid-enterprise@35.2.0/dist/ag-grid-enterprise.min.js"></script>
+    <script defer src="https://unpkg.com/sortable-tree/dist/sortable-tree.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/marked/lib/marked.umd.min.js"></script>
   </head>
   <body class="app compact">
@@ -117,7 +119,14 @@
             <div class="sub-pane" id="subpane-model-json"></div>
           </div>
           <div class="tab-pane" id="pane-attributes"></div>
-          <div class="tab-pane" id="pane-rules"></div>
+          <div class="tab-pane" id="pane-rules">
+            <div class="sub-tabs">
+              <button class="sub-tab active" data-subtab="rules-tree">Tree</button>
+              <button class="sub-tab" data-subtab="rules-json">Raw JSON</button>
+            </div>
+            <div class="sub-pane active" id="subpane-rules-tree"></div>
+            <div class="sub-pane" id="subpane-rules-json"></div>
+          </div>
           <div class="tab-pane" id="pane-equations"></div>
           <div class="tab-pane" id="pane-results"></div>
           <div class="tab-pane" id="pane-preview"></div>

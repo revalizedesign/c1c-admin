@@ -1,0 +1,256 @@
+{
+  "company": "Sumitomo Drive Technologies",
+  "name": "Cyclo 6000 Gearmotor",
+  "overrides": {
+    "onboarding": [
+      {
+        "file": { "created": "2026-04-15", "size": "5.7 kb" },
+        "response": "https://us.sumitomodrive.com"
+      },
+      {
+        "card": {
+          "Company": "Sumitomo Drive Technologies",
+          "Geography": "North America (Chesapeake, VA)",
+          "Industry": "Industrial Power Transmission",
+          "Production": "Engineer-to-order / Configure-to-order",
+          "Products": "Cyclo speed reducers, gearmotors, servo systems",
+          "Segments": "Material handling, F&B, packaging, mining, energy",
+          "Size": "~800 employees (NA), ~25,000 globally"
+        },
+        "file": { "created": "2026-04-15", "size": "46.0 kb", "verticalId": "industrial-drives" },
+        "response": "Looks good",
+        "skip": { "agent": "I identified your industry as Industrial Power Transmission based on what you shared. Moving on." }
+      },
+      {
+        "file": { "created": "2026-04-15", "size": "2.0 kb" },
+        "placeholder": "e.g. CPQ Development Manager, working with Cadell…",
+        "response": "Russell Wesh, CPQ Development Manager. Cadell Crisp also has admin access."
+      },
+      {
+        "context": 6,
+        "files": [
+          { "desc": "your company context", "icon": "fa-regular fa-building", "label": "COMPANY.md" },
+          { "desc": "Industrial Power Transmission knowledge", "icon": "fa-regular fa-industry", "label": "VERTICAL.md" },
+          { "desc": "your role and collaborators", "icon": "fa-regular fa-users", "label": "TEAM.md" }
+        ]
+      }
+    ]
+  },
+  "sequences": {
+    "triage": {
+      "steps": [
+        {
+          "actions": [
+            {
+              "desc": "Build a configuration model from scratch",
+              "icon": "fa-regular fa-sparkles",
+              "label": "New product",
+              "sequence": "new-product",
+              "workflow": "new-product"
+            },
+            {
+              "actions": [
+                "Cyclo 6000 Gearmotor",
+                "Cyclo Bevel Buddybox",
+                "Hansen P4 Industrial",
+                "Fine Cyclo F2C",
+                "Paramax 9000",
+                "SM-Hyponic RH Series",
+                "Alta Series AC Drive",
+                "Lafert HPS Motor"
+              ],
+              "desc": "Update an existing configuration model",
+              "icon": "fa-regular fa-pen-to-square",
+              "label": "Edit product",
+              "placeholder": "Search products…",
+              "response": "You can ask me to search for it or select from this list of recently modified products:",
+              "sequence": "edit-product",
+              "workflow": "edit-product"
+            },
+            {
+              "desc": "Load a product from a URL",
+              "disabled": true,
+              "icon": "fa-regular fa-link",
+              "label": "Demo from link"
+            }
+          ],
+          "pills": [{ "demo": true, "label": "Next" }],
+          "workflow": "triage",
+          "workspace": "New session"
+        }
+      ]
+    },
+    "new-product": {
+      "next": "end-game",
+      "steps": [
+        {
+          "agent": "Upload a product manual or spec file to get started. You can drag files into the chat or use the attach button.",
+          "pills": [{ "label": "Upload file" }, { "demo": true, "label": "Next" }],
+          "response": null,
+          "workflow": "new-product",
+          "workspace": "New product"
+        },
+        {
+          "assessment": {
+            "figures": 24,
+            "inputGroups": "4–5",
+            "inputValues": "~120",
+            "inputs": "~11",
+            "modelEstimates": {
+              "attributes": "15–20",
+              "bomNodes": "50+",
+              "drivens": "8–10",
+              "equations": "2–3",
+              "filters": "3–5",
+              "inputGroups": "4–5",
+              "inputValues": "~120",
+              "inputs": "~11",
+              "itemFamilies": "2–3",
+              "itemMasters": "15+",
+              "logicGroups": "2–3",
+              "logicItems": "3–4"
+            },
+            "pages": 102,
+            "summary": "Gearmotor/reducer product with structured nomenclature breakdown. Configurable dimensions include output shaft orientation, housing style, input connection, motor capacity, frame size, shaft specification, ratio, brake option, and multiple specification code suffixes. Strong candidate for automated model generation.",
+            "tables": 18,
+            "tokens": "~45,000"
+          },
+          "file": {
+            "created": "2026-05-06",
+            "name": "cyclo_6000_o_and_m_v7_web.pdf",
+            "owner": "Agent",
+            "path": "files/cyclo_6000_o_and_m_v7_web.pdf",
+            "size": "5.7 mb",
+            "type": "pdf"
+          },
+          "label": "Cyclo 6000",
+          "pills": [{ "label": "Build model" }, { "demo": true, "label": "Next" }],
+          "productSummary": "PRODUCT.md",
+          "response": "Build model",
+          "steps": [
+            { "context": 9, "detail": "cyclo_6000_o_and_m_v7_web.pdf · 4.2 mb", "ms": 2000, "statusFrames": ["Downloading 0.0 of 4.2 mb", "Downloading 1.4 of 4.2 mb", "Downloading 2.9 of 4.2 mb", "Downloading 4.2 of 4.2 mb"], "step": "Download" },
+            { "context": 12, "detail": "102 pages read · ~45,000 tokens", "ms": 3000, "statusFrames": ["Reading page 0 of 102", "Reading page 26 of 102", "Reading page 51 of 102", "Reading page 78 of 102", "Reading page 102 of 102"], "step": "Read" },
+            { "context": 16, "detail": "18 tables · 24 figures · nomenclature section identified", "ms": 4000, "statusFrames": ["Analyzing 2 elements…", "Analyzing 7 elements…", "Analyzing 14 elements…", "Analyzing 26 elements…", "Analyzing 42 elements…"], "step": "Analyze" },
+            { "context": 19, "detail": "~11 inputs · ~120 values · strong configurability signal", "ms": 3000, "statusFrames": ["Summarizing — generating overview", "Summarizing — estimating model complexity", "Summarizing — assessing configurability"], "step": "Summarize" }
+          ],
+          "workflow": "file-ingress"
+        },
+        {
+          "buildPhase": true,
+          "label": "Skeleton generated",
+          "pills": [{ "label": "Build rules" }, { "demo": true, "label": "Next" }],
+          "productData": "cyclo-6000.json",
+          "response": "Build rules",
+          "steps": [
+            { "context": 35, "detail": "102 pages · 18 tables referenced", "ms": 2000, "statusFrames": ["Parsing document structure…", "Extracting nomenclature tables…", "Identifying configurable sections…"], "step": "Parse document" },
+            { "context": 42, "detail": "5 input groups created", "ms": 2500, "statusFrames": ["Building Product Type group…", "Building Output Configuration group…", "Building Motor & Drive group…", "Building Mechanical Specification group…", "Building Options & Accessories group…"], "step": "Input groups" },
+            { "context": 50, "detail": "11 inputs mapped", "ms": 3000, "statusFrames": ["Mapping product line input…", "Mapping output orientation…", "Mapping motor capacity…", "Mapping frame size…", "Mapping shaft specification…"], "step": "Inputs" },
+            { "context": 55, "detail": "23 input values resolved", "ms": 2000, "statusFrames": ["Resolving orientation values…", "Resolving housing values…", "Resolving shaft spec values…"], "step": "Input values" }
+          ],
+          "tab": "model",
+          "workflow": "generate-skeleton"
+        },
+        {
+          "buildPhase": true,
+          "label": "Constraints generated",
+          "pills": [{ "label": "Build BOM" }, { "demo": true, "label": "Next" }],
+          "response": "Build BOM",
+          "steps": [
+            { "context": 60, "detail": "3 driven inputs · 5 input attributes", "ms": 3000, "statusFrames": ["Building frame/motor capacity matrix…", "Building product line/ratio matrix…", "Building housing/frame constraint…"], "step": "Driven inputs" },
+            { "context": 68, "detail": "3 logic groups · 8 logic items · 3 filters · 2 iterators", "ms": 3500, "statusFrames": ["Inferring configuration constraints…", "Mapping motor validation rules…", "Building input filter chains…", "Defining iterator logic…"], "step": "Rules" },
+            { "context": 72, "detail": "3 equations — torque, speed, price", "ms": 2500, "statusFrames": ["Deriving output torque formula…", "Calculating output speed expression…", "Building list price equation…"], "step": "Equations" }
+          ],
+          "tab": "rules",
+          "workflow": "generate-constraints"
+        },
+        {
+          "buildPhase": true,
+          "label": "BOM generated",
+          "pills": [{ "label": "Validate" }, { "demo": true, "label": "Next" }],
+          "response": "Validate",
+          "steps": [
+            { "context": 76, "detail": "3 item families · 15 item masters", "ms": 3000, "statusFrames": ["Creating Cyclo Reducer Assembly family…", "Creating Motors family…", "Mapping 15 part numbers…"], "step": "Item masters" },
+            { "context": 79, "detail": "11 BOM skeleton lines", "ms": 2500, "statusFrames": ["Building casing assembly hierarchy…", "Adding motor and housing lines…", "Adding optional brake assembly…"], "step": "BOM skeleton" },
+            { "context": 80, "detail": "4 driven item masters · 4 product outputs", "ms": 2000, "statusFrames": ["Linking frame to casing part…", "Linking motor capacity to motor part…", "Creating product output fields…"], "step": "Driven items" }
+          ],
+          "tab": "results",
+          "workflow": "generate-bom"
+        }
+      ]
+    },
+    "edit-product": {
+      "next": "end-game",
+      "steps": [
+        {
+          "assessment": {
+            "figures": 6,
+            "modelEstimates": {
+              "attributes": "8–12",
+              "drivens": "3–4",
+              "filters": "2",
+              "inputGroups": "1–2",
+              "inputValues": "~45",
+              "inputs": "~6"
+            },
+            "pages": 24,
+            "summary": "Supplemental options and accessories catalog for the Cyclo 6000 line. Adds specification codes, mounting accessories, seal options, and paint/coating configurations. Merges with existing product model to extend input values and attributes.",
+            "tables": 8,
+            "tokens": "~12,000"
+          },
+          "file": {
+            "created": "2026-05-06",
+            "name": "cyclo_6000_options_catalog.pdf",
+            "owner": "Agent",
+            "size": "1.8 mb",
+            "type": "pdf"
+          },
+          "label": "Cyclo 6000 Options & Accessories",
+          "pills": [{ "label": "Verify" }, { "demo": true, "label": "Next" }],
+          "productSummary": "PRODUCT.md",
+          "response": "Verify",
+          "steps": [
+            { "context": 22, "detail": "cyclo_6000_options_catalog.pdf · 1.8 mb", "ms": 1500, "statusFrames": ["Downloading 0.0 of 1.8 mb", "Downloading 0.9 of 1.8 mb", "Downloading 1.8 of 1.8 mb"], "step": "Download" },
+            { "context": 24, "detail": "24 pages read · ~12,000 tokens", "ms": 2000, "statusFrames": ["Reading page 0 of 24", "Reading page 8 of 24", "Reading page 16 of 24", "Reading page 24 of 24"], "step": "Read" },
+            { "context": 26, "detail": "8 tables · 6 figures · options matrix identified", "ms": 2500, "statusFrames": ["Analyzing 2 elements…", "Analyzing 7 elements…", "Analyzing 14 elements…"], "step": "Analyze" },
+            { "context": 27, "detail": "~6 inputs · ~45 values · extending existing model", "ms": 2000, "statusFrames": ["Merging with existing model…", "Updating PRODUCT.md…", "Extending attributes…"], "step": "Summarize" }
+          ],
+          "workflow": "file-ingress"
+        }
+      ]
+    },
+    "end-game": {
+      "steps": [
+        {
+          "agent": "Running validation checks before commit.",
+          "label": "Validation complete",
+          "pills": [{ "label": "Commit" }, { "demo": true, "label": "Next" }],
+          "response": "Commit",
+          "steps": [
+            { "context": 85, "detail": "Schema validation passed", "ms": 1500, "statusFrames": ["Validating schema…", "Checking required fields…"], "step": "Schema" },
+            { "context": 88, "detail": "All references resolved", "ms": 2000, "statusFrames": ["Checking input references…", "Validating driven input targets…"], "step": "References" },
+            { "context": 90, "detail": "No conflicts detected", "ms": 1500, "statusFrames": ["Scanning for rule conflicts…", "Checking name uniqueness…"], "step": "Conflicts" },
+            { "context": 92, "detail": "Naming conventions matched", "ms": 1500, "statusFrames": ["Comparing against customer context…", "Verifying label patterns…"], "step": "Naming" }
+          ],
+          "tab": "preview",
+          "workflow": "validate"
+        },
+        {
+          "agent": "Committing to ConfigureOne Cloud.",
+          "label": "Commit complete",
+          "pills": [],
+          "response": null,
+          "steps": [
+            { "context": 94, "detail": "3 new · 0 edits", "ms": 1500, "statusFrames": ["Classifying draft items…"], "step": "Operation selection" },
+            { "context": 95, "detail": "Product created", "ms": 2000, "statusFrames": ["Creating product in C1C…"], "step": "Writing product" },
+            { "context": 96, "detail": "4 groups · 12 inputs", "ms": 2500, "statusFrames": ["Committing input groups…", "Committing inputs…"], "step": "Writing skeleton" },
+            { "context": 97, "detail": "3 logic items", "ms": 2000, "statusFrames": ["Committing logic items…", "Committing driven inputs…"], "step": "Writing rules" },
+            { "context": 98, "detail": "8 line items", "ms": 2000, "statusFrames": ["Committing BOM lines…", "Linking item masters…"], "step": "Writing BOM" },
+            { "context": 100, "detail": "All checks passed", "ms": 1500, "statusFrames": ["Running binding validation…", "Checking reference integrity…"], "step": "Binding validation" }
+          ],
+          "tab": "commit",
+          "workflow": "commit-to-cloud"
+        }
+      ]
+    }
+  }
+}

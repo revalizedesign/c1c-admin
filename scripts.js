@@ -63,19 +63,38 @@ const fileCols = [
 
 // State
 
-const createWorkspace = (sequence = 'onboarding') => ({
+const merge = (base, over) => {
+  const result = { ...base }
+  for (const [k, v] of Object.entries(over)) {
+    result[k] = v && typeof v === 'object' && !Array.isArray(v) && result[k] && typeof result[k] === 'object' && !Array.isArray(result[k]) ? merge(result[k], v) : v
+  }
+  return result
+}
+
+const buildDemoSequences = (shared, demoFile) => {
+  const seqs = {}
+  for (const [key, seq] of Object.entries(shared)) {
+    const overrides = demoFile.overrides?.[key]
+    seqs[key] = overrides ? { ...seq, steps: seq.steps.map((step, i) => overrides[i] ? merge(step, overrides[i]) : { ...step }) } : structuredClone(seq)
+  }
+  if (demoFile.sequences) Object.assign(seqs, demoFile.sequences)
+  return seqs
+}
+
+const createWorkspace = (demoId = 0, sequence = 'onboarding') => ({
   activeAutomation: null,
   activeTab: 'files',
   context: 0,
+  demoId,
   demoIndex: 0,
   files: [],
+  filters: {},
   lastElapsed: null,
   messages: [],
-  name: 'New workspace',
+  name: demos[demoId]?.name ?? 'New workspace',
   placeholder: 'Message…',
   productData: null,
   selectedFile: null,
-  filters: {},
   sequence,
   skipIndustry: Math.random() > 0.5,
   status: null,
@@ -87,11 +106,12 @@ const createWorkspace = (sequence = 'onboarding') => ({
 let workflows = {}
 let fixtures = {}
 let filesGrid = null
-const workspaces = [createWorkspace('onboarding')]
+const demos = []
+const workspaces = []
 let activeWorkspaceId = 0
-let state = workspaces[0]
+let state = {}
 
-const demo = () => fixtures.sequences?.[state.sequence]?.steps ?? []
+const demo = () => demos[state.demoId]?.sequences?.[state.sequence]?.steps ?? []
 const currentStep = () => demo()[state.demoIndex]
 const pushMsg = msg => { if (typeof msg === 'object' && msg !== null) msg.time = new Date().toLocaleTimeString(); state.messages.push(msg) }
 
@@ -105,8 +125,8 @@ const switchWorkspace = id => {
 
 const lockedFiles = () => workspaces.flatMap(ws => ws.files.filter(f => f.locked))
 
-const addWorkspace = () => {
-  const ws = createWorkspace('triage')
+const addWorkspace = (demoId = state.demoId ?? 0) => {
+  const ws = createWorkspace(demoId, 'triage')
   const seen = new Set()
   lockedFiles().forEach(f => { if (!seen.has(f.name)) { seen.add(f.name); ws.files.push({ ...f }) } })
   workspaces.push(ws)
@@ -118,9 +138,9 @@ const reset = () => {
   if (state.statusInterval) { clearInterval(state.statusInterval); state.statusInterval = null }
   if (modelTree) { modelTree.destroy(); modelTree = null }
   if (rulesTree) { rulesTree.destroy(); rulesTree = null }
-  const seq = state.sequence
+  const { demoId, sequence } = state
   const id = activeWorkspaceId
-  workspaces[id] = createWorkspace(seq)
+  workspaces[id] = createWorkspace(demoId, sequence)
   state = workspaces[id]
   enterStep(0)
 }
@@ -131,7 +151,7 @@ const enterStep = idx => {
   state.demoIndex = idx
   const step = demo()[idx]
   if (!step) {
-    const next = fixtures.sequences?.[state.sequence]?.next
+    const next = demos[state.demoId]?.sequences?.[state.sequence]?.next
     if (next) { state.sequence = next; enterStep(0); return }
     state.status = null; render(); return
   }
@@ -1020,4 +1040,14 @@ g('menu-workflow-toggle').addEventListener('click', () => {
 
 // Init
 
-fetch('fixtures.json').then(r => r.json()).then(fx => { fixtures = fx; workflows = fx.workflows ?? {}; enterStep(0) })
+fetch('fixtures.json').then(r => r.json()).then(fx => {
+  fixtures = fx
+  workflows = fx.workflows ?? {}
+  return Promise.all((fx.demos ?? []).map(f => fetch(f).then(r => r.json())))
+}).then(demoFiles => {
+  demoFiles.forEach(df => demos.push({ ...df, sequences: buildDemoSequences(fixtures.sequences, df) }))
+  demos.forEach((_, i) => workspaces.push(createWorkspace(i)))
+  activeWorkspaceId = 0
+  state = workspaces[0]
+  enterStep(0)
+})

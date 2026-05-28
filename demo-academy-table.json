@@ -1,0 +1,316 @@
+{
+  "company": "Knight Contract Furniture",
+  "name": "Academy Conference Table",
+  "overrides": {
+    "onboarding": [
+      {
+        "file": { "created": "2026-05-12", "size": "4.2 kb" },
+        "response": "https://knightfurniture.com"
+      },
+      {
+        "card": {
+          "Company": "Knight Contract Furniture",
+          "Geography": "North America (Grand Rapids, MI)",
+          "Industry": "Contract Furniture Manufacturing",
+          "Production": "Configure-to-order / Make-to-order",
+          "Products": "Conference tables, training tables, desks, credenzas",
+          "Segments": "Corporate, education, healthcare, government",
+          "Size": "~350 employees"
+        },
+        "file": { "created": "2026-05-12", "size": "32.2 kb", "verticalId": "industrial-machinery" },
+        "response": "Looks good",
+        "skip": { "agent": "I identified your industry as Contract Furniture Manufacturing based on what you shared. Moving on." }
+      },
+      {
+        "file": { "created": "2026-05-12", "size": "1.8 kb" },
+        "placeholder": "e.g. Product Engineering Manager, working with Sarah…",
+        "response": "Dan Petersen, Product Engineering Manager. Sarah Olson also has admin access."
+      },
+      {
+        "context": 6,
+        "files": [
+          { "desc": "your company context", "icon": "fa-regular fa-building", "label": "COMPANY.md" },
+          { "desc": "Contract Furniture Manufacturing knowledge", "icon": "fa-regular fa-industry", "label": "VERTICAL.md" },
+          { "desc": "your role and collaborators", "icon": "fa-regular fa-users", "label": "TEAM.md" }
+        ]
+      }
+    ]
+  },
+  "sequences": {
+    "triage": {
+      "steps": [
+        {
+          "actions": [
+            {
+              "desc": "Build a configuration model from scratch",
+              "icon": "fa-regular fa-sparkles",
+              "label": "New product",
+              "sequence": "new-product",
+              "workflow": "new-product"
+            },
+            {
+              "actions": [
+                "Academy Conference Table",
+                "Academy Training Table",
+                "Prescott Executive Desk",
+                "Monroe Credenza",
+                "Hartford Bookcase",
+                "Cambridge Side Table",
+                "Summit Standing Desk",
+                "Bristol File Cabinet"
+              ],
+              "desc": "Update an existing configuration model",
+              "icon": "fa-regular fa-pen-to-square",
+              "label": "Edit product",
+              "placeholder": "Search products…",
+              "response": "You can ask me to search for it or select from this list of recently modified products:",
+              "sequence": "edit-product",
+              "workflow": "edit-product"
+            },
+            {
+              "desc": "Load a product from a URL",
+              "disabled": true,
+              "icon": "fa-regular fa-link",
+              "label": "Demo from link"
+            }
+          ],
+          "pills": [{ "demo": true, "label": "Next" }],
+          "workflow": "triage",
+          "workspace": "New session"
+        }
+      ]
+    },
+    "new-product": {
+      "next": "end-game",
+      "steps": [
+        {
+          "agent": "Upload your product documentation to get started. You can drag multiple files — product guides, item master spreadsheets, and configuration specs all work.",
+          "pills": [{ "label": "Upload files" }, { "demo": true, "label": "Next" }],
+          "response": null,
+          "workflow": "new-product",
+          "workspace": "New product"
+        },
+        {
+          "assessment": {
+            "figures": 12,
+            "inputGroups": "3–4",
+            "inputValues": "~20",
+            "inputs": "~6",
+            "modelEstimates": {
+              "attributes": "4–6",
+              "bomNodes": "15+",
+              "drivens": "2–3",
+              "inputGroups": "3–4",
+              "inputValues": "~20",
+              "inputs": "~6",
+              "itemFamilies": "2",
+              "itemMasters": "8+"
+            },
+            "pages": 36,
+            "summary": "Conference table product guide with configurable dimensions, wood finish options, edge styles, and base selections. Shape variants include racetrack, rectangle, and boat. Strong candidate for automated model generation.",
+            "tables": 8,
+            "tokens": "~18,000"
+          },
+          "file": {
+            "created": "2026-05-12",
+            "name": "ACT_Product_Guide.pdf",
+            "owner": "Agent",
+            "path": "files/ACT_Product_Guide.pdf",
+            "size": "3.2 mb",
+            "type": "pdf"
+          },
+          "label": "ACT Product Guide",
+          "pills": [{ "label": "Upload file" }, { "demo": true, "label": "Next" }],
+          "productSummary": "PRODUCT.md",
+          "response": null,
+          "steps": [
+            { "context": 9, "detail": "ACT_Product_Guide.pdf · 3.2 mb", "ms": 1500, "statusFrames": ["Downloading 0.0 of 3.2 mb", "Downloading 1.1 of 3.2 mb", "Downloading 2.4 of 3.2 mb", "Downloading 3.2 of 3.2 mb"], "step": "Download" },
+            { "context": 12, "detail": "36 pages read · ~18,000 tokens", "ms": 2500, "statusFrames": ["Reading page 0 of 36", "Reading page 9 of 36", "Reading page 18 of 36", "Reading page 27 of 36", "Reading page 36 of 36"], "step": "Read" },
+            { "context": 16, "detail": "8 tables · 12 figures · finish/dimension matrix identified", "ms": 3000, "statusFrames": ["Analyzing 2 elements…", "Analyzing 6 elements…", "Analyzing 12 elements…", "Analyzing 20 elements…"], "step": "Analyze" },
+            { "context": 20, "detail": "~6 inputs · ~20 values · configurable table product", "ms": 2000, "statusFrames": ["Summarizing — generating overview", "Summarizing — estimating model complexity", "Summarizing — assessing configurability"], "step": "Summarize" }
+          ],
+          "workflow": "file-ingress"
+        },
+        {
+          "assessment": {
+            "figures": 0,
+            "modelEstimates": {
+              "bomNodes": "20+",
+              "itemFamilies": "2",
+              "itemMasters": "12+"
+            },
+            "pages": 1,
+            "summary": "ERP item master export with 48 rows covering table legs, edging, hardware kits, fasteners, and connectivity modules. Part numbers follow C1-prefix convention. Includes cost, price, weight, and unit of measure fields.",
+            "tables": 1,
+            "tokens": "~4,000"
+          },
+          "file": {
+            "created": "2026-05-12",
+            "name": "Knight_Item_Masters.xlsx",
+            "owner": "Agent",
+            "size": "145 kb",
+            "type": "xlsx"
+          },
+          "label": "Item Masters",
+          "pills": [{ "label": "Upload file" }, { "demo": true, "label": "Next" }],
+          "productSummary": "PRODUCT.md",
+          "response": null,
+          "steps": [
+            { "context": 23, "detail": "Knight_Item_Masters.xlsx · 145 kb", "ms": 1000, "statusFrames": ["Downloading 0.0 of 145 kb", "Downloading 145 of 145 kb"], "step": "Download" },
+            { "context": 26, "detail": "48 rows read · ~4,000 tokens", "ms": 1500, "statusFrames": ["Reading row 0 of 48", "Reading row 24 of 48", "Reading row 48 of 48"], "step": "Read" },
+            { "context": 29, "detail": "1 table · part number patterns identified", "ms": 2000, "statusFrames": ["Analyzing item families…", "Analyzing part number patterns…", "Cross-referencing with product guide…"], "step": "Analyze" },
+            { "context": 32, "detail": "12+ item masters · 2 hardware kits · 4 edge profiles", "ms": 1500, "statusFrames": ["Summarizing — mapping BOM candidates", "Summarizing — classifying item types"], "step": "Summarize" }
+          ],
+          "workflow": "file-ingress"
+        },
+        {
+          "assessment": {
+            "figures": 3,
+            "modelEstimates": {
+              "drivens": "1–2",
+              "equations": "1",
+              "filters": "1",
+              "logicGroups": "2",
+              "logicItems": "6"
+            },
+            "pages": 12,
+            "summary": "Configuration rules specifying driven item logic for base/finish combinations, leg quantity rules based on table length, connectivity conditional display, and perimeter calculation for edging quantity. Includes BOM logic for hardware kit selection.",
+            "tables": 4,
+            "tokens": "~8,000"
+          },
+          "file": {
+            "created": "2026-05-12",
+            "name": "ACT_Configuration_Spec.pdf",
+            "owner": "Agent",
+            "path": "files/ACT_Configuration_Spec.pdf",
+            "size": "890 kb",
+            "type": "pdf"
+          },
+          "label": "ACT Config Spec",
+          "pills": [{ "label": "Build model" }, { "demo": true, "label": "Next" }],
+          "productSummary": "PRODUCT.md",
+          "response": "Build model",
+          "steps": [
+            { "context": 35, "detail": "ACT_Configuration_Spec.pdf · 890 kb", "ms": 1200, "statusFrames": ["Downloading 0.0 of 890 kb", "Downloading 445 of 890 kb", "Downloading 890 of 890 kb"], "step": "Download" },
+            { "context": 38, "detail": "12 pages read · ~8,000 tokens", "ms": 1800, "statusFrames": ["Reading page 0 of 12", "Reading page 4 of 12", "Reading page 8 of 12", "Reading page 12 of 12"], "step": "Read" },
+            { "context": 40, "detail": "4 tables · 3 figures · rule matrices identified", "ms": 2500, "statusFrames": ["Analyzing 2 elements…", "Analyzing 5 elements…", "Analyzing 7 elements…"], "step": "Analyze" },
+            { "context": 43, "detail": "6 logic items · 1 driven input · 1 equation", "ms": 1500, "statusFrames": ["Summarizing — extracting constraint rules", "Summarizing — mapping driven logic"], "step": "Summarize" }
+          ],
+          "workflow": "file-ingress"
+        },
+        {
+          "buildPhase": true,
+          "label": "Model generated",
+          "pills": [{ "label": "Build rules" }, { "demo": true, "label": "Next" }],
+          "productData": "academy-table.json",
+          "response": "Build rules",
+          "steps": [
+            { "context": 48, "detail": "3 source files · 49 pages referenced", "ms": 2000, "statusFrames": ["Parsing product guide structure…", "Cross-referencing item masters…", "Extracting configuration spec…"], "step": "Parse document" },
+            { "context": 54, "detail": "4 input groups created", "ms": 2000, "statusFrames": ["Building Table Design group…", "Building Top Options group…", "Building Base Options group…", "Building Connectivity Options group…"], "step": "Input groups" },
+            { "context": 59, "detail": "8 inputs mapped", "ms": 2500, "statusFrames": ["Mapping shape input…", "Mapping length and width…", "Mapping wood finish…", "Mapping edge detail…", "Mapping base and connectivity…"], "step": "Inputs" },
+            { "context": 63, "detail": "27 input values resolved", "ms": 2000, "statusFrames": ["Resolving shape values…", "Resolving dimension values…", "Resolving finish and edge values…", "Resolving base values…"], "step": "Input values" }
+          ],
+          "tab": "model",
+          "workflow": "generate-model"
+        },
+        {
+          "buildPhase": true,
+          "label": "Rules generated",
+          "pills": [{ "label": "Build results" }, { "demo": true, "label": "Next" }],
+          "response": "Build results",
+          "steps": [
+            { "context": 67, "detail": "1 driven input · 1 input attribute", "ms": 2500, "statusFrames": ["Building finish/base combination matrix…", "Building leg quantity attribute…"], "step": "Driven inputs" },
+            { "context": 72, "detail": "2 logic groups · 6 logic items · 1 filter · 1 iterator", "ms": 3000, "statusFrames": ["Inferring interface logic…", "Building connectivity conditional…", "Mapping hardware kit selection rules…", "Defining connectivity iterator…"], "step": "Rules" },
+            { "context": 76, "detail": "1 equation — table top perimeter", "ms": 2000, "statusFrames": ["Deriving perimeter formula…", "Validating unit conversion…"], "step": "Equations" }
+          ],
+          "tab": "rules",
+          "workflow": "generate-rules"
+        },
+        {
+          "buildPhase": true,
+          "label": "Results generated",
+          "pills": [{ "label": "Validate" }, { "demo": true, "label": "Next" }],
+          "response": "Validate",
+          "steps": [
+            { "context": 79, "detail": "2 item families · 12 item masters", "ms": 2500, "statusFrames": ["Creating Assembly item family…", "Creating Table Top item family…", "Importing 12 item masters from spreadsheet…"], "step": "Item masters" },
+            { "context": 82, "detail": "7 BOM lines", "ms": 2000, "statusFrames": ["Building top-level assembly hierarchy…", "Adding table top and edge detail lines…", "Adding base and hardware kit lines…"], "step": "BOM lines" },
+            { "context": 84, "detail": "1 driven item master · 3 product outputs", "ms": 1500, "statusFrames": ["Linking finish/base to leg parts…", "Creating configuration summary output…", "Creating BOM outputs…"], "step": "Driven items" }
+          ],
+          "tab": "results",
+          "workflow": "generate-results"
+        }
+      ]
+    },
+    "edit-product": {
+      "next": "end-game",
+      "steps": [
+        {
+          "assessment": {
+            "figures": 0,
+            "modelEstimates": {
+              "inputValues": "~8",
+              "inputs": "~2",
+              "itemMasters": "3+"
+            },
+            "pages": 1,
+            "summary": "Updated finish options spreadsheet adding 3 new premium finishes (Espresso, Graphite, White Oak) with corresponding item master records. Merges with existing product model to extend wood finish input values and base combination matrix.",
+            "tables": 1,
+            "tokens": "~2,500"
+          },
+          "file": {
+            "created": "2026-05-12",
+            "name": "Knight_Finish_Update.xlsx",
+            "owner": "Agent",
+            "size": "52 kb",
+            "type": "xlsx"
+          },
+          "label": "Finish Update",
+          "pills": [{ "label": "Verify" }, { "demo": true, "label": "Next" }],
+          "productSummary": "PRODUCT.md",
+          "response": "Verify",
+          "steps": [
+            { "context": 22, "detail": "Knight_Finish_Update.xlsx · 52 kb", "ms": 1000, "statusFrames": ["Downloading 0.0 of 52 kb", "Downloading 52 of 52 kb"], "step": "Download" },
+            { "context": 24, "detail": "18 rows read · ~2,500 tokens", "ms": 1500, "statusFrames": ["Reading row 0 of 18", "Reading row 9 of 18", "Reading row 18 of 18"], "step": "Read" },
+            { "context": 26, "detail": "1 table · 3 new finishes identified", "ms": 2000, "statusFrames": ["Analyzing new item records…", "Cross-referencing existing model…"], "step": "Analyze" },
+            { "context": 27, "detail": "~2 inputs · ~8 values · extending existing model", "ms": 1500, "statusFrames": ["Merging with existing model…", "Updating PRODUCT.md…", "Extending finish attributes…"], "step": "Summarize" }
+          ],
+          "workflow": "file-ingress"
+        }
+      ]
+    },
+    "end-game": {
+      "steps": [
+        {
+          "agent": "Running validation checks before commit.",
+          "label": "Validation complete",
+          "pills": [{ "label": "Commit" }, { "demo": true, "label": "Next" }],
+          "response": "Commit",
+          "steps": [
+            { "context": 87, "detail": "Schema validation passed", "ms": 1500, "statusFrames": ["Validating schema…", "Checking required fields…"], "step": "Schema" },
+            { "context": 89, "detail": "All references resolved", "ms": 2000, "statusFrames": ["Checking input references…", "Validating driven input targets…"], "step": "References" },
+            { "context": 91, "detail": "No conflicts detected", "ms": 1500, "statusFrames": ["Scanning for rule conflicts…", "Checking name uniqueness…"], "step": "Conflicts" },
+            { "context": 93, "detail": "Naming conventions matched", "ms": 1500, "statusFrames": ["Comparing against customer context…", "Verifying label patterns…"], "step": "Naming" }
+          ],
+          "tab": "preview",
+          "workflow": "validate"
+        },
+        {
+          "agent": "Committing to ConfigureOne Cloud.",
+          "label": "Commit complete",
+          "pills": [],
+          "response": null,
+          "steps": [
+            { "context": 95, "detail": "2 new · 0 edits", "ms": 1500, "statusFrames": ["Classifying draft items…"], "step": "Operation selection" },
+            { "context": 96, "detail": "Product created", "ms": 2000, "statusFrames": ["Creating product in C1C…"], "step": "Writing product" },
+            { "context": 97, "detail": "4 groups · 8 inputs", "ms": 2500, "statusFrames": ["Committing input groups…", "Committing inputs…"], "step": "Writing model" },
+            { "context": 98, "detail": "6 logic items", "ms": 2000, "statusFrames": ["Committing logic items…", "Committing driven inputs…"], "step": "Writing rules" },
+            { "context": 99, "detail": "7 line items", "ms": 2000, "statusFrames": ["Committing BOM lines…", "Linking item masters…"], "step": "Writing results" },
+            { "context": 100, "detail": "All checks passed", "ms": 1500, "statusFrames": ["Running binding validation…", "Checking reference integrity…"], "step": "Binding validation" }
+          ],
+          "tab": "commit",
+          "workflow": "commit-to-cloud"
+        }
+      ]
+    }
+  }
+}

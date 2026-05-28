@@ -83,7 +83,7 @@ const buildDemoSequences = (shared, demoFile) => {
 
 const createWorkspace = (demoId = 0, sequence = 'onboarding') => ({
   activeAutomation: null,
-  activeTab: 'files',
+  activeTab: 'overview',
   context: 0,
   demoId,
   demoIndex: 0,
@@ -118,7 +118,8 @@ const pushMsg = msg => { if (typeof msg === 'object' && msg !== null) msg.time =
 const switchWorkspace = id => {
   activeWorkspaceId = id
   state = workspaces[id]
-  if (modelTree) { modelTree.destroy(); modelTree = null }
+  if (modelGrid) { modelGrid.destroy(); modelGrid = null }
+  if (resultsGrid) { resultsGrid.destroy(); resultsGrid = null }
   if (rulesTree) { rulesTree.destroy(); rulesTree = null }
   render()
 }
@@ -136,7 +137,8 @@ const addWorkspace = (demoId = state.demoId ?? 0) => {
 
 const reset = () => {
   if (state.statusInterval) { clearInterval(state.statusInterval); state.statusInterval = null }
-  if (modelTree) { modelTree.destroy(); modelTree = null }
+  if (modelGrid) { modelGrid.destroy(); modelGrid = null }
+  if (resultsGrid) { resultsGrid.destroy(); resultsGrid = null }
   if (rulesTree) { rulesTree.destroy(); rulesTree = null }
   const { demoId, sequence } = state
   const id = activeWorkspaceId
@@ -581,13 +583,29 @@ const renderFilesFilter = () => {
   if (bar) pane.insertBefore(bar, pane.firstChild)
 }
 
+const gridContextMenu = params => {
+  if (!params.node) return params.defaultItems
+  const rowData = []
+  params.api.forEachNode(n => rowData.push(n.data))
+  const idx = rowData.findIndex(r => r === params.node.data)
+  const empty = Object.fromEntries(Object.keys(params.node.data).map(k => [k, '']))
+  return [
+    { name: 'Insert before', action: () => params.api.applyTransaction({ add: [{ ...empty }], addIndex: idx }) },
+    { name: 'Insert after', action: () => params.api.applyTransaction({ add: [{ ...empty }], addIndex: idx + 1 }) },
+    'separator',
+    { name: 'Delete', action: () => params.api.applyTransaction({ remove: [params.node.data] }) },
+    'separator',
+    ...params.defaultItems,
+  ]
+}
+
 const renderFilesList = () => {
   const el = g('files-grid')
   if (!el) return
   const rows = state.files.map(f => ({ created: f.created ?? '', locked: f.locked ?? false, name: f.name, owner: f.owner ?? 'Agent', pages: f.assessment?.pages ?? f.pages ?? '', size: f.size, source: f.source ?? 'Uploaded', type: f.type }))
   if (filesGrid) {
     filesGrid.setGridOption('rowData', rows)
-    if (state.activeTab === 'files') { filesGrid.autoSizeAllColumns(); filesGrid.sizeColumnsToFit() }
+    sizeActiveGrid()
     renderFilesFilter()
     return
   }
@@ -595,7 +613,9 @@ const renderFilesList = () => {
   filesGrid = agGrid.createGrid(el, {
     autoSizeStrategy: { type: 'fitCellContents', scaleUpToFitGridWidth: true },
     columnDefs: fileCols,
-    defaultColDef: { resizable: false, sortable: true, suppressSizeToFit: true },
+    cellSelection: true,
+    defaultColDef: { editable: true, resizable: false, sortable: true, suppressSizeToFit: true },
+    getContextMenuItems: gridContextMenu,
     doesExternalFilterPass: node => state.filters.files.has(node.data.type),
     getRowClass: p => p.data?.name === state.selectedFile?.name ? 'row-active' : '',
     isExternalFilterPresent: () => state.filters.files != null,
@@ -604,6 +624,7 @@ const renderFilesList = () => {
     rowSelection: { checkboxes: true, headerCheckbox: true, mode: 'multiRow' },
     selectionColumnDef: { pinned: 'left', suppressSizeToFit: true },
     theme: gridTheme(),
+    onFirstDataRendered: onGridReady,
     onRowClicked: e => {
       const file = state.files.find(f => f.name === e.data.name)
       if (file) { state.selectedFile = file; filesGrid.redrawRows(); openDetail(); renderDetail() }
@@ -629,7 +650,7 @@ const renderDetail = () => {
       renderMd(file.markdown)
     } else {
       md.textContent = 'Loading…'
-      fetch(file.path).then(r => r.text()).then(text => { file.markdown = text; renderMd(text) })
+      fetch(file.path).then(r => { if (!r.ok) throw new Error(r.status); return r.text() }).then(text => { file.markdown = text; renderMd(text) }).catch(() => { md.textContent = 'File not found.' })
     }
     view.appendChild(md)
     content.appendChild(view)
@@ -670,8 +691,14 @@ const renderDetail = () => {
 
 const renderStats = (containerId, stats) => {
   const el = g(containerId)
-  if (!el || !stats) return
+  if (!el || !stats?.length) return
   el.replaceChildren()
+  if (stats[0]?.value !== undefined) {
+    const grid = makeEl('div', 'data-grid')
+    stats.forEach(({ label, value }) => { const row = makeEl('div', 'data-row'); row.appendChild(makeEl('span', 'data-key', label)); row.appendChild(makeEl('span', null, value)); grid.appendChild(row) })
+    el.appendChild(grid)
+    return
+  }
   if (!stats.some(s => s.count)) { el.appendChild(makeEl('span', 'empty-state', 'Nothing has been generated, yet.')); return }
   stats.forEach(({ count, icon, label }) => {
     const stat = makeEl('span', 'overview-stat')
@@ -688,15 +715,13 @@ const buildStats = () => {
   const p = state.productData
   if (!p) return { attributes: [], equations: [], model: [], results: [], rules: [] }
   return {
-    attributes: [
-      { count: countFrom(p.attributes, 'productAttributes'), icon: 'fa-regular fa-box', label: 'product attributes' },
-      { count: countFrom(p.attributes, 'inputAttributes'), icon: 'fa-regular fa-table-cells', label: 'input attributes' },
-    ],
+    attributes: (p.attributes?.productAttributes ?? []).map(a => ({ label: a.name, value: String(a.value) })),
     equations: [{ count: p.equations?.length ?? 0, icon: 'fa-regular fa-superscript', label: 'equations' }],
     model: [
       { count: countFrom(p.model, 'inputGroups'), icon: 'fa-regular fa-layer-group', label: 'input groups' },
       { count: countFrom(p.model, 'inputs'), icon: 'fa-regular fa-input-text', label: 'inputs' },
       { count: countFrom(p.model, 'inputValues'), icon: 'fa-regular fa-list', label: 'input values' },
+      { count: countFrom(p.attributes, 'inputAttributes'), icon: 'fa-regular fa-table-cells', label: 'input attributes' },
     ],
     results: [
       { count: countFrom(p.results, 'itemFamilies'), icon: 'fa-regular fa-sitemap', label: 'item families' },
@@ -723,66 +748,166 @@ const renderAllStats = () => {
 
 // Tab content renderers (unchanged — driven by state.productData)
 
-let modelTree = null
+let modelGrid = null
 let rulesTree = null
+
+const modelTreeCols = [
+  { field: 'type', headerName: 'Type' },
+  { field: 'default', headerName: 'Default' },
+  { field: 'value', headerName: 'Value' },
+  { field: 'options', headerName: 'Options', type: 'rightAligned' },
+]
+
+const buildModelRows = p => {
+  const m = p.model
+  const attrsByInput = {}
+  ;(p.attributes?.inputAttributes ?? []).forEach(a => { (attrsByInput[a.driverInputNum] ??= []).push(a) })
+  const rows = []
+  ;(m.inputGroups ?? []).forEach(group => {
+    rows.push({ id: group.id, name: group.name, nodeType: 'group', path: [group.name] })
+    ;(m.inputs ?? []).filter(i => i.groupNum === group.num).forEach(input => {
+      const attrs = attrsByInput[input.num]
+      const values = (m.inputValues ?? []).filter(v => v.inputNum === input.num)
+      const detailRows = attrs ? values.map(val => {
+        const row = { label: val.label, value: val.value }
+        attrs.forEach(a => { row[a.name] = a.values[val.value] ?? '' })
+        return row
+      }) : null
+      rows.push({ default: input.default, detailRows, id: input.id, name: input.label, nodeType: 'input', options: values.length || '', path: [group.name, input.label], type: input.type })
+      if (!attrs) values.forEach(val => {
+        rows.push({ id: `${input.id}-${val.value}`, name: val.label, nodeType: 'value', path: [group.name, input.label, val.label], value: val.value })
+      })
+    })
+  })
+  return rows
+}
+
+const findInputNum = id => state.productData?.model?.inputs?.find(i => i.id === id)?.num
+
+const modelContextMenu = params => {
+  if (!params.node) return params.defaultItems
+  const rowData = []
+  params.api.forEachNode(n => rowData.push(n.data))
+  const idx = rowData.findIndex(r => r.id === params.node.data.id)
+  const d = params.node.data
+  const makeRow = (level, parent) => {
+    const id = `new-${Date.now()}`
+    if (level === 'group') return { id, name: 'New Group', nodeType: 'group', path: [`New Group ${id.slice(-4)}`] }
+    if (level === 'input') return { default: '', id, name: 'New Input', nodeType: 'input', path: [...(parent ?? d.path).slice(0, 1), `New Input ${id.slice(-4)}`], type: 'dropdown' }
+    return { id, name: 'New Value', nodeType: 'value', path: [...(parent ?? d.path).slice(0, 2), `New Value ${id.slice(-4)}`], value: '' }
+  }
+  const items = [
+    { name: `Insert ${d.nodeType} before`, action: () => params.api.applyTransaction({ add: [makeRow(d.nodeType)], addIndex: idx }) },
+    { name: `Insert ${d.nodeType} after`, action: () => params.api.applyTransaction({ add: [makeRow(d.nodeType)], addIndex: idx + 1 }) },
+  ]
+  if (d.nodeType === 'group') items.push({ name: 'Add input', action: () => params.api.applyTransaction({ add: [makeRow('input', d.path)] }) })
+  if (d.nodeType === 'input') {
+    items.push({ name: 'Add value', action: () => params.api.applyTransaction({ add: [makeRow('value', d.path)] }) })
+    items.push({ name: 'Add attribute', action: () => {
+      const inputNum = findInputNum(d.id)
+      const existing = (state.productData?.attributes?.inputAttributes ?? []).filter(a => a.driverInputNum === inputNum)
+      const name = `attribute_${existing.length + 1}`
+      const attr = { driverInputNum: inputNum, id: `ia-${Date.now()}`, name, type: 'text', values: {} }
+      ;(state.productData.attributes ??= {}).inputAttributes ??= []
+      state.productData.attributes.inputAttributes.push(attr)
+      const values = (state.productData.model.inputValues ?? []).filter(v => v.inputNum === inputNum)
+      d.detailRows = values.map(val => {
+        const row = { label: val.label, value: val.value }
+        ;[...existing, attr].forEach(a => { row[a.name] = a.values?.[val.value] ?? '' })
+        return row
+      })
+      // Remove value child rows since they now live in the detail grid
+      const toRemove = []
+      params.api.forEachNode(n => { if (n.data.nodeType === 'value' && n.data.path[1] === d.path[1] && n.data.path[0] === d.path[0]) toRemove.push(n.data) })
+      if (toRemove.length) params.api.applyTransaction({ remove: toRemove })
+      params.api.applyTransaction({ update: [d] })
+      params.api.getRowNode(d.id)?.setExpanded(true)
+    }})
+  }
+  items.push('separator')
+  items.push({ name: 'Delete', action: () => {
+    const toRemove = [d]
+    params.api.forEachNode(n => { if (n.data.path.length > d.path.length && n.data.path.slice(0, d.path.length).join('/') === d.path.join('/')) toRemove.push(n.data) })
+    params.api.applyTransaction({ remove: toRemove })
+  }})
+  items.push('separator', ...params.defaultItems)
+  return items
+}
 
 const renderModelTab = () => {
   const el = g('subpane-model-tree')
   const json = g('subpane-model-json')
   if (!el || !state.productData) return
-  if (modelTree) return
+  const rows = buildModelRows(state.productData)
+  if (modelGrid) { modelGrid.setGridOption('rowData', rows); return }
   el.replaceChildren()
-  const m = state.productData.model
-  const nodes = (m.inputGroups ?? []).map(group => ({
-    data: { group: group.name, name: group.name, nodeType: 'group' },
-    nodes: (m.inputs ?? []).filter(i => i.groupNum === group.num).map(input => ({
-      data: { ...input, group: group.name, nodeType: 'input' },
-      nodes: (m.inputValues ?? []).filter(v => v.inputNum === input.num).map(val => ({
-        data: { label: val.label, nodeType: 'value', value: val.value },
-        nodes: []
-      }))
-    }))
-  }))
-  const grip = '<i class="fa-solid fa-grip-vertical tree-grip"></i>'
-  modelTree = new SortableTree({
-    element: el,
-    icons: { collapsed: '<i class="fa-solid fa-angle-right"></i>', open: '<i class="fa-solid fa-angle-down"></i>' },
-    initCollapseLevel: 2,
-    lockRootLevel: true,
-    nodes,
-    onChange: () => {},
-    onClick: (e, node) => {
-      const d = node.data
-      if (d.nodeType !== 'input') return
-      state.selectedFile = { name: d.label, details: { summary: `Input: ${d.name} (${d.type})`, fields: [['ID', d.id], ['Group', d.group], ['Default', String(d.default ?? '—')], ['Required', d.required ? 'Yes' : 'No'], ...d.options ? [['Options', d.options.join(', ')]] : []] } }
-      openDetail()
-      renderDetail()
+  const gridEl = makeEl('div', 'pane-grid-full'); gridEl.id = 'model-grid'
+  el.appendChild(gridEl)
+  modelGrid = agGrid.createGrid(gridEl, {
+    autoGroupColumnDef: { cellRendererParams: { suppressCount: true }, headerName: 'Name', minWidth: 240, suppressSizeToFit: false },
+    autoSizeStrategy: { type: 'fitCellContents', scaleUpToFitGridWidth: true },
+    cellSelection: true,
+    columnDefs: modelTreeCols,
+    defaultColDef: { editable: true, resizable: false, sortable: true, suppressSizeToFit: true },
+    detailCellRendererParams: p => {
+      const inputNum = findInputNum(p.data.id)
+      const attrs = (state.productData?.attributes?.inputAttributes ?? []).filter(a => a.driverInputNum === inputNum)
+      const addCol = {
+        headerComponent: class {
+          init(hp) {
+            this.gui = makeEl('button', 'button button-icon')
+            this.gui.innerHTML = '<i class="fa-solid fa-plus"></i>'
+            this.gui.title = 'Add attribute'
+            this.gui.onclick = () => {
+              const existing = (state.productData?.attributes?.inputAttributes ?? []).filter(a => a.driverInputNum === inputNum)
+              const name = `attribute_${existing.length + 1}`
+              const attr = { driverInputNum: inputNum, id: `ia-${Date.now()}`, name, type: 'text', values: {} }
+              ;(state.productData.attributes ??= {}).inputAttributes ??= []
+              state.productData.attributes.inputAttributes.push(attr)
+              p.data.detailRows?.forEach(r => { r[name] = '' })
+              const api = hp.api
+              api.setGridOption('columnDefs', [...api.getColumnDefs().slice(0, -1), { field: name, headerName: name }, addCol])
+              api.setGridOption('rowData', p.data.detailRows)
+              api.autoSizeAllColumns()
+              api.sizeColumnsToFit()
+            }
+          }
+          getGui() { return this.gui }
+        },
+        maxWidth: 40,
+        sortable: false,
+        suppressSizeToFit: true,
+      }
+      return {
+        detailGridOptions: {
+          autoSizeStrategy: { type: 'fitCellContents', scaleUpToFitGridWidth: true },
+          columnDefs: [
+            { field: 'label', headerName: 'Value' },
+            ...attrs.map(a => ({ field: a.name, headerName: a.name })),
+            addCol,
+          ],
+          defaultColDef: { editable: true, resizable: false, sortable: true },
+          theme: gridTheme(),
+        },
+        getDetailRowData: params => params.successCallback(p.data.detailRows ?? []),
+      }
     },
-    renderLabel: d => {
-      if (d.nodeType === 'value') return `${grip}<span>${d.label}</span><span class="tree-type">${d.value}</span>`
-      if (d.nodeType === 'input') return `${grip}<span>${d.label}</span><span class="tree-type">${d.type}</span>`
-      return `${grip}<b>${d.name}</b>`
-    },
+    detailRowAutoHeight: true,
+    getContextMenuItems: modelContextMenu,
+    getDataPath: d => d.path,
+    getRowId: p => p.data.id,
+    groupDefaultExpanded: 1,
+    isRowMaster: d => !!d.detailRows,
+    masterDetail: true,
+    onFirstDataRendered: onGridReady,
+    popupParent: document.body,
+    rowData: rows,
+    rowDragManaged: true,
+    suppressMoveWhenRowDragging: true,
+    theme: gridTheme(),
+    treeData: true,
   })
   if (json) { json.replaceChildren(); json.appendChild(makeEl('pre', 'json-view', JSON.stringify(state.productData.model, null, 2))) }
-}
-
-const renderAttributesTab = () => {
-  const el = g('pane-attributes'); if (!el || !state.productData) return; el.replaceChildren()
-  const a = state.productData.attributes
-  const sections = [['Product Attributes', a.productAttributes, attr => [attr.name, String(attr.value)]], ['Input Attributes', a.inputAttributes, attr => [attr.name, `${attr.type}: ${JSON.stringify(attr.values)}`]]]
-  const active = state.filters.attributes ?? null
-  const opts = sections.filter(([, items]) => items?.length).map(([label]) => ({ label, value: label }))
-  const bar = renderFilterBar(opts, active, set => { state.filters.attributes = set; renderAttributesTab() })
-  if (bar) el.appendChild(bar)
-  sections.forEach(([label, items, fmt]) => {
-    if (!items?.length) return
-    if (active && !active.has(label)) return
-    const sec = makeEl('div', 'pane-section'); sec.appendChild(makeEl('b', null, label))
-    const grid = makeEl('div', 'data-grid')
-    items.forEach(item => { const [k, v] = fmt(item); const row = makeEl('div', 'data-row'); row.appendChild(makeEl('span', 'data-key', k)); row.appendChild(makeEl('span', null, v)); grid.appendChild(row) })
-    sec.appendChild(grid); el.appendChild(sec)
-  })
 }
 
 const renderRulesTab = () => {
@@ -821,7 +946,7 @@ const renderRulesTab = () => {
 }
 
 const renderEquationsTab = () => {
-  const el = g('pane-equations'); if (!el || !state.productData) return; el.replaceChildren()
+  const el = g('subpane-rules-equations'); if (!el || !state.productData) return; el.replaceChildren()
   ;(state.productData.equations ?? []).forEach(eq => {
     const sec = makeEl('div', 'equation-card')
     const header = makeEl('div', 'equation-header'); header.appendChild(makeEl('b', null, eq.label)); header.appendChild(makeEl('span', 'data-type', `→ ${eq.outputField}`)); sec.appendChild(header)
@@ -831,21 +956,118 @@ const renderEquationsTab = () => {
   })
 }
 
+let resultsGrid = null
+
+function sizeActiveGrid() {
+  const grid = state.activeTab === 'files' ? filesGrid : state.activeTab === 'model' ? modelGrid : state.activeTab === 'results' ? resultsGrid : null
+  if (!grid) return
+  grid.autoSizeAllColumns()
+  grid.sizeColumnsToFit()
+}
+const onGridReady = p => { p.api.autoSizeAllColumns(); p.api.sizeColumnsToFit() }
+
+const resultsCols = [
+  { field: 'itemNumber', headerName: 'Item #' },
+  { cellRenderer: p => {
+    const indent = (p.data?.level ?? 0) * 20
+    const el = makeEl('span'); el.style.paddingLeft = `${indent}px`; el.textContent = p.value ?? ''
+    return el
+  }, field: 'description', headerName: 'Description', minWidth: 220, suppressSizeToFit: false },
+  { field: 'qty', headerName: 'Qty', type: 'rightAligned' },
+  { field: 'uom', headerName: 'UOM' },
+  { field: 'source', headerName: 'Source' },
+  { cellRenderer: p => {
+    if (!p.value) return ''
+    const el = makeEl('span', 'cell-badge'); el.textContent = p.value; el.dataset.category = p.value; return el
+  }, field: 'resolution', headerName: 'Resolution' },
+]
+const resolveConfig = p => {
+  const inputs = Object.fromEntries(p.model.inputs.map(i => [i.num, i]))
+  const inputsByName = Object.fromEntries(p.model.inputs.map(i => [i.name, i]))
+  const vals = Object.fromEntries(p.model.inputs.map(i => [i.name, i.default]))
+  const valLabels = {}
+  p.model.inputValues.forEach(iv => { if (String(inputs[iv.inputNum]?.default) === String(iv.value)) valLabels[iv.inputNum] = iv.label })
+  const attrs = {}
+  ;(p.attributes?.inputAttributes ?? []).forEach(ia => {
+    const dv = String(inputs[ia.driverInputNum]?.default ?? '')
+    attrs[ia.name] = Number(ia.values?.[dv] ?? 0)
+  })
+  const eqs = {}
+  ;(p.equations ?? []).forEach(eq => {
+    let expr = eq.expression
+    eq.variables.forEach(v => { expr = expr.replaceAll(v.name, vals[v.name] ?? 0) })
+    try { eqs[eq.outputField] = Math.round(Function(`"use strict"; return (${expr})`)() * 100) / 100 } catch { eqs[eq.outputField] = 0 }
+  })
+  const families = Object.fromEntries((p.results.itemFamilies ?? []).map(f => [f.id, f]))
+  const masters = Object.fromEntries((p.results.itemMasters ?? []).map(m => [m.id, m]))
+  const mastersList = p.results.itemMasters ?? []
+  const findByLabel = label => label ? mastersList.find(m => m.description.toLowerCase().includes(label.toLowerCase())) : null
+  const resolveQty = q => {
+    if (!q) return 1
+    if (q.type === 'value') return q.value
+    if (q.type === 'equation') return eqs[q.equationName] ?? 0
+    if (q.type === 'product_input') return attrs[q.attribute] ?? 0
+    return 1
+  }
+  const rows = []
+  ;(p.results.bomSkeleton ?? []).forEach(bom => {
+    let itemNumber = '', desc = bom.referenceName, source = '', uom = '', resolution = '', included = bom.includedByDefault
+    if (bom.type === 'item_family') {
+      const f = families[bom.referenceId]
+      if (f) {
+        desc = f.name; uom = f.unitOfMeasure; source = 'configured'; resolution = 'configured'
+        const resolvePattern = pat => pat.replace(/\{(\w+)\}/g, (_, k) => vals[k.toUpperCase()] ?? vals[k] ?? k)
+        const pattern = (p.attributes?.productAttributes ?? []).find(a => a.value?.includes('{') && f.name.toLowerCase().includes(a.name.replace(/_pattern$/, '').replace(/_/g, ' ')))
+        itemNumber = pattern ? resolvePattern(pattern.value) : `${p.product?.code ?? 'CFG'}-${Object.values(vals).join('-')}`
+      }
+    } else if (bom.type === 'item_master') {
+      const m = masters[bom.referenceId]
+      if (m) { itemNumber = m.smartPartNumber ?? m.itemNumber; desc = m.description; uom = m.unitOfMeasure; source = m.type; resolution = 'static' }
+    } else if (bom.type === 'input') {
+      const inputNum = Number(bom.referenceId.replace('inp-', ''))
+      const m = findByLabel(valLabels[inputNum])
+      if (m) { itemNumber = m.smartPartNumber ?? m.itemNumber; desc = m.description; uom = m.unitOfMeasure; source = m.type; resolution = 'input' }
+      else { desc = `${bom.referenceName}: ${valLabels[inputNum] ?? ''}` ; resolution = 'input' }
+    } else if (bom.type === 'driven') {
+      const di = (p.results.drivenItemMasters ?? []).find(d => d.drivenItemId === bom.referenceId)
+      if (di) {
+        const label2 = valLabels[di.driver2InputNum ?? di.driverInputNum] ?? ''
+        const m = mastersList.find(m => { const d = m.description.toLowerCase(); return d.includes(label2.toLowerCase()) || d.includes('all finishes') })
+        if (m) { itemNumber = m.smartPartNumber ?? m.itemNumber; desc = m.description; uom = m.unitOfMeasure; source = m.type; resolution = 'driven' }
+      }
+      if (!itemNumber) resolution = 'driven'
+    }
+    if (!bom.includedByDefault) {
+      const logicItems = p.rules?.logicItems ?? []
+      const baseVal = vals.BASE
+      if (bom.referenceId === 'im-9') included = baseVal !== 'T-LEG'
+      else if (bom.referenceId === 'im-10') included = baseVal === 'T-LEG'
+      else included = false
+      resolution = 'conditional'
+    }
+    const qty = included ? resolveQty(bom.quantity) : 0
+    rows.push({ description: desc, included, itemNumber, level: bom.level, qty: included ? qty : '', resolution, source, uom })
+  })
+  return rows
+}
 const renderResultsTab = () => {
-  const el = g('pane-results'); if (!el || !state.productData) return; el.replaceChildren()
-  const r = state.productData.results
-  const sections = [['Item Families', r.itemFamilies, i => `${i.name} — ${i.description}`], ['Item Masters', r.itemMasters, i => `${i.smartPartNumber} — ${i.description} (${i.type})`], ['BOM Skeleton', r.bomSkeleton, i => `${'  '.repeat(i.level)}${i.referenceName} × ${i.quantity.value ?? i.quantity.inputName ?? i.quantity.equationName}${i.includedByDefault ? '' : ' (optional)'}`], ['Driven Item Masters', r.drivenItemMasters, i => i.description], ['Product Outputs', r.productOutputs, i => `${i.name} (${i.type})`]]
-  const active = state.filters.results ?? null
-  const opts = sections.filter(([, items]) => items?.length).map(([label]) => ({ label, value: label }))
-  const bar = renderFilterBar(opts, active, set => { state.filters.results = set; renderResultsTab() })
-  if (bar) el.appendChild(bar)
-  sections.forEach(([label, items, fmt]) => {
-    if (!items?.length) return
-    if (active && !active.has(label)) return
-    const sec = makeEl('div', 'pane-section'); sec.appendChild(makeEl('b', null, label))
-    const grid = makeEl('div', 'data-grid')
-    items.forEach(item => { const row = makeEl('div', 'data-row'); row.appendChild(makeEl('span', null, fmt(item))); grid.appendChild(row) })
-    sec.appendChild(grid); el.appendChild(sec)
+  const el = g('pane-results'); if (!el || !state.productData) return
+  const rows = resolveConfig(state.productData)
+  if (resultsGrid) { resultsGrid.setGridOption('rowData', rows); return }
+  el.replaceChildren()
+  const gridEl = makeEl('div', 'pane-grid-full'); gridEl.id = 'results-grid'
+  el.appendChild(gridEl)
+  resultsGrid = agGrid.createGrid(gridEl, {
+    autoSizeStrategy: { type: 'fitCellContents', scaleUpToFitGridWidth: true },
+    columnDefs: resultsCols,
+    cellSelection: true,
+    defaultColDef: { editable: true, resizable: false, sortable: true, suppressSizeToFit: true },
+    getContextMenuItems: gridContextMenu,
+    getRowClass: p => p.data?.included === false ? 'row-excluded' : '',
+    onFirstDataRendered: onGridReady,
+    popupParent: document.body,
+    rowData: rows,
+    theme: gridTheme(),
   })
 }
 
@@ -880,12 +1102,13 @@ const renderCommitTab = () => {
 
 
 const clearTabContent = () => {
-  if (modelTree) { modelTree.destroy(); modelTree = null }
+  if (modelGrid) { modelGrid.destroy(); modelGrid = null }
+  if (resultsGrid) { resultsGrid.destroy(); resultsGrid = null }
   if (rulesTree) { rulesTree.destroy(); rulesTree = null }
-  ;['subpane-model-tree', 'subpane-model-json', 'pane-attributes', 'subpane-rules-tree', 'subpane-rules-json', 'pane-equations', 'pane-results', 'pane-preview', 'commit-content'].forEach(id => g(id)?.replaceChildren())
+  ;['subpane-model-tree', 'subpane-model-attributes', 'subpane-model-json', 'subpane-rules-tree', 'subpane-rules-equations', 'subpane-rules-json', 'pane-results', 'pane-preview', 'commit-content'].forEach(id => g(id)?.replaceChildren())
 }
 
-const renderTabContent = () => { if (!state.productData) { clearTabContent(); return } renderModelTab(); renderAttributesTab(); renderRulesTab(); renderEquationsTab(); renderResultsTab(); renderPreviewTab(); renderCommitTab() }
+const renderTabContent = () => { if (!state.productData) { clearTabContent(); return } renderModelTab(); renderRulesTab(); renderEquationsTab(); renderResultsTab(); renderPreviewTab(); renderCommitTab() }
 
 
 // Main render
@@ -938,6 +1161,10 @@ const render = () => {
     ring.classList.toggle('danger', state.context > 40)
   }
   g('chat-input').placeholder = state.placeholder
+  const ffBtn = g('ff-btn')
+  const atEnd = state.sequence === 'end-game'
+  ffBtn.title = atEnd ? 'Fast-forward to commit' : 'Fast-forward to build complete'
+  ffBtn.querySelector('i').className = atEnd ? 'fa-solid fa-forward-fast' : 'fa-solid fa-forward'
   q('.chip-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === state.activeTab))
   q('.tab-pane').forEach(p => p.classList.toggle('active', p.id === `pane-${state.activeTab}`))
   renderWorkspaces()
@@ -1011,8 +1238,89 @@ q('.sub-tab').forEach(tab => tab.addEventListener('click', () => {
 q('.chip-tab').forEach(tab => tab.addEventListener('click', () => {
   state.activeTab = tab.dataset.tab
   render()
-  if (tab.dataset.tab === 'files' && filesGrid) { filesGrid.autoSizeAllColumns(); filesGrid.sizeColumnsToFit() }
+  sizeActiveGrid()
 }))
+
+const fastForward = async target => {
+  if (state.activeAutomation) {
+    if (state.statusInterval) { clearInterval(state.statusInterval); state.statusInterval = null }
+    state.activeAutomation = null
+  }
+  if (modelGrid) { modelGrid.destroy(); modelGrid = null }
+  if (resultsGrid) { resultsGrid.destroy(); resultsGrid = null }
+  if (rulesTree) { rulesTree.destroy(); rulesTree = null }
+  const stopSequence = target === 'build' ? 'end-game' : null
+  let pendingProductData = null
+  for (let safety = 0; safety < 200; safety++) {
+    const steps = demos[state.demoId]?.sequences?.[state.sequence]?.steps ?? []
+    const step = steps[state.demoIndex]
+    if (!step) {
+      const next = demos[state.demoId]?.sequences?.[state.sequence]?.next
+      if (next && next !== stopSequence) { state.sequence = next; state.demoIndex = 0; continue }
+      break
+    }
+    if (step.workspace) state.name = step.workspace
+    if (step.workflow) state.workflow = { id: step.workflow, step: step.steps?.length ?? 0 }
+    if (step.placeholder) state.placeholder = step.placeholder
+    if (step.preloadFiles) step.preloadFiles.forEach(f => addContextFile(f))
+    if (step.skip && state.skipIndustry) {
+      pushMsg({ type: 'agent', text: step.skip.agent })
+      if (step.file) addContextFile(step.file)
+      state.demoIndex++; continue
+    }
+    if (step.agent) pushMsg({ type: 'agent', text: step.agent })
+    if (step.response) pushMsg(step.response)
+    if (step.steps) {
+      state.workflowStartTime = Date.now()
+      if (step.file) {
+        const a = step.assessment ?? {}
+        const detail = [a.pages && `${a.pages} pages`, a.tables && `${a.tables} tables`].filter(Boolean).join(' · ')
+        const file = { ...step.file, assessment: a, detail: detail || undefined, progress: 1 }
+        state.files.push(file)
+        if (step.productSummary) updateProductSummary(step.productSummary, step.assessment)
+        pushMsg({ type: 'file-card', file })
+      } else if (step.label) {
+        const detail = step.steps.map(s => s.detail).pop()
+        pushMsg({ type: 'result-card', label: step.label, detail, tab: step.tab })
+      }
+      if (step.productData) pendingProductData = step.productData
+      const last = step.steps[step.steps.length - 1]
+      if (last?.context) state.context = last.context
+      if (step.tab) state.activeTab = step.tab
+      pushElapsed()
+    } else {
+      if (step.file) addContextFile(step.file)
+      if (step.recap) {
+        if (step.files) step.files.forEach(f => {
+          const file = state.files.find(sf => sf.name === f.label)
+          if (file) pushMsg({ type: 'file-card', file })
+        })
+        const archived = [...state.messages]
+        state.messages = [{ type: 'collapsed-messages', archived, expanded: false }]
+        if (step.files) {
+          const wf = state.workflow && workflows[state.workflow.id]
+          pushMsg({ type: 'recap', files: step.files, label: `${wf?.name ?? 'Workflow'} complete` })
+        }
+        if (step.context) state.context = step.context
+      }
+      if (step.actions) {
+        const action = step.actions.find(a => !a.disabled)
+        if (action?.workflow) state.workflow = { id: action.workflow, step: 0 }
+        if (action?.sequence) { state.sequence = action.sequence; state.demoIndex = 0; continue }
+      }
+    }
+    state.demoIndex++
+  }
+  if (pendingProductData) {
+    const pd = await fetch(pendingProductData).then(r => r.json())
+    state.productData = pd
+    state.name = pd.product.name
+  }
+  state.status = null
+  state.activeAutomation = null
+  render()
+  sizeActiveGrid()
+}
 
 const submitInput = () => {
   const input = g('chat-input')
@@ -1024,6 +1332,10 @@ const submitInput = () => {
 
 g('chat-input').addEventListener('keydown', e => { if (e.key === 'Enter') submitInput() })
 g('send-btn').addEventListener('click', submitInput)
+g('ff-btn').addEventListener('click', () => {
+  const atEnd = state.sequence === 'end-game'
+  fastForward(atEnd ? 'commit' : 'build')
+})
 
 g('menu-reset').addEventListener('click', () => {
   g('workspace-menu').hidePopover()
@@ -1047,7 +1359,10 @@ fetch('fixtures.json').then(r => r.json()).then(fx => {
 }).then(demoFiles => {
   demoFiles.forEach(df => demos.push({ ...df, sequences: buildDemoSequences(fixtures.sequences, df) }))
   demos.forEach((_, i) => workspaces.push(createWorkspace(i)))
+  workspaces.forEach((ws, i) => { activeWorkspaceId = i; state = ws; enterStep(0) })
   activeWorkspaceId = 0
   state = workspaces[0]
-  enterStep(0)
+  render()
 })
+
+window.addEventListener('resize', sizeActiveGrid)

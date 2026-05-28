@@ -137,7 +137,7 @@
         },
         {
           "buildPhase": true,
-          "label": "Skeleton generated",
+          "label": "Model generated",
           "pills": [{ "label": "Build rules" }, { "demo": true, "label": "Next" }],
           "productData": "cyclo-6000.json",
           "response": "Build rules",
@@ -148,33 +148,33 @@
             { "context": 55, "detail": "23 input values resolved", "ms": 2000, "statusFrames": ["Resolving orientation values…", "Resolving housing values…", "Resolving shaft spec values…"], "step": "Input values" }
           ],
           "tab": "model",
-          "workflow": "generate-skeleton"
+          "workflow": "generate-model"
         },
         {
           "buildPhase": true,
-          "label": "Constraints generated",
-          "pills": [{ "label": "Build BOM" }, { "demo": true, "label": "Next" }],
-          "response": "Build BOM",
+          "label": "Rules generated",
+          "pills": [{ "label": "Build results" }, { "demo": true, "label": "Next" }],
+          "response": "Build results",
           "steps": [
             { "context": 60, "detail": "3 driven inputs · 5 input attributes", "ms": 3000, "statusFrames": ["Building frame/motor capacity matrix…", "Building product line/ratio matrix…", "Building housing/frame constraint…"], "step": "Driven inputs" },
             { "context": 68, "detail": "3 logic groups · 8 logic items · 3 filters · 2 iterators", "ms": 3500, "statusFrames": ["Inferring configuration constraints…", "Mapping motor validation rules…", "Building input filter chains…", "Defining iterator logic…"], "step": "Rules" },
             { "context": 72, "detail": "3 equations — torque, speed, price", "ms": 2500, "statusFrames": ["Deriving output torque formula…", "Calculating output speed expression…", "Building list price equation…"], "step": "Equations" }
           ],
           "tab": "rules",
-          "workflow": "generate-constraints"
+          "workflow": "generate-rules"
         },
         {
           "buildPhase": true,
-          "label": "BOM generated",
+          "label": "Results generated",
           "pills": [{ "label": "Validate" }, { "demo": true, "label": "Next" }],
           "response": "Validate",
           "steps": [
             { "context": 76, "detail": "3 item families · 15 item masters", "ms": 3000, "statusFrames": ["Creating Cyclo Reducer Assembly family…", "Creating Motors family…", "Mapping 15 part numbers…"], "step": "Item masters" },
-            { "context": 79, "detail": "11 BOM skeleton lines", "ms": 2500, "statusFrames": ["Building casing assembly hierarchy…", "Adding motor and housing lines…", "Adding optional brake assembly…"], "step": "BOM skeleton" },
+            { "context": 79, "detail": "11 BOM lines", "ms": 2500, "statusFrames": ["Building casing assembly hierarchy…", "Adding motor and housing lines…", "Adding optional brake assembly…"], "step": "BOM lines" },
             { "context": 80, "detail": "4 driven item masters · 4 product outputs", "ms": 2000, "statusFrames": ["Linking frame to casing part…", "Linking motor capacity to motor part…", "Creating product output fields…"], "step": "Driven items" }
           ],
           "tab": "results",
-          "workflow": "generate-bom"
+          "workflow": "generate-results"
         }
       ]
     },
@@ -242,9 +242,9 @@
           "steps": [
             { "context": 94, "detail": "3 new · 0 edits", "ms": 1500, "statusFrames": ["Classifying draft items…"], "step": "Operation selection" },
             { "context": 95, "detail": "Product created", "ms": 2000, "statusFrames": ["Creating product in C1C…"], "step": "Writing product" },
-            { "context": 96, "detail": "4 groups · 12 inputs", "ms": 2500, "statusFrames": ["Committing input groups…", "Committing inputs…"], "step": "Writing skeleton" },
+            { "context": 96, "detail": "4 groups · 12 inputs", "ms": 2500, "statusFrames": ["Committing input groups…", "Committing inputs…"], "step": "Writing model" },
             { "context": 97, "detail": "3 logic items", "ms": 2000, "statusFrames": ["Committing logic items…", "Committing driven inputs…"], "step": "Writing rules" },
-            { "context": 98, "detail": "8 line items", "ms": 2000, "statusFrames": ["Committing BOM lines…", "Linking item masters…"], "step": "Writing BOM" },
+            { "context": 98, "detail": "8 line items", "ms": 2000, "statusFrames": ["Committing BOM lines…", "Linking item masters…"], "step": "Writing results" },
             { "context": 100, "detail": "All checks passed", "ms": 1500, "statusFrames": ["Running binding validation…", "Checking reference integrity…"], "step": "Binding validation" }
           ],
           "tab": "commit",

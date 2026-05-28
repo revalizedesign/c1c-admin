@@ -176,7 +176,7 @@ body {
 
 #workspaces-panel {
   border-right: 1px solid var(--color-light);
-  width: 10rem;
+  width: 15rem;
 }
 
 #workspaces-panel.collapsed {
@@ -700,6 +700,21 @@ body {
 }
 
 
+.cell-badge {
+  border-radius: 4px;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  padding: 1px 6px;
+}
+
+.cell-badge[data-category="conditional"] { background: color-mix(in srgb, orange 15%, transparent); color: #a06000 }
+.cell-badge[data-category="configured"] { background: color-mix(in srgb, var(--color-brand) 15%, transparent); color: var(--color-brand) }
+.cell-badge[data-category="driven"] { background: color-mix(in srgb, purple 12%, transparent); color: #7a1a7a }
+.cell-badge[data-category="input"] { background: color-mix(in srgb, green 12%, transparent); color: #1a7a1a }
+.cell-badge[data-category="static"] { background: color-mix(in srgb, var(--color-darker) 10%, transparent); color: var(--color-darker) }
+
+.row-excluded .ag-cell { opacity: 0.4 }
+
 .cell-filter {
   cursor: pointer;
 }
@@ -753,6 +768,12 @@ body {
 #tab-bar {
   flex-wrap: wrap;
   gap: 4px;
+}
+
+.tab-sep {
+  background: var(--color-light);
+  height: 1rem;
+  width: 1px;
 }
 
 .chip-tab {
@@ -1023,6 +1044,11 @@ sortable-tree-node {
   flex: 1;
   min-height: 0;
 }
+
+.ag-details-row {
+  padding: 0.5rem;
+}
+
 
 .overview-stats {
   border: 1px solid var(--color-light);

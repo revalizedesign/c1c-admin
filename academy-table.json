@@ -1,0 +1,144 @@
+{
+  "product": {
+    "category": "Tables",
+    "code": "ACT",
+    "id": "prod-academy-table",
+    "name": "Academy Conference Table"
+  },
+
+  "model": {
+    "inputGroups": [
+      { "id": "ig-1", "name": "Table Design", "num": 1 },
+      { "id": "ig-2", "name": "Top Options", "num": 2 },
+      { "id": "ig-3", "name": "Base Options", "num": 3 },
+      { "id": "ig-4", "name": "Connectivity Options", "num": 4 }
+    ],
+    "inputs": [
+      { "default": "RACE", "groupNum": 1, "id": "inp-1", "label": "Shape", "name": "TOP_SHAPE", "num": 1, "options": ["BOAT", "RACE", "RECT"], "type": "dropdown" },
+      { "default": "120", "groupNum": 2, "id": "inp-2", "label": "Length", "name": "TOP_LENGTH", "num": 2, "options": ["84", "96", "120", "144"], "required": true, "type": "dropdown" },
+      { "default": "48", "groupNum": 2, "id": "inp-3", "label": "Width", "name": "TOP_WIDTH", "num": 3, "options": ["42", "48", "60"], "required": true, "type": "dropdown" },
+      { "default": "CHR", "groupNum": 2, "id": "inp-4", "label": "Wood Finish", "name": "WOOD_FINISH", "num": 4, "options": ["ASH", "CHR", "MAP", "OAK", "WAL"], "type": "dropdown" },
+      { "default": "RB", "groupNum": 2, "id": "inp-5", "label": "Edge Detail", "name": "EDGE_DETAIL", "num": 5, "options": ["CR", "OV", "RB", "SE"], "type": "dropdown" },
+      { "default": "N", "groupNum": 2, "id": "inp-6", "label": "Include Connectivity Options?", "name": "CONNECTIVITY", "num": 6, "options": ["N", "Y"], "type": "radio" },
+      { "default": "T-LEG", "groupNum": 3, "id": "inp-7", "label": "Base", "name": "BASE", "num": 7, "options": ["CYL", "HALF-CYL", "RECT", "T-LEG"], "type": "dropdown" },
+      { "default": "COVE", "groupNum": 4, "id": "inp-8", "label": "Connectivity Module", "name": "CONNECTIVITY_OPTION", "num": 8, "options": ["COVE", "TECH"], "type": "dropdown" }
+    ],
+    "inputValues": [
+      { "inputNum": 1, "label": "Boat", "value": "BOAT" },
+      { "inputNum": 1, "label": "Racetrack", "value": "RACE" },
+      { "inputNum": 1, "label": "Rectangle", "value": "RECT" },
+      { "inputNum": 2, "label": "84\"", "value": "84" },
+      { "inputNum": 2, "label": "96\"", "value": "96" },
+      { "inputNum": 2, "label": "120\"", "value": "120" },
+      { "inputNum": 2, "label": "144\"", "value": "144" },
+      { "inputNum": 3, "label": "42\"", "value": "42" },
+      { "inputNum": 3, "label": "48\"", "value": "48" },
+      { "inputNum": 3, "label": "60\"", "value": "60" },
+      { "inputNum": 4, "label": "Ash", "value": "ASH" },
+      { "inputNum": 4, "label": "Cherry", "value": "CHR" },
+      { "inputNum": 4, "label": "Maple", "value": "MAP" },
+      { "inputNum": 4, "label": "Oak", "value": "OAK" },
+      { "inputNum": 4, "label": "Walnut", "value": "WAL" },
+      { "inputNum": 5, "label": "Crown", "value": "CR" },
+      { "inputNum": 5, "label": "Oval", "value": "OV" },
+      { "inputNum": 5, "label": "Reverse Bevel", "value": "RB" },
+      { "inputNum": 5, "label": "Self-Edge", "value": "SE" },
+      { "inputNum": 6, "label": "No", "value": "N" },
+      { "inputNum": 6, "label": "Yes", "value": "Y" },
+      { "inputNum": 7, "label": "Cylinder", "value": "CYL" },
+      { "inputNum": 7, "label": "Half-Cylinder", "value": "HALF-CYL" },
+      { "inputNum": 7, "label": "Metal T-Leg", "value": "T-LEG" },
+      { "inputNum": 7, "label": "Rectangle", "value": "RECT" },
+      { "inputNum": 8, "label": "Power Cove", "value": "COVE" },
+      { "inputNum": 8, "label": "Tech Node", "value": "TECH" }
+    ]
+  },
+
+  "attributes": {
+    "inputAttributes": [
+      { "driverInputNum": 2, "id": "ia-1", "name": "leg_qty", "type": "numeric", "values": { "120": "2", "144": "3", "84": "2", "96": "2" } }
+    ],
+    "productAttributes": [
+      { "id": "pa-1", "name": "product_code_prefix", "value": "ACT" },
+      { "id": "pa-2", "name": "product_family", "value": "Academy Conference Table" },
+      { "id": "pa-3", "name": "assembly_pattern", "value": "ACT-{shape}-{length}-{width}-{finish}-{base}" },
+      { "id": "pa-4", "name": "table_top_pattern", "value": "ACTT-{shape}-{length}-{width}-{finish}" }
+    ]
+  },
+
+  "rules": {
+    "drivenInputs": [
+      { "description": "Wood Finish and Base style determine base item master", "driver1InputNum": 4, "driver2InputNum": 7, "drivenInputNum": 7, "id": "di-1" }
+    ],
+    "inputFilters": [
+      { "attribute": "leg_qty", "filteredInputNum": 7, "filteringInputNum": 2, "id": "if-1" }
+    ],
+    "iterators": [
+      { "code": "CON", "description": "Connectivity module quantity — repeats BOM line per selected module", "id": "it-1", "quantityInputNum": 8 }
+    ],
+    "logicGroups": [
+      { "id": "lg-1", "name": "Configuration Interface", "num": 1 },
+      { "id": "lg-2", "name": "BOM Logic", "num": 2 }
+    ],
+    "logicItems": [
+      { "groupNum": 1, "id": "li-1", "name": "Show Connectivity Options only when requested", "num": 1, "type": "conditional_ask" },
+      { "groupNum": 1, "id": "li-2", "name": "Page break after Table Design", "num": 2, "type": "page_break" },
+      { "groupNum": 1, "id": "li-3", "name": "Page break after Base Options", "num": 3, "type": "page_break" },
+      { "groupNum": 2, "id": "li-4", "name": "Include post hardware kit when base is not T-Leg", "num": 4, "type": "include_bom_item" },
+      { "groupNum": 2, "id": "li-5", "name": "Include T-Leg hardware kit when base is T-Leg", "num": 5, "type": "include_bom_item" },
+      { "groupNum": 2, "id": "li-6", "name": "Base leg quantity driven by table length", "num": 6, "type": "set_quantity" }
+    ]
+  },
+
+  "equations": [
+    { "expression": "(TOP_LENGTH * 2 + TOP_WIDTH * 2) / 12", "id": "eq-1", "label": "Table Top Perimeter", "outputField": "table_top_perimeter_ft", "variables": [{ "inputNum": 2, "name": "TOP_LENGTH" }, { "inputNum": 3, "name": "TOP_WIDTH" }] }
+  ],
+
+  "results": {
+    "bomSkeleton": [
+      { "id": "bom-1", "includedByDefault": true, "level": 0, "quantity": { "type": "value", "value": 1 }, "referenceId": "if-1", "referenceName": "Academy Conference Table Assembly", "type": "item_family" },
+      { "id": "bom-2", "includedByDefault": true, "level": 1, "quantity": { "type": "value", "value": 1 }, "referenceId": "if-2", "referenceName": "Academy Conference Table Top", "type": "item_family" },
+      { "id": "bom-3", "includedByDefault": true, "level": 1, "quantity": { "equationName": "table_top_perimeter_ft", "type": "equation" }, "referenceId": "inp-5", "referenceName": "Edge Detail", "type": "input" },
+      { "id": "bom-4", "includedByDefault": true, "level": 1, "quantity": { "type": "value", "value": 1 }, "referenceId": "inp-8", "referenceName": "Connectivity Module", "type": "input" },
+      { "id": "bom-5", "includedByDefault": true, "level": 1, "quantity": { "attribute": "leg_qty", "inputName": "TOP_LENGTH", "type": "product_input" }, "referenceId": "di-1", "referenceName": "Base", "type": "driven" },
+      { "id": "bom-6", "includedByDefault": false, "level": 1, "quantity": { "attribute": "leg_qty", "inputName": "TOP_LENGTH", "type": "product_input" }, "referenceId": "im-9", "referenceName": "Post Leg Hardware Kit", "type": "item_master" },
+      { "id": "bom-7", "includedByDefault": false, "level": 1, "quantity": { "attribute": "leg_qty", "inputName": "TOP_LENGTH", "type": "product_input" }, "referenceId": "im-10", "referenceName": "T-Leg Hardware Kit", "type": "item_master" }
+    ],
+    "drivenItemMasters": [
+      { "description": "Wood Finish and Base style determine base part number", "driver2InputNum": 7, "driverInputNum": 4, "drivenItemId": "di-1", "id": "dim-1" }
+    ],
+    "itemFamilies": [
+      { "description": "Top-level configurable item — unique per configuration", "id": "if-1", "name": "Academy Conference Table Assembly", "unitOfMeasure": "ea" },
+      { "description": "Table top generated from shape, length, width, and finish", "id": "if-2", "name": "Academy Conference Table Top", "unitOfMeasure": "ea" }
+    ],
+    "itemMasters": [
+      { "description": "1/4\" Flat Washer", "id": "im-12", "itemNumber": "C1-W25F00", "smartPartNumber": "C1-W25F00", "type": "purchased", "unitOfMeasure": "ea" },
+      { "description": "1/4\" x 1 1/4\" Hex Head Bolt", "id": "im-11", "itemNumber": "C1-B25125", "smartPartNumber": "C1-B25125", "type": "purchased", "unitOfMeasure": "ea" },
+      { "description": "Power Cove Module", "id": "im-13", "itemNumber": "C1-CN-COVE", "smartPartNumber": "C1-CN-COVE", "type": "purchased", "unitOfMeasure": "ea" },
+      { "description": "Crown Table Edging", "id": "im-3", "itemNumber": "C1-TE096", "smartPartNumber": "C1-TE096", "type": "purchased", "unitOfMeasure": "ft" },
+      { "description": "Cylinder Leg — Cherry", "id": "im-7", "itemNumber": "C1-TB-WC-1502", "smartPartNumber": "C1-TB-WC-1502", "type": "manufactured", "unitOfMeasure": "ea" },
+      { "description": "Half-Cylinder Leg — Cherry", "id": "im-6", "itemNumber": "C1-TB-WH-1502", "smartPartNumber": "C1-TB-WH-1502", "type": "manufactured", "unitOfMeasure": "ea" },
+      { "description": "Metal T-Leg — all finishes", "id": "im-5", "itemNumber": "C1-TL-T-1222", "smartPartNumber": "C1-TL-T-1222", "type": "purchased", "unitOfMeasure": "ea" },
+      { "description": "Oval Table Edging", "id": "im-4", "itemNumber": "C1-TE099", "smartPartNumber": "C1-TE099", "type": "purchased", "unitOfMeasure": "ft" },
+      { "description": "Post Leg Hardware Kit", "id": "im-9", "itemNumber": "C1-KIT-1000", "smartPartNumber": "C1-KIT-1000", "type": "purchased", "unitOfMeasure": "ea" },
+      { "description": "Rectangle Leg — Cherry", "id": "im-8", "itemNumber": "C1-TB-WR-1502", "smartPartNumber": "C1-TB-WR-1502", "type": "manufactured", "unitOfMeasure": "ea" },
+      { "description": "Reverse Bevel Table Edging", "id": "im-1", "itemNumber": "C1-TE097", "smartPartNumber": "C1-TE097", "type": "purchased", "unitOfMeasure": "ft" },
+      { "description": "Self-Edge Table Edging", "id": "im-2", "itemNumber": "C1-TE098", "smartPartNumber": "C1-TE098", "type": "purchased", "unitOfMeasure": "ft" },
+      { "description": "T-Leg Hardware Kit", "id": "im-10", "itemNumber": "C1-KIT-2000", "smartPartNumber": "C1-KIT-2000", "type": "purchased", "unitOfMeasure": "ea" },
+      { "description": "Tech Node Module", "id": "im-14", "itemNumber": "C1-CN-TECH", "smartPartNumber": "C1-CN-TECH", "type": "purchased", "unitOfMeasure": "ea" }
+    ],
+    "productOutputs": [
+      { "description": "Design BOM with smart part numbers", "id": "po-2", "name": "Bill of Material - Design", "type": "smart_part_bom" },
+      { "description": "Inputs and selected values", "id": "po-1", "name": "Configuration Summary", "type": "input_listing" },
+      { "description": "Pricing BOM with costs", "id": "po-3", "name": "Bill of Material - Price", "type": "smart_part_bom" }
+    ]
+  },
+
+  "_tabMapping": {
+    "attributes": ["productAttributes", "inputAttributes"],
+    "equations": ["equations"],
+    "model": ["inputGroups", "inputs", "inputValues"],
+    "results": ["itemFamilies", "itemMasters", "bomSkeleton", "drivenItemMasters", "productOutputs"],
+    "rules": ["logicGroups", "logicItems", "drivenInputs", "inputFilters", "iterators"]
+  }
+}

@@ -1,5 +1,5 @@
 {
-  "demos": ["demo-cyclo-6000.json"],
+  "demos": ["demo-academy-table.json", "demo-cyclo-6000.json"],
   "sequences": {
     "onboarding": {
       "next": "triage",
@@ -43,13 +43,13 @@
     { "id": "motor-vehicles", "label": "Motor Vehicles", "path": "files/verticals/motor-vehicles.md", "size": "32.8 kb" }
   ],
   "workflows": {
-    "commit-to-cloud": { "name": "Commit to cloud", "steps": ["Operation selection", "Writing product", "Writing skeleton", "Writing rules", "Writing BOM", "Binding validation"] },
+    "commit-to-cloud": { "name": "Commit to cloud", "steps": ["Operation selection", "Writing product", "Writing model", "Writing rules", "Writing results", "Binding validation"] },
     "edit-product": { "name": "Edit product", "steps": ["Select", "Iterate", "Commit"] },
     "file-ingress": { "name": "File ingress", "steps": ["Download", "Read", "Analyze", "Summarize"] },
     "first-use": { "name": "Onboarding", "steps": ["Company", "Industry", "User", "Review"] },
-    "generate-bom": { "name": "Generate BOM", "steps": ["Item masters", "BOM skeleton", "Driven items"] },
-    "generate-constraints": { "name": "Generate constraints", "steps": ["Driven inputs", "Rules", "Equations"] },
-    "generate-skeleton": { "name": "Generate skeleton", "steps": ["Parse document", "Input groups", "Inputs", "Input values"] },
+    "generate-results": { "name": "Generate results", "steps": ["Item masters", "BOM lines", "Driven items"] },
+    "generate-rules": { "name": "Generate rules", "steps": ["Driven inputs", "Rules", "Equations"] },
+    "generate-model": { "name": "Generate model", "steps": ["Parse document", "Input groups", "Inputs", "Input values"] },
     "new-product": { "name": "New product", "steps": ["Upload", "Build", "Review", "Iterate", "Commit"] },
     "triage": { "name": "New session", "steps": ["Triage"] },
     "validate": { "name": "Validate", "steps": ["Schema", "References", "Conflicts", "Naming"] }

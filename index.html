@@ -59,6 +59,9 @@
               <input hidden multiple type="file" />
             </label>
             <input id="chat-input" placeholder="Message…" type="text" />
+            <button class="button button-icon" id="ff-btn" title="Fast-forward demo">
+              <i class="fa-solid fa-forward"></i>
+            </button>
             <button class="button button-icon" id="send-btn">
               <i class="fa-solid fa-paper-plane"></i>
             </button>
@@ -95,16 +98,25 @@
         </div>
         <div class="toolbar" id="workflow-bar" hidden></div>
         <div class="toolbar" id="tab-bar">
+          <button class="chip-tab" data-tab="overview">Overview</button>
           <button class="chip-tab" data-tab="files">Files</button>
+          <span class="tab-sep"></span>
           <button class="chip-tab" data-tab="model">Model</button>
-          <button class="chip-tab" data-tab="attributes">Attributes</button>
           <button class="chip-tab" data-tab="rules">Rules</button>
-          <button class="chip-tab" data-tab="equations">Equations</button>
           <button class="chip-tab" data-tab="results">Results</button>
+          <span class="tab-sep"></span>
           <button class="chip-tab" data-tab="preview">Preview</button>
+          <button class="chip-tab" data-tab="verify">Verify</button>
           <button class="chip-tab" data-tab="commit">Commit</button>
         </div>
         <div id="tab-content">
+          <div class="tab-pane" id="pane-overview">
+            <div class="pane-section"><b>Model</b><div class="overview-stats" id="overview-model-stats"></div></div>
+            <div class="pane-section"><b>Product Attributes</b><div class="overview-stats" id="overview-attributes-stats"></div></div>
+            <div class="pane-section"><b>Rules</b><div class="overview-stats" id="overview-rules-stats"></div></div>
+            <div class="pane-section"><b>Equations</b><div class="overview-stats" id="overview-equations-stats"></div></div>
+            <div class="pane-section"><b>Results</b><div class="overview-stats" id="overview-results-stats"></div></div>
+          </div>
           <div class="tab-pane" id="pane-files">
             <div id="files-grid" class="pane-grid-full"></div>
           </div>
@@ -118,40 +130,21 @@
             <div class="sub-pane" id="subpane-model-graph"></div>
             <div class="sub-pane" id="subpane-model-json"></div>
           </div>
-          <div class="tab-pane" id="pane-attributes"></div>
           <div class="tab-pane" id="pane-rules">
             <div class="sub-tabs">
               <button class="sub-tab active" data-subtab="rules-tree">Tree</button>
+              <button class="sub-tab" data-subtab="rules-equations">Equations</button>
               <button class="sub-tab" data-subtab="rules-json">Raw JSON</button>
             </div>
             <div class="sub-pane active" id="subpane-rules-tree"></div>
+            <div class="sub-pane" id="subpane-rules-equations"></div>
             <div class="sub-pane" id="subpane-rules-json"></div>
           </div>
-          <div class="tab-pane" id="pane-equations"></div>
           <div class="tab-pane" id="pane-results"></div>
           <div class="tab-pane" id="pane-preview"></div>
+          <div class="tab-pane" id="pane-verify"></div>
           <div class="tab-pane" id="pane-commit">
             <div id="commit-content"></div>
-            <div class="pane-section">
-              <b>Model</b>
-              <div class="overview-stats" id="overview-model-stats"></div>
-            </div>
-            <div class="pane-section">
-              <b>Attributes</b>
-              <div class="overview-stats" id="overview-attributes-stats"></div>
-            </div>
-            <div class="pane-section">
-              <b>Rules</b>
-              <div class="overview-stats" id="overview-rules-stats"></div>
-            </div>
-            <div class="pane-section">
-              <b>Equations</b>
-              <div class="overview-stats" id="overview-equations-stats"></div>
-            </div>
-            <div class="pane-section">
-              <b>Results</b>
-              <div class="overview-stats" id="overview-results-stats"></div>
-            </div>
           </div>
         </div>
       </div>

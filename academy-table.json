@@ -11,7 +11,8 @@
       { "id": "ig-1", "name": "Table Design", "num": 1 },
       { "id": "ig-2", "name": "Top Options", "num": 2 },
       { "id": "ig-3", "name": "Base Options", "num": 3 },
-      { "id": "ig-4", "name": "Connectivity Options", "num": 4 }
+      { "id": "ig-4", "name": "Connectivity Options", "num": 4 },
+      { "id": "ig-5", "name": "Connectivity Placement", "num": 5 }
     ],
     "inputs": [
       { "default": "RACE", "groupNum": 1, "id": "inp-1", "label": "Shape", "name": "TOP_SHAPE", "num": 1, "options": ["BOAT", "RACE", "RECT"], "type": "dropdown" },
@@ -21,7 +22,9 @@
       { "default": "RB", "groupNum": 2, "id": "inp-5", "label": "Edge Detail", "name": "EDGE_DETAIL", "num": 5, "options": ["CR", "OV", "RB", "SE"], "type": "dropdown" },
       { "default": "N", "groupNum": 2, "id": "inp-6", "label": "Include Connectivity Options?", "name": "CONNECTIVITY", "num": 6, "options": ["N", "Y"], "type": "radio" },
       { "default": "T-LEG", "groupNum": 3, "id": "inp-7", "label": "Base", "name": "BASE", "num": 7, "options": ["CYL", "HALF-CYL", "RECT", "T-LEG"], "type": "dropdown" },
-      { "default": "COVE", "groupNum": 4, "id": "inp-8", "label": "Connectivity Module", "name": "CONNECTIVITY_OPTION", "num": 8, "options": ["COVE", "TECH"], "type": "dropdown" }
+      { "default": "COVE", "groupNum": 4, "id": "inp-8", "label": "Connectivity Module", "name": "CONNECTIVITY_OPTION", "num": 8, "options": ["COVE", "TECH"], "type": "dropdown" },
+      { "default": "1", "groupNum": 4, "id": "inp-9", "label": "Qty of Connectivity Modules", "name": "CONNECTIVITY_QTY", "num": 9, "options": ["1", "2", "3"], "type": "dropdown" },
+      { "default": "60", "groupNum": 5, "id": "inp-10", "iterated": "CON", "label": "Connectivity Module #~~CON~~ Location", "name": "CONNECTIVITY_~~CON~~_LOC", "num": 10, "range": { "max": 132, "min": 12 }, "type": "slider" }
     ],
     "inputValues": [
       { "inputNum": 1, "label": "Boat", "value": "BOAT" },
@@ -57,12 +60,6 @@
   "attributes": {
     "inputAttributes": [
       { "driverInputNum": 2, "id": "ia-1", "name": "leg_qty", "type": "numeric", "values": { "120": "2", "144": "3", "84": "2", "96": "2" } }
-    ],
-    "productAttributes": [
-      { "id": "pa-1", "name": "product_code_prefix", "value": "ACT" },
-      { "id": "pa-2", "name": "product_family", "value": "Academy Conference Table" },
-      { "id": "pa-3", "name": "assembly_pattern", "value": "ACT-{shape}-{length}-{width}-{finish}-{base}" },
-      { "id": "pa-4", "name": "table_top_pattern", "value": "ACTT-{shape}-{length}-{width}-{finish}" }
     ]
   },
 
@@ -76,23 +73,30 @@
     "iterators": [
       { "code": "CON", "description": "Connectivity module quantity — repeats BOM line per selected module", "id": "it-1", "quantityInputNum": 8 }
     ],
+    "equations": [
+      { "expression": "(TOP_LENGTH * 2 + TOP_WIDTH * 2) / 12", "id": "eq-1", "label": "Table Top Perimeter", "outputField": "table_top_perimeter_ft", "variables": [{ "inputNum": 2, "name": "TOP_LENGTH" }, { "inputNum": 3, "name": "TOP_WIDTH" }] }
+    ],
     "logicGroups": [
-      { "id": "lg-1", "name": "Configuration Interface", "num": 1 },
-      { "id": "lg-2", "name": "BOM Logic", "num": 2 }
+      { "id": "lg-1", "name": "Interface", "num": 1, "root": true },
+      { "id": "lg-2", "name": "BOM Logic", "num": 2 },
+      { "id": "lg-3", "iterator": "CON", "name": "Connectivity Location", "num": 3 }
     ],
     "logicItems": [
-      { "groupNum": 1, "id": "li-1", "name": "Show Connectivity Options only when requested", "num": 1, "type": "conditional_ask" },
-      { "groupNum": 1, "id": "li-2", "name": "Page break after Table Design", "num": 2, "type": "page_break" },
-      { "groupNum": 1, "id": "li-3", "name": "Page break after Base Options", "num": 3, "type": "page_break" },
-      { "groupNum": 2, "id": "li-4", "name": "Include post hardware kit when base is not T-Leg", "num": 4, "type": "include_bom_item" },
-      { "groupNum": 2, "id": "li-5", "name": "Include T-Leg hardware kit when base is T-Leg", "num": 5, "type": "include_bom_item" },
-      { "groupNum": 2, "id": "li-6", "name": "Base leg quantity driven by table length", "num": 6, "type": "set_quantity" }
+      { "action": "Ask Input Group: Table Design", "groupNum": 1, "id": "li-1", "name": "Ask Table Design", "num": 1, "type": "ask_input_group" },
+      { "action": "End of Page", "groupNum": 1, "id": "li-2", "name": "Page break 1", "num": 2, "type": "end_of_page" },
+      { "action": "Ask Input Group: Top Options", "groupNum": 1, "id": "li-3", "name": "Ask Top Options", "num": 3, "type": "ask_input_group" },
+      { "action": "Ask Input Group: Base Options", "groupNum": 1, "id": "li-4", "name": "Ask Base Options", "num": 4, "type": "ask_input_group" },
+      { "action": "End of Page", "groupNum": 1, "id": "li-5", "name": "Page break 2", "num": 5, "type": "end_of_page" },
+      { "action": "Ask Product Input: CONNECTIVITY_QTY", "condition": { "entity": "CONNECTIVITY", "operation": "=", "value": "Y" }, "groupNum": 1, "id": "li-6", "name": "Ask Connectivity Qty", "num": 6, "type": "ask_product_input" },
+      { "action": "Ask Input Group: Connectivity Options", "condition": { "entity": "CONNECTIVITY", "operation": "=", "value": "Y" }, "groupNum": 1, "id": "li-7", "name": "Ask Connectivity Options", "num": 7, "type": "conditional_ask" },
+      { "action": "Run Logic Group: Connectivity Location", "condition": { "entity": "CONNECTIVITY", "operation": "=", "value": "Y" }, "groupNum": 1, "id": "li-8", "name": "Run Iterated Conn Location Logic", "num": 8, "type": "conditional_run" },
+      { "action": "End of Page", "groupNum": 1, "id": "li-9", "name": "Page break 3", "num": 9, "type": "end_of_page" },
+      { "action": "Ask Input Group: Connectivity Placement", "groupNum": 3, "id": "li-10", "name": "Ask Connectivity Placement", "num": 10, "type": "ask_input_group" },
+      { "groupNum": 2, "id": "li-11", "name": "Include post hardware kit when base is not T-Leg", "num": 11, "type": "include_bom_item" },
+      { "groupNum": 2, "id": "li-12", "name": "Include T-Leg hardware kit when base is T-Leg", "num": 12, "type": "include_bom_item" },
+      { "groupNum": 2, "id": "li-13", "name": "Base leg quantity driven by table length", "num": 13, "type": "set_quantity" }
     ]
   },
-
-  "equations": [
-    { "expression": "(TOP_LENGTH * 2 + TOP_WIDTH * 2) / 12", "id": "eq-1", "label": "Table Top Perimeter", "outputField": "table_top_perimeter_ft", "variables": [{ "inputNum": 2, "name": "TOP_LENGTH" }, { "inputNum": 3, "name": "TOP_WIDTH" }] }
-  ],
 
   "results": {
     "bomSkeleton": [
@@ -135,10 +139,9 @@
   },
 
   "_tabMapping": {
-    "attributes": ["productAttributes", "inputAttributes"],
-    "equations": ["equations"],
+    "attributes": ["inputAttributes"],
     "model": ["inputGroups", "inputs", "inputValues"],
     "results": ["itemFamilies", "itemMasters", "bomSkeleton", "drivenItemMasters", "productOutputs"],
-    "rules": ["logicGroups", "logicItems", "drivenInputs", "inputFilters", "iterators"]
+    "rules": ["logicGroups", "logicItems", "drivenInputs", "inputFilters", "iterators", "equations"]
   }
 }

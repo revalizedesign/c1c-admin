@@ -111,36 +111,32 @@
         </div>
         <div id="tab-content">
           <div class="tab-pane" id="pane-overview">
+            <div class="pane-section"><b>Product</b><div class="overview-stats" id="overview-product-stats"></div></div>
             <div class="pane-section"><b>Model</b><div class="overview-stats" id="overview-model-stats"></div></div>
-            <div class="pane-section"><b>Product Attributes</b><div class="overview-stats" id="overview-attributes-stats"></div></div>
             <div class="pane-section"><b>Rules</b><div class="overview-stats" id="overview-rules-stats"></div></div>
-            <div class="pane-section"><b>Equations</b><div class="overview-stats" id="overview-equations-stats"></div></div>
             <div class="pane-section"><b>Results</b><div class="overview-stats" id="overview-results-stats"></div></div>
           </div>
           <div class="tab-pane" id="pane-files">
+            <div class="pane-toolbar" id="files-toolbar"></div>
             <div id="files-grid" class="pane-grid-full"></div>
           </div>
           <div class="tab-pane" id="pane-model">
-            <div class="sub-tabs">
-              <button class="sub-tab active" data-subtab="model-tree">Tree</button>
-              <button class="sub-tab" data-subtab="model-graph">Graph</button>
-              <button class="sub-tab" data-subtab="model-json">Raw JSON</button>
-            </div>
-            <div class="sub-pane active" id="subpane-model-tree"></div>
-            <div class="sub-pane" id="subpane-model-graph"></div>
-            <div class="sub-pane" id="subpane-model-json"></div>
+            <div class="pane-toolbar" id="model-toolbar"></div>
+            <div class="pane-content active" id="model-table"></div>
+            <div class="pane-content" id="model-tree"></div>
+            <div class="pane-content" id="model-graph"></div>
+            <div class="pane-content" id="model-json"></div>
           </div>
           <div class="tab-pane" id="pane-rules">
-            <div class="sub-tabs">
-              <button class="sub-tab active" data-subtab="rules-tree">Tree</button>
-              <button class="sub-tab" data-subtab="rules-equations">Equations</button>
-              <button class="sub-tab" data-subtab="rules-json">Raw JSON</button>
-            </div>
-            <div class="sub-pane active" id="subpane-rules-tree"></div>
-            <div class="sub-pane" id="subpane-rules-equations"></div>
-            <div class="sub-pane" id="subpane-rules-json"></div>
+            <div class="pane-toolbar" id="rules-toolbar"></div>
+            <div class="pane-content active" id="rules-table"></div>
+            <div class="pane-content" id="rules-tree"></div>
+            <div class="pane-content" id="rules-json"></div>
           </div>
-          <div class="tab-pane" id="pane-results"></div>
+          <div class="tab-pane" id="pane-results">
+            <div class="pane-toolbar" id="results-toolbar"></div>
+            <div class="pane-content active" id="results-content"></div>
+          </div>
           <div class="tab-pane" id="pane-preview"></div>
           <div class="tab-pane" id="pane-verify"></div>
           <div class="tab-pane" id="pane-commit">

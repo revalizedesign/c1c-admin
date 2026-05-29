@@ -55,12 +55,6 @@
   },
 
   "attributes": {
-    "productAttributes": [
-      { "id": "pa-1", "name": "product_code_prefix", "value": "C" },
-      { "id": "pa-2", "name": "product_family", "value": "Cyclo 6000" },
-      { "id": "pa-3", "name": "nomenclature_pattern", "value": "{line}{orient}{housing}{connection}{capacity}-{frame}{shaft}-{spec}-{ratio}" },
-      { "id": "pa-4", "name": "max_stages", "value": "3" }
-    ],
     "inputAttributes": [
       { "driverInputNum": 7, "id": "ia-1", "name": "shaft_max_frame", "type": "range", "values": { "E": "6145", "G": "6125" } },
       { "driverInputNum": 1, "id": "ia-2", "name": "available_ratios", "type": "list", "values": { "C": "6,7,8,9,11,13,15,17,21,25,29,35,43,47,59,71,87,89,104,119", "P": "3,5" } },
@@ -99,14 +93,13 @@
     "iterators": [
       { "code": "STAGE", "id": "it-1", "quantityInputNum": null, "description": "Multi-stage reduction (DA, TA suffixes) — iterates BOM per reduction stage" },
       { "code": "SUFFIX", "id": "it-2", "quantityInputNum": null, "description": "Specification code suffixes — iterates alphabetically when multiple selected" }
+    ],
+    "equations": [
+      { "expression": "frame_size_table[frame_size][ratio]", "id": "eq-1", "label": "Output Torque", "outputField": "output_torque_lbft", "variables": [{ "inputNum": 6, "name": "frame_size" }, { "inputNum": 8, "name": "ratio" }] },
+      { "expression": "motor_rpm / ratio", "id": "eq-2", "label": "Output Speed", "outputField": "output_speed_rpm", "variables": [{ "inputNum": 5, "name": "motor_rpm" }, { "inputNum": 8, "name": "ratio" }] },
+      { "expression": "base_price[frame_size] + motor_price[motor_capacity] + option_adders", "id": "eq-3", "label": "List Price", "outputField": "list_price_usd", "variables": [{ "inputNum": 6, "name": "frame_size" }, { "inputNum": 5, "name": "motor_capacity" }] }
     ]
   },
-
-  "equations": [
-    { "expression": "frame_size_table[frame_size][ratio]", "id": "eq-1", "label": "Output Torque", "outputField": "output_torque_lbft", "variables": [{ "inputNum": 6, "name": "frame_size" }, { "inputNum": 8, "name": "ratio" }] },
-    { "expression": "motor_rpm / ratio", "id": "eq-2", "label": "Output Speed", "outputField": "output_speed_rpm", "variables": [{ "inputNum": 5, "name": "motor_rpm" }, { "inputNum": 8, "name": "ratio" }] },
-    { "expression": "base_price[frame_size] + motor_price[motor_capacity] + option_adders", "id": "eq-3", "label": "List Price", "outputField": "list_price_usd", "variables": [{ "inputNum": 6, "name": "frame_size" }, { "inputNum": 5, "name": "motor_capacity" }] }
-  ],
 
   "results": {
     "itemFamilies": [
@@ -160,9 +153,8 @@
 
   "_tabMapping": {
     "model": ["inputGroups", "inputs", "inputValues"],
-    "attributes": ["productAttributes", "inputAttributes"],
-    "rules": ["logicGroups", "logicItems", "drivenInputs", "inputFilters", "iterators"],
-    "equations": ["equations"],
+    "attributes": ["inputAttributes"],
+    "rules": ["logicGroups", "logicItems", "drivenInputs", "inputFilters", "iterators", "equations"],
     "results": ["itemFamilies", "itemMasters", "bomSkeleton", "drivenItemMasters", "productOutputs"]
   }
 }

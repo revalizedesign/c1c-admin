@@ -1,5 +1,48 @@
 {
   "demos": ["demo-academy-table.json", "demo-cyclo-6000.json"],
+  "emptyStates": {
+    "commit": {
+      "description": "Nothing reaches ConfigureOne Cloud until you commit. Review your draft summary — product setup, options, interface logic, and bill of material — then push everything in a single operation.",
+      "icon": "fa-regular fa-cloud-arrow-up",
+      "title": "Ready to commit"
+    },
+    "files": {
+      "description": "Drag in product manuals, spec sheets, nomenclature pages, selection tables, BOMs, or input value spreadsheets. The agent reads, analyzes, and extracts configurable structure from your documents.",
+      "icon": "fa-regular fa-file-arrow-up",
+      "title": "No files yet"
+    },
+    "graph": {
+      "description": "Interactive graph view is only available on staging.",
+      "icon": "fa-regular fa-chart-network",
+      "link": { "label": "Open staging", "url": "https://intelligence-acme.c1c.stg.revalizecloud.com" },
+      "title": "Graph view"
+    },
+    "model": {
+      "description": "A product represents an entire configurable product line. Each product option consists of an input and input values, organized into input groups. Upload files to generate the model.",
+      "icon": "fa-regular fa-cube",
+      "title": "No product options"
+    },
+    "preview": {
+      "description": "The configuration interface displays product options to customers. Each variation of a product is called a configuration. Build a model to preview the interface your customers will use.",
+      "icon": "fa-regular fa-eye",
+      "title": "No preview available"
+    },
+    "results": {
+      "description": "Product outputs are the end-results generated for each configuration — a list of inputs and selected values, a bill of material, CAD drawings, PDF documents, and driven outputs.",
+      "icon": "fa-regular fa-barcode",
+      "title": "No results yet"
+    },
+    "rules": {
+      "description": "Logic items control which inputs are displayed and in what order. They use conditional logic to show, hide, lock, or set values. Driven inputs, input filters, iterators, and equations define constraints and calculations.",
+      "icon": "fa-regular fa-code-branch",
+      "title": "No interface logic"
+    },
+    "verify": {
+      "description": "Test your product setup to highlight areas for improvement — the sequence of inputs, aesthetic issues, naming convention compliance, and configuration trouble spots.",
+      "icon": "fa-regular fa-badge-check",
+      "title": "Verification"
+    }
+  },
   "sequences": {
     "onboarding": {
       "next": "triage",

@@ -73,7 +73,7 @@ const createWorkspace = (demoId = 0, sequence = 'onboarding') => ({
   lastElapsed: null,
   messages: [],
   name: demos[demoId]?.name ?? 'New workspace',
-  placeholder: 'Message…',
+  placeholder: g('chat-input').placeholder,
   productData: null,
   selectedFile: null,
   sequence,
@@ -144,7 +144,7 @@ const enterStep = idx => {
   }
   if (step.workspace) state.name = step.workspace
   if (step.workflow) state.workflow = { id: step.workflow, step: 0 }
-  state.placeholder = step.placeholder ?? 'Message…'
+  state.placeholder = step.placeholder ?? g('chat-input').dataset.default
   if (step.preloadFiles) step.preloadFiles.forEach(f => addContextFile(f))
 
   // Skippable step
@@ -560,7 +560,7 @@ const renderFilesToolbar = () => {
   const labels = { csv: 'CSV', md: 'Markdown', pdf: 'PDF' }
   const active = state.filters.files
   const filters = [
-    { active: !active, label: 'All Files', action: () => { state.filters.files = null; if (filesGrid) filesGrid.onFilterChanged(); renderFilesToolbar() } },
+    { active: !active, label: 'All files', action: () => { state.filters.files = null; if (filesGrid) filesGrid.onFilterChanged(); renderFilesToolbar() } },
     ...types.map(t => ({ active: active?.has(t), label: labels[t] ?? t.toUpperCase(), action: () => { state.filters.files = new Set([t]); if (filesGrid) filesGrid.onFilterChanged(); renderFilesToolbar() } })),
   ]
   buildPaneToolbar(g('files-toolbar'), { filters, getGrid: () => filesGrid })
@@ -590,6 +590,30 @@ const gridCommon = () => ({
   selectionColumnDef: { pinned: 'left', suppressSizeToFit: true },
   theme: gridTheme(),
 })
+
+const emptyState = (el, key) => {
+  const cfg = fixtures.emptyStates?.[key]
+  if (!cfg) return
+  el.replaceChildren()
+  const wrap = makeEl('div', 'empty-grid')
+  wrap.appendChild(makeEl('div', 'empty-grid-header'))
+  const body = makeEl('div', 'empty-grid-body')
+  const iconBox = makeEl('div', 'empty-grid-icon')
+  const ic = makeEl('i'); ic.className = cfg.icon
+  iconBox.appendChild(ic)
+  body.appendChild(iconBox)
+  body.appendChild(makeEl('b', null, cfg.title))
+  const desc = makeEl('p', null, cfg.description)
+  body.appendChild(desc)
+  if (cfg.link) {
+    const link = makeEl('a', 'button outline', cfg.link.label)
+    link.href = cfg.link.url
+    link.target = '_blank'
+    body.appendChild(link)
+  }
+  wrap.appendChild(body)
+  el.appendChild(wrap)
+}
 
 const buildPaneToolbar = (toolbarEl, { filters, modes, getGrid, paneId }) => {
   toolbarEl.replaceChildren()
@@ -753,12 +777,16 @@ const renderStats = (containerId, stats) => {
     el.appendChild(grid)
     return
   }
-  if (!stats.some(s => s.count)) { el.appendChild(makeEl('span', 'empty-state', 'Nothing has been generated, yet.')); return }
   stats.forEach(({ count, icon, label }) => {
-    const stat = makeEl('span', 'overview-stat')
+    const stat = makeEl('div', 'overview-stat')
+    const iconBox = makeEl('div', 'stat-icon')
     const i = makeEl('i'); i.className = icon
-    stat.appendChild(i)
-    stat.appendChild(document.createTextNode(`${count} ${label}`))
+    iconBox.appendChild(i)
+    stat.appendChild(iconBox)
+    const text = makeEl('div', 'stat-text')
+    text.appendChild(makeEl('div', 'stat-count', String(count)))
+    text.appendChild(makeEl('div', 'stat-label', label))
+    stat.appendChild(text)
     el.appendChild(stat)
   })
 }
@@ -767,39 +795,125 @@ const countFrom = (obj, ...keys) => keys.reduce((n, k) => n + (Array.isArray(obj
 
 const buildStats = () => {
   const p = state.productData
-  if (!p) return { model: [], product: [], results: [], rules: [] }
   return {
-    product: [
-      { label: 'Name', value: p.product?.name ?? '' },
-      { label: 'Category', value: p.product?.category ?? '' },
-      { label: 'Code', value: p.product?.code ?? '' },
-    ],
     model: [
-      { count: countFrom(p.model, 'inputGroups'), icon: 'fa-regular fa-layer-group', label: 'input groups' },
-      { count: countFrom(p.model, 'inputs'), icon: 'fa-regular fa-input-text', label: 'inputs' },
-      { count: countFrom(p.model, 'inputValues'), icon: 'fa-regular fa-list', label: 'input values' },
-      { count: countFrom(p.attributes, 'inputAttributes'), icon: 'fa-regular fa-table-cells', label: 'input attributes' },
+      { count: countFrom(p?.model, 'inputGroups'), icon: 'fa-regular fa-layer-group', label: 'input groups', level: 0 },
+      { count: countFrom(p?.model, 'inputs'), icon: 'fa-regular fa-input-text', label: 'inputs', level: 1 },
+      { count: countFrom(p?.model, 'inputValues'), icon: 'fa-regular fa-list', label: 'input values', level: 2 },
+      { count: countFrom(p?.attributes, 'inputAttributes'), icon: 'fa-regular fa-table-cells', label: 'input attributes', level: 3 },
     ],
     results: [
-      { count: countFrom(p.results, 'itemFamilies'), icon: 'fa-regular fa-sitemap', label: 'item families' },
-      { count: countFrom(p.results, 'itemMasters'), icon: 'fa-regular fa-barcode', label: 'item masters' },
-      { count: countFrom(p.results, 'bomSkeleton'), icon: 'fa-regular fa-diagram-project', label: 'BOM lines' },
-      { count: countFrom(p.results, 'productOutputs'), icon: 'fa-regular fa-square-poll-horizontal', label: 'product outputs' },
-      { count: countFrom(p.results, 'drivenItemMasters'), icon: 'fa-regular fa-arrow-right-arrow-left', label: 'driven item masters' },
+      { count: countFrom(p?.results, 'itemFamilies'), icon: 'fa-regular fa-sitemap', label: 'item families', level: 0 },
+      { count: countFrom(p?.results, 'itemMasters'), icon: 'fa-regular fa-barcode', label: 'item masters', level: 1 },
+      { count: countFrom(p?.results, 'bomSkeleton'), icon: 'fa-regular fa-diagram-project', label: 'BOM lines', level: 0, sep: true },
+      { count: countFrom(p?.results, 'productOutputs'), icon: 'fa-regular fa-square-poll-horizontal', label: 'product outputs', level: 0 },
+      { count: countFrom(p?.results, 'drivenItemMasters'), icon: 'fa-regular fa-arrow-right-arrow-left', label: 'driven item masters', level: 0 },
     ],
     rules: [
-      { count: 1, icon: 'fa-regular fa-folder-tree', label: 'root logic group' },
-      { count: countFrom(p.rules, 'logicGroups'), icon: 'fa-regular fa-folder', label: 'logic groups' },
-      { count: countFrom(p.rules, 'logicItems'), icon: 'fa-regular fa-cube', label: 'logic items' },
-      { count: countFrom(p.rules, 'drivenInputs'), icon: 'fa-regular fa-code-branch', label: 'driven inputs' },
-      { count: countFrom(p.rules, 'inputFilters'), icon: 'fa-regular fa-filter', label: 'input filters' },
-      { count: countFrom(p.rules, 'iterators'), icon: 'fa-regular fa-repeat', label: 'iterators' },
-      { count: countFrom(p.rules, 'equations'), icon: 'fa-regular fa-superscript', label: 'equations' },
+      { count: p ? 1 : 0, icon: 'fa-regular fa-folder-tree', label: 'root logic group', level: 0 },
+      { count: countFrom(p?.rules, 'logicGroups'), icon: 'fa-regular fa-folder', label: 'logic groups', level: 1 },
+      { count: countFrom(p?.rules, 'logicItems'), icon: 'fa-regular fa-cube', label: 'logic items', level: 2 },
+      { count: countFrom(p?.rules, 'drivenInputs'), icon: 'fa-regular fa-code-branch', label: 'driven inputs', level: 0, sep: true },
+      { count: countFrom(p?.rules, 'inputFilters'), icon: 'fa-regular fa-filter', label: 'input filters', level: 0 },
+      { count: countFrom(p?.rules, 'iterators'), icon: 'fa-regular fa-repeat', label: 'iterators', level: 0 },
+      { count: countFrom(p?.rules, 'equations'), icon: 'fa-regular fa-superscript', label: 'equations', level: 0 },
     ],
   }
 }
 
+const buildProductCard = p => {
+  const card = makeEl('div', 'product-card card')
+  const img = makeEl('div', 'product-card-image')
+  const icon = makeEl('i'); icon.className = 'fa-regular fa-box-open'
+  img.appendChild(icon)
+  card.appendChild(img)
+  const body = makeEl('div', 'product-card-body')
+  const breadcrumb = makeEl('div', 'breadcrumb')
+  breadcrumb.appendChild(document.createTextNode('All Products'))
+  if (p?.product?.category) {
+    const sep = makeEl('i'); sep.className = 'fa-solid fa-angle-right'
+    breadcrumb.appendChild(sep)
+    breadcrumb.appendChild(document.createTextNode(p.product.category))
+  }
+  body.appendChild(breadcrumb)
+  const title = makeEl('div', 'product-card-title')
+  title.appendChild(document.createTextNode(p?.product?.name ?? 'Product name'))
+  body.appendChild(title)
+  const code = makeEl('div', 'product-card-code')
+  code.appendChild(document.createTextNode(p?.product?.code ?? 'SKU'))
+  body.appendChild(code)
+  card.appendChild(body)
+  return card
+}
+
+const renderProductCards = () => {
+  const el = g('overview-products')
+  if (!el) return
+  el.replaceChildren()
+  el.appendChild(buildProductCard(state.productData))
+}
+
+const overviewColumns = [
+  { icon: 'fa-regular fa-box-open', key: 'product', label: 'Product' },
+  { icon: 'fa-regular fa-cube', key: 'model', label: 'Model' },
+  { icon: 'fa-regular fa-code-branch', key: 'rules', label: 'Rules' },
+  { icon: 'fa-regular fa-barcode', key: 'results', label: 'Results' },
+]
+
+const renderOverviewColumns = () => {
+  const el = g('overview-columns')
+  if (!el) return
+  el.replaceChildren()
+  const p = state.productData
+  const stats = buildStats()
+  overviewColumns.forEach(col => {
+    if (col.key === 'product') {
+      const wrapper = makeEl('div', 'overview-col-product')
+      wrapper.appendChild(buildProductCard(p))
+      el.appendChild(wrapper)
+      return
+    }
+    const card = makeEl('div', 'overview-col-card')
+    card.dataset.section = col.key
+    {
+      const iconBox = makeEl('div', 'overview-col-icon')
+      const icon = makeEl('i'); icon.className = col.icon
+      iconBox.appendChild(icon)
+      card.appendChild(iconBox)
+      const colTitle = makeEl('div', 'overview-col-title')
+      colTitle.appendChild(document.createTextNode(col.label))
+      card.appendChild(colTitle)
+      ;(stats[col.key] ?? []).forEach(({ count, icon, label, level, sep }) => {
+        if (sep) card.appendChild(makeEl('div', 'overview-col-sep'))
+        const row = makeEl('div', 'overview-col-stat')
+        if (level) {
+          row.style.paddingLeft = `${(level - 1) * 1}rem`
+          row.appendChild(makeEl('span', 'overview-col-elbow', '└ '))
+        }
+        const ic = makeEl('i'); ic.className = icon
+        row.appendChild(ic)
+        row.appendChild(document.createTextNode(` ${label} `))
+        row.appendChild(makeEl('span', 'overview-col-chip', String(count)))
+        card.appendChild(row)
+      })
+    }
+    el.appendChild(card)
+  })
+}
+
 const renderAllStats = () => {
+  buildPaneToolbar(g('overview-toolbar'), {
+    modes: [
+      { active: true, icon: 'fa-regular fa-grid-2', label: 'Layout 1', target: 'overview-layout-1' },
+      { active: false, icon: 'fa-regular fa-table-list', label: 'Layout 2', target: 'overview-layout-2' },
+      { active: false, icon: 'fa-regular fa-chart-network', label: 'Graph', target: 'overview-graph' },
+    ],
+    paneId: 'pane-overview',
+  })
+  renderOverviewColumns()
+  renderProductCards()
+  const graphEl = g('overview-graph')
+  if (graphEl && !graphEl.children.length) emptyState(graphEl, 'graph')
   const stats = buildStats()
   for (const [tab, items] of Object.entries(stats)) renderStats(`overview-${tab}-stats`, items)
 }
@@ -916,11 +1030,10 @@ const modelContextMenu = params => {
 const renderModelTab = () => {
   const el = g('model-table')
   const json = g('model-json')
-  if (!el || !state.productData) return
-  const rows = buildModelRows(state.productData)
+  if (!el) return
   buildPaneToolbar(g('model-toolbar'), {
     filters: [
-      { active: true, label: 'All Options', action: () => { modelGrid?.setGridOption('rowData', buildModelRows(state.productData)) } },
+      { active: true, label: 'All options', action: () => { modelGrid?.setGridOption('rowData', buildModelRows(state.productData)) } },
       { active: false, label: 'Attributes', action: () => { modelGrid?.setGridOption('rowData', buildModelRows(state.productData).filter(r => r.detailRows || r.nodeType === 'group')) } },
     ],
     getGrid: () => modelGrid,
@@ -932,6 +1045,8 @@ const renderModelTab = () => {
     ],
     paneId: 'pane-model',
   })
+  if (!state.productData) { emptyState(el, 'model'); return }
+  const rows = buildModelRows(state.productData)
   if (modelGrid) { modelGrid.setGridOption('rowData', rows); return }
   el.replaceChildren()
   const gridEl = makeEl('div', 'pane-grid-full'); gridEl.id = 'model-grid'
@@ -966,7 +1081,6 @@ const renderModelTab = () => {
           }
           getGui() { return this.gui }
         },
-        maxWidth: 40,
         sortable: false,
         suppressSizeToFit: true,
       }
@@ -978,6 +1092,7 @@ const renderModelTab = () => {
             addCol,
           ],
           defaultColDef: { editable: true, resizable: true, sortable: true },
+          onFirstDataRendered: e => { e.api.autoSizeAllColumns(); e.api.sizeColumnsToFit() },
           theme: gridTheme(),
         },
         getDetailRowData: params => params.successCallback(p.data.detailRows ?? []),
@@ -1014,6 +1129,8 @@ const renderModelTab = () => {
       },
     })
   }
+  const graphEl = g('model-graph')
+  if (graphEl && !graphEl.children.length) emptyState(graphEl, 'graph')
 }
 
 let rulesGrid = null
@@ -1126,11 +1243,9 @@ const renderRulesTab = () => {
   const tableEl = g('rules-table')
   const treeEl = g('rules-tree')
   const json = g('rules-json')
-  if (!tableEl || !state.productData) return
-  const r = state.productData.rules
-  const rows = buildRulesRows(state.productData)
+  if (!tableEl) return
   buildPaneToolbar(g('rules-toolbar'), {
-    filters: [{ active: true, label: 'All Rules' }],
+    filters: [{ active: true, label: 'All rules' }],
     getGrid: () => rulesGrid,
     modes: [
       { active: true, icon: 'fa-regular fa-table', label: 'Table', target: 'rules-table' },
@@ -1139,6 +1254,9 @@ const renderRulesTab = () => {
     ],
     paneId: 'pane-rules',
   })
+  if (!state.productData) { emptyState(tableEl, 'rules'); return }
+  const r = state.productData.rules
+  const rows = buildRulesRows(state.productData)
   if (rulesGrid) { rulesGrid.setGridOption('rowData', rows) }
   else {
     tableEl.replaceChildren()
@@ -1270,12 +1388,13 @@ const resolveConfig = p => {
   return rows
 }
 const renderResultsTab = () => {
-  const el = g('results-content'); if (!el || !state.productData) return
-  const rows = resolveConfig(state.productData)
+  const el = g('results-content'); if (!el) return
   buildPaneToolbar(g('results-toolbar'), {
-    filters: [{ active: true, label: 'All Items' }],
+    filters: [{ active: true, label: 'All items' }],
     getGrid: () => resultsGrid,
   })
+  if (!state.productData) { emptyState(el, 'results'); return }
+  const rows = resolveConfig(state.productData)
   if (resultsGrid) { resultsGrid.setGridOption('rowData', rows); return }
   el.replaceChildren()
   const gridEl = makeEl('div', 'pane-grid-full'); gridEl.id = 'results-grid'
@@ -1289,7 +1408,8 @@ const renderResultsTab = () => {
 }
 
 const renderPreviewTab = () => {
-  const el = g('pane-preview'); if (!el || !state.productData) return; el.replaceChildren()
+  const el = g('preview-content'); if (!el) return; el.replaceChildren()
+  if (!state.productData) { emptyState(el, 'preview'); return }
   const form = makeEl('div', 'preview-form')
   ;(state.productData.model.inputGroups ?? []).forEach(group => {
     const sec = makeEl('div', 'preview-section'); sec.appendChild(makeEl('b', null, group.name))
@@ -1306,8 +1426,14 @@ const renderPreviewTab = () => {
   el.appendChild(form)
 }
 
+const renderVerifyTab = () => {
+  const el = g('verify-content'); if (!el) return; el.replaceChildren()
+  emptyState(el, 'verify')
+}
+
 const renderCommitTab = () => {
-  const el = g('commit-content'); if (!el || !state.productData) return; el.replaceChildren()
+  const el = g('commit-content'); if (!el) return; el.replaceChildren()
+  if (!state.productData) { emptyState(el, 'commit'); return }
   const manifest = [[1, 'Product'], [state.productData.model.inputGroups?.length ?? 0, 'Input Groups'], [state.productData.model.inputs?.length ?? 0, 'Inputs'], [state.productData.model.inputValues?.length ?? 0, 'Input Values'], [state.productData.rules.logicGroups?.length ?? 0, 'Logic Groups'], [state.productData.rules.logicItems?.length ?? 0, 'Logic Items'], [state.productData.rules?.equations?.length ?? 0, 'Equations'], [state.productData.results.itemMasters?.length ?? 0, 'Item Masters'], [state.productData.results.bomSkeleton?.length ?? 0, 'BOM Lines']].filter(([c]) => c)
   const total = manifest.reduce((s, [c]) => s + c, 0)
   const view = makeEl('div', 'commit-view'); view.appendChild(makeEl('b', null, 'Draft Summary'))
@@ -1324,11 +1450,11 @@ const clearTabContent = () => {
   if (resultsGrid) { resultsGrid.destroy(); resultsGrid = null }
   if (rulesGrid) { rulesGrid.destroy(); rulesGrid = null }
   if (rulesTree) { rulesTree.destroy(); rulesTree = null }
-  ;['model-table', 'model-tree', 'model-json', 'rules-table', 'rules-tree', 'rules-json', 'results-content', 'pane-preview', 'commit-content'].forEach(id => g(id)?.replaceChildren())
+  ;['model-table', 'model-tree', 'model-json', 'rules-table', 'rules-tree', 'rules-json', 'results-content', 'preview-content', 'verify-content', 'commit-content'].forEach(id => g(id)?.replaceChildren())
 }
 
-const tabRenderers = { commit: renderCommitTab, files: renderFilesList, model: renderModelTab, preview: renderPreviewTab, results: renderResultsTab, rules: renderRulesTab }
-const renderTabContent = () => { if (!state.productData) { clearTabContent(); return } tabRenderers[state.activeTab]?.() }
+const tabRenderers = { commit: renderCommitTab, files: renderFilesList, model: renderModelTab, preview: renderPreviewTab, results: renderResultsTab, rules: renderRulesTab, verify: renderVerifyTab }
+const renderTabContent = () => tabRenderers[state.activeTab]?.()
 
 
 // Main render
@@ -1382,9 +1508,9 @@ const render = () => {
   }
   g('chat-input').placeholder = state.placeholder
   const ffBtn = g('ff-btn')
-  const atEnd = state.sequence === 'end-game'
-  ffBtn.title = atEnd ? 'Fast-forward to commit' : 'Fast-forward to build complete'
-  ffBtn.querySelector('i').className = atEnd ? 'fa-solid fa-forward-fast' : 'fa-solid fa-forward'
+  const stop = nextFfStop()
+  ffBtn.title = stop ? `Fast-forward to ${stop.title.toLowerCase()}` : 'Fast-forward'
+  ffBtn.querySelector('i').className = stop?.workflow === 'commit-to-cloud' ? 'fa-regular fa-forward-fast' : 'fa-regular fa-forward'
   q('.chip-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === state.activeTab))
   q('.tab-pane').forEach(p => p.classList.toggle('active', p.id === `pane-${state.activeTab}`))
   renderWorkspaces()
@@ -1453,6 +1579,16 @@ q('.chip-tab').forEach(tab => tab.addEventListener('click', () => {
   sizeActiveGrid()
 }))
 
+const ffStops = [
+  { tab: 'files', title: 'Files uploaded', workflow: 'file-ingress' },
+  { tab: 'model', title: 'Model built', workflow: 'generate-model' },
+  { tab: 'rules', title: 'Rules built', workflow: 'generate-rules' },
+  { tab: 'results', title: 'Results built', workflow: 'generate-results' },
+  { tab: 'verify', title: 'Validated', workflow: 'validate' },
+  { tab: 'commit', title: 'Committed', workflow: 'commit-to-cloud' },
+]
+const nextFfStop = () => { const idx = ffStops.findIndex(s => s.workflow === state.workflow?.id); return ffStops[idx + 1] ?? null }
+
 const fastForward = async target => {
   if (state.activeAutomation) {
     if (state.statusInterval) { clearInterval(state.statusInterval); state.statusInterval = null }
@@ -1463,18 +1599,23 @@ const fastForward = async target => {
   if (resultsGrid) { resultsGrid.destroy(); resultsGrid = null }
   if (rulesGrid) { rulesGrid.destroy(); rulesGrid = null }
   if (rulesTree) { rulesTree.destroy(); rulesTree = null }
-  const stopSequence = target === 'build' ? 'end-game' : null
+  const cur = (demos[state.demoId]?.sequences?.[state.sequence]?.steps ?? [])[state.demoIndex]
+  if (cur?.workflow === state.workflow?.id && cur?.response) { pushMsg(cur.response); state.demoIndex++ }
+  let hitTarget = false
   let pendingProductData = null
   for (let safety = 0; safety < 200; safety++) {
     const steps = demos[state.demoId]?.sequences?.[state.sequence]?.steps ?? []
     const step = steps[state.demoIndex]
     if (!step) {
       const next = demos[state.demoId]?.sequences?.[state.sequence]?.next
-      if (next && next !== stopSequence) { state.sequence = next; state.demoIndex = 0; continue }
+      if (next) { state.sequence = next; state.demoIndex = 0; continue }
       break
     }
     if (step.workspace) state.name = step.workspace
-    if (step.workflow) state.workflow = { id: step.workflow, step: step.steps?.length ?? 0 }
+    if (step.workflow) {
+      state.workflow = { id: step.workflow, step: step.steps?.length ?? 0 }
+      if (step.workflow === target) hitTarget = true
+    }
     if (step.placeholder) state.placeholder = step.placeholder
     if (step.preloadFiles) step.preloadFiles.forEach(f => addContextFile(f))
     if (step.skip && state.skipIndustry) {
@@ -1483,7 +1624,6 @@ const fastForward = async target => {
       state.demoIndex++; continue
     }
     if (step.agent) pushMsg({ type: 'agent', text: step.agent })
-    if (step.response) pushMsg(step.response)
     if (step.steps) {
       state.workflowStartTime = Date.now()
       if (step.file) {
@@ -1523,6 +1663,10 @@ const fastForward = async target => {
         if (action?.sequence) { state.sequence = action.sequence; state.demoIndex = 0; continue }
       }
     }
+    const nextIdx = state.demoIndex + 1
+    const ns = (demos[state.demoId]?.sequences?.[state.sequence]?.steps ?? [])[nextIdx]
+    if (hitTarget && (!ns?.workflow || ns.workflow !== target)) break
+    if (step.response) pushMsg(step.response)
     state.demoIndex++
   }
   if (pendingProductData) {
@@ -1530,6 +1674,9 @@ const fastForward = async target => {
     state.productData = pd
     state.name = pd.product.name
   }
+  const stop = ffStops.find(s => s.workflow === target)
+  if (stop?.tab) state.activeTab = stop.tab
+  state.placeholder = g('chat-input').dataset.default
   state.status = null
   state.activeAutomation = null
   render()
@@ -1546,10 +1693,7 @@ const submitInput = () => {
 
 g('chat-input').addEventListener('keydown', e => { if (e.key === 'Enter') submitInput() })
 g('send-btn').addEventListener('click', submitInput)
-g('ff-btn').addEventListener('click', () => {
-  const atEnd = state.sequence === 'end-game'
-  fastForward(atEnd ? 'commit' : 'build')
-})
+g('ff-btn').addEventListener('click', () => { const stop = nextFfStop(); if (stop) fastForward(stop.workflow) })
 
 g('menu-reset').addEventListener('click', () => {
   g('workspace-menu').hidePopover()

@@ -1,0 +1,226 @@
+{
+  "company": "AAA Truck Body Manufacturing",
+  "name": "AAA Freight Truck",
+  "overrides": {
+    "onboarding": [
+      {
+        "file": { "created": "2026-06-02", "size": "4.2 kb" },
+        "response": "https://aaatruckbody.com"
+      },
+      {
+        "card": {
+          "Company": "AAA Truck Body Manufacturing",
+          "Geography": "North America",
+          "Industry": "Truck Body Manufacturing",
+          "Production": "Configure-to-order",
+          "Products": "Freight truck bodies, dry vans, refrigerated bodies",
+          "Segments": "Package delivery, general freight, beverage, utility",
+          "Size": "~200 employees"
+        },
+        "file": { "created": "2026-06-02", "size": "32.2 kb", "verticalId": "industrial-machinery" },
+        "response": "Looks good",
+        "skip": { "agent": "I identified your industry as Truck Body Manufacturing based on what you shared. Moving on." }
+      },
+      {
+        "file": { "created": "2026-06-02", "size": "1.8 kb" },
+        "placeholder": "e.g. Configuration Manager, working with engineering team…",
+        "response": "Configuration admin for the freight truck product line."
+      },
+      {
+        "context": 6,
+        "files": [
+          { "desc": "your company context", "icon": "fa-regular fa-building", "label": "COMPANY.md" },
+          { "desc": "Truck Body Manufacturing knowledge", "icon": "fa-regular fa-industry", "label": "VERTICAL.md" },
+          { "desc": "your role and collaborators", "icon": "fa-regular fa-users", "label": "TEAM.md" }
+        ]
+      }
+    ]
+  },
+  "sequences": {
+    "triage": {
+      "steps": [
+        {
+          "actions": [
+            {
+              "desc": "Build a configuration model from scratch",
+              "icon": "fa-regular fa-sparkles",
+              "label": "New product",
+              "sequence": "new-product",
+              "workflow": "new-product"
+            },
+            {
+              "actions": ["AAA Freight Truck"],
+              "desc": "Update an existing configuration model",
+              "icon": "fa-regular fa-pen-to-square",
+              "label": "Edit product",
+              "placeholder": "Search products…",
+              "response": "You can ask me to search for it or select from this list:",
+              "sequence": "edit-product",
+              "workflow": "edit-product"
+            }
+          ],
+          "pills": [{ "demo": true, "label": "Next" }],
+          "workflow": "triage",
+          "workspace": "New session"
+        }
+      ]
+    },
+    "new-product": {
+      "next": "end-game",
+      "steps": [
+        {
+          "agent": "Upload your product files to get started. You can drag files into the chat or use the attach button.",
+          "pills": [{ "label": "Upload file" }, { "demo": true, "label": "Next" }],
+          "response": null,
+          "workflow": "new-product",
+          "workspace": "New product"
+        },
+        {
+          "assessment": {
+            "figures": 42,
+            "inputGroups": "20–25",
+            "inputValues": "~25,000",
+            "inputs": "~95",
+            "modelEstimates": {
+              "attributes": "60+",
+              "bomNodes": "100+",
+              "drivens": "10–15",
+              "equations": "5–8",
+              "filters": "8–12",
+              "inputGroups": "20–25",
+              "inputValues": "~25,000",
+              "inputs": "~95",
+              "itemFamilies": "5–8",
+              "itemMasters": "50+",
+              "logicGroups": "8–10",
+              "logicItems": "60+"
+            },
+            "pages": 340,
+            "summary": "Freight truck body configurator with chassis selection, body construction, doors, liftgate, walkramp, seating, lighting, and accessories. Complex wizard flow with conditional logic, 2D/3D visualization branching, and iterated track positioning.",
+            "tables": 45,
+            "tokens": "~180,000"
+          },
+          "file": {
+            "created": "2026-06-02",
+            "name": "Product_193451341_1780347681125.xlsx",
+            "owner": "Agent",
+            "size": "883 kb",
+            "type": "csv"
+          },
+          "label": "AAA Freight Truck",
+          "pills": [{ "label": "Upload file" }, { "demo": true, "label": "Next" }],
+          "response": null,
+          "steps": [
+            { "context": 9, "detail": "Product_193451341_1780347681125.xlsx · 883 kb", "ms": 1500, "statusFrames": ["Downloading 0 of 883 kb", "Downloading 883 of 883 kb"], "step": "Download" },
+            { "context": 12, "detail": "25,624 rows read · ~180,000 tokens", "ms": 3000, "statusFrames": ["Reading row 0 of 25,624", "Reading row 6,400 of 25,624", "Reading row 12,800 of 25,624", "Reading row 19,200 of 25,624", "Reading row 25,624 of 25,624"], "step": "Read" },
+            { "context": 16, "detail": "23 input groups · 95 inputs · nomenclature identified", "ms": 4000, "statusFrames": ["Analyzing 5 groups…", "Analyzing 12 groups…", "Analyzing 18 groups…", "Analyzing 23 groups…"], "step": "Analyze" },
+            { "context": 19, "detail": "~95 inputs · ~25,000 values · high configurability signal", "ms": 3000, "statusFrames": ["Summarizing — generating overview", "Summarizing — estimating model complexity", "Summarizing — assessing configurability"], "step": "Summarize" }
+          ],
+          "workflow": "file-ingress"
+        },
+        {
+          "assessment": {
+            "figures": 0,
+            "pages": 9,
+            "summary": "Logic items export with 9 logic groups and 69 items defining the full wizard flow, conditional branching, track iteration, and 2D/3D construction logic.",
+            "tables": 9,
+            "tokens": "~8,000"
+          },
+          "file": {
+            "created": "2026-06-02",
+            "name": "LogicItems_193451341_all_1780347317455.xlsx",
+            "owner": "Agent",
+            "size": "31 kb",
+            "type": "csv"
+          },
+          "label": "Logic Items Export",
+          "pills": [{ "label": "Build model" }, { "demo": true, "label": "Next" }],
+          "productSummary": "PRODUCT.md",
+          "response": "Build model",
+          "steps": [
+            { "context": 22, "detail": "LogicItems_193451341_all_1780347317455.xlsx · 31 kb", "ms": 1000, "statusFrames": ["Downloading 0 of 31 kb", "Downloading 31 of 31 kb"], "step": "Download" },
+            { "context": 24, "detail": "9 sheets read · ~8,000 tokens", "ms": 2000, "statusFrames": ["Reading sheet 1 of 9", "Reading sheet 5 of 9", "Reading sheet 9 of 9"], "step": "Read" },
+            { "context": 26, "detail": "9 logic groups · 69 logic items · iterator identified", "ms": 2500, "statusFrames": ["Analyzing logic groups…", "Analyzing conditions…", "Mapping actions…"], "step": "Analyze" },
+            { "context": 27, "detail": "69 items · complex branching · iterated tracks", "ms": 2000, "statusFrames": ["Summarizing — wizard flow", "Summarizing — conditional logic", "Summarizing — iteration patterns"], "step": "Summarize" }
+          ],
+          "workflow": "file-ingress"
+        },
+        {
+          "buildPhase": true,
+          "label": "Model generated",
+          "pills": [{ "label": "Build rules" }, { "demo": true, "label": "Next" }],
+          "productData": "freight-truck.json",
+          "response": "Build rules",
+          "steps": [
+            { "context": 35, "detail": "25,624 rows · 23 groups referenced", "ms": 3000, "statusFrames": ["Parsing product structure…", "Extracting input groups…", "Identifying configurable sections…"], "step": "Parse document" },
+            { "context": 42, "detail": "23 input groups created", "ms": 3000, "statusFrames": ["Building Application and Chassis…", "Building Construction…", "Building Side Door…", "Building Liftgate…", "Building Options…"], "step": "Input groups" },
+            { "context": 50, "detail": "95 inputs mapped", "ms": 4000, "statusFrames": ["Mapping chassis inputs…", "Mapping body inputs…", "Mapping door inputs…", "Mapping liftgate inputs…", "Mapping accessory inputs…"], "step": "Inputs" },
+            { "context": 55, "detail": "25,590 input values resolved", "ms": 3000, "statusFrames": ["Resolving chassis values…", "Resolving city of use values…", "Resolving construction values…"], "step": "Input values" }
+          ],
+          "tab": "model",
+          "workflow": "generate-model"
+        },
+        {
+          "buildPhase": true,
+          "label": "Rules generated",
+          "pills": [{ "label": "Build results" }, { "demo": true, "label": "Next" }],
+          "response": "Build results",
+          "steps": [
+            { "context": 60, "detail": "9 logic groups · 69 logic items", "ms": 4000, "statusFrames": ["Building root logic flow…", "Building track logic…", "Building construction logic 2D…", "Building construction logic 3D…"], "step": "Driven inputs" },
+            { "context": 68, "detail": "39 root items · conditional branching · iterator logic", "ms": 4000, "statusFrames": ["Inferring wizard flow…", "Mapping conditional actions…", "Building track iteration rules…", "Defining height check logic…"], "step": "Rules" },
+            { "context": 72, "detail": "0 equations — to be defined", "ms": 1500, "statusFrames": ["Scanning for calculation patterns…"], "step": "Equations" }
+          ],
+          "tab": "rules",
+          "workflow": "generate-rules"
+        },
+        {
+          "buildPhase": true,
+          "label": "Results generated",
+          "pills": [{ "label": "Validate" }, { "demo": true, "label": "Next" }],
+          "response": "Validate",
+          "steps": [
+            { "context": 76, "detail": "0 item families · 0 item masters (pending BOM)", "ms": 2000, "statusFrames": ["Scanning for BOM patterns…", "No BOM data in uploaded files…"], "step": "Item masters" },
+            { "context": 79, "detail": "0 BOM lines (pending)", "ms": 1500, "statusFrames": ["No BOM skeleton defined…"], "step": "BOM lines" },
+            { "context": 80, "detail": "0 driven items · 0 product outputs", "ms": 1500, "statusFrames": ["Checking for driven items…", "Checking product outputs…"], "step": "Driven items" }
+          ],
+          "tab": "results",
+          "workflow": "generate-results"
+        }
+      ]
+    },
+    "end-game": {
+      "steps": [
+        {
+          "agent": "Running validation checks before commit.",
+          "label": "Validation complete",
+          "pills": [{ "label": "Commit" }, { "demo": true, "label": "Next" }],
+          "response": "Commit",
+          "steps": [
+            { "context": 85, "detail": "Schema validation passed", "ms": 1500, "statusFrames": ["Validating schema…", "Checking required fields…"], "step": "Schema" },
+            { "context": 88, "detail": "All references resolved", "ms": 2000, "statusFrames": ["Checking input references…", "Validating logic item targets…"], "step": "References" },
+            { "context": 90, "detail": "No conflicts detected", "ms": 1500, "statusFrames": ["Scanning for rule conflicts…", "Checking name uniqueness…"], "step": "Conflicts" },
+            { "context": 92, "detail": "Naming conventions matched", "ms": 1500, "statusFrames": ["Comparing against customer context…", "Verifying label patterns…"], "step": "Naming" }
+          ],
+          "tab": "verify",
+          "workflow": "validate"
+        },
+        {
+          "agent": "Committing to ConfigureOne Cloud.",
+          "label": "Commit complete",
+          "pills": [],
+          "response": null,
+          "steps": [
+            { "context": 94, "detail": "1 new · 0 edits", "ms": 1500, "statusFrames": ["Classifying draft items…"], "step": "Operation selection" },
+            { "context": 95, "detail": "Product created", "ms": 2000, "statusFrames": ["Creating product in C1C…"], "step": "Writing product" },
+            { "context": 96, "detail": "23 groups · 95 inputs", "ms": 3000, "statusFrames": ["Committing input groups…", "Committing inputs…"], "step": "Writing model" },
+            { "context": 97, "detail": "9 logic groups · 69 logic items", "ms": 2500, "statusFrames": ["Committing logic groups…", "Committing logic items…"], "step": "Writing rules" },
+            { "context": 98, "detail": "0 line items", "ms": 1500, "statusFrames": ["No BOM to commit…"], "step": "Writing results" },
+            { "context": 100, "detail": "All checks passed", "ms": 1500, "statusFrames": ["Running binding validation…", "Checking reference integrity…"], "step": "Binding validation" }
+          ],
+          "tab": "commit",
+          "workflow": "commit-to-cloud"
+        }
+      ]
+    }
+  }
+}

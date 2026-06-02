@@ -568,10 +568,16 @@ const renderFilesToolbar = () => {
 
 const gridDefaults = { editable: true, filter: 'agTextColumnFilter', resizable: true, sortable: true, suppressSizeToFit: true }
 const actionsCol = {
-  cellRenderer: () => {
+  cellRenderer: p => {
     const btn = makeEl('button', 'button button-icon action-btn')
     const icon = makeEl('i'); icon.className = 'fa-regular fa-ellipsis'
     btn.appendChild(icon)
+    btn.onclick = e => {
+      e.stopPropagation()
+      if (!p.data) return
+      if (detailMode === 'hover') { openHoverCard(p.data.name ?? '', buildDetailContent(p.data, p.api)); return }
+      state.selectedFile = p.data; openDetail(); renderDetail()
+    }
     return btn
   },
   filter: false,
@@ -585,6 +591,11 @@ const gridCommon = () => ({
   cellSelection: true,
   defaultColDef: gridDefaults,
   getContextMenuItems: gridContextMenu,
+  onRowDoubleClicked: e => {
+    if (!e.data) return
+    if (detailMode === 'hover') { openHoverCard(e.data.name ?? '', buildDetailContent(e.data, e.api)); return }
+    state.selectedFile = e.data; openDetail(); renderDetail()
+  },
   popupParent: document.body,
   rowSelection: { checkboxes: true, headerCheckbox: true, mode: 'multiRow' },
   selectionColumnDef: { pinned: 'left', suppressSizeToFit: true },
@@ -630,6 +641,9 @@ const buildPaneToolbar = (toolbarEl, { filters, modes, getGrid, paneId }) => {
         const pane = g(paneId)
         pane.querySelectorAll('.pane-content').forEach(p => p.classList.remove('active'))
         g(m.target)?.classList.add('active')
+        const showTableControls = m.label === 'Table' || m.label === 'Attributes'
+        toolbarEl.querySelectorAll('.tab-bar.line, .button.outline, .toolbar-search').forEach(el => el.style.display = showTableControls ? '' : 'none')
+        m.onActivate?.()
       }
       bar.appendChild(tab)
     })
@@ -651,6 +665,11 @@ const buildPaneToolbar = (toolbarEl, { filters, modes, getGrid, paneId }) => {
   }
   toolbarEl.appendChild(makeEl('div', 'fill'))
   if (getGrid) {
+    const search = makeEl('input', 'toolbar-search')
+    search.type = 'search'
+    search.placeholder = 'Search…'
+    search.oninput = () => getGrid()?.setGridOption('quickFilterText', search.value)
+    toolbarEl.appendChild(search)
     const filterIcon = makeEl('i'); filterIcon.className = 'fa-regular fa-bars-filter'
     const filterBtn = makeEl('button', 'button outline')
     filterBtn.appendChild(filterIcon)
@@ -705,52 +724,161 @@ const renderFilesList = () => {
     rowData: rows,
     onRowClicked: e => {
       const file = state.files.find(f => f.name === e.data.name)
-      if (file) { state.selectedFile = file; filesGrid.redrawRows(); openDetail(); renderDetail() }
+      if (!file) return
+      if (detailMode === 'hover') { openHoverCard(file.name, buildDetailContent(file)); return }
+      state.selectedFile = file; filesGrid.redrawRows(); openDetail(); renderDetail()
     },
   })
   renderFilesToolbar()
 }
 
-const renderDetail = () => {
-  const content = g('detail-content')
-  if (!content) return
-  content.replaceChildren()
-  if (!state.selectedFile) { content.appendChild(makeEl('div', 'detail-empty', 'Select a file to view details')); return }
-  const file = state.selectedFile
+const addField = (form, draft, key, label, opts = {}) => {
+  const field = makeEl('div', 'detail-field')
+  const lbl = makeEl('label', null, label)
+  lbl.setAttribute('for', `detail-${key}`)
+  field.appendChild(lbl)
+  if (opts.type === 'checkbox') {
+    const input = makeEl('input'); input.type = 'checkbox'; input.id = `detail-${key}`; input.checked = !!draft[key]
+    input.onchange = () => { draft[key] = input.checked }
+    field.appendChild(input)
+  } else if (opts.type === 'select' && opts.options) {
+    const select = makeEl('select'); select.id = `detail-${key}`
+    opts.options.forEach(o => { const opt = makeEl('option', null, o); opt.value = o; if (draft[key] === o) opt.selected = true; select.appendChild(opt) })
+    select.onchange = () => { draft[key] = select.value }
+    field.appendChild(select)
+  } else if (opts.type === 'textarea') {
+    const input = makeEl('textarea'); input.id = `detail-${key}`; input.value = draft[key] ?? ''; input.rows = opts.rows ?? 3; input.placeholder = opts.placeholder ?? ''
+    input.oninput = () => { draft[key] = input.value }
+    field.appendChild(input)
+  } else {
+    const input = makeEl('input'); input.type = opts.type ?? 'text'; input.id = `detail-${key}`; input.value = draft[key] ?? ''; input.placeholder = opts.placeholder ?? label
+    if (opts.readonly) input.readOnly = true
+    input.oninput = () => { draft[key] = input.type === 'number' ? Number(input.value) : input.value }
+    field.appendChild(input)
+  }
+  form.appendChild(field)
+}
+
+const formSchemas = {
+  group: (form, draft) => {
+    addField(form, draft, 'name', 'Group name', { placeholder: 'e.g. Top Options' })
+  },
+  input: (form, draft) => {
+    addField(form, draft, 'name', 'Label', { placeholder: 'e.g. Wood Finish' })
+    addField(form, draft, 'id', 'Input name', { placeholder: 'e.g. WOOD_FINISH', readonly: true })
+    addField(form, draft, 'type', 'Input type', { type: 'select', options: ['Attribute display', 'Checkbox', 'Dropdown', 'Hidden', 'Radio', 'Slider', 'Text'] })
+    addField(form, draft, 'default', 'Default value', { placeholder: 'Default input value' })
+    addField(form, draft, 'options', 'Options', { type: 'textarea', placeholder: 'One value per line', rows: 4 })
+  },
+  value: (form, draft) => {
+    addField(form, draft, 'name', 'Display name', { placeholder: 'e.g. Cherry' })
+    addField(form, draft, 'value', 'Value code', { placeholder: 'e.g. CHR' })
+  },
+  logic_item: (form, draft) => {
+    addField(form, draft, 'name', 'Name', { placeholder: 'e.g. Ask Table Design' })
+    addField(form, draft, 'ruleType', 'Type', { readonly: true })
+    addField(form, draft, 'action', 'Action', { placeholder: 'e.g. Ask Input Group: Table Design' })
+    addField(form, draft, 'detail', 'Condition', { placeholder: 'e.g. IF CONNECTIVITY = Y' })
+  },
+  result: (form, draft) => {
+    addField(form, draft, 'itemNumber', 'Item number')
+    addField(form, draft, 'description', 'Description')
+    addField(form, draft, 'qty', 'Quantity', { type: 'number' })
+    addField(form, draft, 'uom', 'Unit of measure')
+    addField(form, draft, 'source', 'Source', { readonly: true })
+    addField(form, draft, 'resolution', 'Resolution', { readonly: true })
+    addField(form, draft, 'included', 'Included', { type: 'checkbox' })
+  },
+}
+
+const getFormSchema = data => {
+  if (data.type && ({ md: 1, pdf: 1, csv: 1 })[data.type]) return null
+  if (data.nodeType === 'group') return 'group'
+  if (data.nodeType === 'input') return 'input'
+  if (data.nodeType === 'value') return 'value'
+  if (data.ruleType) return 'logic_item'
+  if (data.itemNumber !== undefined || data.resolution !== undefined) return 'result'
+  return null
+}
+
+const buildDetailContent = (data, api) => {
   const view = makeEl('div', 'detail-view')
+  if (data.type && ({ md: 1, pdf: 1, csv: 1 })[data.type]) return buildFileDetail(data, view)
+  const schemaKey = getFormSchema(data)
+  const schema = formSchemas[schemaKey]
+  if (!schema) return view
+  const form = makeEl('form', 'detail-form')
+  form.addEventListener('submit', e => e.preventDefault())
+  const draft = { ...data }
+  schema(form, draft)
+  view.appendChild(form)
+  if (schemaKey === 'input' && state.productData) {
+    const attrLabel = makeEl('b', null, 'Attributes')
+    attrLabel.style.marginTop = '0.75rem'
+    view.appendChild(attrLabel)
+    const inputNum = state.productData.model?.inputs?.find(i => i.id === data.id)?.num
+    const attrs = (state.productData.attributes?.inputAttributes ?? []).filter(a => a.driverInputNum === inputNum)
+    const values = (state.productData.model?.inputValues ?? []).filter(v => v.inputNum === inputNum)
+    const attrRows = values.map(val => {
+      const row = { label: val.label, value: val.value }
+      attrs.forEach(a => { row[a.name] = a.values[val.value] ?? '' })
+      return row
+    })
+    const gridEl = makeEl('div', 'detail-attr-grid')
+    view.appendChild(gridEl)
+    const cols = [{ field: 'label', headerName: 'Value' }, ...attrs.map(a => ({ field: a.name, headerName: a.name }))]
+    if (!attrRows.length) {
+      view.appendChild(makeEl('p', 'detail-empty-attrs', 'No attributes defined for this input.'))
+    } else {
+      agGrid.createGrid(gridEl, {
+        columnDefs: cols,
+        defaultColDef: { editable: true, resizable: true, sortable: true },
+        onFirstDataRendered: e => { e.api.autoSizeAllColumns(); e.api.sizeColumnsToFit() },
+        rowData: attrRows,
+        theme: gridTheme(),
+      })
+    }
+  }
+  const actions = makeEl('div', 'detail-actions')
+  const saveBtn = makeEl('button', 'button primary', 'Save')
+  saveBtn.onclick = () => {
+    Object.assign(data, draft)
+    if (api) api.applyTransaction({ update: [data] })
+    closeHoverCard()
+    closeDetail()
+  }
+  const cancelBtn = makeEl('button', 'button outline', 'Cancel')
+  cancelBtn.onclick = () => { closeHoverCard(); closeDetail() }
+  actions.appendChild(cancelBtn)
+  actions.appendChild(saveBtn)
+  view.appendChild(actions)
+  return view
+}
+
+const buildFileDetail = (file, view) => {
   view.appendChild(makeEl('b', null, file.name))
   const typeName = ({ md: 'Markdown', pdf: 'PDF' })[file.type] ?? file.type?.toUpperCase()
   if (typeName) view.appendChild(makeEl('span', 'detail-meta', file.size && file.size !== '—' ? `${typeName} · ${file.size}` : typeName))
   if (file.markdown || (file.path && file.type === 'md')) {
     const md = makeEl('div', 'markdown-body')
     const renderMd = text => { md.innerHTML = marked.parse(text) }
-    if (file.markdown) {
-      renderMd(file.markdown)
-    } else {
-      md.textContent = 'Loading…'
-      fetch(file.path).then(r => { if (!r.ok) throw new Error(r.status); return r.text() }).then(text => { file.markdown = text; renderMd(text) }).catch(() => { md.textContent = 'File not found.' })
-    }
+    if (file.markdown) renderMd(file.markdown)
+    else { md.textContent = 'Loading…'; fetch(file.path).then(r => { if (!r.ok) throw new Error(r.status); return r.text() }).then(text => { file.markdown = text; renderMd(text) }).catch(() => { md.textContent = 'File not found.' }) }
     view.appendChild(md)
-    content.appendChild(view)
-    return
+    return view
   }
   if (file.details) {
     view.appendChild(makeEl('p', 'detail-summary', file.details.summary))
     if (file.details.fields) {
       const grid = makeEl('div', 'detail-estimates')
-      file.details.fields.forEach(([k, v]) => {
-        const row = makeEl('div', 'detail-est-row')
-        row.appendChild(makeEl('span', null, k))
-        row.appendChild(makeEl('span', 'detail-est-val', v))
-        grid.appendChild(row)
-      })
+      file.details.fields.forEach(([k, v]) => { const row = makeEl('div', 'detail-est-row'); row.appendChild(makeEl('span', null, k)); row.appendChild(makeEl('span', 'detail-est-val', v)); grid.appendChild(row) })
       view.appendChild(grid)
     }
   }
   if (file.assessment) {
     const a = file.assessment
     view.appendChild(makeEl('p', 'detail-summary', a.summary))
-    const mkSection = (label, content) => { const s = makeEl('div', 'detail-section'); s.appendChild(makeEl('b', 'detail-section-label', label)); s.appendChild(content); return s }
+    const mkSection = (label, el) => { const s = makeEl('div', 'detail-section'); s.appendChild(makeEl('b', 'detail-section-label', label)); s.appendChild(el); return s }
     const statsGrid = makeEl('div', 'detail-stats')
     ;[['Pages', a.pages], ['Tokens', a.tokens], ['Tables', a.tables], ['Figures', a.figures]].forEach(([l, v]) => {
       const item = makeEl('div', 'detail-stat'); item.appendChild(makeEl('span', 'detail-stat-val', String(v))); item.appendChild(makeEl('span', 'detail-stat-label', l)); statsGrid.appendChild(item)
@@ -758,13 +886,19 @@ const renderDetail = () => {
     view.appendChild(mkSection('Document Stats', statsGrid))
     if (a.modelEstimates) {
       const grid = makeEl('div', 'detail-estimates')
-      Object.entries(a.modelEstimates).forEach(([k, v]) => {
-        const row = makeEl('div', 'detail-est-row'); row.appendChild(makeEl('span', null, k.replace(/([A-Z])/g, ' $1').toLowerCase())); row.appendChild(makeEl('span', 'detail-est-val', String(v))); grid.appendChild(row)
-      })
+      Object.entries(a.modelEstimates).forEach(([k, v]) => { const row = makeEl('div', 'detail-est-row'); row.appendChild(makeEl('span', null, k.replace(/([A-Z])/g, ' $1').toLowerCase())); row.appendChild(makeEl('span', 'detail-est-val', String(v))); grid.appendChild(row) })
       view.appendChild(mkSection('Model Estimates', grid))
     }
   }
-  content.appendChild(view)
+  return view
+}
+
+const renderDetail = () => {
+  const content = g('detail-content')
+  if (!content) return
+  content.replaceChildren()
+  if (!state.selectedFile) { content.appendChild(makeEl('div', 'detail-empty', 'Select a file to view details')); return }
+  content.appendChild(buildDetailContent(state.selectedFile))
 }
 
 const renderStats = (containerId, stats) => {
@@ -904,8 +1038,8 @@ const renderOverviewColumns = () => {
 const renderAllStats = () => {
   buildPaneToolbar(g('overview-toolbar'), {
     modes: [
-      { active: true, icon: 'fa-regular fa-grid-2', label: 'Layout 1', target: 'overview-layout-1' },
-      { active: false, icon: 'fa-regular fa-table-list', label: 'Layout 2', target: 'overview-layout-2' },
+      { active: true, icon: 'fa-regular fa-table-list', label: 'Layout 1', target: 'overview-layout-2' },
+      { active: false, icon: 'fa-regular fa-grid-2', label: 'Layout 2', target: 'overview-layout-1' },
       { active: false, icon: 'fa-regular fa-chart-network', label: 'Graph', target: 'overview-graph' },
     ],
     paneId: 'pane-overview',
@@ -1032,13 +1166,11 @@ const renderModelTab = () => {
   const json = g('model-json')
   if (!el) return
   buildPaneToolbar(g('model-toolbar'), {
-    filters: [
-      { active: true, label: 'All options', action: () => { modelGrid?.setGridOption('rowData', buildModelRows(state.productData)) } },
-      { active: false, label: 'Attributes', action: () => { modelGrid?.setGridOption('rowData', buildModelRows(state.productData).filter(r => r.detailRows || r.nodeType === 'group')) } },
-    ],
+    filters: [{ active: true, label: 'All options' }],
     getGrid: () => modelGrid,
     modes: [
-      { active: true, icon: 'fa-regular fa-table', label: 'Table', target: 'model-table' },
+      { active: true, icon: 'fa-regular fa-table', label: 'Table', target: 'model-table', onActivate: () => modelGrid?.setGridOption('rowData', buildModelRows(state.productData)) },
+      { active: false, icon: 'fa-regular fa-table-cells', label: 'Attributes', target: 'model-table', onActivate: () => modelGrid?.setGridOption('rowData', buildModelRows(state.productData).filter(r => r.detailRows || r.nodeType === 'group')) },
       { active: false, icon: 'fa-regular fa-list-tree', label: 'Tree', target: 'model-tree' },
       { active: false, icon: 'fa-regular fa-chart-network', label: 'Graph', target: 'model-graph' },
       { active: false, icon: 'fa-regular fa-brackets-curly', label: 'JSON', target: 'model-json' },
@@ -1700,6 +1832,32 @@ g('menu-reset').addEventListener('click', () => {
   if (!confirm('Reset this workspace? All progress will be lost.')) return
   reset(); render()
 })
+let detailMode = 'drawer'
+
+g('menu-detail-toggle').addEventListener('click', () => {
+  const sw = g('menu-detail-toggle')
+  const on = sw.getAttribute('aria-checked') !== 'true'
+  sw.setAttribute('aria-checked', on)
+  detailMode = on ? 'hover' : 'drawer'
+})
+
+g('hover-card-close').addEventListener('click', () => closeHoverCard())
+g('detail-overlay').addEventListener('click', () => { if (detailMode === 'hover') closeHoverCard(); else closeDetail() })
+
+const openHoverCard = (title, contentEl) => {
+  g('hover-card-title').textContent = title
+  const content = g('hover-card-content')
+  content.replaceChildren()
+  content.appendChild(contentEl)
+  g('hover-card').hidden = false
+  g('detail-overlay').hidden = false
+}
+
+const closeHoverCard = () => {
+  g('hover-card').hidden = true
+  g('detail-overlay').hidden = true
+}
+
 g('menu-workflow-toggle').addEventListener('click', () => {
   const bar = g('workflow-bar')
   const sw = g('menu-workflow-toggle')

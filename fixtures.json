@@ -1,5 +1,5 @@
 {
-  "demos": ["demo-academy-table.json", "demo-cyclo-6000.json"],
+  "demos": ["demo-freight-truck.json", "demo-academy-table.json", "demo-cyclo-6000.json"],
   "emptyStates": {
     "commit": {
       "description": "Nothing reaches ConfigureOne Cloud until you commit. Review your draft summary — product setup, options, interface logic, and bill of material — then push everything in a single operation.",

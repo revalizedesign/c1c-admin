@@ -832,6 +832,12 @@ body {
   gap: 0.5rem;
 }
 
+input.toolbar-search {
+  font-size: 0.8125rem;
+  padding: 5px 0.75rem;
+  width: 10rem;
+}
+
 .pane-toolbar .fill {
   flex: 1;
 }
@@ -900,6 +906,97 @@ sortable-tree-node {
 }
 
 #ff-btn { color: var(--color-light) }
+
+#hover-card {
+  background: var(--color-lightest);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+  display: none;
+  flex-direction: column;
+  left: 50%;
+  max-height: 80vh;
+  max-width: 40rem;
+  overflow-y: auto;
+  padding: 0;
+  position: fixed;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  z-index: 100;
+}
+
+#hover-card:not([hidden]) { display: flex }
+
+.hover-card-header {
+  align-items: center;
+  border-bottom: 1px solid var(--color-light);
+  display: flex;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+}
+
+#hover-card-content {
+  overflow-y: auto;
+  padding: 1rem;
+}
+
+.detail-actions {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+  padding-top: 0.75rem;
+}
+
+.detail-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.detail-field label {
+  color: var(--color-half);
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.detail-attr-grid {
+  height: 12rem;
+}
+
+.detail-empty-attrs {
+  color: var(--color-half);
+  font-style: italic;
+}
+
+.detail-field input,
+.detail-field select,
+.detail-field textarea {
+  border: 1px solid var(--color-light);
+  border-radius: var(--radius);
+  font-family: inherit;
+  font-size: 0.875rem;
+  padding: 0.5rem;
+}
+
+.detail-field input:focus,
+.detail-field select:focus,
+.detail-field textarea:focus {
+  border-color: var(--color-brand);
+  outline: none;
+}
+
+.detail-field input[type="checkbox"] {
+  width: auto;
+}
+
+.detail-field textarea {
+  resize: vertical;
+}
+
+.detail-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
 
 code {
   background: var(--color-lighter);

@@ -1,0 +1,5580 @@
+{
+  "product": {
+    "category": "Truck Bodies",
+    "code": "C1CFREIGHT26",
+    "id": "prod-freight-truck",
+    "name": "AAA Freight Truck"
+  },
+  "model": {
+    "inputGroups": [
+      {
+        "id": "ig-1",
+        "name": "Application and Chassis",
+        "num": 1
+      },
+      {
+        "id": "ig-2",
+        "name": "Walkramp",
+        "num": 2
+      },
+      {
+        "id": "ig-3",
+        "name": "Seating",
+        "num": 3
+      },
+      {
+        "id": "ig-4",
+        "name": "Exterior Lighting",
+        "num": 4
+      },
+      {
+        "id": "ig-5",
+        "name": "Interior Accessories",
+        "num": 5
+      },
+      {
+        "id": "ig-6",
+        "name": "Side Roll-up Doors",
+        "num": 6
+      },
+      {
+        "id": "ig-7",
+        "name": "Roof",
+        "num": 7
+      },
+      {
+        "id": "ig-8",
+        "name": "Track Locations",
+        "num": 8
+      },
+      {
+        "id": "ig-9",
+        "name": "Side Roll-up Doors - old",
+        "num": 9
+      },
+      {
+        "id": "ig-10",
+        "name": "Side Roll-up Door",
+        "num": 10
+      },
+      {
+        "id": "ig-11",
+        "name": "Options",
+        "num": 11
+      },
+      {
+        "id": "ig-12",
+        "name": "Special Notes",
+        "num": 12
+      },
+      {
+        "id": "ig-13",
+        "name": "Body Side Space",
+        "num": 13
+      },
+      {
+        "id": "ig-14",
+        "name": "Liftgate",
+        "num": 14
+      },
+      {
+        "id": "ig-15",
+        "name": "Hidden Not Asked",
+        "num": 15
+      },
+      {
+        "id": "ig-16",
+        "name": "Construction",
+        "num": 16
+      },
+      {
+        "id": "ig-17",
+        "name": "Rear Bumper",
+        "num": 17
+      },
+      {
+        "id": "ig-18",
+        "name": "Hood and Front",
+        "num": 18
+      },
+      {
+        "id": "ig-19",
+        "name": "Driver Door",
+        "num": 19
+      },
+      {
+        "id": "ig-20",
+        "name": "Passenger Door",
+        "num": 20
+      },
+      {
+        "id": "ig-21",
+        "name": "Side Door",
+        "num": 21
+      },
+      {
+        "id": "ig-22",
+        "name": "Wall",
+        "num": 22
+      },
+      {
+        "id": "ig-23",
+        "name": "Liftgate System Info",
+        "num": 23
+      }
+    ],
+    "inputs": [
+      {
+        "groupNum": 1,
+        "id": "inp-1",
+        "label": "Program",
+        "name": "PROGRAM",
+        "num": 1,
+        "type": "radio",
+        "default": "CUSTOM"
+      },
+      {
+        "groupNum": 1,
+        "id": "inp-2",
+        "label": "Truck Body Application",
+        "name": "VAN_APPLICATION",
+        "num": 2,
+        "type": "dropdown",
+        "default": "PS"
+      },
+      {
+        "groupNum": 1,
+        "id": "inp-3",
+        "label": "City of Use",
+        "name": "CITY_OF_USE",
+        "num": 3,
+        "type": "dropdown",
+        "default": "PS",
+        "externalValues": "cities.csv"
+      },
+      {
+        "groupNum": 1,
+        "id": "inp-4",
+        "label": "Manufacturer",
+        "name": "CHASSIS_MFR",
+        "num": 4,
+        "type": "dropdown",
+        "default": "FORD"
+      },
+      {
+        "groupNum": 1,
+        "id": "inp-5",
+        "label": "Model",
+        "name": "CHASSIS_MODEL",
+        "num": 5,
+        "type": "dropdown",
+        "default": "F350"
+      },
+      {
+        "groupNum": 1,
+        "id": "inp-6",
+        "label": "Wheelbase",
+        "name": "WHEELBASE",
+        "num": 6,
+        "type": "dropdown",
+        "default": "109.0"
+      },
+      {
+        "groupNum": 1,
+        "id": "inp-7",
+        "label": "Axle",
+        "name": "AXLE",
+        "num": 7,
+        "type": "dropdown",
+        "default": "SINGLE"
+      },
+      {
+        "groupNum": 1,
+        "id": "inp-8",
+        "label": "Find Similar",
+        "name": "FIND_SIMILAR",
+        "num": 8,
+        "type": "hidden",
+        "default": ""
+      },
+      {
+        "groupNum": 1,
+        "id": "inp-9",
+        "label": "BODY_PREVIEW_PAGE_1_NEW",
+        "name": "BODY_PREVIEW_PAGE_1_NEW",
+        "num": 9,
+        "type": "hidden",
+        "default": ""
+      },
+      {
+        "groupNum": 1,
+        "id": "inp-10",
+        "label": "Width",
+        "name": "BODY_WIDTH",
+        "num": 10,
+        "type": "dropdown",
+        "default": "90"
+      },
+      {
+        "groupNum": 1,
+        "id": "inp-11",
+        "label": "Height (78-108)",
+        "name": "BODY_HEIGHT",
+        "num": 11,
+        "type": "slider",
+        "default": ""
+      },
+      {
+        "groupNum": 1,
+        "id": "inp-12",
+        "label": "Length",
+        "name": "BODY_LENGTH",
+        "num": 12,
+        "type": "dropdown",
+        "default": "12"
+      },
+      {
+        "groupNum": 1,
+        "id": "inp-13",
+        "label": "Use 3D View",
+        "name": "USE_3D_VIEW",
+        "num": 13,
+        "type": "radio",
+        "default": "YES"
+      },
+      {
+        "groupNum": 2,
+        "id": "inp-14",
+        "label": "Min Length",
+        "name": "MINIMUM_WALKRAMP_LENGTH",
+        "num": 14,
+        "type": "dropdown",
+        "default": "ALL"
+      },
+      {
+        "groupNum": 2,
+        "id": "inp-15",
+        "label": "Max Length",
+        "name": "MAXIMUM_WALKRAMP_LENGTH",
+        "num": 15,
+        "type": "dropdown",
+        "default": "ALL"
+      },
+      {
+        "groupNum": 2,
+        "id": "inp-16",
+        "label": "Min Capacity",
+        "name": "MINIMUM_WALKRAMP_CAPACITY",
+        "num": 16,
+        "type": "dropdown",
+        "default": "ALL"
+      },
+      {
+        "groupNum": 2,
+        "id": "inp-17",
+        "label": "Type",
+        "name": "WALKRAMP_TYPE",
+        "num": 17,
+        "type": "dropdown",
+        "default": "ALL"
+      },
+      {
+        "groupNum": 2,
+        "id": "inp-18",
+        "label": "Width",
+        "name": "WALKRAMP_WIDTH",
+        "num": 18,
+        "type": "dropdown",
+        "default": "ALL"
+      },
+      {
+        "groupNum": 2,
+        "id": "inp-19",
+        "label": "Max Angle",
+        "name": "MAXIMUM_WALKRAMP_ANGLE",
+        "num": 19,
+        "type": "slider",
+        "default": ""
+      },
+      {
+        "groupNum": 2,
+        "id": "inp-20",
+        "label": "Deck Height",
+        "name": "DECK_HEIGHT",
+        "num": 20,
+        "type": "dropdown",
+        "default": ""
+      },
+      {
+        "groupNum": 2,
+        "id": "inp-21",
+        "label": "Walkramp",
+        "name": "WALKRAMP",
+        "num": 21,
+        "type": "attribute_display",
+        "default": "WR293H"
+      },
+      {
+        "groupNum": 3,
+        "id": "inp-22",
+        "label": "Driver's side seat:",
+        "name": "SEATING_DRIVER",
+        "num": 22,
+        "type": "dropdown",
+        "default": "ARM_REST"
+      },
+      {
+        "groupNum": 3,
+        "id": "inp-23",
+        "label": "Jump Seat:",
+        "name": "SEATING_JUMP",
+        "num": 23,
+        "type": "dropdown",
+        "default": "BULKHEAD"
+      },
+      {
+        "groupNum": 4,
+        "id": "inp-24",
+        "label": "Exterior lighting options:",
+        "name": "EXTERIOR_LIGHTING_OPTIONS",
+        "num": 24,
+        "type": "dropdown",
+        "default": "LED_REAR_STT"
+      },
+      {
+        "groupNum": 5,
+        "id": "inp-25",
+        "label": "Interior Accessory Options:",
+        "name": "INTERIOR_OPTIONS",
+        "num": 25,
+        "type": "dropdown",
+        "default": "FIRE_EXT_5"
+      },
+      {
+        "groupNum": 6,
+        "id": "inp-26",
+        "label": "Door Preview",
+        "name": "DOOR_PREVIEW",
+        "num": 26,
+        "type": "hidden",
+        "default": ""
+      },
+      {
+        "groupNum": 6,
+        "id": "inp-27",
+        "label": "Width",
+        "name": "DOOR_WIDTH_2D",
+        "num": 27,
+        "type": "slider",
+        "default": ""
+      },
+      {
+        "groupNum": 6,
+        "id": "inp-28",
+        "label": "Height",
+        "name": "DOOR_HEIGHT_2D",
+        "num": 28,
+        "type": "slider",
+        "default": ""
+      },
+      {
+        "groupNum": 6,
+        "id": "inp-29",
+        "label": "Include Lock",
+        "name": "INCLUDE_LOCK",
+        "num": 29,
+        "type": "radio",
+        "default": "YES"
+      },
+      {
+        "groupNum": 6,
+        "id": "inp-30",
+        "label": "Slat Size",
+        "name": "SLAT_SIZE",
+        "num": 30,
+        "type": "dropdown",
+        "default": "2"
+      },
+      {
+        "groupNum": 6,
+        "id": "inp-31",
+        "label": "Notes",
+        "name": "RT2D_NOTES",
+        "num": 31,
+        "type": "dropdown",
+        "default": ""
+      },
+      {
+        "groupNum": 6,
+        "id": "inp-32",
+        "label": "Dimensions",
+        "name": "SHOW_DIMS",
+        "num": 32,
+        "type": "dropdown",
+        "default": "YES"
+      },
+      {
+        "groupNum": 6,
+        "id": "inp-33",
+        "label": "Hot Spots",
+        "name": "SHOW_HOTSPOTS",
+        "num": 33,
+        "type": "dropdown",
+        "default": "VISIBLE"
+      },
+      {
+        "groupNum": 7,
+        "id": "inp-34",
+        "label": "Skylights",
+        "name": "ROOF_SKYLIGHT",
+        "num": 34,
+        "type": "dropdown",
+        "default": "NONE"
+      },
+      {
+        "groupNum": 7,
+        "id": "inp-35",
+        "label": "Show Real-Time 2D",
+        "name": "SHOW_RT2D",
+        "num": 35,
+        "type": "radio",
+        "default": "YES"
+      },
+      {
+        "groupNum": 8,
+        "id": "inp-36",
+        "label": "Track # ~~TRK~~ type:",
+        "name": "TRACK_TYPE~~TRK~~",
+        "num": 36,
+        "type": "radio",
+        "default": "E"
+      },
+      {
+        "groupNum": 8,
+        "id": "inp-37",
+        "label": "Distance from floor to Track # ~~TRK~~:",
+        "name": "TRACK_LOC~~TRK~~",
+        "num": 37,
+        "type": "slider",
+        "default": ""
+      },
+      {
+        "groupNum": 9,
+        "id": "inp-38",
+        "label": "How many total side roll-up doors are required?",
+        "name": "SIDE_DOOR_QTY",
+        "num": 38,
+        "type": "dropdown",
+        "default": "0"
+      },
+      {
+        "groupNum": 10,
+        "id": "inp-39",
+        "label": "Which side of the van is door # ~~RUD~~ located?",
+        "name": "SIDE_RUD~~RUD~~_SIDE",
+        "num": 39,
+        "type": "radio",
+        "default": "LEFT"
+      },
+      {
+        "groupNum": 10,
+        "id": "inp-40",
+        "label": "Width of roll-up door # ~~RUD~~:",
+        "name": "SIDE_RUD~~RUD~~_WIDTH",
+        "num": 40,
+        "type": "slider",
+        "default": ""
+      },
+      {
+        "groupNum": 10,
+        "id": "inp-41",
+        "label": "Height of roll-up door # ~~RUD~~:",
+        "name": "SIDE_RUD~~RUD~~_HEIGHT",
+        "num": 41,
+        "type": "slider",
+        "default": ""
+      },
+      {
+        "groupNum": 10,
+        "id": "inp-42",
+        "label": "Location from body front to front edge of door:",
+        "name": "SIDE_RUD~~RUD~~_LOC",
+        "num": 42,
+        "type": "slider",
+        "default": ""
+      },
+      {
+        "groupNum": 11,
+        "id": "inp-43",
+        "label": "HTML_OFFER",
+        "name": "HTML_OFFER",
+        "num": 43,
+        "type": "hidden",
+        "default": ""
+      },
+      {
+        "groupNum": 11,
+        "id": "inp-44",
+        "label": "FX4 Off Road Package",
+        "name": "OPTION_FX4_OFF_ROAD",
+        "num": 44,
+        "type": "dropdown",
+        "default": "FX4"
+      },
+      {
+        "groupNum": 11,
+        "id": "inp-45",
+        "label": "Snow Plow Prep Package",
+        "name": "OPTION_SNOW_PLOUGH_PREP",
+        "num": 45,
+        "type": "dropdown",
+        "default": "SNOW"
+      },
+      {
+        "groupNum": 11,
+        "id": "inp-46",
+        "label": "Heavy Service Front Suspension Package",
+        "name": "OPTION_HEAVY_SERVICE",
+        "num": 46,
+        "type": "dropdown",
+        "default": "HEAVY_SERVICE"
+      },
+      {
+        "groupNum": 12,
+        "id": "inp-47",
+        "label": "Special Notes:",
+        "name": "SPECIAL_NOTE",
+        "num": 47,
+        "type": "dropdown",
+        "default": ""
+      },
+      {
+        "groupNum": 12,
+        "id": "inp-48",
+        "label": "Months of Warranty",
+        "name": "MONTHS_OF_WARRANTY",
+        "num": 48,
+        "type": "slider",
+        "default": ""
+      },
+      {
+        "groupNum": 13,
+        "id": "inp-49",
+        "label": "Available Space on Right Side Wall:",
+        "name": "SPACE_RIGHT",
+        "num": 49,
+        "type": "dropdown",
+        "default": ""
+      },
+      {
+        "groupNum": 13,
+        "id": "inp-50",
+        "label": "Available Space on Left Side Wall:",
+        "name": "SPACE_LEFT",
+        "num": 50,
+        "type": "dropdown",
+        "default": ""
+      },
+      {
+        "groupNum": 14,
+        "id": "inp-51",
+        "label": "LIFTGATE",
+        "name": "LIFTGATE",
+        "num": 51,
+        "type": "dropdown",
+        "default": "160713240"
+      },
+      {
+        "groupNum": 15,
+        "id": "inp-52",
+        "label": "Cargo Type",
+        "name": "HIDDEN_CARGO_1",
+        "num": 52,
+        "type": "dropdown",
+        "default": "HEAVY"
+      },
+      {
+        "groupNum": 15,
+        "id": "inp-53",
+        "label": "Hidden Input Distance 1",
+        "name": "HIDDEN_GUIDE_DISTANCE_1",
+        "num": 53,
+        "type": "dropdown",
+        "default": "LOCAL"
+      },
+      {
+        "groupNum": 15,
+        "id": "inp-54",
+        "label": "Interior Construction",
+        "name": "INTERIOR_CONSTRUCTION_BAK",
+        "num": 54,
+        "type": "dropdown",
+        "default": "ALUMINUM"
+      },
+      {
+        "groupNum": 15,
+        "id": "inp-55",
+        "label": "HIDDEN_CURTAIN_WIDTH_1",
+        "name": "HIDDEN_CURTAIN_WIDTH_1",
+        "num": 55,
+        "type": "hidden",
+        "default": ""
+      },
+      {
+        "groupNum": 15,
+        "id": "inp-56",
+        "label": "SLAT_LENGTH_1",
+        "name": "SLAT_LENGTH_1",
+        "num": 56,
+        "type": "hidden",
+        "default": ""
+      },
+      {
+        "groupNum": 15,
+        "id": "inp-57",
+        "label": "Gasket Material",
+        "name": "GASKET_MATERIAL",
+        "num": 57,
+        "type": "dropdown",
+        "default": "VITON"
+      },
+      {
+        "groupNum": 15,
+        "id": "inp-58",
+        "label": "Country of use",
+        "name": "COUNTRY_OF_USE",
+        "num": 58,
+        "type": "dropdown",
+        "default": "USA"
+      },
+      {
+        "groupNum": 16,
+        "id": "inp-59",
+        "label": "Paint Color",
+        "name": "PAINT_COLOR_FT",
+        "num": 59,
+        "type": "dropdown",
+        "default": "GW"
+      },
+      {
+        "groupNum": 16,
+        "id": "inp-60",
+        "label": "Rear Door",
+        "name": "REAR_DOOR",
+        "num": 60,
+        "type": "dropdown",
+        "default": "FULL_WIDTH_ROLL_UP"
+      },
+      {
+        "groupNum": 16,
+        "id": "inp-61",
+        "label": "Interior Construction",
+        "name": "INTERIOR_CONSTRUCTION_1",
+        "num": 61,
+        "type": "dropdown",
+        "default": "ALUMINUM"
+      },
+      {
+        "groupNum": 16,
+        "id": "inp-62",
+        "label": "TRUCK_BODY_VIEWER",
+        "name": "TRUCK_BODY_VIEWER",
+        "num": 62,
+        "type": "dropdown",
+        "default": ""
+      },
+      {
+        "groupNum": 16,
+        "id": "inp-63",
+        "label": "Paint Custom Code",
+        "name": "PAINT_CUSTOM_CODE",
+        "num": 63,
+        "type": "dropdown",
+        "default": ""
+      },
+      {
+        "groupNum": 16,
+        "id": "inp-64",
+        "label": "BODY_PREVIEW_PAGE_2_NEW",
+        "name": "BODY_PREVIEW_PAGE_2_NEW",
+        "num": 64,
+        "type": "hidden",
+        "default": ""
+      },
+      {
+        "groupNum": 16,
+        "id": "inp-65",
+        "label": "TRUCK_BODY_VIEWER_PLACEHOLDER",
+        "name": "TRUCK_BODY_VIEWER_PLACEHOLDER",
+        "num": 65,
+        "type": "hidden",
+        "default": ""
+      },
+      {
+        "groupNum": 17,
+        "id": "inp-66",
+        "label": "Rubber Edge on Bumper",
+        "name": "REAR_RUBBER_BUMPER",
+        "num": 66,
+        "type": "radio",
+        "default": "NO"
+      },
+      {
+        "groupNum": 17,
+        "id": "inp-67",
+        "label": "REAR_BUMPER",
+        "name": "REAR_BUMPER",
+        "num": 67,
+        "type": "attribute_display",
+        "default": "GRIP_SPRING_12"
+      },
+      {
+        "groupNum": 17,
+        "id": "inp-68",
+        "label": "Rear Bumper 1",
+        "name": "REAR_BUMPER_1",
+        "num": 68,
+        "type": "attribute_display",
+        "default": "GRIP_SPRING_12"
+      },
+      {
+        "groupNum": 18,
+        "id": "inp-69",
+        "label": "Hood",
+        "name": "HOOD_OPTION",
+        "num": 69,
+        "type": "dropdown",
+        "default": "FIBERGLASS"
+      },
+      {
+        "groupNum": 18,
+        "id": "inp-70",
+        "label": "Bumper Thickness",
+        "name": "BUMPER_GAUGE",
+        "num": 70,
+        "type": "radio",
+        "default": "7GA"
+      },
+      {
+        "groupNum": 18,
+        "id": "inp-71",
+        "label": "Front Options",
+        "name": "FRONT_OPTIONS",
+        "num": 71,
+        "type": "dropdown",
+        "default": "RAD_COVER"
+      },
+      {
+        "groupNum": 19,
+        "id": "inp-72",
+        "label": "Driver side cab door type:",
+        "name": "LH_CAB_DOOR",
+        "num": 72,
+        "type": "dropdown",
+        "default": "SLIDING"
+      },
+      {
+        "groupNum": 19,
+        "id": "inp-73",
+        "label": "Driver side window:",
+        "name": "LH_CAB_WINDOW",
+        "num": 73,
+        "type": "dropdown",
+        "default": "SLIDER_BLACK"
+      },
+      {
+        "groupNum": 19,
+        "id": "inp-74",
+        "label": "Driver side door hardware finish:",
+        "name": "LH_DOOR_HARDWARE_FINISH",
+        "num": 74,
+        "type": "radio",
+        "default": "BLACK"
+      },
+      {
+        "groupNum": 19,
+        "id": "inp-75",
+        "label": "Driver side door lock:",
+        "name": "LH_DOOR_LOCK",
+        "num": 75,
+        "type": "dropdown",
+        "default": "NON_PUSH"
+      },
+      {
+        "groupNum": 19,
+        "id": "inp-76",
+        "label": "Driver door options:",
+        "name": "LH_DOOR_OPTIONS",
+        "num": 76,
+        "type": "dropdown",
+        "default": "LOWER_FIXED_WINDOW"
+      },
+      {
+        "groupNum": 20,
+        "id": "inp-77",
+        "label": "Passenger side truck cab door type:",
+        "name": "RH_CAB_DOOR",
+        "num": 77,
+        "type": "dropdown",
+        "default": "SLIDING"
+      },
+      {
+        "groupNum": 20,
+        "id": "inp-78",
+        "label": "Passenger side window:",
+        "name": "RH_CAB_WINDOW",
+        "num": 78,
+        "type": "dropdown",
+        "default": "SLIDER_BLACK"
+      },
+      {
+        "groupNum": 20,
+        "id": "inp-79",
+        "label": "Passenger side hardware finish:",
+        "name": "RH_DOOR_HARDWARE_FINISH",
+        "num": 79,
+        "type": "radio",
+        "default": "BLACK"
+      },
+      {
+        "groupNum": 20,
+        "id": "inp-80",
+        "label": "Passenger side door lock:",
+        "name": "RH_DOOR_LOCK",
+        "num": 80,
+        "type": "dropdown",
+        "default": "NON_PUSH"
+      },
+      {
+        "groupNum": 20,
+        "id": "inp-81",
+        "label": "Passenger door options:",
+        "name": "RH_DOOR_OPTIONS",
+        "num": 81,
+        "type": "dropdown",
+        "default": "LOWER_FIXED_WINDOW"
+      },
+      {
+        "groupNum": 21,
+        "id": "inp-82",
+        "label": "Door Type",
+        "name": "DOOR_TYPE",
+        "num": 82,
+        "type": "dropdown",
+        "default": "PANEL"
+      },
+      {
+        "groupNum": 21,
+        "id": "inp-83",
+        "label": "Side Door Will Be On",
+        "name": "DOOR_SIDE",
+        "num": 83,
+        "type": "dropdown",
+        "default": "CURBSIDE"
+      },
+      {
+        "groupNum": 21,
+        "id": "inp-84",
+        "label": "Second Door Location (in)",
+        "name": "DOOR_LOCATION2",
+        "num": 84,
+        "type": "dropdown",
+        "default": ""
+      },
+      {
+        "groupNum": 21,
+        "id": "inp-85",
+        "label": "Door Location (in)",
+        "name": "DOOR_LOCATION",
+        "num": 85,
+        "type": "dropdown",
+        "default": ""
+      },
+      {
+        "groupNum": 21,
+        "id": "inp-86",
+        "label": "Number of Panel Doors",
+        "name": "PANEL_NUMBER",
+        "num": 86,
+        "type": "dropdown",
+        "default": "1"
+      },
+      {
+        "groupNum": 21,
+        "id": "inp-87",
+        "label": "Roll Up Door Height (in)",
+        "name": "ROLL_UP_HEIGHT",
+        "num": 87,
+        "type": "dropdown",
+        "default": ""
+      },
+      {
+        "groupNum": 21,
+        "id": "inp-88",
+        "label": "Roll Up Door Length (in)",
+        "name": "ROLL_UP_LENGTH",
+        "num": 88,
+        "type": "dropdown",
+        "default": ""
+      },
+      {
+        "groupNum": 21,
+        "id": "inp-89",
+        "label": "Access Door Height & Width",
+        "name": "ACCESS_DOOR_DIM",
+        "num": 89,
+        "type": "dropdown",
+        "default": "24"
+      },
+      {
+        "groupNum": 21,
+        "id": "inp-90",
+        "label": "ITEM_MASTER_SELECT",
+        "name": "ITEM_MASTER_SELECT",
+        "num": 90,
+        "type": "hidden",
+        "default": ""
+      },
+      {
+        "groupNum": 22,
+        "id": "inp-91",
+        "label": "Number of rows of Tracks:",
+        "name": "TRACK_QTY",
+        "num": 91,
+        "type": "slider",
+        "default": ""
+      },
+      {
+        "groupNum": 22,
+        "id": "inp-92",
+        "label": "Number of rows of Tracks:",
+        "name": "TRACK_QTY_1",
+        "num": 92,
+        "type": "slider",
+        "default": ""
+      },
+      {
+        "groupNum": 22,
+        "id": "inp-93",
+        "label": "Track Set Flag",
+        "name": "TRACK_SET_FLAG",
+        "num": 93,
+        "type": "hidden",
+        "default": ""
+      },
+      {
+        "groupNum": 23,
+        "id": "inp-94",
+        "label": "Maximum Platform Width",
+        "name": "MAXIMUM_PLATFORM_WIDTH",
+        "num": 94,
+        "type": "dropdown",
+        "default": "72"
+      },
+      {
+        "groupNum": 23,
+        "id": "inp-95",
+        "label": "Material From Liftgate",
+        "name": "MATERIAL_FROM_LIFTGATE",
+        "num": 95,
+        "type": "dropdown",
+        "default": ""
+      }
+    ],
+    "inputValues": [
+      {
+        "inputNum": 1,
+        "label": "Custom",
+        "value": "CUSTOM"
+      },
+      {
+        "inputNum": 1,
+        "label": "Fast Ship",
+        "value": "FAST_SHIP"
+      },
+      {
+        "inputNum": 2,
+        "label": "Please Select",
+        "value": "PS"
+      },
+      {
+        "inputNum": 2,
+        "label": "General Service",
+        "value": "GENERAL"
+      },
+      {
+        "inputNum": 2,
+        "label": "Package Delivery",
+        "value": "PACKAGE"
+      },
+      {
+        "inputNum": 2,
+        "label": "Newspaper Delivery",
+        "value": "NEWSPAPER"
+      },
+      {
+        "inputNum": 2,
+        "label": "Electrical Service",
+        "value": "ELECTRIC"
+      },
+      {
+        "inputNum": 2,
+        "label": "Laundry Service",
+        "value": "LAUNDRY"
+      },
+      {
+        "inputNum": 2,
+        "label": "Bakery Service",
+        "value": "BAKERY"
+      },
+      {
+        "inputNum": 2,
+        "label": "Beverage Service",
+        "value": "BEVERAGE"
+      },
+      {
+        "inputNum": 2,
+        "label": "Utility Service",
+        "value": "UTILITY"
+      },
+      {
+        "inputNum": 2,
+        "label": "Plumbing",
+        "value": "PLUMBING"
+      },
+      {
+        "inputNum": 3,
+        "label": "Please Select",
+        "value": "PS"
+      },
+      {
+        "inputNum": 4,
+        "label": "Ford",
+        "value": "FORD"
+      },
+      {
+        "inputNum": 4,
+        "label": "International",
+        "value": "INTERNATIONAL"
+      },
+      {
+        "inputNum": 4,
+        "label": "Freightliner",
+        "value": "FREIGHTLINER"
+      },
+      {
+        "inputNum": 4,
+        "label": "Isuzu",
+        "value": "ISUZU"
+      },
+      {
+        "inputNum": 5,
+        "label": "F-350",
+        "value": "F350"
+      },
+      {
+        "inputNum": 5,
+        "label": "F-350 Crew Cab",
+        "value": "F350_CREW"
+      },
+      {
+        "inputNum": 5,
+        "label": "F-450",
+        "value": "F450"
+      },
+      {
+        "inputNum": 5,
+        "label": "F-450 Crew Cab",
+        "value": "F450_CREW"
+      },
+      {
+        "inputNum": 5,
+        "label": "F-550",
+        "value": "F550"
+      },
+      {
+        "inputNum": 5,
+        "label": "F-550 Crew Cab",
+        "value": "F550_CREW"
+      },
+      {
+        "inputNum": 5,
+        "label": "DuraStar 4300",
+        "value": "DURASTAR_4300"
+      },
+      {
+        "inputNum": 5,
+        "label": "DuraStar 4300 Crew Cab",
+        "value": "DURASTAR_4300_CREW"
+      },
+      {
+        "inputNum": 5,
+        "label": "DuraStar 4400",
+        "value": "DURASTAR_4400"
+      },
+      {
+        "inputNum": 5,
+        "label": "DuraStar 4400 Crew Cab",
+        "value": "DURASTAR_4400_CREW"
+      },
+      {
+        "inputNum": 5,
+        "label": "M2 106",
+        "value": "M2_106"
+      },
+      {
+        "inputNum": 5,
+        "label": "M2 106 Crew Cab",
+        "value": "M2_106_CREW"
+      },
+      {
+        "inputNum": 5,
+        "label": "NPR",
+        "value": "NPR"
+      },
+      {
+        "inputNum": 5,
+        "label": "NPR-HD",
+        "value": "NPR_HD"
+      },
+      {
+        "inputNum": 5,
+        "label": "Not Applicable",
+        "value": "NA"
+      },
+      {
+        "inputNum": 6,
+        "label": "109.0\"",
+        "value": "109.0"
+      },
+      {
+        "inputNum": 6,
+        "label": "132.5\"",
+        "value": "132.5"
+      },
+      {
+        "inputNum": 6,
+        "label": "140.8\"",
+        "value": "140.8"
+      },
+      {
+        "inputNum": 6,
+        "label": "150.0\"",
+        "value": "150.0"
+      },
+      {
+        "inputNum": 6,
+        "label": "152.0\"",
+        "value": "152.0"
+      },
+      {
+        "inputNum": 6,
+        "label": "164.8\"",
+        "value": "164.8"
+      },
+      {
+        "inputNum": 6,
+        "label": "169.0\"",
+        "value": "169.0"
+      },
+      {
+        "inputNum": 6,
+        "label": "176.0\"",
+        "value": "176.0"
+      },
+      {
+        "inputNum": 6,
+        "label": "176.2\"",
+        "value": "176.2"
+      },
+      {
+        "inputNum": 6,
+        "label": "187.0\"",
+        "value": "187.0"
+      },
+      {
+        "inputNum": 6,
+        "label": "188.8\"",
+        "value": "188.8"
+      },
+      {
+        "inputNum": 6,
+        "label": "200.2\"",
+        "value": "200.2"
+      },
+      {
+        "inputNum": 6,
+        "label": "200.8\"",
+        "value": "200.8"
+      },
+      {
+        "inputNum": 6,
+        "label": "205.0\"",
+        "value": "205.0"
+      },
+      {
+        "inputNum": 6,
+        "label": "217.0\"",
+        "value": "217.0"
+      },
+      {
+        "inputNum": 6,
+        "label": "224.0\"",
+        "value": "224.0"
+      },
+      {
+        "inputNum": 6,
+        "label": "236.0\"",
+        "value": "236.0"
+      },
+      {
+        "inputNum": 6,
+        "label": "242.0\"",
+        "value": "242.0"
+      },
+      {
+        "inputNum": 6,
+        "label": "254.0\"",
+        "value": "254.0"
+      },
+      {
+        "inputNum": 6,
+        "label": "Not Applicable",
+        "value": "NA"
+      },
+      {
+        "inputNum": 7,
+        "label": "Single",
+        "value": "SINGLE"
+      },
+      {
+        "inputNum": 7,
+        "label": "Tandem",
+        "value": "TANDEM"
+      },
+      {
+        "inputNum": 7,
+        "label": "Not Applicable",
+        "value": "NA"
+      },
+      {
+        "inputNum": 10,
+        "label": "90\"",
+        "value": "90"
+      },
+      {
+        "inputNum": 10,
+        "label": "96\"",
+        "value": "96"
+      },
+      {
+        "inputNum": 10,
+        "label": "102\"",
+        "value": "102"
+      },
+      {
+        "inputNum": 10,
+        "label": "104\"",
+        "value": "104"
+      },
+      {
+        "inputNum": 12,
+        "label": "12'",
+        "value": "12"
+      },
+      {
+        "inputNum": 12,
+        "label": "14'",
+        "value": "14"
+      },
+      {
+        "inputNum": 12,
+        "label": "16'",
+        "value": "16"
+      },
+      {
+        "inputNum": 12,
+        "label": "18'",
+        "value": "18"
+      },
+      {
+        "inputNum": 12,
+        "label": "20'",
+        "value": "20"
+      },
+      {
+        "inputNum": 12,
+        "label": "22'",
+        "value": "22"
+      },
+      {
+        "inputNum": 12,
+        "label": "24'",
+        "value": "24"
+      },
+      {
+        "inputNum": 12,
+        "label": "26'",
+        "value": "26"
+      },
+      {
+        "inputNum": 12,
+        "label": "28'",
+        "value": "28"
+      },
+      {
+        "inputNum": 12,
+        "label": "30'",
+        "value": "30"
+      },
+      {
+        "inputNum": 13,
+        "label": "Yes",
+        "value": "YES"
+      },
+      {
+        "inputNum": 13,
+        "label": "No",
+        "value": "NO"
+      },
+      {
+        "inputNum": 14,
+        "label": "All",
+        "value": "ALL"
+      },
+      {
+        "inputNum": 14,
+        "label": "4'",
+        "value": "4"
+      },
+      {
+        "inputNum": 14,
+        "label": "5'",
+        "value": "5"
+      },
+      {
+        "inputNum": 14,
+        "label": "6'",
+        "value": "6"
+      },
+      {
+        "inputNum": 14,
+        "label": "7'",
+        "value": "7"
+      },
+      {
+        "inputNum": 14,
+        "label": "8'",
+        "value": "8"
+      },
+      {
+        "inputNum": 14,
+        "label": "9'",
+        "value": "9"
+      },
+      {
+        "inputNum": 14,
+        "label": "10'",
+        "value": "10"
+      },
+      {
+        "inputNum": 14,
+        "label": "11'",
+        "value": "11"
+      },
+      {
+        "inputNum": 14,
+        "label": "12'",
+        "value": "12"
+      },
+      {
+        "inputNum": 14,
+        "label": "13'",
+        "value": "13"
+      },
+      {
+        "inputNum": 14,
+        "label": "14'",
+        "value": "14"
+      },
+      {
+        "inputNum": 14,
+        "label": "15'",
+        "value": "15"
+      },
+      {
+        "inputNum": 14,
+        "label": "16'",
+        "value": "16"
+      },
+      {
+        "inputNum": 14,
+        "label": "17'",
+        "value": "17"
+      },
+      {
+        "inputNum": 15,
+        "label": "All",
+        "value": "ALL"
+      },
+      {
+        "inputNum": 15,
+        "label": "4'",
+        "value": "4"
+      },
+      {
+        "inputNum": 15,
+        "label": "5'",
+        "value": "5"
+      },
+      {
+        "inputNum": 15,
+        "label": "6'",
+        "value": "6"
+      },
+      {
+        "inputNum": 15,
+        "label": "7'",
+        "value": "7"
+      },
+      {
+        "inputNum": 15,
+        "label": "8'",
+        "value": "8"
+      },
+      {
+        "inputNum": 15,
+        "label": "9'",
+        "value": "9"
+      },
+      {
+        "inputNum": 15,
+        "label": "10'",
+        "value": "10"
+      },
+      {
+        "inputNum": 15,
+        "label": "11'",
+        "value": "11"
+      },
+      {
+        "inputNum": 15,
+        "label": "12'",
+        "value": "12"
+      },
+      {
+        "inputNum": 15,
+        "label": "13'",
+        "value": "13"
+      },
+      {
+        "inputNum": 15,
+        "label": "14'",
+        "value": "14"
+      },
+      {
+        "inputNum": 15,
+        "label": "15'",
+        "value": "15"
+      },
+      {
+        "inputNum": 15,
+        "label": "16'",
+        "value": "16"
+      },
+      {
+        "inputNum": 15,
+        "label": "17'",
+        "value": "17"
+      },
+      {
+        "inputNum": 16,
+        "label": "All",
+        "value": "ALL"
+      },
+      {
+        "inputNum": 16,
+        "label": "1000 lbs",
+        "value": "1000"
+      },
+      {
+        "inputNum": 16,
+        "label": "1500 lbs",
+        "value": "1500"
+      },
+      {
+        "inputNum": 16,
+        "label": "2000 lbs",
+        "value": "2000"
+      },
+      {
+        "inputNum": 16,
+        "label": "2500 lbs",
+        "value": "2500"
+      },
+      {
+        "inputNum": 16,
+        "label": "3000 lbs",
+        "value": "3000"
+      },
+      {
+        "inputNum": 16,
+        "label": "3500 lbs",
+        "value": "3500"
+      },
+      {
+        "inputNum": 17,
+        "label": "All",
+        "value": "ALL"
+      },
+      {
+        "inputNum": 17,
+        "label": "Hook",
+        "value": "HOOK"
+      },
+      {
+        "inputNum": 17,
+        "label": "Apron",
+        "value": "APRON"
+      },
+      {
+        "inputNum": 18,
+        "label": "All",
+        "value": "ALL"
+      },
+      {
+        "inputNum": 18,
+        "label": "29\"",
+        "value": "29"
+      },
+      {
+        "inputNum": 18,
+        "label": "39\"",
+        "value": "39"
+      },
+      {
+        "inputNum": 21,
+        "label": "WR293H",
+        "value": "WR293H"
+      },
+      {
+        "inputNum": 21,
+        "label": "WR294H",
+        "value": "WR294H"
+      },
+      {
+        "inputNum": 21,
+        "label": "WR295H",
+        "value": "WR295H"
+      },
+      {
+        "inputNum": 21,
+        "label": "WR296H",
+        "value": "WR296H"
+      },
+      {
+        "inputNum": 21,
+        "label": "WR297H",
+        "value": "WR297H"
+      },
+      {
+        "inputNum": 21,
+        "label": "WR298H",
+        "value": "WR298H"
+      },
+      {
+        "inputNum": 21,
+        "label": "WR299H",
+        "value": "WR299H"
+      },
+      {
+        "inputNum": 21,
+        "label": "WR2910H",
+        "value": "WR2910H"
+      },
+      {
+        "inputNum": 21,
+        "label": "WR2912H",
+        "value": "WR2912H"
+      },
+      {
+        "inputNum": 21,
+        "label": "WR2914H",
+        "value": "WR2914H"
+      },
+      {
+        "inputNum": 21,
+        "label": "WR2916H",
+        "value": "WR2916H"
+      },
+      {
+        "inputNum": 21,
+        "label": "WR393H",
+        "value": "WR393H"
+      },
+      {
+        "inputNum": 21,
+        "label": "WR394H",
+        "value": "WR394H"
+      },
+      {
+        "inputNum": 21,
+        "label": "WR395H",
+        "value": "WR395H"
+      },
+      {
+        "inputNum": 21,
+        "label": "WR396H",
+        "value": "WR396H"
+      },
+      {
+        "inputNum": 21,
+        "label": "WR397H",
+        "value": "WR397H"
+      },
+      {
+        "inputNum": 21,
+        "label": "WR398H",
+        "value": "WR398H"
+      },
+      {
+        "inputNum": 21,
+        "label": "WR399H",
+        "value": "WR399H"
+      },
+      {
+        "inputNum": 21,
+        "label": "WR3910H",
+        "value": "WR3910H"
+      },
+      {
+        "inputNum": 21,
+        "label": "WR3912H",
+        "value": "WR3912H"
+      },
+      {
+        "inputNum": 21,
+        "label": "WR3914H",
+        "value": "WR3914H"
+      },
+      {
+        "inputNum": 21,
+        "label": "WR3916H",
+        "value": "WR3916H"
+      },
+      {
+        "inputNum": 21,
+        "label": "WR293A",
+        "value": "WR293A"
+      },
+      {
+        "inputNum": 21,
+        "label": "WR294A",
+        "value": "WR294A"
+      },
+      {
+        "inputNum": 21,
+        "label": "WR295A",
+        "value": "WR295A"
+      },
+      {
+        "inputNum": 21,
+        "label": "WR296A",
+        "value": "WR296A"
+      },
+      {
+        "inputNum": 21,
+        "label": "WR297A",
+        "value": "WR297A"
+      },
+      {
+        "inputNum": 21,
+        "label": "WR298A",
+        "value": "WR298A"
+      },
+      {
+        "inputNum": 21,
+        "label": "WR299A",
+        "value": "WR299A"
+      },
+      {
+        "inputNum": 21,
+        "label": "WR2910A",
+        "value": "WR2910A"
+      },
+      {
+        "inputNum": 21,
+        "label": "WR2912A",
+        "value": "WR2912A"
+      },
+      {
+        "inputNum": 21,
+        "label": "WR2914A",
+        "value": "WR2914A"
+      },
+      {
+        "inputNum": 21,
+        "label": "WR2916A",
+        "value": "WR2916A"
+      },
+      {
+        "inputNum": 21,
+        "label": "WR393A",
+        "value": "WR393A"
+      },
+      {
+        "inputNum": 21,
+        "label": "WR394A",
+        "value": "WR394A"
+      },
+      {
+        "inputNum": 21,
+        "label": "WR395A",
+        "value": "WR395A"
+      },
+      {
+        "inputNum": 21,
+        "label": "WR396A",
+        "value": "WR396A"
+      },
+      {
+        "inputNum": 21,
+        "label": "WR397A",
+        "value": "WR397A"
+      },
+      {
+        "inputNum": 21,
+        "label": "WR398A",
+        "value": "WR398A"
+      },
+      {
+        "inputNum": 21,
+        "label": "WR399A",
+        "value": "WR399A"
+      },
+      {
+        "inputNum": 21,
+        "label": "WR3910A",
+        "value": "WR3910A"
+      },
+      {
+        "inputNum": 21,
+        "label": "WR3912A",
+        "value": "WR3912A"
+      },
+      {
+        "inputNum": 21,
+        "label": "WR3914A",
+        "value": "WR3914A"
+      },
+      {
+        "inputNum": 21,
+        "label": "WR3916A",
+        "value": "WR3916A"
+      },
+      {
+        "inputNum": 21,
+        "label": "No Matching Walkramp",
+        "value": "NO_MATCH"
+      },
+      {
+        "inputNum": 22,
+        "label": "Fixed Pedestal w/ Arm Rests",
+        "value": "ARM_REST"
+      },
+      {
+        "inputNum": 22,
+        "label": "Bostrom Airride",
+        "value": "BOSTROM"
+      },
+      {
+        "inputNum": 22,
+        "label": "Mechanical Suspension w/ Arm Rests",
+        "value": "MECHANICAL"
+      },
+      {
+        "inputNum": 22,
+        "label": "Custom",
+        "value": "OTHER"
+      },
+      {
+        "inputNum": 23,
+        "label": "Bulkhead-Mounted",
+        "value": "BULKHEAD"
+      },
+      {
+        "inputNum": 23,
+        "label": "Removable",
+        "value": "REMOVABLE"
+      },
+      {
+        "inputNum": 23,
+        "label": "None",
+        "value": "NONE"
+      },
+      {
+        "inputNum": 24,
+        "label": "LED Rear Stop, Tail, and Turn Light - 5 amps",
+        "value": "LED_REAR_STT"
+      },
+      {
+        "inputNum": 24,
+        "label": "LED LoPro Clearance Lights - 5 amps",
+        "value": "LED_CLEARANCE"
+      },
+      {
+        "inputNum": 24,
+        "label": "Supplemental High Mount Stop Light - 5 amps",
+        "value": "SUPP_STOP_LIGHT"
+      },
+      {
+        "inputNum": 24,
+        "label": "Tail and Back-Up Lights in Side Metal - 10 amps",
+        "value": "TAIL_BACKUP"
+      },
+      {
+        "inputNum": 24,
+        "label": "Sealed License with Centered Light - 5 amps",
+        "value": "SEALED_LICENSE"
+      },
+      {
+        "inputNum": 25,
+        "label": "Fire Extinguisher - 5 Lbs.",
+        "value": "FIRE_EXT_5"
+      },
+      {
+        "inputNum": 25,
+        "label": "Fire Extinguisher - 2-5/8 Lbs.",
+        "value": "FIRE_EXT_2"
+      },
+      {
+        "inputNum": 25,
+        "label": "Reflector Kit",
+        "value": "REFLECTOR"
+      },
+      {
+        "inputNum": 25,
+        "label": "Safety Flares - 3 Fuses",
+        "value": "SAFETY_FLARES"
+      },
+      {
+        "inputNum": 25,
+        "label": "First Aid Kit",
+        "value": "FIRST_AID_KIT"
+      },
+      {
+        "inputNum": 29,
+        "label": "Yes",
+        "value": "YES"
+      },
+      {
+        "inputNum": 29,
+        "label": "No",
+        "value": "NO"
+      },
+      {
+        "inputNum": 30,
+        "label": "2\"",
+        "value": "2"
+      },
+      {
+        "inputNum": 30,
+        "label": "4\"",
+        "value": "4"
+      },
+      {
+        "inputNum": 32,
+        "label": "On",
+        "value": "YES"
+      },
+      {
+        "inputNum": 32,
+        "label": "Off",
+        "value": "NO"
+      },
+      {
+        "inputNum": 33,
+        "label": "Visible",
+        "value": "VISIBLE"
+      },
+      {
+        "inputNum": 33,
+        "label": "Non-Visible",
+        "value": "NON_VISIBLE"
+      },
+      {
+        "inputNum": 34,
+        "label": "None",
+        "value": "NONE"
+      },
+      {
+        "inputNum": 34,
+        "label": "Translucent Roof",
+        "value": "TRANS_ROOF"
+      },
+      {
+        "inputNum": 34,
+        "label": "Cargo-length 24\" Wide Skylight",
+        "value": "SKYLIGHT_24"
+      },
+      {
+        "inputNum": 34,
+        "label": "Cargo-length Twin 6\" Skylights",
+        "value": "SKYLIGHT_TWIN"
+      },
+      {
+        "inputNum": 34,
+        "label": "Powered Roof-Mounted Vent and Skylight",
+        "value": "SKYLIGHT_POWER"
+      },
+      {
+        "inputNum": 34,
+        "label": "Non-Powered Roof-Mounted Vent and Skylight",
+        "value": "SKYLIGHT_NON_POWER"
+      },
+      {
+        "inputNum": 35,
+        "label": "Yes",
+        "value": "YES"
+      },
+      {
+        "inputNum": 35,
+        "label": "No",
+        "value": "NO"
+      },
+      {
+        "inputNum": 36,
+        "label": "E-Track",
+        "value": "E"
+      },
+      {
+        "inputNum": 36,
+        "label": "F-Track",
+        "value": "F"
+      },
+      {
+        "inputNum": 38,
+        "label": "None",
+        "value": "0"
+      },
+      {
+        "inputNum": 38,
+        "label": "1",
+        "value": "1"
+      },
+      {
+        "inputNum": 38,
+        "label": "2",
+        "value": "2"
+      },
+      {
+        "inputNum": 38,
+        "label": "3",
+        "value": "3"
+      },
+      {
+        "inputNum": 38,
+        "label": "4",
+        "value": "4"
+      },
+      {
+        "inputNum": 39,
+        "label": "Left",
+        "value": "LEFT"
+      },
+      {
+        "inputNum": 39,
+        "label": "Right",
+        "value": "RIGHT"
+      },
+      {
+        "inputNum": 44,
+        "label": "FX4",
+        "value": "FX4"
+      },
+      {
+        "inputNum": 45,
+        "label": "SNOW",
+        "value": "SNOW"
+      },
+      {
+        "inputNum": 46,
+        "label": "HEAVY_SERVICE",
+        "value": "HEAVY_SERVICE"
+      },
+      {
+        "inputNum": 51,
+        "label": "Tuck Under",
+        "value": "160713240"
+      },
+      {
+        "inputNum": 51,
+        "label": "Conventional",
+        "value": "168123220"
+      },
+      {
+        "inputNum": 51,
+        "label": "Rail Type",
+        "value": "188726280"
+      },
+      {
+        "inputNum": 52,
+        "label": "Heavy Duty",
+        "value": "HEAVY"
+      },
+      {
+        "inputNum": 52,
+        "label": "Light duty",
+        "value": "LIGHT"
+      },
+      {
+        "inputNum": 52,
+        "label": "Medium Duty",
+        "value": "MEDIUM"
+      },
+      {
+        "inputNum": 53,
+        "label": "Local",
+        "value": "LOCAL"
+      },
+      {
+        "inputNum": 53,
+        "label": "Long Distance",
+        "value": "LONG"
+      },
+      {
+        "inputNum": 54,
+        "label": "Aluminum",
+        "value": "ALUMINUM"
+      },
+      {
+        "inputNum": 54,
+        "label": "FRP",
+        "value": "FRP"
+      },
+      {
+        "inputNum": 54,
+        "label": "Full Plywood",
+        "value": "FULL_PLYWOOD"
+      },
+      {
+        "inputNum": 54,
+        "label": "Poly",
+        "value": "POLY"
+      },
+      {
+        "inputNum": 54,
+        "label": "Refrigerated",
+        "value": "REFRIGERATED"
+      },
+      {
+        "inputNum": 54,
+        "label": "Sheet and Post",
+        "value": "SHHET_AND_POST"
+      },
+      {
+        "inputNum": 57,
+        "label": "viton",
+        "value": "VITON"
+      },
+      {
+        "inputNum": 57,
+        "label": "Cork",
+        "value": "CORK"
+      },
+      {
+        "inputNum": 58,
+        "label": "USA",
+        "value": "USA"
+      },
+      {
+        "inputNum": 59,
+        "label": "White",
+        "value": "GW"
+      },
+      {
+        "inputNum": 59,
+        "label": "Blue",
+        "value": "BWM"
+      },
+      {
+        "inputNum": 59,
+        "label": "Black",
+        "value": "GB"
+      },
+      {
+        "inputNum": 59,
+        "label": "Red",
+        "value": "GR"
+      },
+      {
+        "inputNum": 59,
+        "label": "Yellow",
+        "value": "GY"
+      },
+      {
+        "inputNum": 59,
+        "label": "Orange",
+        "value": "KC"
+      },
+      {
+        "inputNum": 59,
+        "label": "Purple",
+        "value": "PCP"
+      },
+      {
+        "inputNum": 59,
+        "label": "Green",
+        "value": "EG"
+      },
+      {
+        "inputNum": 60,
+        "label": "Full Width Roll Up",
+        "value": "FULL_WIDTH_ROLL_UP"
+      },
+      {
+        "inputNum": 60,
+        "label": "Two Panel Swing",
+        "value": "TWO_PANEL_SWING"
+      },
+      {
+        "inputNum": 60,
+        "label": "Three Panel Swing",
+        "value": "THREE_PANEL_SWING"
+      },
+      {
+        "inputNum": 61,
+        "label": "Aluminum",
+        "value": "ALUMINUM"
+      },
+      {
+        "inputNum": 61,
+        "label": "FRP",
+        "value": "FRP"
+      },
+      {
+        "inputNum": 61,
+        "label": "Full Plywood",
+        "value": "FULL_PLYWOOD"
+      },
+      {
+        "inputNum": 61,
+        "label": "Poly",
+        "value": "POLY"
+      },
+      {
+        "inputNum": 61,
+        "label": "Refrigerated",
+        "value": "REFRIGERATED"
+      },
+      {
+        "inputNum": 61,
+        "label": "Sheet and Post",
+        "value": "SHEET_AND_POST"
+      },
+      {
+        "inputNum": 66,
+        "label": "No",
+        "value": "NO"
+      },
+      {
+        "inputNum": 66,
+        "label": "Yes",
+        "value": "YES"
+      },
+      {
+        "inputNum": 67,
+        "label": "Drop Step Bumper",
+        "value": "GRIP_SPRING_12"
+      },
+      {
+        "inputNum": 67,
+        "label": "Full-Width Drop Step Bumper",
+        "value": "GRIP_SPRING_12_STEP"
+      },
+      {
+        "inputNum": 67,
+        "label": "DOT (ICC) Under-Ride Bumper",
+        "value": "TREAD_PLATE"
+      },
+      {
+        "inputNum": 67,
+        "label": "DOT (ICC) Under-Ride Bumper with Intermediate Steps",
+        "value": "GRIP_SPRING_10"
+      },
+      {
+        "inputNum": 67,
+        "label": "DOT (ICC) Under-Ride Bumper with Side Steps",
+        "value": "GRIP_SPRING_10_STEP"
+      },
+      {
+        "inputNum": 67,
+        "label": "Type B Drop Bumper with (2) Lights",
+        "value": "DOUBLE_KIDNEY_2LT"
+      },
+      {
+        "inputNum": 67,
+        "label": "Type B Drop Bumper with (1) Light",
+        "value": "DOUBLE_KIDNEY_1LT"
+      },
+      {
+        "inputNum": 67,
+        "label": "Type B Drop Bumper with no Lights",
+        "value": "DOUBLE_KIDNEY_0LT"
+      },
+      {
+        "inputNum": 68,
+        "label": "Drop Step Bumper",
+        "value": "GRIP_SPRING_12"
+      },
+      {
+        "inputNum": 68,
+        "label": "Full-Width Drop Step Bumper",
+        "value": "GRIP_SPRING_12_STEP"
+      },
+      {
+        "inputNum": 68,
+        "label": "DOT (ICC) Under-Ride Bumper with Intermediate Steps",
+        "value": "GRIP_SPRING_10"
+      },
+      {
+        "inputNum": 68,
+        "label": "DOT (ICC) Under-Ride Bumper with Side Steps",
+        "value": "GRIP_SPRING_10_STEP"
+      },
+      {
+        "inputNum": 68,
+        "label": "Type B Drop Bumper with (2) Lights",
+        "value": "DOUBLE_KIDNEY_2LT"
+      },
+      {
+        "inputNum": 68,
+        "label": "Type B Drop Bumper with (1) Light",
+        "value": "DOUBLE_KIDNEY_1LT"
+      },
+      {
+        "inputNum": 68,
+        "label": "Type B Drop Bumper with no Lights",
+        "value": "DOUBLE_KIDNEY_0LT"
+      },
+      {
+        "inputNum": 68,
+        "label": "DOT (ICC) Under-Ride Bumper",
+        "value": "TREAD_PLATE"
+      },
+      {
+        "inputNum": 69,
+        "label": "Fiberglass",
+        "value": "FIBERGLASS"
+      },
+      {
+        "inputNum": 69,
+        "label": "Fiberglass w/ Freightliner Grille",
+        "value": "FIBERGLASS_FREIGHT"
+      },
+      {
+        "inputNum": 69,
+        "label": "Fiberglass Freightliner M2",
+        "value": "FIBERGLASS_M2"
+      },
+      {
+        "inputNum": 69,
+        "label": "RIM",
+        "value": "RIM"
+      },
+      {
+        "inputNum": 69,
+        "label": "Chinese Fiberglass",
+        "value": "CHINESE_FIBER"
+      },
+      {
+        "inputNum": 70,
+        "label": "7 gauge",
+        "value": "7GA"
+      },
+      {
+        "inputNum": 70,
+        "label": "10 gauge",
+        "value": "10GA"
+      },
+      {
+        "inputNum": 71,
+        "label": "Radiator Winter Cover",
+        "value": "RAD_COVER"
+      },
+      {
+        "inputNum": 71,
+        "label": "Sight Rods",
+        "value": "SIGHT_RODS"
+      },
+      {
+        "inputNum": 71,
+        "label": "Step Ring",
+        "value": "STEP_RING"
+      },
+      {
+        "inputNum": 72,
+        "label": "Sliding",
+        "value": "SLIDING"
+      },
+      {
+        "inputNum": 72,
+        "label": "Sedan",
+        "value": "SEDAN"
+      },
+      {
+        "inputNum": 72,
+        "label": "Doorless",
+        "value": "DOORLESS"
+      },
+      {
+        "inputNum": 73,
+        "label": "Slider (Black Finish)",
+        "value": "SLIDER_BLACK"
+      },
+      {
+        "inputNum": 73,
+        "label": "Slider (Anodized Aluminum Finish)",
+        "value": "SLIDER_ALUM"
+      },
+      {
+        "inputNum": 73,
+        "label": "Crank-Up",
+        "value": "CRANK_UP"
+      },
+      {
+        "inputNum": 73,
+        "label": "Power",
+        "value": "POWER"
+      },
+      {
+        "inputNum": 74,
+        "label": "Black",
+        "value": "BLACK"
+      },
+      {
+        "inputNum": 74,
+        "label": "Chrome",
+        "value": "CHROME"
+      },
+      {
+        "inputNum": 75,
+        "label": "Non-Push",
+        "value": "NON_PUSH"
+      },
+      {
+        "inputNum": 75,
+        "label": "Push-to-Lock",
+        "value": "PUSH_LOCK"
+      },
+      {
+        "inputNum": 75,
+        "label": "Non-Locking",
+        "value": "NON_LOCK"
+      },
+      {
+        "inputNum": 75,
+        "label": "Not Required",
+        "value": "NA"
+      },
+      {
+        "inputNum": 76,
+        "label": "Lower Fixed Window",
+        "value": "LOWER_FIXED_WINDOW"
+      },
+      {
+        "inputNum": 76,
+        "label": "Intermediate Step",
+        "value": "INTERMEDIATE_STEP"
+      },
+      {
+        "inputNum": 76,
+        "label": "Lowered Stepwell",
+        "value": "LOWERED_STEPWELL"
+      },
+      {
+        "inputNum": 76,
+        "label": "Grab Handle",
+        "value": "GRAB_HANDLE"
+      },
+      {
+        "inputNum": 76,
+        "label": "Cab Entry Handrail",
+        "value": "HANDRAIL"
+      },
+      {
+        "inputNum": 77,
+        "label": "Sliding",
+        "value": "SLIDING"
+      },
+      {
+        "inputNum": 77,
+        "label": "Sedan",
+        "value": "SEDAN"
+      },
+      {
+        "inputNum": 77,
+        "label": "Doorless",
+        "value": "DOORLESS"
+      },
+      {
+        "inputNum": 78,
+        "label": "Slider (Black Finish)",
+        "value": "SLIDER_BLACK"
+      },
+      {
+        "inputNum": 78,
+        "label": "Slider (Anodized Aluminum Finish)",
+        "value": "SLIDER_ALUM"
+      },
+      {
+        "inputNum": 78,
+        "label": "Crank-Up",
+        "value": "CRANK_UP"
+      },
+      {
+        "inputNum": 78,
+        "label": "Power",
+        "value": "POWER"
+      },
+      {
+        "inputNum": 79,
+        "label": "Black",
+        "value": "BLACK"
+      },
+      {
+        "inputNum": 79,
+        "label": "Chrome",
+        "value": "CHROME"
+      },
+      {
+        "inputNum": 80,
+        "label": "Non-Push",
+        "value": "NON_PUSH"
+      },
+      {
+        "inputNum": 80,
+        "label": "Push-to-Lock",
+        "value": "PUSH_LOCK"
+      },
+      {
+        "inputNum": 80,
+        "label": "Non-Locking",
+        "value": "NON_LOCK"
+      },
+      {
+        "inputNum": 80,
+        "label": "Not Required",
+        "value": "NA"
+      },
+      {
+        "inputNum": 81,
+        "label": "Lower Fixed Window",
+        "value": "LOWER_FIXED_WINDOW"
+      },
+      {
+        "inputNum": 81,
+        "label": "Intermediate Step",
+        "value": "INTERMEDIATE_STEP"
+      },
+      {
+        "inputNum": 81,
+        "label": "Lowered Stepwell",
+        "value": "LOWERED_STEPWELL"
+      },
+      {
+        "inputNum": 81,
+        "label": "Grab Handle",
+        "value": "GRAB_HANDLE"
+      },
+      {
+        "inputNum": 81,
+        "label": "Cab Entry Handrail",
+        "value": "HANDRAIL"
+      },
+      {
+        "inputNum": 82,
+        "label": "Panel",
+        "value": "PANEL"
+      },
+      {
+        "inputNum": 82,
+        "label": "Double Swing",
+        "value": "DOUBLE_SWING"
+      },
+      {
+        "inputNum": 82,
+        "label": "Access",
+        "value": "ACCESS"
+      },
+      {
+        "inputNum": 82,
+        "label": "Roll Up",
+        "value": "ROLL_UP"
+      },
+      {
+        "inputNum": 82,
+        "label": "Sliding",
+        "value": "SLIDING"
+      },
+      {
+        "inputNum": 83,
+        "label": "Curbside",
+        "value": "CURBSIDE"
+      },
+      {
+        "inputNum": 83,
+        "label": "Roadside",
+        "value": "ROADSIDE"
+      },
+      {
+        "inputNum": 83,
+        "label": "Both Sides",
+        "value": "BOTH"
+      },
+      {
+        "inputNum": 86,
+        "label": "1",
+        "value": "1"
+      },
+      {
+        "inputNum": 86,
+        "label": "2",
+        "value": "2"
+      },
+      {
+        "inputNum": 86,
+        "label": "3",
+        "value": "3"
+      },
+      {
+        "inputNum": 86,
+        "label": "4",
+        "value": "4"
+      },
+      {
+        "inputNum": 89,
+        "label": "24\"",
+        "value": "24"
+      },
+      {
+        "inputNum": 89,
+        "label": "36\"",
+        "value": "36"
+      },
+      {
+        "inputNum": 89,
+        "label": "48\"",
+        "value": "48"
+      },
+      {
+        "inputNum": 94,
+        "label": "72\"",
+        "value": "72"
+      },
+      {
+        "inputNum": 94,
+        "label": "84\"",
+        "value": "84"
+      }
+    ]
+  },
+  "attributes": {
+    "inputAttributes": [
+      {
+        "driverInputNum": 2,
+        "id": "ia-1",
+        "name": "ALT_VAL",
+        "type": "numeric",
+        "values": {
+          "PS": "1"
+        }
+      },
+      {
+        "driverInputNum": 21,
+        "id": "ia-10",
+        "name": "Length",
+        "type": "numeric",
+        "values": {
+          "WR293H": "3",
+          "WR294H": "4",
+          "WR295H": "5",
+          "WR296H": "6",
+          "WR297H": "7",
+          "WR298H": "8",
+          "WR299H": "9",
+          "WR2910H": "10",
+          "WR2912H": "12",
+          "WR2914H": "14",
+          "WR2916H": "16",
+          "WR393H": "3",
+          "WR394H": "4",
+          "WR395H": "5",
+          "WR396H": "6",
+          "WR397H": "7",
+          "WR398H": "8",
+          "WR399H": "9",
+          "WR3910H": "10",
+          "WR3912H": "12",
+          "WR3914H": "14",
+          "WR3916H": "16",
+          "WR293A": "3",
+          "WR294A": "4",
+          "WR295A": "5",
+          "WR296A": "6",
+          "WR297A": "7",
+          "WR298A": "8",
+          "WR299A": "9",
+          "WR2910A": "10",
+          "WR2912A": "12",
+          "WR2914A": "14",
+          "WR2916A": "16",
+          "WR393A": "3",
+          "WR394A": "4",
+          "WR395A": "5",
+          "WR396A": "6",
+          "WR397A": "7",
+          "WR398A": "8",
+          "WR399A": "9",
+          "WR3910A": "10",
+          "WR3912A": "12",
+          "WR3914A": "14",
+          "WR3916A": "16",
+          "NO_MATCH": "0"
+        }
+      },
+      {
+        "driverInputNum": 21,
+        "id": "ia-11",
+        "name": "Capacity",
+        "type": "numeric",
+        "values": {
+          "WR293H": "3000",
+          "WR294H": "3000",
+          "WR295H": "3000",
+          "WR296H": "2800",
+          "WR297H": "2800",
+          "WR298H": "2500",
+          "WR299H": "2500",
+          "WR2910H": "2200",
+          "WR2912H": "1900",
+          "WR2914H": "1600",
+          "WR2916H": "1000",
+          "WR393H": "3000",
+          "WR394H": "3000",
+          "WR395H": "3000",
+          "WR396H": "2800",
+          "WR397H": "2800",
+          "WR398H": "2500",
+          "WR399H": "2500",
+          "WR3910H": "2200",
+          "WR3912H": "1900",
+          "WR3914H": "1600",
+          "WR3916H": "1000",
+          "WR293A": "3000",
+          "WR294A": "3000",
+          "WR295A": "3000",
+          "WR296A": "2800",
+          "WR297A": "2800",
+          "WR298A": "2500",
+          "WR299A": "2500",
+          "WR2910A": "2200",
+          "WR2912A": "1900",
+          "WR2914A": "1600",
+          "WR2916A": "1000",
+          "WR393A": "3000",
+          "WR394A": "3000",
+          "WR395A": "3000",
+          "WR396A": "2800",
+          "WR397A": "2800",
+          "WR398A": "2500",
+          "WR399A": "2500",
+          "WR3910A": "2200",
+          "WR3912A": "1900",
+          "WR3914A": "1600",
+          "WR3916A": "1000",
+          "NO_MATCH": "0"
+        }
+      },
+      {
+        "driverInputNum": 21,
+        "id": "ia-12",
+        "name": "Width",
+        "type": "numeric",
+        "values": {
+          "WR293H": "29",
+          "WR294H": "29",
+          "WR295H": "29",
+          "WR296H": "29",
+          "WR297H": "29",
+          "WR298H": "29",
+          "WR299H": "29",
+          "WR2910H": "29",
+          "WR2912H": "29",
+          "WR2914H": "29",
+          "WR2916H": "29",
+          "WR393H": "39",
+          "WR394H": "39",
+          "WR395H": "39",
+          "WR396H": "39",
+          "WR397H": "39",
+          "WR398H": "39",
+          "WR399H": "39",
+          "WR3910H": "39",
+          "WR3912H": "39",
+          "WR3914H": "39",
+          "WR3916H": "39",
+          "WR293A": "29",
+          "WR294A": "29",
+          "WR295A": "29",
+          "WR296A": "29",
+          "WR297A": "29",
+          "WR298A": "29",
+          "WR299A": "29",
+          "WR2910A": "29",
+          "WR2912A": "29",
+          "WR2914A": "29",
+          "WR2916A": "29",
+          "WR393A": "39",
+          "WR394A": "39",
+          "WR395A": "39",
+          "WR396A": "39",
+          "WR397A": "39",
+          "WR398A": "39",
+          "WR399A": "39",
+          "WR3910A": "39",
+          "WR3912A": "39",
+          "WR3914A": "39",
+          "WR3916A": "39",
+          "NO_MATCH": "0"
+        }
+      },
+      {
+        "driverInputNum": 21,
+        "id": "ia-13",
+        "name": "Length (in)",
+        "type": "numeric",
+        "values": {
+          "WR293H": "36",
+          "WR294H": "48",
+          "WR295H": "60",
+          "WR296H": "72",
+          "WR297H": "84",
+          "WR298H": "96",
+          "WR299H": "108",
+          "WR2910H": "120",
+          "WR2912H": "144",
+          "WR2914H": "168",
+          "WR2916H": "192",
+          "WR393H": "36",
+          "WR394H": "48",
+          "WR395H": "60",
+          "WR396H": "72",
+          "WR397H": "84",
+          "WR398H": "96",
+          "WR399H": "108",
+          "WR3910H": "120",
+          "WR3912H": "144",
+          "WR3914H": "168",
+          "WR3916H": "192",
+          "WR293A": "36",
+          "WR294A": "48",
+          "WR295A": "60",
+          "WR296A": "72",
+          "WR297A": "84",
+          "WR298A": "96",
+          "WR299A": "108",
+          "WR2910A": "120",
+          "WR2912A": "144",
+          "WR2914A": "168",
+          "WR2916A": "192",
+          "WR393A": "36",
+          "WR394A": "48",
+          "WR395A": "60",
+          "WR396A": "72",
+          "WR397A": "84",
+          "WR398A": "96",
+          "WR399A": "108",
+          "WR3910A": "120",
+          "WR3912A": "144",
+          "WR3914A": "168",
+          "WR3916A": "192",
+          "NO_MATCH": "0"
+        }
+      },
+      {
+        "driverInputNum": 21,
+        "id": "ia-14",
+        "name": "Angle",
+        "type": "numeric",
+        "values": {
+          "WR293H": "189058571",
+          "WR294H": "189058571",
+          "WR295H": "189058571",
+          "WR296H": "189058571",
+          "WR297H": "189058571",
+          "WR298H": "189058571",
+          "WR299H": "189058571",
+          "WR2910H": "189058571",
+          "WR2912H": "189058571",
+          "WR2914H": "189058571",
+          "WR2916H": "189058571",
+          "WR393H": "189058571",
+          "WR394H": "189058571",
+          "WR395H": "189058571",
+          "WR396H": "189058571",
+          "WR397H": "189058571",
+          "WR398H": "189058571",
+          "WR399H": "189058571",
+          "WR3910H": "189058571",
+          "WR3912H": "189058571",
+          "WR3914H": "189058571",
+          "WR3916H": "189058571",
+          "WR293A": "189058571",
+          "WR294A": "189058571",
+          "WR295A": "189058571",
+          "WR296A": "189058571",
+          "WR297A": "189058571",
+          "WR298A": "189058571",
+          "WR299A": "189058571",
+          "WR2910A": "189058571",
+          "WR2912A": "189058571",
+          "WR2914A": "189058571",
+          "WR2916A": "189058571",
+          "WR393A": "189058571",
+          "WR394A": "189058571",
+          "WR395A": "189058571",
+          "WR396A": "189058571",
+          "WR397A": "189058571",
+          "WR398A": "189058571",
+          "WR399A": "189058571",
+          "WR3910A": "189058571",
+          "WR3912A": "189058571",
+          "WR3914A": "189058571",
+          "WR3916A": "189058571"
+        }
+      },
+      {
+        "driverInputNum": 21,
+        "id": "ia-15",
+        "name": "Weight",
+        "type": "numeric",
+        "values": {
+          "WR293H": "33",
+          "WR294H": "40",
+          "WR295H": "50",
+          "WR296H": "56",
+          "WR297H": "72",
+          "WR298H": "75",
+          "WR299H": "83",
+          "WR2910H": "89",
+          "WR2912H": "107",
+          "WR2914H": "119",
+          "WR2916H": "140",
+          "WR393H": "33",
+          "WR394H": "40",
+          "WR395H": "50",
+          "WR396H": "56",
+          "WR397H": "72",
+          "WR398H": "75",
+          "WR399H": "83",
+          "WR3910H": "89",
+          "WR3912H": "107",
+          "WR3914H": "119",
+          "WR3916H": "140",
+          "WR293A": "33",
+          "WR294A": "40",
+          "WR295A": "50",
+          "WR296A": "56",
+          "WR297A": "72",
+          "WR298A": "75",
+          "WR299A": "83",
+          "WR2910A": "89",
+          "WR2912A": "107",
+          "WR2914A": "119",
+          "WR2916A": "140",
+          "WR393A": "33",
+          "WR394A": "40",
+          "WR395A": "50",
+          "WR396A": "56",
+          "WR397A": "72",
+          "WR398A": "75",
+          "WR399A": "83",
+          "WR3910A": "89",
+          "WR3912A": "107",
+          "WR3914A": "119",
+          "WR3916A": "140",
+          "NO_MATCH": "0"
+        }
+      },
+      {
+        "driverInputNum": 21,
+        "id": "ia-16",
+        "name": "Type",
+        "type": "text",
+        "values": {
+          "WR293H": "Hook",
+          "WR294H": "Hook",
+          "WR295H": "Hook",
+          "WR296H": "Hook",
+          "WR297H": "Hook",
+          "WR298H": "Hook",
+          "WR299H": "Hook",
+          "WR2910H": "Hook",
+          "WR2912H": "Hook",
+          "WR2914H": "Hook",
+          "WR2916H": "Hook",
+          "WR393H": "Hook",
+          "WR394H": "Hook",
+          "WR395H": "Hook",
+          "WR396H": "Hook",
+          "WR397H": "Hook",
+          "WR398H": "Hook",
+          "WR399H": "Hook",
+          "WR3910H": "Hook",
+          "WR3912H": "Hook",
+          "WR3914H": "Hook",
+          "WR3916H": "Hook",
+          "WR293A": "Apron",
+          "WR294A": "Apron",
+          "WR295A": "Apron",
+          "WR296A": "Apron",
+          "WR297A": "Apron",
+          "WR298A": "Apron",
+          "WR299A": "Apron",
+          "WR2910A": "Apron",
+          "WR2912A": "Apron",
+          "WR2914A": "Apron",
+          "WR2916A": "Apron",
+          "WR393A": "Apron",
+          "WR394A": "Apron",
+          "WR395A": "Apron",
+          "WR396A": "Apron",
+          "WR397A": "Apron",
+          "WR398A": "Apron",
+          "WR399A": "Apron",
+          "WR3910A": "Apron",
+          "WR3912A": "Apron",
+          "WR3914A": "Apron",
+          "WR3916A": "Apron",
+          "NO_MATCH": "NA TEST5"
+        }
+      },
+      {
+        "driverInputNum": 24,
+        "id": "ia-17",
+        "name": "AMP",
+        "type": "numeric",
+        "values": {
+          "LED_REAR_STT": "5",
+          "LED_CLEARANCE": "5",
+          "SUPP_STOP_LIGHT": "5",
+          "TAIL_BACKUP": "10",
+          "SEALED_LICENSE": "5"
+        }
+      },
+      {
+        "driverInputNum": 34,
+        "id": "ia-18",
+        "name": "AMP",
+        "type": "numeric",
+        "values": {
+          "SKYLIGHT_POWER": "4"
+        }
+      },
+      {
+        "driverInputNum": 59,
+        "id": "ia-19",
+        "name": "Paint_Hex_Code",
+        "type": "text",
+        "values": {
+          "GW": "FFFFFF",
+          "BWM": "0EB4DE",
+          "GB": "000000",
+          "GR": "FF0000",
+          "GY": "FFFF00",
+          "KC": "E25D1E",
+          "PCP": "6245A8",
+          "EG": "B4E422"
+        }
+      },
+      {
+        "driverInputNum": 5,
+        "id": "ia-2",
+        "name": "Part Number",
+        "type": "numeric",
+        "values": {
+          "DURASTAR_4400": "4400"
+        }
+      },
+      {
+        "driverInputNum": 67,
+        "id": "ia-20",
+        "name": "ALT_VAL",
+        "type": "text",
+        "values": {
+          "GRIP_SPRING_12": "G12N",
+          "GRIP_SPRING_12_STEP": "G12Y",
+          "TREAD_PLATE": "T12I",
+          "GRIP_SPRING_10": "G10N",
+          "GRIP_SPRING_10_STEP": "G10Y",
+          "DOUBLE_KIDNEY_2LT": "K122",
+          "DOUBLE_KIDNEY_1LT": "K121",
+          "DOUBLE_KIDNEY_0LT": "K120"
+        }
+      },
+      {
+        "driverInputNum": 67,
+        "id": "ia-21",
+        "name": "Capacity",
+        "type": "numeric",
+        "values": {
+          "GRIP_SPRING_12": "250",
+          "GRIP_SPRING_12_STEP": "300",
+          "TREAD_PLATE": "200",
+          "GRIP_SPRING_10": "350",
+          "GRIP_SPRING_10_STEP": "400",
+          "DOUBLE_KIDNEY_2LT": "350",
+          "DOUBLE_KIDNEY_1LT": "350",
+          "DOUBLE_KIDNEY_0LT": "350"
+        }
+      },
+      {
+        "driverInputNum": 67,
+        "id": "ia-22",
+        "name": "AMP",
+        "type": "numeric",
+        "values": {
+          "DOUBLE_KIDNEY_2LT": "4",
+          "DOUBLE_KIDNEY_1LT": "2"
+        }
+      },
+      {
+        "driverInputNum": 68,
+        "id": "ia-23",
+        "name": "ALT_VAL",
+        "type": "text",
+        "values": {
+          "GRIP_SPRING_12": "G12N",
+          "GRIP_SPRING_12_STEP": "G12Y",
+          "GRIP_SPRING_10": "G10N",
+          "GRIP_SPRING_10_STEP": "G10Y",
+          "DOUBLE_KIDNEY_2LT": "K122",
+          "DOUBLE_KIDNEY_1LT": "K121",
+          "DOUBLE_KIDNEY_0LT": "K120",
+          "TREAD_PLATE": "T12I"
+        }
+      },
+      {
+        "driverInputNum": 68,
+        "id": "ia-24",
+        "name": "Capacity",
+        "type": "numeric",
+        "values": {
+          "GRIP_SPRING_12": "250",
+          "GRIP_SPRING_12_STEP": "350",
+          "GRIP_SPRING_10": "300",
+          "GRIP_SPRING_10_STEP": "400",
+          "DOUBLE_KIDNEY_2LT": "350",
+          "DOUBLE_KIDNEY_1LT": "350",
+          "DOUBLE_KIDNEY_0LT": "350",
+          "TREAD_PLATE": "500"
+        }
+      },
+      {
+        "driverInputNum": 68,
+        "id": "ia-25",
+        "name": "AMP",
+        "type": "numeric",
+        "values": {
+          "DOUBLE_KIDNEY_2LT": "4",
+          "DOUBLE_KIDNEY_1LT": "2"
+        }
+      },
+      {
+        "driverInputNum": 72,
+        "id": "ia-26",
+        "name": "ALT_VAL",
+        "type": "text",
+        "values": {
+          "SLIDING": "SL",
+          "SEDAN": "SE",
+          "DOORLESS": "DR"
+        }
+      },
+      {
+        "driverInputNum": 73,
+        "id": "ia-27",
+        "name": "AMP",
+        "type": "numeric",
+        "values": {
+          "POWER": "5"
+        }
+      },
+      {
+        "driverInputNum": 77,
+        "id": "ia-28",
+        "name": "ALT_VAL",
+        "type": "text",
+        "values": {
+          "SLIDING": "SL",
+          "SEDAN": "SE",
+          "DOORLESS": "DR"
+        }
+      },
+      {
+        "driverInputNum": 78,
+        "id": "ia-29",
+        "name": "AMP",
+        "type": "numeric",
+        "values": {
+          "POWER": "3"
+        }
+      },
+      {
+        "driverInputNum": 5,
+        "id": "ia-3",
+        "name": "Deck Height",
+        "type": "numeric",
+        "values": {
+          "F350": "30",
+          "F350_CREW": "30",
+          "F450": "30",
+          "F450_CREW": "30",
+          "F550": "30",
+          "F550_CREW": "30",
+          "DURASTAR_4300": "40",
+          "DURASTAR_4300_CREW": "40",
+          "DURASTAR_4400": "40",
+          "DURASTAR_4400_CREW": "40",
+          "M2_106": "46",
+          "M2_106_CREW": "46",
+          "NPR": "24",
+          "NPR_HD": "24",
+          "NA": "30"
+        }
+      },
+      {
+        "driverInputNum": 83,
+        "id": "ia-30",
+        "name": "Door Qty",
+        "type": "numeric",
+        "values": {
+          "CURBSIDE": "1",
+          "ROADSIDE": "1",
+          "BOTH": "2"
+        }
+      },
+      {
+        "driverInputNum": 5,
+        "id": "ia-4",
+        "name": "Max Platform Width",
+        "type": "numeric",
+        "values": {
+          "F350": "72",
+          "F350_CREW": "72",
+          "F450": "72",
+          "F450_CREW": "72",
+          "F550": "72",
+          "F550_CREW": "72",
+          "DURASTAR_4300": "84",
+          "DURASTAR_4300_CREW": "84",
+          "DURASTAR_4400": "84",
+          "DURASTAR_4400_CREW": "84",
+          "M2_106": "84",
+          "M2_106_CREW": "84",
+          "NPR": "72",
+          "NPR_HD": "72",
+          "NA": "72"
+        }
+      },
+      {
+        "driverInputNum": 5,
+        "id": "ia-5",
+        "name": "Gross Vehicle Weight Rating",
+        "type": "numeric",
+        "values": {
+          "F350": "14000",
+          "F350_CREW": "14000",
+          "F450": "16000",
+          "F450_CREW": "16000",
+          "F550": "19000",
+          "F550_CREW": "19000",
+          "DURASTAR_4300": "26000",
+          "DURASTAR_4300_CREW": "26000",
+          "DURASTAR_4400": "33000",
+          "DURASTAR_4400_CREW": "33000",
+          "M2_106": "56000",
+          "M2_106_CREW": "56000",
+          "NPR": "18000",
+          "NPR_HD": "20500"
+        }
+      },
+      {
+        "driverInputNum": 5,
+        "id": "ia-6",
+        "name": "Rear Axle Capacity",
+        "type": "numeric",
+        "values": {
+          "F350": "9750",
+          "F350_CREW": "9750",
+          "F450": "11050",
+          "F450_CREW": "11050",
+          "F550": "13660",
+          "F550_CREW": "13660",
+          "DURASTAR_4300": "23000",
+          "DURASTAR_4300_CREW": "23000",
+          "DURASTAR_4400": "28000",
+          "DURASTAR_4400_CREW": "28000",
+          "M2_106": "40000",
+          "M2_106_CREW": "40000",
+          "NPR": "11020",
+          "NPR_HD": "11020"
+        }
+      },
+      {
+        "driverInputNum": 12,
+        "id": "ia-7",
+        "name": "AMP_LIMIT",
+        "type": "numeric",
+        "values": {
+          "12": "16.5",
+          "14": "17.5",
+          "16": "18.5",
+          "18": "19.5",
+          "20": "20.5",
+          "22": "21.5",
+          "24": "22.0",
+          "26": "22.5",
+          "28": "23.0",
+          "30": "23.5"
+        }
+      },
+      {
+        "driverInputNum": 12,
+        "id": "ia-8",
+        "name": "BODY_LENGTH_IN",
+        "type": "numeric",
+        "values": {
+          "12": "144",
+          "14": "168",
+          "16": "192",
+          "18": "216",
+          "20": "240",
+          "22": "264",
+          "24": "288",
+          "26": "312",
+          "28": "336",
+          "30": "360"
+        }
+      },
+      {
+        "driverInputNum": 21,
+        "id": "ia-9",
+        "name": "Max Height",
+        "type": "numeric",
+        "values": {
+          "WR293H": "13",
+          "WR294H": "16",
+          "WR295H": "22",
+          "WR296H": "25",
+          "WR297H": "32",
+          "WR298H": "35",
+          "WR299H": "38",
+          "WR2910H": "41",
+          "WR2912H": "50",
+          "WR2914H": "56",
+          "WR2916H": "66",
+          "WR393H": "13",
+          "WR394H": "16",
+          "WR395H": "22",
+          "WR396H": "25",
+          "WR397H": "32",
+          "WR398H": "35",
+          "WR399H": "38",
+          "WR3910H": "41",
+          "WR3912H": "50",
+          "WR3914H": "56",
+          "WR3916H": "66",
+          "WR293A": "9",
+          "WR294A": "12",
+          "WR295A": "18",
+          "WR296A": "21",
+          "WR297A": "27",
+          "WR298A": "31",
+          "WR299A": "34",
+          "WR2910A": "37",
+          "WR2912A": "46",
+          "WR2914A": "52",
+          "WR2916A": "61",
+          "WR393A": "9",
+          "WR394A": "12",
+          "WR395A": "18",
+          "WR396A": "21",
+          "WR397A": "27",
+          "WR398A": "31",
+          "WR399A": "34",
+          "WR3910A": "37",
+          "WR3912A": "46",
+          "WR3914A": "52",
+          "WR3916A": "61",
+          "NO_MATCH": "0"
+        }
+      }
+    ]
+  },
+  "rules": {
+    "logicGroups": [
+      {
+        "id": "lg-1",
+        "name": "Freight Truck Root Logic",
+        "num": 1,
+        "root": true
+      },
+      {
+        "id": "lg-2",
+        "name": "Track Logic",
+        "num": 2
+      },
+      {
+        "id": "lg-3",
+        "name": "Real Time 2D Door",
+        "num": 3
+      },
+      {
+        "id": "lg-4",
+        "name": "Track Row Logic",
+        "num": 4,
+        "iterator": "TRK"
+      },
+      {
+        "id": "lg-5",
+        "name": "2 Track Height Check",
+        "num": 5
+      },
+      {
+        "id": "lg-6",
+        "name": "3 Track Height Check",
+        "num": 6
+      },
+      {
+        "id": "lg-7",
+        "name": "4 Track Height Check",
+        "num": 7
+      },
+      {
+        "id": "lg-8",
+        "name": "Construction Logic 2D",
+        "num": 8
+      },
+      {
+        "id": "lg-9",
+        "name": "Construction Logic 3D",
+        "num": 9
+      }
+    ],
+    "logicItems": [
+      {
+        "groupNum": 1,
+        "id": "li-1",
+        "name": "Chassis Information",
+        "num": 1,
+        "type": "ask_input_group",
+        "action": "Ask Input Group: Application and Chassis"
+      },
+      {
+        "groupNum": 1,
+        "id": "li-2",
+        "name": "New Page Break",
+        "num": 2,
+        "type": "end_of_page",
+        "action": "End of Page"
+      },
+      {
+        "groupNum": 1,
+        "id": "li-3",
+        "name": "Body width is over 102 inches rule",
+        "num": 3,
+        "type": "warning_message",
+        "condition": {
+          "entity": "BODY_WIDTH"
+        },
+        "action": "Warning Message: You specified a body width in excess of 102\" (the Federal interstate limit).  You may proceed but the customer must check local regulations and obtain special permits."
+      },
+      {
+        "groupNum": 1,
+        "id": "li-4",
+        "name": "Run Construction Logic",
+        "num": 4,
+        "type": "run_logic_group",
+        "condition": {
+          "entity": "USE_3D_VIEW"
+        },
+        "action": "Run Logic Group: Construction Logic 3D"
+      },
+      {
+        "groupNum": 1,
+        "id": "li-5",
+        "name": "Rear Structure Options",
+        "num": 5,
+        "type": "ask_input_group",
+        "active": false,
+        "action": "Ask Input Group: Construction"
+      },
+      {
+        "groupNum": 1,
+        "id": "li-6",
+        "name": "Suggest FRP",
+        "num": 6,
+        "type": "warning_message",
+        "condition": {
+          "entity": "INTERIOR_CONSTRUCTION_1"
+        },
+        "action": "Warning Message: We recommend fiber reinforced plywood interior.  FRP eliminates the need for vertical support posts, and makes it easy to customize and maximize interior space. To go back and change your selection, click Cancel. To continue click Ok."
+      },
+      {
+        "groupNum": 1,
+        "id": "li-7",
+        "name": "Page Break",
+        "num": 7,
+        "type": "end_of_page",
+        "action": "End of Page"
+      },
+      {
+        "groupNum": 1,
+        "id": "li-8",
+        "name": "Display Side Door Input Group",
+        "num": 8,
+        "type": "ask_input_group",
+        "action": "Ask Input Group: Side Door"
+      },
+      {
+        "groupNum": 1,
+        "id": "li-9",
+        "name": "New Page Break",
+        "num": 9,
+        "type": "end_of_page",
+        "action": "End of Page"
+      },
+      {
+        "groupNum": 1,
+        "id": "li-10",
+        "name": "Set Deck Height",
+        "num": 10,
+        "type": "set_input",
+        "action": "Set Input: DECK_HEIGHT"
+      },
+      {
+        "groupNum": 1,
+        "id": "li-11",
+        "name": "Prompt User for Walkramp",
+        "num": 11,
+        "type": "ask_input_group",
+        "action": "Ask Input Group: Walkramp"
+      },
+      {
+        "groupNum": 1,
+        "id": "li-12",
+        "name": "New Page Break",
+        "num": 12,
+        "type": "end_of_page",
+        "action": "End of Page"
+      },
+      {
+        "groupNum": 1,
+        "id": "li-13",
+        "name": "Set Max Platform Width",
+        "num": 13,
+        "type": "set_input",
+        "action": "Set Input: MAXIMUM_PLATFORM_WIDTH"
+      },
+      {
+        "groupNum": 1,
+        "id": "li-14",
+        "name": "Liftgate",
+        "num": 14,
+        "type": "ask_input_group",
+        "condition": {
+          "entity": "CHASSIS_MODEL"
+        },
+        "action": "Ask Input Group: Liftgate"
+      },
+      {
+        "groupNum": 1,
+        "id": "li-15",
+        "name": "Liftgate System Info",
+        "num": 15,
+        "type": "ask_input_group",
+        "action": "Ask Input Group: Liftgate System Info"
+      },
+      {
+        "groupNum": 1,
+        "id": "li-16",
+        "name": "New Page Break",
+        "num": 16,
+        "type": "end_of_page",
+        "action": "End of Page"
+      },
+      {
+        "groupNum": 1,
+        "id": "li-17",
+        "name": "Rear Bumper Options",
+        "num": 17,
+        "type": "ask_input_group",
+        "action": "Ask Input Group: Rear Bumper"
+      },
+      {
+        "groupNum": 1,
+        "id": "li-18",
+        "name": "Hood and Front Bumper Options",
+        "num": 18,
+        "type": "ask_input_group",
+        "active": false,
+        "action": "Ask Input Group: Hood and Front"
+      },
+      {
+        "groupNum": 1,
+        "id": "li-19",
+        "name": "New Page Break",
+        "num": 19,
+        "type": "end_of_page",
+        "action": "End of Page"
+      },
+      {
+        "groupNum": 1,
+        "id": "li-20",
+        "name": "LH Door Options",
+        "num": 20,
+        "type": "ask_input_group",
+        "action": "Ask Input Group: Driver Door"
+      },
+      {
+        "groupNum": 1,
+        "id": "li-21",
+        "name": "RH Door Options",
+        "num": 21,
+        "type": "ask_input_group",
+        "action": "Ask Input Group: Passenger Door"
+      },
+      {
+        "groupNum": 1,
+        "id": "li-22",
+        "name": "New Page Break",
+        "num": 22,
+        "type": "end_of_page",
+        "action": "End of Page"
+      },
+      {
+        "groupNum": 1,
+        "id": "li-23",
+        "name": "Driver Seat",
+        "num": 23,
+        "type": "ask_product_input",
+        "action": "Ask Product Input: SEATING_DRIVER"
+      },
+      {
+        "groupNum": 1,
+        "id": "li-24",
+        "name": "Passenger Jump Seat",
+        "num": 24,
+        "type": "ask_product_input",
+        "condition": {
+          "entity": "RH_CAB_DOOR"
+        },
+        "action": "Ask Product Input: SEATING_JUMP"
+      },
+      {
+        "groupNum": 1,
+        "id": "li-25",
+        "name": "New Page Break",
+        "num": 25,
+        "type": "end_of_page",
+        "action": "End of Page"
+      },
+      {
+        "groupNum": 1,
+        "id": "li-26",
+        "name": "Exterior Lighting",
+        "num": 26,
+        "type": "ask_input_group",
+        "action": "Ask Input Group: Exterior Lighting"
+      },
+      {
+        "groupNum": 1,
+        "id": "li-27",
+        "name": "Interior Options",
+        "num": 27,
+        "type": "ask_input_group",
+        "action": "Ask Input Group: Interior Accessories"
+      },
+      {
+        "groupNum": 1,
+        "id": "li-28",
+        "name": "New Page Break",
+        "num": 28,
+        "type": "end_of_page",
+        "action": "End of Page"
+      },
+      {
+        "groupNum": 1,
+        "id": "li-29",
+        "name": "Roof Options",
+        "num": 29,
+        "type": "ask_input_group",
+        "action": "Ask Input Group: Roof"
+      },
+      {
+        "groupNum": 1,
+        "id": "li-30",
+        "name": "Wall Options",
+        "num": 30,
+        "type": "ask_input_group",
+        "action": "Ask Input Group: Wall"
+      },
+      {
+        "groupNum": 1,
+        "id": "li-31",
+        "name": "New Page Break",
+        "num": 31,
+        "type": "end_of_page",
+        "action": "End of Page"
+      },
+      {
+        "groupNum": 1,
+        "id": "li-32",
+        "name": "Track Logic",
+        "num": 32,
+        "type": "run_logic_group",
+        "condition": {
+          "entity": "TRACK_QTY"
+        },
+        "action": "Run Logic Group: Track Logic"
+      },
+      {
+        "groupNum": 1,
+        "id": "li-33",
+        "name": "Set Gasket",
+        "num": 33,
+        "type": "set_input",
+        "action": "Set Input: GASKET_MATERIAL"
+      },
+      {
+        "groupNum": 1,
+        "id": "li-34",
+        "name": "Run Real-Time 2D Logic Group",
+        "num": 34,
+        "type": "run_logic_group",
+        "condition": {
+          "entity": "SHOW_RT2D"
+        },
+        "action": "Run Logic Group: Real Time 2D Door"
+      },
+      {
+        "groupNum": 1,
+        "id": "li-35",
+        "name": "New Page Break",
+        "num": 35,
+        "type": "end_of_page",
+        "action": "End of Page"
+      },
+      {
+        "groupNum": 1,
+        "id": "li-36",
+        "name": "Ask Input Group: Options",
+        "num": 36,
+        "type": "ask_input_group",
+        "condition": {
+          "entity": "CHASSIS_MODEL"
+        },
+        "action": "Ask Input Group: Options"
+      },
+      {
+        "groupNum": 1,
+        "id": "li-37",
+        "name": "New Page Break",
+        "num": 37,
+        "type": "end_of_page",
+        "action": "End of Page"
+      },
+      {
+        "groupNum": 1,
+        "id": "li-38",
+        "name": "Special Notes",
+        "num": 38,
+        "type": "ask_input_group",
+        "action": "Ask Input Group: Special Notes"
+      },
+      {
+        "groupNum": 1,
+        "id": "li-39",
+        "name": "New Page Break",
+        "num": 39,
+        "type": "end_of_page",
+        "action": "End of Page"
+      },
+      {
+        "groupNum": 2,
+        "id": "li-40",
+        "name": "Set Track Flag",
+        "num": 40,
+        "type": "set_input",
+        "active": false,
+        "action": "Set Input: TRACK_SET_FLAG"
+      },
+      {
+        "groupNum": 2,
+        "id": "li-41",
+        "name": "2 Track Height Check",
+        "num": 41,
+        "type": "run_logic_group",
+        "active": false,
+        "condition": {
+          "entity": "TRACK_QTY"
+        },
+        "action": "Run Logic Group: 2 Track Height Check"
+      },
+      {
+        "groupNum": 2,
+        "id": "li-42",
+        "name": "3 Track Height Check",
+        "num": 42,
+        "type": "run_logic_group",
+        "active": false,
+        "condition": {
+          "entity": "TRACK_QTY"
+        },
+        "action": "Run Logic Group: 3 Track Height Check"
+      },
+      {
+        "groupNum": 2,
+        "id": "li-43",
+        "name": "4 Track Height Check",
+        "num": 43,
+        "type": "run_logic_group",
+        "active": false,
+        "condition": {
+          "entity": "TRACK_QTY"
+        },
+        "action": "Run Logic Group: 4 Track Height Check"
+      },
+      {
+        "groupNum": 2,
+        "id": "li-44",
+        "name": "Run track row logic",
+        "num": 44,
+        "type": "run_logic_group",
+        "action": "Run Logic Group: Track Row Logic"
+      },
+      {
+        "groupNum": 2,
+        "id": "li-45",
+        "name": "New Page Break",
+        "num": 45,
+        "type": "end_of_page",
+        "action": "End of Page"
+      },
+      {
+        "groupNum": 3,
+        "id": "li-46",
+        "name": "Ask real Time 2D Input Group",
+        "num": 46,
+        "type": "ask_input_group",
+        "action": "Ask Input Group: Side Roll-up Doors"
+      },
+      {
+        "groupNum": 3,
+        "id": "li-47",
+        "name": "New Page Break",
+        "num": 47,
+        "type": "end_of_page",
+        "action": "End of Page"
+      },
+      {
+        "groupNum": 4,
+        "id": "li-48",
+        "name": "Set Row 2",
+        "num": 48,
+        "type": "set_input",
+        "active": false,
+        "condition": {
+          "entity": "TRACK_SET_FLAG"
+        },
+        "action": "Set Input: TRACK_LOC~~TRK~~"
+      },
+      {
+        "groupNum": 4,
+        "id": "li-49",
+        "name": "Set Row 3",
+        "num": 49,
+        "type": "set_input",
+        "active": false,
+        "condition": {
+          "entity": "TRACK_SET_FLAG"
+        },
+        "action": "Set Input: TRACK_LOC~~TRK~~"
+      },
+      {
+        "groupNum": 4,
+        "id": "li-50",
+        "name": "Set Row 4",
+        "num": 50,
+        "type": "set_input",
+        "active": false,
+        "condition": {
+          "entity": "TRACK_SET_FLAG"
+        },
+        "action": "Set Input: TRACK_LOC~~TRK~~"
+      },
+      {
+        "groupNum": 4,
+        "id": "li-51",
+        "name": "Track Type",
+        "num": 51,
+        "type": "ask_product_input",
+        "active": false,
+        "action": "Ask Product Input: TRACK_TYPE~~TRK~~"
+      },
+      {
+        "groupNum": 4,
+        "id": "li-52",
+        "name": "Show the Track Locations Input Group",
+        "num": 52,
+        "type": "ask_input_group",
+        "action": "Ask Input Group: Track Locations"
+      },
+      {
+        "groupNum": 5,
+        "id": "li-53",
+        "name": "2 Rows",
+        "num": 53,
+        "type": "error_message",
+        "condition": {
+          "entity": "TRACK_LOC~~TRK~~"
+        },
+        "action": "Error Message: Track 1 and 2 are located at the same position.  Please specify a different location for at least one of the tracks."
+      },
+      {
+        "groupNum": 6,
+        "id": "li-54",
+        "name": "3 Rows",
+        "num": 54,
+        "type": "error_message",
+        "action": "Error Message: Track 3 is located at the same position as track 1 or 2.  Please specify a different location for at least one of the tracks."
+      },
+      {
+        "groupNum": 7,
+        "id": "li-55",
+        "name": "4 Rows",
+        "num": 55,
+        "type": "error_message",
+        "action": "Error Message: Track 4 is located at the same position as track 1, 2, or 3.  Please specify a different location for at least one of the tracks."
+      },
+      {
+        "groupNum": 8,
+        "id": "li-56",
+        "name": "Show REAR_DOOR input",
+        "num": 56,
+        "type": "ask_product_input",
+        "action": "Ask Product Input: REAR_DOOR"
+      },
+      {
+        "groupNum": 8,
+        "id": "li-57",
+        "name": "Show INTERIOR_CONSTRUCTION driven input",
+        "num": 57,
+        "type": "ask_driven_input",
+        "action": "Ask Driven Input: Driver for Interior Construction"
+      },
+      {
+        "groupNum": 8,
+        "id": "li-58",
+        "name": "Show PAINT_COLOR_FT input",
+        "num": 58,
+        "type": "ask_product_input",
+        "action": "Ask Product Input: PAINT_COLOR_FT"
+      },
+      {
+        "groupNum": 8,
+        "id": "li-59",
+        "name": "Show PAINT_CUSTOM_CODE Input",
+        "num": 59,
+        "type": "ask_product_input",
+        "action": "Ask Product Input: PAINT_CUSTOM_CODE"
+      },
+      {
+        "groupNum": 8,
+        "id": "li-60",
+        "name": "Show BODY_PREVIEW_PAGE_2_NEW input",
+        "num": 60,
+        "type": "ask_product_input",
+        "action": "Ask Product Input: BODY_PREVIEW_PAGE_2_NEW"
+      },
+      {
+        "groupNum": 8,
+        "id": "li-61",
+        "name": "Show RT3D Placeholder Input",
+        "num": 61,
+        "type": "ask_product_input",
+        "action": "Ask Product Input: TRUCK_BODY_VIEWER_PLACEHOLDER"
+      },
+      {
+        "groupNum": 8,
+        "id": "li-62",
+        "name": "New Page Break",
+        "num": 62,
+        "type": "end_of_page",
+        "action": "End of Page"
+      },
+      {
+        "groupNum": 9,
+        "id": "li-63",
+        "name": "Ask Construction",
+        "num": 63,
+        "type": "ask_input_group",
+        "action": "Ask Input Group: Construction"
+      },
+      {
+        "groupNum": 9,
+        "id": "li-64",
+        "name": "Show PAINT_COLOR_FT input - 3D Version",
+        "num": 64,
+        "type": "ask_product_input",
+        "active": false,
+        "action": "Ask Product Input: PAINT_COLOR_FT"
+      },
+      {
+        "groupNum": 9,
+        "id": "li-65",
+        "name": "Show 3D Truck Viewer",
+        "num": 65,
+        "type": "ask_product_input",
+        "active": false,
+        "action": "Ask Product Input: TRUCK_BODY_VIEWER"
+      },
+      {
+        "groupNum": 9,
+        "id": "li-66",
+        "name": "Show PAINT_CUSTOM_CODE Input - 3D Version",
+        "num": 66,
+        "type": "ask_product_input",
+        "active": false,
+        "action": "Ask Product Input: PAINT_CUSTOM_CODE"
+      },
+      {
+        "groupNum": 9,
+        "id": "li-67",
+        "name": "Show REAR_DOOR input - 3D Version",
+        "num": 67,
+        "type": "ask_product_input",
+        "active": false,
+        "action": "Ask Product Input: REAR_DOOR"
+      },
+      {
+        "groupNum": 9,
+        "id": "li-68",
+        "name": "Show INTERIOR_CONSTRUCTION driven input - 3D Vers",
+        "num": 68,
+        "type": "ask_driven_input",
+        "active": false,
+        "action": "Ask Driven Input: Driver for Interior Construction"
+      },
+      {
+        "groupNum": 9,
+        "id": "li-69",
+        "name": "New Page Break",
+        "num": 69,
+        "type": "end_of_page",
+        "action": "End of Page"
+      }
+    ],
+    "drivenInputs": [],
+    "inputFilters": [],
+    "iterators": [
+      {
+        "code": "TRK",
+        "description": "Track row iterator \u2014 repeats per track position",
+        "id": "it-1",
+        "quantityInputNum": null
+      }
+    ],
+    "equations": []
+  },
+  "results": {
+    "bomSkeleton": [
+      {
+        "id": "bom-1",
+        "includedByDefault": true,
+        "level": 1,
+        "quantity": {
+          "type": "value",
+          "value": 1
+        },
+        "referenceId": "im-1",
+        "referenceName": "Materials",
+        "type": "item_master"
+      },
+      {
+        "id": "bom-2",
+        "includedByDefault": true,
+        "level": 2,
+        "quantity": {
+          "type": "value",
+          "value": 1
+        },
+        "referenceId": "if-1",
+        "referenceName": "Freight Truck Body",
+        "type": "item_family"
+      },
+      {
+        "id": "bom-3",
+        "includedByDefault": true,
+        "level": 2,
+        "quantity": {
+          "type": "equation",
+          "equationName": "Body Area Gallon"
+        },
+        "referenceId": "PAINT",
+        "referenceName": "Paint",
+        "type": "driven"
+      },
+      {
+        "id": "bom-4",
+        "includedByDefault": true,
+        "level": 2,
+        "quantity": {
+          "type": "value",
+          "value": 1
+        },
+        "referenceId": "REAR-BUMPER",
+        "referenceName": "Rear Bumper",
+        "type": "driven"
+      },
+      {
+        "id": "bom-5",
+        "includedByDefault": true,
+        "level": 2,
+        "quantity": {
+          "type": "value",
+          "value": 1
+        },
+        "referenceId": "EXT-LIGHT",
+        "referenceName": "Exterior Lighting",
+        "type": "driven"
+      },
+      {
+        "id": "bom-6",
+        "includedByDefault": true,
+        "level": 2,
+        "quantity": {
+          "type": "value",
+          "value": 1
+        },
+        "referenceId": "im-2",
+        "referenceName": "Rear Bumper Rubber",
+        "type": "item_master"
+      },
+      {
+        "id": "bom-7",
+        "includedByDefault": true,
+        "level": 2,
+        "quantity": {
+          "type": "value",
+          "value": 1
+        },
+        "referenceId": "HOOD",
+        "referenceName": "Hood",
+        "type": "driven"
+      },
+      {
+        "id": "bom-8",
+        "includedByDefault": true,
+        "level": 2,
+        "quantity": {
+          "type": "value",
+          "value": 1
+        },
+        "referenceId": "FRONT-OPT",
+        "referenceName": "Front Options",
+        "type": "driven"
+      },
+      {
+        "id": "bom-9",
+        "includedByDefault": true,
+        "level": 2,
+        "quantity": {
+          "type": "value",
+          "value": 1
+        },
+        "referenceId": "FRONT-BUMP",
+        "referenceName": "Front Bumper",
+        "type": "driven"
+      },
+      {
+        "id": "bom-10",
+        "includedByDefault": true,
+        "level": 2,
+        "quantity": {
+          "type": "value",
+          "value": 1
+        },
+        "referenceId": "DRIVER-DOOR",
+        "referenceName": "Driver Door",
+        "type": "driven"
+      },
+      {
+        "id": "bom-11",
+        "includedByDefault": true,
+        "level": 3,
+        "quantity": {
+          "type": "value",
+          "value": 1
+        },
+        "referenceId": "DRIVER-DOOR-OPT",
+        "referenceName": "Driver Door Options",
+        "type": "driven"
+      },
+      {
+        "id": "bom-12",
+        "includedByDefault": true,
+        "level": 4,
+        "quantity": {
+          "type": "value",
+          "value": 1
+        },
+        "referenceId": "PASS-DOOR",
+        "referenceName": "Passenger Door",
+        "type": "driven"
+      },
+      {
+        "id": "bom-13",
+        "includedByDefault": true,
+        "level": 5,
+        "quantity": {
+          "type": "value",
+          "value": 1
+        },
+        "referenceId": "PASS-DOOR-OPT",
+        "referenceName": "Passenger Door Options",
+        "type": "driven"
+      },
+      {
+        "id": "bom-14",
+        "includedByDefault": true,
+        "level": 2,
+        "quantity": {
+          "type": "value",
+          "value": 1
+        },
+        "referenceId": "ROOF-SKY",
+        "referenceName": "Roof Skylights",
+        "type": "driven"
+      },
+      {
+        "id": "bom-15",
+        "includedByDefault": true,
+        "level": 2,
+        "quantity": {
+          "type": "value",
+          "value": 1
+        },
+        "referenceId": "DRIVER-SEAT",
+        "referenceName": "Driver Seat",
+        "type": "driven"
+      },
+      {
+        "id": "bom-16",
+        "includedByDefault": true,
+        "level": 2,
+        "quantity": {
+          "type": "value",
+          "value": 1
+        },
+        "referenceId": "JUMP-SEAT",
+        "referenceName": "Jump Seat",
+        "type": "driven"
+      },
+      {
+        "id": "bom-17",
+        "includedByDefault": true,
+        "level": 2,
+        "quantity": {
+          "type": "value",
+          "value": 1
+        },
+        "referenceId": "INT-OPT",
+        "referenceName": "Interior Options",
+        "type": "driven"
+      },
+      {
+        "id": "bom-18",
+        "includedByDefault": true,
+        "level": 2,
+        "quantity": {
+          "type": "equation",
+          "equationName": "Input Value"
+        },
+        "referenceId": "im-3",
+        "referenceName": "Load Bar - E-Track",
+        "type": "item_master"
+      },
+      {
+        "id": "bom-19",
+        "includedByDefault": true,
+        "level": 2,
+        "quantity": {
+          "type": "equation",
+          "equationName": "Input Value"
+        },
+        "referenceId": "im-4",
+        "referenceName": "Load Bar - F-Track",
+        "type": "item_master"
+      },
+      {
+        "id": "bom-20",
+        "includedByDefault": true,
+        "level": 2,
+        "quantity": {
+          "type": "value",
+          "value": 1
+        },
+        "referenceId": "if-2",
+        "referenceName": "Truck Roll-up Door Assembly",
+        "type": "item_family"
+      },
+      {
+        "id": "bom-21",
+        "includedByDefault": true,
+        "level": 3,
+        "quantity": {
+          "type": "value",
+          "value": 1
+        },
+        "referenceId": "if-3",
+        "referenceName": "TRD Curtain",
+        "type": "item_family"
+      },
+      {
+        "id": "bom-22",
+        "includedByDefault": true,
+        "level": 4,
+        "quantity": {
+          "type": "equation",
+          "equationName": "Roll-up Door: Total Slat Length"
+        },
+        "referenceId": "im-5",
+        "referenceName": "1\" Wide Poly Slat - White",
+        "type": "item_master"
+      },
+      {
+        "id": "bom-23",
+        "includedByDefault": true,
+        "level": 4,
+        "quantity": {
+          "type": "equation",
+          "equationName": "Roll-up Door: Endlock Qty"
+        },
+        "referenceId": "im-6",
+        "referenceName": "Slat Endlock",
+        "type": "item_master"
+      },
+      {
+        "id": "bom-24",
+        "includedByDefault": true,
+        "level": 4,
+        "quantity": {
+          "type": "equation",
+          "equationName": "Roll-up Door: Total Slat Qty"
+        },
+        "referenceId": "im-7",
+        "referenceName": "1/2\" SS Bushing",
+        "type": "item_master"
+      },
+      {
+        "id": "bom-25",
+        "includedByDefault": true,
+        "level": 4,
+        "quantity": {
+          "type": "value",
+          "value": 2
+        },
+        "referenceId": "im-8",
+        "referenceName": "Fastening Section",
+        "type": "item_master"
+      },
+      {
+        "id": "bom-26",
+        "includedByDefault": true,
+        "level": 4,
+        "quantity": {
+          "type": "equation",
+          "equationName": "Roll-up Door: Slat Length"
+        },
+        "referenceId": "im-9",
+        "referenceName": "Slat Weather Strip",
+        "type": "item_master"
+      },
+      {
+        "id": "bom-27",
+        "includedByDefault": true,
+        "level": 3,
+        "quantity": {
+          "type": "value",
+          "value": 1
+        },
+        "referenceId": "if-4",
+        "referenceName": "TRD Door Frame Assembly",
+        "type": "item_family"
+      },
+      {
+        "id": "bom-28",
+        "includedByDefault": true,
+        "level": 4,
+        "quantity": {
+          "type": "value",
+          "value": 1
+        },
+        "referenceId": "if-5",
+        "referenceName": "TRD Frame Guide",
+        "type": "item_family"
+      },
+      {
+        "id": "bom-29",
+        "includedByDefault": true,
+        "level": 4,
+        "quantity": {
+          "type": "value",
+          "value": 1
+        },
+        "referenceId": "if-6",
+        "referenceName": "TRD Guide Extrusion",
+        "type": "item_family"
+      },
+      {
+        "id": "bom-30",
+        "includedByDefault": true,
+        "level": 4,
+        "quantity": {
+          "type": "value",
+          "value": 1
+        },
+        "referenceId": "if-7",
+        "referenceName": "TRD Sill Extrusion",
+        "type": "item_family"
+      },
+      {
+        "id": "bom-31",
+        "includedByDefault": true,
+        "level": 4,
+        "quantity": {
+          "type": "value",
+          "value": 1
+        },
+        "referenceId": "if-8",
+        "referenceName": "TRD Guide Weathering",
+        "type": "item_family"
+      },
+      {
+        "id": "bom-32",
+        "includedByDefault": true,
+        "level": 4,
+        "quantity": {
+          "type": "value",
+          "value": 1
+        },
+        "referenceId": "if-9",
+        "referenceName": "TRD Top Frame",
+        "type": "item_family"
+      },
+      {
+        "id": "bom-33",
+        "includedByDefault": true,
+        "level": 5,
+        "quantity": {
+          "type": "value",
+          "value": 1
+        },
+        "referenceId": "if-10",
+        "referenceName": "TRD Header Seal Extrusion",
+        "type": "item_family"
+      },
+      {
+        "id": "bom-34",
+        "includedByDefault": true,
+        "level": 5,
+        "quantity": {
+          "type": "value",
+          "value": 1
+        },
+        "referenceId": "if-11",
+        "referenceName": "TRD Cover Extrusion",
+        "type": "item_family"
+      },
+      {
+        "id": "bom-35",
+        "includedByDefault": true,
+        "level": 5,
+        "quantity": {
+          "type": "value",
+          "value": 1
+        },
+        "referenceId": "if-12",
+        "referenceName": "TRD Header - Weathering Seal",
+        "type": "item_family"
+      },
+      {
+        "id": "bom-36",
+        "includedByDefault": true,
+        "level": 5,
+        "quantity": {
+          "type": "value",
+          "value": 1
+        },
+        "referenceId": "if-13",
+        "referenceName": "TRD Strip - Weathering - Slat",
+        "type": "item_family"
+      },
+      {
+        "id": "bom-37",
+        "includedByDefault": true,
+        "level": 5,
+        "quantity": {
+          "type": "value",
+          "value": 2
+        },
+        "referenceId": "im-10",
+        "referenceName": "Endplug, Header Seal",
+        "type": "item_master"
+      },
+      {
+        "id": "bom-38",
+        "includedByDefault": true,
+        "level": 5,
+        "quantity": {
+          "type": "value",
+          "value": 10
+        },
+        "referenceId": "im-11",
+        "referenceName": "Frame Mounting Hardware",
+        "type": "item_master"
+      },
+      {
+        "id": "bom-39",
+        "includedByDefault": true,
+        "level": 2,
+        "quantity": {
+          "type": "value",
+          "value": 1
+        },
+        "referenceId": "if-14",
+        "referenceName": "Rolling Shutter",
+        "type": "item_family"
+      },
+      {
+        "id": "bom-40",
+        "includedByDefault": true,
+        "level": 3,
+        "quantity": {
+          "type": "value",
+          "value": 1
+        },
+        "referenceId": "im-12",
+        "referenceName": "Counterbalance for Rolling Shutter",
+        "type": "item_master"
+      },
+      {
+        "id": "bom-41",
+        "includedByDefault": true,
+        "level": 3,
+        "quantity": {
+          "type": "value",
+          "value": 1
+        },
+        "referenceId": "im-13",
+        "referenceName": "Vertical Track",
+        "type": "item_master"
+      },
+      {
+        "id": "bom-42",
+        "includedByDefault": true,
+        "level": 3,
+        "quantity": {
+          "type": "value",
+          "value": 1
+        },
+        "referenceId": "im-14",
+        "referenceName": "Slam Lock - Todco #69571",
+        "type": "item_master"
+      },
+      {
+        "id": "bom-43",
+        "includedByDefault": true,
+        "level": 2,
+        "quantity": {
+          "type": "value",
+          "value": 1
+        },
+        "referenceId": "inp-WALKRAMP",
+        "referenceName": "Walkramp",
+        "type": "input"
+      },
+      {
+        "id": "bom-44",
+        "includedByDefault": true,
+        "level": 2,
+        "quantity": {
+          "type": "equation",
+          "equationName": "Wall stud qty"
+        },
+        "referenceId": "im-15",
+        "referenceName": "90\" Wall Stud",
+        "type": "item_master"
+      },
+      {
+        "id": "bom-45",
+        "includedByDefault": true,
+        "level": 2,
+        "quantity": {
+          "type": "value",
+          "value": 1
+        },
+        "referenceId": "if-15",
+        "referenceName": "Side Door",
+        "type": "item_family"
+      },
+      {
+        "id": "bom-46",
+        "includedByDefault": true,
+        "level": 3,
+        "quantity": {
+          "type": "equation",
+          "equationName": "Sum Of Door Qty"
+        },
+        "referenceId": "im-16",
+        "referenceName": "Sliding Door 72\"X36\"",
+        "type": "item_master"
+      },
+      {
+        "id": "bom-47",
+        "includedByDefault": true,
+        "level": 3,
+        "quantity": {
+          "type": "equation",
+          "equationName": "Sum Of Door Qty"
+        },
+        "referenceId": "im-17",
+        "referenceName": "Sliding Door 60\"X36\"",
+        "type": "item_master"
+      },
+      {
+        "id": "bom-48",
+        "includedByDefault": true,
+        "level": 3,
+        "quantity": {
+          "type": "equation",
+          "equationName": "Panel Door Qty"
+        },
+        "referenceId": "im-18",
+        "referenceName": "Panel Door",
+        "type": "item_master"
+      },
+      {
+        "id": "bom-49",
+        "includedByDefault": true,
+        "level": 3,
+        "quantity": {
+          "type": "equation",
+          "equationName": "Panel Door Qty"
+        },
+        "referenceId": "im-19",
+        "referenceName": "Panel Door 60\" X 36\"",
+        "type": "item_master"
+      },
+      {
+        "id": "bom-50",
+        "includedByDefault": true,
+        "level": 3,
+        "quantity": {
+          "type": "equation",
+          "equationName": "Sum Of Door Qty"
+        },
+        "referenceId": "im-20",
+        "referenceName": "Double Swing Door",
+        "type": "item_master"
+      },
+      {
+        "id": "bom-51",
+        "includedByDefault": true,
+        "level": 3,
+        "quantity": {
+          "type": "equation",
+          "equationName": "Sum Of Door Qty"
+        },
+        "referenceId": "im-21",
+        "referenceName": "Double Swing Door 60\" X 72\"",
+        "type": "item_master"
+      },
+      {
+        "id": "bom-52",
+        "includedByDefault": true,
+        "level": 3,
+        "quantity": {
+          "type": "equation",
+          "equationName": "Sum Of Door Qty"
+        },
+        "referenceId": "im-22",
+        "referenceName": "Access Door 48\"",
+        "type": "item_master"
+      },
+      {
+        "id": "bom-53",
+        "includedByDefault": true,
+        "level": 3,
+        "quantity": {
+          "type": "equation",
+          "equationName": "Sum Of Door Qty"
+        },
+        "referenceId": "im-23",
+        "referenceName": "Access Door 36\"",
+        "type": "item_master"
+      },
+      {
+        "id": "bom-54",
+        "includedByDefault": true,
+        "level": 3,
+        "quantity": {
+          "type": "equation",
+          "equationName": "Sum Of Door Qty"
+        },
+        "referenceId": "im-24",
+        "referenceName": "Access Door 24\"",
+        "type": "item_master"
+      },
+      {
+        "id": "bom-55",
+        "includedByDefault": true,
+        "level": 3,
+        "quantity": {
+          "type": "equation",
+          "equationName": "Sum Of Door Qty"
+        },
+        "referenceId": "if-16",
+        "referenceName": "Roll Up Door",
+        "type": "item_family"
+      },
+      {
+        "id": "bom-56",
+        "includedByDefault": true,
+        "level": 4,
+        "quantity": {
+          "type": "value",
+          "value": 1
+        },
+        "referenceId": "im-25",
+        "referenceName": "Lifting Handle",
+        "type": "item_master"
+      },
+      {
+        "id": "bom-57",
+        "includedByDefault": true,
+        "level": 4,
+        "quantity": {
+          "type": "value",
+          "value": 1
+        },
+        "referenceId": "im-26",
+        "referenceName": "Slam Lock Assembly",
+        "type": "item_master"
+      },
+      {
+        "id": "bom-58",
+        "includedByDefault": true,
+        "level": 4,
+        "quantity": {
+          "type": "value",
+          "value": 1
+        },
+        "referenceId": "im-27",
+        "referenceName": "Spring Counterbalance Assembly",
+        "type": "item_master"
+      },
+      {
+        "id": "bom-59",
+        "includedByDefault": true,
+        "level": 4,
+        "quantity": {
+          "type": "value",
+          "value": 1
+        },
+        "referenceId": "im-28",
+        "referenceName": "Spring Counterbalance Assembly",
+        "type": "item_master"
+      },
+      {
+        "id": "bom-60",
+        "includedByDefault": true,
+        "level": 4,
+        "quantity": {
+          "type": "value",
+          "value": 1
+        },
+        "referenceId": "im-29",
+        "referenceName": "Spring Counterbalance Assembly",
+        "type": "item_master"
+      },
+      {
+        "id": "bom-61",
+        "includedByDefault": true,
+        "level": 4,
+        "quantity": {
+          "type": "equation",
+          "equationName": "Roll Up Cable Length"
+        },
+        "referenceId": "if-17",
+        "referenceName": "Roll Up Cable",
+        "type": "item_family"
+      },
+      {
+        "id": "bom-62",
+        "includedByDefault": true,
+        "level": 4,
+        "quantity": {
+          "type": "equation",
+          "equationName": "Roll Up Track Length"
+        },
+        "referenceId": "if-18",
+        "referenceName": "Roll Up Track",
+        "type": "item_family"
+      },
+      {
+        "id": "bom-63",
+        "includedByDefault": true,
+        "level": 4,
+        "quantity": {
+          "type": "value",
+          "value": 1
+        },
+        "referenceId": "if-19",
+        "referenceName": "Header Seal",
+        "type": "item_family"
+      },
+      {
+        "id": "bom-64",
+        "includedByDefault": true,
+        "level": 4,
+        "quantity": {
+          "type": "value",
+          "value": 1
+        },
+        "referenceId": "if-20",
+        "referenceName": "Bottom Seal",
+        "type": "item_family"
+      },
+      {
+        "id": "bom-65",
+        "includedByDefault": true,
+        "level": 4,
+        "quantity": {
+          "type": "equation",
+          "equationName": "Panel Kit Qty"
+        },
+        "referenceId": "if-21",
+        "referenceName": "Panel Kit",
+        "type": "item_family"
+      },
+      {
+        "id": "bom-66",
+        "includedByDefault": true,
+        "level": 5,
+        "quantity": {
+          "type": "value",
+          "value": 1
+        },
+        "referenceId": "if-22",
+        "referenceName": "Roll Up Panel",
+        "type": "item_family"
+      },
+      {
+        "id": "bom-67",
+        "includedByDefault": true,
+        "level": 5,
+        "quantity": {
+          "type": "equation",
+          "equationName": "Hinge Qty"
+        },
+        "referenceId": "im-30",
+        "referenceName": "Hinge",
+        "type": "item_master"
+      },
+      {
+        "id": "bom-68",
+        "includedByDefault": true,
+        "level": 5,
+        "quantity": {
+          "type": "value",
+          "value": 2
+        },
+        "referenceId": "im-31",
+        "referenceName": "Roller",
+        "type": "item_master"
+      },
+      {
+        "id": "bom-69",
+        "includedByDefault": true,
+        "level": 4,
+        "quantity": {
+          "type": "equation",
+          "equationName": "Sum Of Door Qty"
+        },
+        "referenceId": "if-23",
+        "referenceName": "Partial Panel Kit",
+        "type": "item_family"
+      },
+      {
+        "id": "bom-70",
+        "includedByDefault": true,
+        "level": 5,
+        "quantity": {
+          "type": "value",
+          "value": 1
+        },
+        "referenceId": "if-24",
+        "referenceName": "Partial Panel",
+        "type": "item_family"
+      },
+      {
+        "id": "bom-71",
+        "includedByDefault": true,
+        "level": 5,
+        "quantity": {
+          "type": "equation",
+          "equationName": "Hinge Qty"
+        },
+        "referenceId": "im-32",
+        "referenceName": "Hinge",
+        "type": "item_master"
+      },
+      {
+        "id": "bom-72",
+        "includedByDefault": true,
+        "level": 5,
+        "quantity": {
+          "type": "value",
+          "value": 2
+        },
+        "referenceId": "im-33",
+        "referenceName": "Roller",
+        "type": "item_master"
+      },
+      {
+        "id": "bom-73",
+        "includedByDefault": true,
+        "level": 2,
+        "quantity": {
+          "type": "value",
+          "value": 1
+        },
+        "referenceId": "im-34",
+        "referenceName": "Aluminum Interior Construction",
+        "type": "item_master"
+      },
+      {
+        "id": "bom-74",
+        "includedByDefault": true,
+        "level": 2,
+        "quantity": {
+          "type": "value",
+          "value": 1
+        },
+        "referenceId": "im-35",
+        "referenceName": "FRP Interior Construction",
+        "type": "item_master"
+      },
+      {
+        "id": "bom-75",
+        "includedByDefault": true,
+        "level": 2,
+        "quantity": {
+          "type": "value",
+          "value": 1
+        },
+        "referenceId": "im-36",
+        "referenceName": "Full Plywood Interior Construction",
+        "type": "item_master"
+      },
+      {
+        "id": "bom-76",
+        "includedByDefault": true,
+        "level": 2,
+        "quantity": {
+          "type": "value",
+          "value": 1
+        },
+        "referenceId": "im-37",
+        "referenceName": "Poly Interior Construction",
+        "type": "item_master"
+      },
+      {
+        "id": "bom-77",
+        "includedByDefault": true,
+        "level": 2,
+        "quantity": {
+          "type": "value",
+          "value": 1
+        },
+        "referenceId": "im-38",
+        "referenceName": "Refrigerated Interior Construction",
+        "type": "item_master"
+      },
+      {
+        "id": "bom-78",
+        "includedByDefault": true,
+        "level": 2,
+        "quantity": {
+          "type": "value",
+          "value": 1
+        },
+        "referenceId": "im-39",
+        "referenceName": "Sheet and Post Interior Construction",
+        "type": "item_master"
+      },
+      {
+        "id": "bom-79",
+        "includedByDefault": true,
+        "level": 2,
+        "quantity": {
+          "type": "value",
+          "value": 1
+        },
+        "referenceId": "im-40",
+        "referenceName": "Roll Up Door Assembly",
+        "type": "item_master"
+      },
+      {
+        "id": "bom-80",
+        "includedByDefault": true,
+        "level": 2,
+        "quantity": {
+          "type": "value",
+          "value": 1
+        },
+        "referenceId": "im-41",
+        "referenceName": "Rear Door - Two Panel Swing",
+        "type": "item_master"
+      },
+      {
+        "id": "bom-81",
+        "includedByDefault": true,
+        "level": 2,
+        "quantity": {
+          "type": "value",
+          "value": 1
+        },
+        "referenceId": "im-42",
+        "referenceName": "Tri Panel Swing Door Assembly",
+        "type": "item_master"
+      },
+      {
+        "id": "bom-82",
+        "includedByDefault": true,
+        "level": 1,
+        "quantity": {
+          "type": "value",
+          "value": 1
+        },
+        "referenceId": "im-43",
+        "referenceName": "Labor",
+        "type": "item_master"
+      },
+      {
+        "id": "bom-83",
+        "includedByDefault": true,
+        "level": 1,
+        "quantity": {
+          "type": "value",
+          "value": 1
+        },
+        "referenceId": "im-44",
+        "referenceName": "Installation and Warranty",
+        "type": "item_master"
+      },
+      {
+        "id": "bom-84",
+        "includedByDefault": true,
+        "level": 2,
+        "quantity": {
+          "type": "value",
+          "value": 1
+        },
+        "referenceId": "im-45",
+        "referenceName": "Installation",
+        "type": "item_master"
+      },
+      {
+        "id": "bom-85",
+        "includedByDefault": true,
+        "level": 2,
+        "quantity": {
+          "type": "value",
+          "value": 1
+        },
+        "referenceId": "im-46",
+        "referenceName": "Warranty",
+        "type": "item_master"
+      },
+      {
+        "id": "bom-86",
+        "includedByDefault": true,
+        "level": 1,
+        "quantity": {
+          "type": "value",
+          "value": 1
+        },
+        "referenceId": "SPARE-WHEEL",
+        "referenceName": "Spare wheel",
+        "type": "driven"
+      },
+      {
+        "id": "bom-87",
+        "includedByDefault": true,
+        "level": 1,
+        "quantity": {
+          "type": "value",
+          "value": 1
+        },
+        "referenceId": "BASE-ASSY",
+        "referenceName": "Select Base Assembly",
+        "type": "driven"
+      },
+      {
+        "id": "bom-88",
+        "includedByDefault": true,
+        "level": 1,
+        "quantity": {
+          "type": "value",
+          "value": 1
+        },
+        "referenceId": "inp-FX4",
+        "referenceName": "FX4 Off Road Package",
+        "type": "input"
+      },
+      {
+        "id": "bom-89",
+        "includedByDefault": true,
+        "level": 1,
+        "quantity": {
+          "type": "value",
+          "value": 1
+        },
+        "referenceId": "inp-SNOW",
+        "referenceName": "Snow Plow Prep Package",
+        "type": "input"
+      },
+      {
+        "id": "bom-90",
+        "includedByDefault": true,
+        "level": 1,
+        "quantity": {
+          "type": "value",
+          "value": 1
+        },
+        "referenceId": "inp-HEAVY",
+        "referenceName": "Heavy Service Front Suspension Package",
+        "type": "input"
+      }
+    ],
+    "drivenItemMasters": [],
+    "itemFamilies": [
+      {
+        "id": "if-1",
+        "name": "Freight Truck Body",
+        "unitOfMeasure": "ea"
+      },
+      {
+        "id": "if-2",
+        "name": "Truck Roll-up Door Assembly",
+        "unitOfMeasure": "ea"
+      },
+      {
+        "id": "if-3",
+        "name": "TRD Curtain",
+        "unitOfMeasure": "ea"
+      },
+      {
+        "id": "if-4",
+        "name": "TRD Door Frame Assembly",
+        "unitOfMeasure": "ea"
+      },
+      {
+        "id": "if-5",
+        "name": "TRD Frame Guide",
+        "unitOfMeasure": "ea"
+      },
+      {
+        "id": "if-6",
+        "name": "TRD Guide Extrusion",
+        "unitOfMeasure": "ea"
+      },
+      {
+        "id": "if-7",
+        "name": "TRD Sill Extrusion",
+        "unitOfMeasure": "ea"
+      },
+      {
+        "id": "if-8",
+        "name": "TRD Guide Weathering",
+        "unitOfMeasure": "ea"
+      },
+      {
+        "id": "if-9",
+        "name": "TRD Top Frame",
+        "unitOfMeasure": "ea"
+      },
+      {
+        "id": "if-10",
+        "name": "TRD Header Seal Extrusion",
+        "unitOfMeasure": "ea"
+      },
+      {
+        "id": "if-11",
+        "name": "TRD Cover Extrusion",
+        "unitOfMeasure": "ea"
+      },
+      {
+        "id": "if-12",
+        "name": "TRD Header - Weathering Seal",
+        "unitOfMeasure": "ea"
+      },
+      {
+        "id": "if-13",
+        "name": "TRD Strip - Weathering - Slat",
+        "unitOfMeasure": "ea"
+      },
+      {
+        "id": "if-14",
+        "name": "Rolling Shutter",
+        "unitOfMeasure": "ea"
+      },
+      {
+        "id": "if-15",
+        "name": "Side Door",
+        "unitOfMeasure": "ea"
+      },
+      {
+        "id": "if-16",
+        "name": "Roll Up Door",
+        "unitOfMeasure": "ea"
+      },
+      {
+        "id": "if-17",
+        "name": "Roll Up Cable",
+        "unitOfMeasure": "ea"
+      },
+      {
+        "id": "if-18",
+        "name": "Roll Up Track",
+        "unitOfMeasure": "ea"
+      },
+      {
+        "id": "if-19",
+        "name": "Header Seal",
+        "unitOfMeasure": "ea"
+      },
+      {
+        "id": "if-20",
+        "name": "Bottom Seal",
+        "unitOfMeasure": "ea"
+      },
+      {
+        "id": "if-21",
+        "name": "Panel Kit",
+        "unitOfMeasure": "ea"
+      },
+      {
+        "id": "if-22",
+        "name": "Roll Up Panel",
+        "unitOfMeasure": "ea"
+      },
+      {
+        "id": "if-23",
+        "name": "Partial Panel Kit",
+        "unitOfMeasure": "ea"
+      },
+      {
+        "id": "if-24",
+        "name": "Partial Panel",
+        "unitOfMeasure": "ea"
+      }
+    ],
+    "itemMasters": [
+      {
+        "description": "Materials",
+        "id": "im-1",
+        "itemNumber": "MAT023",
+        "smartPartNumber": "MAT023",
+        "type": "manufactured",
+        "unitOfMeasure": "ea"
+      },
+      {
+        "description": "Rear Bumper Rubber",
+        "id": "im-2",
+        "itemNumber": "WIV00347",
+        "smartPartNumber": "WIV00347",
+        "type": "manufactured",
+        "unitOfMeasure": "ea"
+      },
+      {
+        "description": "Load Bar - E-Track",
+        "id": "im-3",
+        "itemNumber": "WIV00923",
+        "smartPartNumber": "WIV00923",
+        "type": "manufactured",
+        "unitOfMeasure": "ea"
+      },
+      {
+        "description": "Load Bar - F-Track",
+        "id": "im-4",
+        "itemNumber": "WIV00311",
+        "smartPartNumber": "WIV00311",
+        "type": "manufactured",
+        "unitOfMeasure": "ea"
+      },
+      {
+        "description": "1\" Wide Poly Slat - White",
+        "id": "im-5",
+        "itemNumber": "TRD-S2300",
+        "smartPartNumber": "TRD-S2300",
+        "type": "manufactured",
+        "unitOfMeasure": "ea"
+      },
+      {
+        "description": "Slat Endlock",
+        "id": "im-6",
+        "itemNumber": "TRD-E3111",
+        "smartPartNumber": "TRD-E3111",
+        "type": "manufactured",
+        "unitOfMeasure": "ea"
+      },
+      {
+        "description": "1/2\" SS Bushing",
+        "id": "im-7",
+        "itemNumber": "TRD-B1022",
+        "smartPartNumber": "TRD-B1022",
+        "type": "manufactured",
+        "unitOfMeasure": "ea"
+      },
+      {
+        "description": "Fastening Section",
+        "id": "im-8",
+        "itemNumber": "TRD-FAST-SEC",
+        "smartPartNumber": "TRD-FAST-SEC",
+        "type": "manufactured",
+        "unitOfMeasure": "ea"
+      },
+      {
+        "description": "Slat Weather Strip",
+        "id": "im-9",
+        "itemNumber": "TRD-W0991",
+        "smartPartNumber": "TRD-W0991",
+        "type": "manufactured",
+        "unitOfMeasure": "ea"
+      },
+      {
+        "description": "Endplug, Header Seal",
+        "id": "im-10",
+        "itemNumber": "TRD-715-030",
+        "smartPartNumber": "TRD-715-030",
+        "type": "manufactured",
+        "unitOfMeasure": "ea"
+      },
+      {
+        "description": "Frame Mounting Hardware",
+        "id": "im-11",
+        "itemNumber": "TRD-FR-MTG",
+        "smartPartNumber": "TRD-FR-MTG",
+        "type": "manufactured",
+        "unitOfMeasure": "ea"
+      },
+      {
+        "description": "Counterbalance for Rolling Shutter",
+        "id": "im-12",
+        "itemNumber": "WIV00501",
+        "smartPartNumber": "WIV00501",
+        "type": "manufactured",
+        "unitOfMeasure": "ea"
+      },
+      {
+        "description": "Vertical Track",
+        "id": "im-13",
+        "itemNumber": "WIV00502",
+        "smartPartNumber": "WIV00502",
+        "type": "manufactured",
+        "unitOfMeasure": "ea"
+      },
+      {
+        "description": "Slam Lock - Todco #69571",
+        "id": "im-14",
+        "itemNumber": "WIV00503",
+        "smartPartNumber": "WIV00503",
+        "type": "manufactured",
+        "unitOfMeasure": "ea"
+      },
+      {
+        "description": "90\" Wall Stud",
+        "id": "im-15",
+        "itemNumber": "DFB-0022",
+        "smartPartNumber": "DFB-0022",
+        "type": "manufactured",
+        "unitOfMeasure": "ea"
+      },
+      {
+        "description": "Sliding Door 72\"X36\"",
+        "id": "im-16",
+        "itemNumber": "SD65418",
+        "smartPartNumber": "SD65418",
+        "type": "manufactured",
+        "unitOfMeasure": "ea"
+      },
+      {
+        "description": "Sliding Door 60\"X36\"",
+        "id": "im-17",
+        "itemNumber": "SD79184",
+        "smartPartNumber": "SD79184",
+        "type": "manufactured",
+        "unitOfMeasure": "ea"
+      },
+      {
+        "description": "Panel Door",
+        "id": "im-18",
+        "itemNumber": "PD44217",
+        "smartPartNumber": "PD44217",
+        "type": "manufactured",
+        "unitOfMeasure": "ea"
+      },
+      {
+        "description": "Panel Door 60\" X 36\"",
+        "id": "im-19",
+        "itemNumber": "PD55782",
+        "smartPartNumber": "PD55782",
+        "type": "manufactured",
+        "unitOfMeasure": "ea"
+      },
+      {
+        "description": "Double Swing Door",
+        "id": "im-20",
+        "itemNumber": "DD22287",
+        "smartPartNumber": "DD22287",
+        "type": "manufactured",
+        "unitOfMeasure": "ea"
+      },
+      {
+        "description": "Double Swing Door 60\" X 72\"",
+        "id": "im-21",
+        "itemNumber": "DD45721",
+        "smartPartNumber": "DD45721",
+        "type": "manufactured",
+        "unitOfMeasure": "ea"
+      },
+      {
+        "description": "Access Door 48\"",
+        "id": "im-22",
+        "itemNumber": "AD55487",
+        "smartPartNumber": "AD55487",
+        "type": "manufactured",
+        "unitOfMeasure": "ea"
+      },
+      {
+        "description": "Access Door 36\"",
+        "id": "im-23",
+        "itemNumber": "AD74518",
+        "smartPartNumber": "AD74518",
+        "type": "manufactured",
+        "unitOfMeasure": "ea"
+      },
+      {
+        "description": "Access Door 24\"",
+        "id": "im-24",
+        "itemNumber": "AD94564",
+        "smartPartNumber": "AD94564",
+        "type": "manufactured",
+        "unitOfMeasure": "ea"
+      },
+      {
+        "description": "Lifting Handle",
+        "id": "im-25",
+        "itemNumber": "RD32168",
+        "smartPartNumber": "RD32168",
+        "type": "manufactured",
+        "unitOfMeasure": "ea"
+      },
+      {
+        "description": "Slam Lock Assembly",
+        "id": "im-26",
+        "itemNumber": "RD68941",
+        "smartPartNumber": "RD68941",
+        "type": "manufactured",
+        "unitOfMeasure": "ea"
+      },
+      {
+        "description": "Spring Counterbalance Assembly",
+        "id": "im-27",
+        "itemNumber": "RD10354",
+        "smartPartNumber": "RD10354",
+        "type": "manufactured",
+        "unitOfMeasure": "ea"
+      },
+      {
+        "description": "Spring Counterbalance Assembly",
+        "id": "im-28",
+        "itemNumber": "RD10355",
+        "smartPartNumber": "RD10355",
+        "type": "manufactured",
+        "unitOfMeasure": "ea"
+      },
+      {
+        "description": "Spring Counterbalance Assembly",
+        "id": "im-29",
+        "itemNumber": "RD10356",
+        "smartPartNumber": "RD10356",
+        "type": "manufactured",
+        "unitOfMeasure": "ea"
+      },
+      {
+        "description": "Hinge",
+        "id": "im-30",
+        "itemNumber": "RD49198",
+        "smartPartNumber": "RD49198",
+        "type": "manufactured",
+        "unitOfMeasure": "ea"
+      },
+      {
+        "description": "Roller",
+        "id": "im-31",
+        "itemNumber": "RD35464",
+        "smartPartNumber": "RD35464",
+        "type": "manufactured",
+        "unitOfMeasure": "ea"
+      },
+      {
+        "description": "Hinge",
+        "id": "im-32",
+        "itemNumber": "RD49198-2",
+        "smartPartNumber": "RD49198-2",
+        "type": "manufactured",
+        "unitOfMeasure": "ea"
+      },
+      {
+        "description": "Roller",
+        "id": "im-33",
+        "itemNumber": "RD35464-2",
+        "smartPartNumber": "RD35464-2",
+        "type": "manufactured",
+        "unitOfMeasure": "ea"
+      },
+      {
+        "description": "Aluminum Interior Construction",
+        "id": "im-34",
+        "itemNumber": "WIV11200",
+        "smartPartNumber": "WIV11200",
+        "type": "manufactured",
+        "unitOfMeasure": "ea"
+      },
+      {
+        "description": "FRP Interior Construction",
+        "id": "im-35",
+        "itemNumber": "WIV11201",
+        "smartPartNumber": "WIV11201",
+        "type": "manufactured",
+        "unitOfMeasure": "ea"
+      },
+      {
+        "description": "Full Plywood Interior Construction",
+        "id": "im-36",
+        "itemNumber": "WIV11202",
+        "smartPartNumber": "WIV11202",
+        "type": "manufactured",
+        "unitOfMeasure": "ea"
+      },
+      {
+        "description": "Poly Interior Construction",
+        "id": "im-37",
+        "itemNumber": "WIV11203",
+        "smartPartNumber": "WIV11203",
+        "type": "manufactured",
+        "unitOfMeasure": "ea"
+      },
+      {
+        "description": "Refrigerated Interior Construction",
+        "id": "im-38",
+        "itemNumber": "WIV11204",
+        "smartPartNumber": "WIV11204",
+        "type": "manufactured",
+        "unitOfMeasure": "ea"
+      },
+      {
+        "description": "Sheet and Post Interior Construction",
+        "id": "im-39",
+        "itemNumber": "WIV11205",
+        "smartPartNumber": "WIV11205",
+        "type": "manufactured",
+        "unitOfMeasure": "ea"
+      },
+      {
+        "description": "Roll Up Door Assembly",
+        "id": "im-40",
+        "itemNumber": "WIV1000",
+        "smartPartNumber": "WIV1000",
+        "type": "manufactured",
+        "unitOfMeasure": "ea"
+      },
+      {
+        "description": "Rear Door - Two Panel Swing",
+        "id": "im-41",
+        "itemNumber": "WIV2000",
+        "smartPartNumber": "WIV2000",
+        "type": "manufactured",
+        "unitOfMeasure": "ea"
+      },
+      {
+        "description": "Tri Panel Swing Door Assembly",
+        "id": "im-42",
+        "itemNumber": "WIV3000",
+        "smartPartNumber": "WIV3000",
+        "type": "manufactured",
+        "unitOfMeasure": "ea"
+      },
+      {
+        "description": "Labor",
+        "id": "im-43",
+        "itemNumber": "LAB006",
+        "smartPartNumber": "LAB006",
+        "type": "manufactured",
+        "unitOfMeasure": "ea"
+      },
+      {
+        "description": "Installation and Warranty",
+        "id": "im-44",
+        "itemNumber": "IW050",
+        "smartPartNumber": "IW050",
+        "type": "manufactured",
+        "unitOfMeasure": "ea"
+      },
+      {
+        "description": "Installation",
+        "id": "im-45",
+        "itemNumber": "INSTALLATION",
+        "smartPartNumber": "INSTALLATION",
+        "type": "manufactured",
+        "unitOfMeasure": "ea"
+      },
+      {
+        "description": "Warranty",
+        "id": "im-46",
+        "itemNumber": "WARRANTY",
+        "smartPartNumber": "WARRANTY",
+        "type": "manufactured",
+        "unitOfMeasure": "ea"
+      }
+    ],
+    "productOutputs": []
+  }
+}

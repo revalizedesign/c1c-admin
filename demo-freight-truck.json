@@ -176,8 +176,8 @@
         {
           "buildPhase": true,
           "label": "Results generated",
-          "pills": [{ "label": "Validate" }, { "demo": true, "label": "Next" }],
-          "response": "Validate",
+          "pills": [{ "label": "Verify" }, { "demo": true, "label": "Next" }],
+          "response": "Verify",
           "steps": [
             { "context": 76, "detail": "0 item families · 0 item masters (pending BOM)", "ms": 2000, "statusFrames": ["Scanning for BOM patterns…", "No BOM data in uploaded files…"], "step": "Item masters" },
             { "context": 79, "detail": "0 BOM lines (pending)", "ms": 1500, "statusFrames": ["No BOM skeleton defined…"], "step": "BOM lines" },

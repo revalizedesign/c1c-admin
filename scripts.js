@@ -667,6 +667,13 @@ const buildPaneToolbar = (toolbarEl, { filters, modes, getGrid, paneId }) => {
   if (getGrid) {
     const search = makeEl('input', 'toolbar-search')
     search.type = 'search'
+    let expanded = true
+    const expandIcon = makeEl('i'); expandIcon.className = 'fa-regular fa-arrows-from-line'
+    const expandBtn = makeEl('button', 'button outline')
+    expandBtn.appendChild(expandIcon)
+    expandBtn.title = 'Expand / Collapse all'
+    expandBtn.onclick = () => { expanded = !expanded; expanded ? getGrid()?.expandAll() : getGrid()?.collapseAll() }
+    toolbarEl.appendChild(expandBtn)
     search.placeholder = 'Search…'
     search.oninput = () => getGrid()?.setGridOption('quickFilterText', search.value)
     toolbarEl.appendChild(search)
@@ -1062,10 +1069,10 @@ const typeBadgeCategory = v => (v ?? '').toLowerCase().replace(/\s+/g, '-')
 
 const badgeFilterLink = (getGrid, colId) => p => {
   if (!p.value) return ''
-  const badge = makeEl('span', 'cell-badge')
+  const badge = makeEl('span', 'badge')
   badge.dataset.category = typeBadgeCategory(p.value)
   badge.textContent = p.value
-  badge.style.cursor = 'pointer'
+  badge.classList.add('clickable')
   badge.onclick = e => {
     e.stopPropagation()
     const grid = getGrid()
@@ -1255,7 +1262,7 @@ const renderModelTab = () => {
       nodes: rowsToNodes(rows),
       onChange: () => {},
       renderLabel: d => {
-        const type = d.type ? `<span class="cell-badge" data-category="${typeBadgeCategory(d.type)}">${d.type}</span>` : ''
+        const type = d.type ? `<span class="badge" data-category="${typeBadgeCategory(d.type)}">${d.type}</span>` : ''
         if (d.path?.length === 1) return `${grip}<b>${d.name}</b>`
         return `${grip}<span>${d.name}</span>${type}`
       },
@@ -1417,7 +1424,7 @@ const renderRulesTab = () => {
       nodes: rowsToNodes(rows),
       onChange: () => {},
       renderLabel: d => {
-        const type = d.ruleType ? `<span class="cell-badge" data-category="${typeBadgeCategory(d.ruleType)}">${d.ruleType}</span>` : ''
+        const type = d.ruleType ? `<span class="badge" data-category="${typeBadgeCategory(d.ruleType)}">${d.ruleType}</span>` : ''
         if (d.path?.length === 1) return `${grip}<b>${d.name}</b>`
         return `${grip}<span>${d.name}</span>${type}`
       },
@@ -1447,7 +1454,7 @@ const resultsCols = [
   { field: 'source', headerName: 'Source' },
   { cellRenderer: p => {
     if (!p.value) return ''
-    const el = makeEl('span', 'cell-badge'); el.textContent = p.value; el.dataset.category = p.value; return el
+    const el = makeEl('span', 'badge'); el.textContent = p.value; el.dataset.category = p.value; return el
   }, field: 'resolution', headerName: 'Resolution' },
 ]
 const resolveConfig = p => {
@@ -1560,19 +1567,86 @@ const renderPreviewTab = () => {
 
 const renderVerifyTab = () => {
   const el = g('verify-content'); if (!el) return; el.replaceChildren()
-  emptyState(el, 'verify')
+  if (!state.productData) { emptyState(el, 'verify'); return }
+  const isVerifyWf = state.workflow?.id === 'validate'
+  const verifying = isVerifyWf && !!state.activeAutomation
+  const verified = isVerifyWf && !state.activeAutomation
+  const view = makeEl('div', 'commit-view')
+  const header = makeEl('div', 'commit-header')
+  header.appendChild(makeEl('b', null, 'Verification'))
+  if (verified) {
+    const badge = makeEl('span', 'badge')
+    badge.dataset.category = 'input'
+    badge.textContent = 'PASS'
+    header.appendChild(badge)
+  }
+  header.appendChild(makeEl('div', 'fill'))
+  const btn = makeEl('button', 'button primary', verified ? 'Passed' : verifying ? 'Verifying…' : 'Run verification')
+  btn.disabled = verified || verifying
+  btn.onclick = () => demoContinue('Verify')
+  header.appendChild(btn)
+  view.appendChild(header)
+  view.appendChild(makeEl('p', 'section-lede', 'Run the staged spec through the simulator engine to catch broken refs, bad rules, BOM errors, IS NULL guard mistakes, and logic group cycles.'))
+  view.appendChild(makeEl('b', null, 'Checks'))
+  const phaseList = makeEl('div', 'data-grid')
+  const currentStep = isVerifyWf ? state.workflow.step : 0
+  ;(workflows['validate']?.steps ?? []).forEach((label, i) => {
+    const row = makeEl('div', 'data-row')
+    row.appendChild(makeEl('i', i < currentStep ? 'fa-regular fa-circle-check commit-done' : 'fa-regular fa-clock commit-pending'))
+    row.appendChild(makeEl('span', null, label))
+    row.appendChild(makeEl('span', 'commit-phase-status', i < currentStep ? 'PASS' : 'PENDING'))
+    phaseList.appendChild(row)
+  })
+  view.appendChild(phaseList)
+  if (verified) {
+    view.appendChild(makeEl('p', 'section-lede', `All ${workflows['validate']?.steps?.length ?? 0} checks passed. Ready to commit.`))
+  }
+  el.appendChild(view)
 }
 
 const renderCommitTab = () => {
   const el = g('commit-content'); if (!el) return; el.replaceChildren()
   if (!state.productData) { emptyState(el, 'commit'); return }
-  const manifest = [[1, 'Product'], [state.productData.model.inputGroups?.length ?? 0, 'Input Groups'], [state.productData.model.inputs?.length ?? 0, 'Inputs'], [state.productData.model.inputValues?.length ?? 0, 'Input Values'], [state.productData.rules.logicGroups?.length ?? 0, 'Logic Groups'], [state.productData.rules.logicItems?.length ?? 0, 'Logic Items'], [state.productData.rules?.equations?.length ?? 0, 'Equations'], [state.productData.results.itemMasters?.length ?? 0, 'Item Masters'], [state.productData.results.bomSkeleton?.length ?? 0, 'BOM Lines']].filter(([c]) => c)
-  const total = manifest.reduce((s, [c]) => s + c, 0)
-  const view = makeEl('div', 'commit-view'); view.appendChild(makeEl('b', null, 'Draft Summary'))
-  const list = makeEl('div', 'data-grid')
-  manifest.forEach(([count, label]) => { const row = makeEl('div', 'data-row'); row.appendChild(makeEl('span', 'data-count', String(count))); row.appendChild(makeEl('span', null, label)); list.appendChild(row) })
-  list.appendChild(makeEl('div', 'data-row-total', `${total} items total`))
-  view.appendChild(list); el.appendChild(view)
+  const p = state.productData
+  const isCommitWf = state.workflow?.id === 'commit-to-cloud'
+  const committing = isCommitWf && !!state.activeAutomation
+  const committed = isCommitWf && !state.activeAutomation
+  const view = makeEl('div', 'commit-view')
+  const header = makeEl('div', 'commit-header')
+  header.appendChild(makeEl('b', null, 'Commit to C1'))
+  const badge = makeEl('span', 'badge')
+  badge.dataset.category = committed ? 'input' : 'static'
+  badge.textContent = committed ? 'Committed' : 'Uncommitted'
+  header.appendChild(badge)
+  header.appendChild(makeEl('div', 'fill'))
+  const btn = makeEl('button', 'button primary', committed ? 'Committed' : committing ? 'Committing…' : 'Commit')
+  btn.disabled = committed || committing
+  btn.onclick = () => demoContinue('Commit')
+  header.appendChild(btn)
+  view.appendChild(header)
+  view.appendChild(makeEl('b', null, 'Phases'))
+  const phaseList = makeEl('div', 'data-grid')
+  const currentStep = state.workflow?.id === 'commit-to-cloud' ? state.workflow.step : 0
+  ;(workflows['commit-to-cloud']?.steps ?? []).forEach((label, i) => {
+    const row = makeEl('div', 'data-row')
+    row.appendChild(makeEl('i', i < currentStep ? 'fa-regular fa-circle-check commit-done' : 'fa-regular fa-clock commit-pending'))
+    row.appendChild(makeEl('span', null, label))
+    row.appendChild(makeEl('span', 'commit-phase-status', i < currentStep ? 'DONE' : 'PENDING'))
+    phaseList.appendChild(row)
+  })
+  view.appendChild(phaseList)
+  view.appendChild(makeEl('b', null, "What's about to commit"))
+  const stats = makeEl('div', 'overview-stats'); stats.id = 'commit-stats'
+  view.appendChild(stats)
+  el.appendChild(view)
+  renderStats('commit-stats', [
+    { count: countFrom(p.model, 'inputGroups'), icon: 'fa-regular fa-layer-group', label: 'input groups' },
+    { count: countFrom(p.rules, 'logicGroups'), icon: 'fa-regular fa-folder', label: 'logic groups' },
+    { count: countFrom(p.rules, 'equations'), icon: 'fa-regular fa-superscript', label: 'equations' },
+    { count: countFrom(p.results, 'itemFamilies'), icon: 'fa-regular fa-sitemap', label: 'item families' },
+    { count: countFrom(p.results, 'itemMasters'), icon: 'fa-regular fa-barcode', label: 'item masters' },
+    { count: countFrom(p.results, 'bomSkeleton'), icon: 'fa-regular fa-diagram-project', label: 'BOM lines' },
+  ])
 }
 
 
@@ -1631,6 +1705,20 @@ const renderWorkspaces = () => {
 const render = () => {
   g('workspace-title').textContent = 'Workspace'
   g('workspace-status').textContent = state.name
+  const wsBadge = g('workspace-badge')
+  const isCommitted = state.workflow?.id === 'commit-to-cloud' && !state.activeAutomation
+  const isVerified = state.workflow?.id === 'validate' && !state.activeAutomation
+  const pd = state.productData
+  const wsStatus = isCommitted ? 'Committed'
+    : isVerified ? 'Verified'
+    : pd?.results?.bomSkeleton?.length ? 'Uncommitted'
+    : pd?.rules?.logicItems?.length ? 'Needs results'
+    : pd?.model?.inputs?.length ? 'Needs rules'
+    : state._fullProductData ? 'Needs model'
+    : null
+  wsBadge.hidden = !wsStatus
+  wsBadge.textContent = wsStatus ?? ''
+  wsBadge.dataset.category = isCommitted ? 'input' : isVerified ? 'configured' : 'static'
   g('menu-context').textContent = `Context ${state.context}%`
   const ring = document.querySelector('.context-ring-fill')
   if (ring) {
@@ -1802,9 +1890,14 @@ const fastForward = async target => {
     state.demoIndex++
   }
   if (pendingProductData) {
-    const pd = await fetch(pendingProductData).then(r => r.json())
-    state.productData = pd
-    state.name = pd.product.name
+    state._fullProductData ??= await fetch(pendingProductData).then(r => r.json())
+    const full = state._fullProductData
+    state.name = full.product.name
+    const reveal = { product: full.product, model: { inputGroups: [], inputs: [], inputValues: [] }, attributes: { inputAttributes: [] }, rules: { logicGroups: [], logicItems: [], drivenInputs: [], inputFilters: [], iterators: [], equations: [] }, results: { bomSkeleton: [], drivenItemMasters: [], itemFamilies: [], itemMasters: [], productOutputs: [] } }
+    if (target === 'generate-model' || target === 'generate-rules' || target === 'generate-results' || target === 'validate' || target === 'commit-to-cloud') { reveal.model = full.model; reveal.attributes = full.attributes }
+    if (target === 'generate-rules' || target === 'generate-results' || target === 'validate' || target === 'commit-to-cloud') reveal.rules = full.rules
+    if (target === 'generate-results' || target === 'validate' || target === 'commit-to-cloud') reveal.results = full.results
+    state.productData = reveal
   }
   const stop = ffStops.find(s => s.workflow === target)
   if (stop?.tab) state.activeTab = stop.tab

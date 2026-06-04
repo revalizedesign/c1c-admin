@@ -86,7 +86,7 @@
     { "id": "motor-vehicles", "label": "Motor Vehicles", "path": "files/verticals/motor-vehicles.md", "size": "32.8 kb" }
   ],
   "workflows": {
-    "commit-to-cloud": { "name": "Commit to cloud", "steps": ["Operation selection", "Writing product", "Writing model", "Writing rules", "Writing results", "Binding validation"] },
+    "commit-to-cloud": { "name": "Commit to cloud", "steps": ["Model", "Driven constraints", "Rules", "Results"] },
     "edit-product": { "name": "Edit product", "steps": ["Select", "Iterate", "Commit"] },
     "file-ingress": { "name": "File ingress", "steps": ["Download", "Read", "Analyze", "Summarize"] },
     "first-use": { "name": "Onboarding", "steps": ["Company", "Industry", "User", "Review"] },
@@ -95,6 +95,6 @@
     "generate-model": { "name": "Generate model", "steps": ["Parse document", "Input groups", "Inputs", "Input values"] },
     "new-product": { "name": "New product", "steps": ["Upload", "Build", "Review", "Iterate", "Commit"] },
     "triage": { "name": "New session", "steps": ["Triage"] },
-    "validate": { "name": "Validate", "steps": ["Schema", "References", "Conflicts", "Naming"] }
+    "validate": { "name": "Verification", "steps": ["Broken refs", "Bad rules", "BOM errors", "IS NULL guards", "Logic group cycles"] }
   }
 }

@@ -166,8 +166,8 @@
         {
           "buildPhase": true,
           "label": "Results generated",
-          "pills": [{ "label": "Validate" }, { "demo": true, "label": "Next" }],
-          "response": "Validate",
+          "pills": [{ "label": "Verify" }, { "demo": true, "label": "Next" }],
+          "response": "Verify",
           "steps": [
             { "context": 76, "detail": "3 item families · 15 item masters", "ms": 3000, "statusFrames": ["Creating Cyclo Reducer Assembly family…", "Creating Motors family…", "Mapping 15 part numbers…"], "step": "Item masters" },
             { "context": 79, "detail": "11 BOM lines", "ms": 2500, "statusFrames": ["Building casing assembly hierarchy…", "Adding motor and housing lines…", "Adding optional brake assembly…"], "step": "BOM lines" },

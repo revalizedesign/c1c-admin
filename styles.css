@@ -703,27 +703,23 @@ body {
 }
 
 
-.cell-badge {
-  border-radius: 4px;
-  font-size: 0.75rem;
-  font-weight: 500;
-  padding: 4px 8px;
-}
+.badge.clickable { cursor: pointer }
 
-.cell-badge[data-category="conditional"] { background: color-mix(in srgb, orange 15%, transparent); color: #a06000 }
-.cell-badge[data-category="configured"] { background: color-mix(in srgb, var(--color-brand) 15%, transparent); color: var(--color-brand) }
-.cell-badge[data-category="driven"] { background: color-mix(in srgb, purple 12%, transparent); color: #7a1a7a }
-.cell-badge[data-category="driven-input"] { background: color-mix(in srgb, purple 12%, transparent); color: #7a1a7a }
-.cell-badge[data-category="equation"] { background: color-mix(in srgb, teal 15%, transparent); color: #0a6a6a }
-.cell-badge[data-category="input"] { background: color-mix(in srgb, green 12%, transparent); color: #1a7a1a }
-.cell-badge[data-category="input-filter"] { background: color-mix(in srgb, orange 15%, transparent); color: #a06000 }
-.cell-badge[data-category="input-group"] { background: color-mix(in srgb, var(--color-brand) 15%, transparent); color: var(--color-brand) }
-.cell-badge[data-category="logic-group"] { background: color-mix(in srgb, var(--color-darkest) 12%, transparent); color: var(--color-darkest) }
-.cell-badge[data-category="dropdown"] { background: color-mix(in srgb, var(--color-brand) 15%, transparent); color: var(--color-brand) }
-.cell-badge[data-category="logic-item"] { background: color-mix(in srgb, indigo 12%, transparent); color: #4b0082 }
-.cell-badge[data-category="radio"] { background: color-mix(in srgb, teal 15%, transparent); color: #0a6a6a }
-.cell-badge[data-category="slider"] { background: color-mix(in srgb, orange 15%, transparent); color: #a06000 }
-.cell-badge[data-category="static"] { background: color-mix(in srgb, var(--color-darker) 10%, transparent); color: var(--color-darker) }
+.badge[data-category="conditional"] { background: color-mix(in srgb, orange 15%, transparent); color: #a06000 }
+.badge[data-category="committed"] { background: color-mix(in srgb, var(--color-results) 15%, transparent); color: var(--color-results) }
+.badge[data-category="configured"] { background: color-mix(in srgb, var(--color-brand) 15%, transparent); color: var(--color-brand) }
+.badge[data-category="driven"] { background: color-mix(in srgb, purple 12%, transparent); color: #7a1a7a }
+.badge[data-category="driven-input"] { background: color-mix(in srgb, purple 12%, transparent); color: #7a1a7a }
+.badge[data-category="equation"] { background: color-mix(in srgb, teal 15%, transparent); color: #0a6a6a }
+.badge[data-category="input"] { background: color-mix(in srgb, green 12%, transparent); color: #1a7a1a }
+.badge[data-category="input-filter"] { background: color-mix(in srgb, orange 15%, transparent); color: #a06000 }
+.badge[data-category="input-group"] { background: color-mix(in srgb, var(--color-brand) 15%, transparent); color: var(--color-brand) }
+.badge[data-category="logic-group"] { background: color-mix(in srgb, var(--color-darkest) 12%, transparent); color: var(--color-darkest) }
+.badge[data-category="dropdown"] { background: color-mix(in srgb, var(--color-brand) 15%, transparent); color: var(--color-brand) }
+.badge[data-category="logic-item"] { background: color-mix(in srgb, indigo 12%, transparent); color: #4b0082 }
+.badge[data-category="radio"] { background: color-mix(in srgb, teal 15%, transparent); color: #0a6a6a }
+.badge[data-category="slider"] { background: color-mix(in srgb, orange 15%, transparent); color: #a06000 }
+.badge[data-category="static"] { background: color-mix(in srgb, var(--color-darker) 10%, transparent); color: var(--color-darker) }
 
 .row-excluded .ag-cell { opacity: 0.4 }
 .ag-row-group-leaf-indent { color: var(--color-darker) }
@@ -904,6 +900,7 @@ sortable-tree-node {
 .tree__label:hover .tree-grip {
   color: var(--color-half);
 }
+
 
 #ff-btn { color: var(--color-light) }
 
@@ -1122,10 +1119,24 @@ code {
   gap: 0.5rem;
 }
 
+.commit-header {
+  align-items: center;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.commit-phase-status {
+  color: var(--color-half);
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  margin-left: auto;
+}
+
 .commit-view {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
+  max-width: 64rem;
 }
 
 .pane-grid {
@@ -1140,6 +1151,7 @@ code {
 .ag-cell {
   align-items: center;
 }
+
 
 .action-btn {
   margin-left: auto;

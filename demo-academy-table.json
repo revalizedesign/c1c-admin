@@ -229,8 +229,8 @@
         {
           "buildPhase": true,
           "label": "Results generated",
-          "pills": [{ "label": "Validate" }, { "demo": true, "label": "Next" }],
-          "response": "Validate",
+          "pills": [{ "label": "Verify" }, { "demo": true, "label": "Next" }],
+          "response": "Verify",
           "steps": [
             { "context": 79, "detail": "2 item families · 12 item masters", "ms": 2500, "statusFrames": ["Creating Assembly item family…", "Creating Table Top item family…", "Importing 12 item masters from spreadsheet…"], "step": "Item masters" },
             { "context": 82, "detail": "7 BOM lines", "ms": 2000, "statusFrames": ["Building top-level assembly hierarchy…", "Adding table top and edge detail lines…", "Adding base and hardware kit lines…"], "step": "BOM lines" },

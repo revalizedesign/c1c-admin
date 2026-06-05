@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chat Comparison</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/marked/lib/marked.umd.min.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; }
+    body { display: flex; flex-direction: column; font-family: Inter, system-ui, sans-serif; font-size: 14px; height: 100vh; line-height: 1.5; overflow: hidden; }
+
+    /* Stepper */
+    nav { align-items: center; background: #1a1a1a; border-top: 1px solid #333; color: #fff; display: flex; gap: 1rem; justify-content: center; padding: 6px 1rem; }
+    nav button { background: none; border: 1px solid rgba(255,255,255,0.2); border-radius: 4px; color: #fff; cursor: pointer; font-size: 14px; padding: 2px 10px; }
+    nav button:hover { background: rgba(255,255,255,0.1); }
+    nav button:disabled { cursor: default; opacity: 0.2; }
+    #counter { font-size: 13px; font-variant-numeric: tabular-nums; min-width: 5rem; opacity: 0.6; text-align: center; }
+    #improvements-btn { margin-left: auto; }
+    #improvements-list { background: #fff; border: 1px solid #e0e0e0; border-radius: 6px; bottom: 100%; box-shadow: 0 2px 8px rgba(0,0,0,0.15); color: #333; font-size: 13px; margin-bottom: 0.5rem; max-width: 20rem; padding: 0.75rem 1rem; position: absolute; right: 1rem; }
+    #improvements-list strong { display: block; margin-bottom: 0.5rem; }
+    #improvements-list ol { margin: 0; padding: 0 0 0 1.25rem; }
+    #improvements-list li { padding: 0.25rem 0; }
+    #improvements-list li::marker { color: #999; }
+    #improvements-list li b { font-weight: 600; }
+    nav { position: relative; }
+
+    /* Layout */
+    main { display: flex; flex: 1; overflow: hidden; }
+    .col { display: flex; flex: 1; flex-direction: column; min-width: 0; overflow: hidden; }
+    .col + .col { border-left: 1px solid #e0e0e0; }
+
+
+    /* ═══════════════════════════════════════════════════
+       LEFT: C1-Intelligence (AgentMessage.tsx)
+       ═══════════════════════════════════════════════════ */
+
+    .ci .panel { display: flex; flex: 1; flex-direction: column; overflow: hidden; }
+    .ci .panel-head { align-items: center; border-bottom: 1px solid hsl(214 32% 91%); display: flex; gap: 8px; padding: 10px 16px; }
+    .ci .panel-head svg { color: hsl(215 16% 47%); flex-shrink: 0; }
+    .ci .panel-head span { font-size: 14px; font-weight: 600; }
+    .ci .msgs { display: flex; flex: 1; flex-direction: column; gap: 0; overflow-y: auto; padding: 0; }
+    .ci .panel-foot { border-top: 1px solid hsl(214 32% 91%); display: flex; gap: 8px; padding: 12px 16px; }
+    .ci .panel-foot textarea { background: transparent; border: 1px solid hsl(214 32% 91%); border-radius: 6px; flex: 1; font-family: inherit; font-size: 14px; min-height: 40px; outline: none; padding: 8px 12px; resize: none; }
+    .ci .panel-foot textarea::placeholder { color: hsl(215 16% 47%); }
+    .ci .panel-foot button { align-items: center; background: hsl(221 83% 53%); border: none; border-radius: 6px; color: #fff; cursor: default; display: flex; height: 36px; justify-content: center; opacity: 0.5; width: 36px; }
+
+    /* Message row */
+    .ci .m { display: flex; gap: 8px; min-width: 0; padding: 8px 12px; }
+    .ci .m.user { justify-content: flex-end; }
+    .ci .m.asst { align-items: flex-start; }
+
+    /* Bot icon */
+    .ci .bot-icon { color: hsl(215 16% 47%); flex-shrink: 0; margin-top: 2px; }
+    .ci .bot-icon svg { display: block; height: 16px; width: 16px; }
+
+    /* Message content column */
+    .ci .m-body { display: flex; flex-direction: column; gap: 6px; max-width: 85%; min-width: 0; }
+
+    /* Prose bubble — slate for assistant, blue for user */
+    .ci .prose-bub { border: 1px solid; border-radius: 8px; font-size: 14px; min-width: 0; overflow: hidden; padding: 8px 12px; word-wrap: anywhere; }
+    .ci .asst .prose-bub { background: hsl(210 40% 98%); border-color: hsl(210 24% 87%); }
+    .ci .user .prose-bub { background: hsl(214 95% 97%); border-color: hsl(214 68% 85%); }
+
+    /* CollapsibleProse — matches AgentMessage.tsx */
+    .ci .collapsed-btn { align-items: center; background: none; border: none; color: hsl(215 16% 47%); cursor: pointer; display: flex; font-family: inherit; font-size: 14px; gap: 4px; padding: 0; text-align: left; width: 100%; }
+    .ci .collapsed-btn:hover { color: hsl(222 84% 5%); }
+    .ci .collapsed-btn .preview { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .ci .collapsed-btn .more-link { color: hsl(221 83% 53%); flex-shrink: 0; font-size: 12px; }
+    .ci .collapse-toggle { align-items: center; background: none; border: none; color: hsl(215 16% 47%); cursor: pointer; display: flex; font-family: inherit; font-size: 12px; gap: 4px; padding: 0; }
+    .ci .collapse-toggle:hover { color: hsl(222 84% 5%); }
+
+
+
+    /* Markdown prose */
+    .ci .prose p { margin: 0.3em 0; }
+    .ci .prose p:first-child { margin-top: 0; }
+    .ci .prose p:last-child { margin-bottom: 0; }
+    .ci .prose pre { background: hsl(210 20% 94%); border-radius: 6px; font-size: 10px; line-height: 1.3; max-height: 200px; overflow: auto; padding: 8px; white-space: pre-wrap; word-break: break-all; }
+    .ci .prose code { font-family: ui-monospace, monospace; font-size: 12px; }
+    .ci .prose code:not(pre code) { background: hsl(210 20% 92%); border-radius: 3px; padding: 1px 4px; }
+    .ci .prose table { border-collapse: collapse; font-size: 12px; margin: 0.4em 0; width: 100%; }
+    .ci .prose th, .ci .prose td { border: 1px solid hsl(214 32% 91%); padding: 2px 6px; text-align: left; }
+    .ci .prose th { background: hsl(210 40% 96%); font-weight: 600; }
+    .ci .prose ul, .ci .prose ol { margin: 0.3em 0; padding-left: 1.2em; }
+    .ci .prose strong { font-weight: 600; }
+    .ci .prose h1, .ci .prose h2, .ci .prose h3 { font-size: 13px; font-weight: 600; margin: 0.5em 0 0.2em; }
+
+    /* C1 Summary Card — emerald for builds, blue for decisions */
+    .ci .c1-card { border: 1px solid; border-radius: 8px; margin: 4px 0; overflow: hidden; }
+    .ci .c1-card.build { background: hsl(152 57% 97%); border-color: hsl(152 45% 82%); }
+    .ci .c1-card.decision { background: hsl(214 95% 97%); border-color: hsl(214 68% 85%); }
+    .ci .c1-card-head { padding: 12px 16px 8px; }
+    .ci .c1-card-title { font-size: 14px; font-weight: 600; }
+    .ci .c1-card-sub { color: hsl(215 16% 47%); font-size: 12px; }
+    .ci .c1-card-body { display: flex; flex-direction: column; gap: 12px; padding: 0 16px 12px; }
+    .ci .c1-stats { display: flex; flex-wrap: wrap; gap: 4px; }
+    .ci .c1-badge { background: hsl(210 40% 96%); border-radius: 9999px; font-size: 12px; padding: 2px 8px; }
+    .ci .c1-badge b { font-weight: 600; margin-right: 3px; }
+    .ci .c1-sec-title { color: hsl(215 16% 47%); font-size: 11px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; }
+    .ci .c1-list { font-size: 13px; list-style: none; margin: 4px 0 0; padding: 0; }
+    .ci .c1-list li { padding: 1px 0; }
+    .ci .c1-list .n { font-weight: 500; }
+    .ci .c1-list .k { color: hsl(215 16% 47%); }
+    .ci .c1-kv { display: grid; font-size: 13px; gap: 2px 12px; grid-template-columns: max-content 1fr; margin: 4px 0 0; }
+    .ci .c1-kv dt { color: hsl(215 16% 47%); }
+    .ci .c1-inferred { background: hsl(214 95% 97%); border: 1px solid hsl(214 68% 85%); border-radius: 6px; padding: 10px; }
+    .ci .c1-inferred-label { font-size: 11px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; }
+    .ci .c1-conf { border: 1px solid; border-radius: 9999px; font-size: 10px; font-weight: 600; margin-left: 6px; padding: 0 6px; text-transform: uppercase; }
+    .ci .c1-conf.high { background: hsl(152 57% 95%); border-color: hsl(152 45% 78%); color: hsl(152 55% 25%); }
+    .ci .c1-conf.medium { background: hsl(46 97% 95%); border-color: hsl(46 75% 72%); color: hsl(46 80% 30%); }
+    .ci .c1-inferred-title { font-size: 13px; font-weight: 500; margin-top: 4px; }
+    .ci .c1-inferred-reason { color: hsl(215 16% 47%); font-size: 12px; font-style: italic; }
+    .ci .c1-actions { display: flex; flex-wrap: wrap; gap: 6px; padding-top: 2px; }
+    .ci .c1-action { border: none; border-radius: 6px; cursor: default; font-family: inherit; font-size: 13px; padding: 6px 12px; }
+    .ci .c1-action.primary { background: hsl(221 83% 53%); color: #fff; }
+    .ci .c1-action.outline { background: #fff; border: 1px solid hsl(214 32% 91%); color: hsl(222 84% 5%); }
+    .ci .feedback { display: flex; gap: 2px; justify-content: flex-end; padding-top: 2px; }
+    .ci .feedback button { background: none; border: none; color: hsl(215 16% 47%); cursor: default; padding: 4px; }
+
+
+    /* ═══════════════════════════════════════════════════
+       RIGHT: suggested (shadcn/ui Vega on Base, Inter)
+       ═══════════════════════════════════════════════════ */
+    .ca {
+      --background: oklch(1 0 0);
+      --foreground: oklch(0.145 0 0);
+      --primary: oklch(0.205 0 0);
+      --primary-fg: oklch(0.985 0 0);
+      --secondary: oklch(0.97 0 0);
+      --muted: oklch(0.97 0 0);
+      --muted-fg: oklch(0.556 0 0);
+      --border: oklch(0.922 0 0);
+      --input: oklch(0.922 0 0);
+      --card: oklch(1 0 0);
+      --radius: 0.625rem;
+      color: var(--foreground);
+    }
+    .ca .panel { background: var(--card); display: flex; flex: 1; flex-direction: column; overflow: hidden; }
+    .ca .panel-head { align-items: center; border-bottom: 1px solid var(--border); display: flex; gap: 0.5rem; padding: 0.75rem 1rem; }
+    .ca .panel-head svg { color: var(--muted-fg); flex-shrink: 0; }
+    .ca .panel-head span { font-size: 0.875rem; font-weight: 600; }
+    .ca .msgs { display: flex; flex: 1; flex-direction: column; gap: 0.5rem; overflow-y: auto; padding: 0.75rem; }
+    .ca .m { display: flex; max-width: 100%; }
+    .ca .m.user { justify-content: flex-end; }
+    .ca .m.asst { flex-direction: column; gap: 0.5rem; }
+    .ca .user .bub { background: var(--secondary); border-radius: var(--radius); padding: 0.5rem 0.75rem; }
+    .ca .at { display: flex; }
+    .ca .at::before { background: var(--border); border-radius: 50%; content: ''; flex-shrink: 0; height: 0.5rem; margin-right: 0.5rem; margin-top: calc(1.25rem / 2 - 0.25rem); width: 0.5rem; }
+    .ca .at-inner p { margin: 0.25em 0; }
+    .ca .at-inner p:first-child { margin-top: 0; }
+    .ca .at-inner p:last-child { margin-bottom: 0; }
+    .ca .at-inner table { border-collapse: collapse; font-size: 12px; margin: 0.4em 0; }
+    .ca .at-inner th, .ca .at-inner td { border: 1px solid var(--border); padding: 2px 6px; text-align: left; }
+    .ca .at-inner th { background: var(--muted); font-weight: 600; }
+    .ca .at-inner ul, .ca .at-inner ol { margin: 0.3em 0; padding-left: 1.2em; }
+    .ca .at-inner pre { background: var(--muted); border-radius: calc(var(--radius) * 0.6); font-size: 11px; max-height: 120px; overflow: auto; padding: 8px; }
+    .ca .at-inner code:not(pre code) { background: var(--muted); border-radius: calc(var(--radius) * 0.6); font-size: 12px; padding: 1px 4px; }
+    .ca .at-inner strong { font-weight: 600; }
+
+    .sc { align-self: stretch; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+    .sc-head { padding: 0.75rem 1rem 0.5rem; }
+    .sc-kind { color: var(--muted-fg); font-size: 0.625rem; font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase; }
+    .sc-title { font-size: 0.875rem; font-weight: 600; line-height: 1.4; }
+    .sc-sub { color: var(--muted-fg); font-size: 0.8125rem; }
+    .sc-stats { display: flex; flex-wrap: wrap; gap: 0.375rem; padding: 0.25rem 1rem 0.75rem; }
+    .st { align-items: center; background: var(--secondary); border: 1px solid transparent; border-radius: 9999px; display: inline-flex; font-size: 0.75rem; gap: 0.25rem; padding: 0.125rem 0.625rem; }
+    .st-v { font-weight: 600; }
+    .st-l { color: var(--muted-fg); }
+    .sc-sec { padding: 0.5rem 1rem; }
+    .sc-sec-t { color: var(--muted-fg); font-size: 11px; font-weight: 600; letter-spacing: 0.08em; margin-bottom: 0.25rem; text-transform: uppercase; }
+    .si { border-bottom: 1px solid var(--muted); padding: 0.25rem 0; }
+    .si:last-child { border-bottom: none; }
+    .si-row { align-items: baseline; display: flex; gap: 0.375rem; }
+    .si-name { font-weight: 500; white-space: nowrap; }
+    .si-kind { background: var(--secondary); border-radius: calc(var(--radius) * 0.6); color: var(--muted-fg); font-size: 0.625rem; padding: 0 0.375rem; white-space: nowrap; }
+    .si-det { color: var(--muted-fg); font-size: 0.75rem; line-height: 1.4; }
+    .si-kv { display: grid; gap: 0.125rem 0.75rem; grid-template-columns: 6rem 1fr; }
+    .si-lbl { color: var(--muted-fg); font-size: 0.8125rem; }
+    .si-val { font-size: 0.8125rem; font-weight: 500; }
+    .sc-acts { display: flex; flex-wrap: wrap; gap: 0.375rem; padding: 0.75rem 1rem; }
+    .sc-act { background: var(--card); border: 1px solid var(--input); border-radius: calc(var(--radius) * 0.8); cursor: default; font-family: inherit; font-size: 0.8125rem; font-weight: 500; padding: 0.375rem 1rem; }
+    .sc-act.primary { background: var(--primary); border-color: var(--primary); color: var(--primary-fg); }
+    .sc-head { display: flex; justify-content: space-between; }
+    .sc-head-text { flex: 1; min-width: 0; }
+    .sc-density { display: flex; flex-shrink: 0; font-size: 11px; gap: 2px; }
+    .sc-density button { background: none; border: none; color: var(--muted-fg); cursor: pointer; font-family: inherit; font-size: 11px; padding: 1px 4px; }
+    .sc-density button:hover { opacity: 0.7; }
+    .sc-density button.active { color: var(--foreground); font-weight: 600; }
+    .sc-least-line { align-items: center; color: var(--muted-fg); display: flex; font-size: 13px; gap: 0.5rem; padding: 0 1rem 0.75rem; }
+    .sc-less-secs { color: var(--muted-fg); font-size: 12px; padding: 0 1rem 0.75rem; }
+    .sc-seq { align-items: center; display: flex; flex-wrap: wrap; font-size: 11px; gap: 0.25rem; padding: 0.5rem 1rem 0; }
+    .sc-seq span { color: var(--muted-fg); white-space: nowrap; }
+    .sc-seq .done { color: var(--foreground); }
+    .sc-seq .current { color: var(--foreground); font-weight: 600; }
+    .sc-seq .sep { color: var(--muted-fg); opacity: 0.4; }
+    .sc-inf { background: var(--muted); padding: 0.625rem 1rem; }
+    .conf { border-radius: calc(var(--radius) * 0.6); font-size: 10px; font-weight: 500; padding: 1px 6px; }
+    .conf.high { background: #e3f4eb; color: #0f6b3e; }
+    .conf.medium { background: #fdf1dc; color: #8a5a00; }
+
+    .ca .panel-foot { align-items: center; border-top: 1px solid var(--border); display: flex; gap: 0.25rem; padding: 0.5rem 0.75rem; }
+    .ca .panel-foot .icon-btn { align-items: center; background: none; border: none; color: var(--muted-fg); cursor: default; display: flex; height: 2rem; justify-content: center; width: 2rem; }
+    .ca .panel-foot input { background: none; border: none; color: var(--foreground); flex: 1; font-family: inherit; font-size: 0.875rem; min-width: 0; outline: none; }
+    .ca .panel-foot input::placeholder { color: var(--muted-fg); }
+
+    /* Collapse — chevron replaces dot/icon inline */
+    .msg-chev { cursor: pointer; flex-shrink: 0; }
+    .msg-chev:hover { opacity: 0.7; }
+    .msg-chev svg { transition: transform 0.15s; }
+    .m:not(.collapsed) .msg-chev svg { transform: rotate(90deg); }
+
+    .ca .at.has-chev::before { display: none; }
+    .ca .at.has-chev .msg-chev { display: flex; height: 14px; margin-right: calc(1rem - 14px); margin-top: calc((1.25rem - 14px) / 2); width: 14px; }
+    .ca .at.has-chev .msg-chev svg { color: var(--muted-fg); height: 14px; width: 14px; }
+    .ca .at-preview { color: var(--muted-fg); display: none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .ca .m.collapsed .at.has-chev .at-inner { display: none; }
+    .ca .m.collapsed .at-preview { display: block; }
+    .ca .m.collapsed .msg-rest { display: none; }
+
+  </style>
+</head>
+<body>
+  <main>
+    <div class="col ci">
+      <div class="panel">
+        <div class="panel-head">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/></svg>
+          <span>Admin Agent</span>
+        </div>
+        <div class="msgs" id="L"></div>
+        <div class="panel-foot">
+          <textarea placeholder="Ask the agent…" disabled rows="1"></textarea>
+          <button><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button>
+        </div>
+      </div>
+    </div>
+    <div class="col ca">
+      <div class="panel">
+        <div class="panel-head">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/></svg>
+          <span>Admin Agent</span>
+        </div>
+        <div class="msgs" id="R"></div>
+        <div class="panel-foot">
+          <button class="icon-btn"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg></button>
+          <input placeholder="Type, paste a URL, or drag a file…" disabled>
+          <button class="icon-btn"><svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg></button>
+        </div>
+      </div>
+    </div>
+  </main>
+  <nav>
+    <button id="prev">&#8592;</button>
+    <span id="counter">0 / 0</span>
+    <button id="next">&#8594;</button>
+    <button id="improvements-btn">Show improvements</button>
+    <div id="improvements-list" hidden>
+    <strong>Improvements</strong>
+    <ol>
+      <li><b>Clean assistant messages</b> — no busy bot icons, no unnecessary negative space, cards for structured data only</li>
+      <li><b>Aligned key-value pairs</b> — fixed label column across cards</li>
+      <li><b>Distinct prose and data</b> — no redundant counts in text</li>
+      <li><b>Consistent actions</b> — button labels match posted text</li>
+      <li><b>Smart collapsing</b> — only messages > 50 words or with data cards</li>
+      <li><b>Compact data cards</b> — items grouped by type with friendly names</li>
+      <li><b>Inline workflow context</b> — sequence stage indicator appears before proceed steps</li>
+    </ol>
+    </div>
+  </nav>
+  <script>
+    const mk = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text) e.textContent = text; return e }
+
+    const botSvg = `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/></svg>`
+    const chevronR = `<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>`
+    const chevronD = `<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>`
+    const thumbUp = `<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 10v12"/><path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2h0a3.13 3.13 0 0 1 3 3.88Z"/></svg>`
+    const thumbDn = `<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 14V2"/><path d="M9 18.12 10 14H4.17a2 2 0 0 1-1.92-2.56l2.33-8A2 2 0 0 1 6.5 2H20a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.76a2 2 0 0 0-1.79 1.11L12 22h0a3.13 3.13 0 0 1-3-3.88Z"/></svg>`
+
+    const prosePreview = (text, max = 80) => {
+      const first = text.split('\n').map(l => l.trim()).find(l => l.length > 0) || ''
+      const stripped = first.replace(/^(?:#{1,6}\s+|>\s+|[-*]\s+|\d+\.\s+)/, '')
+      const collapsed = stripped.replace(/\s+/g, ' ').trim()
+      return collapsed.length > max ? collapsed.slice(0, max).trimEnd() : collapsed
+    }
+
+    const parseChat = md => md.split(/\n\n---\n/)
+      .filter(b => /^\*\*(User|Assistant)/.test(b.trim()))
+      .map(b => { const lines = b.trim().split('\n'); return { content: lines.slice(2).join('\n').trim(), role: lines[0].includes('User') ? 'user' : 'assistant' } })
+
+    const splitCard = content => {
+      const m = /```c1-summary\s*\n([\s\S]*?)```/.exec(content)
+      if (!m) return null
+      let data; try { data = JSON.parse(m[1]) } catch { return null }
+      return { after: content.slice(m.index + m[0].length).trim(), before: content.slice(0, m.index).trim(), data }
+    }
+
+    // ── Left: C1-Intelligence (AgentMessage.tsx) ──
+
+    const isLong = msg => msg.role === 'assistant' && (msg.content.split(/\s+/).length > 50 || /```c1-summary/.test(msg.content))
+
+    const renderL = msg => {
+      const row = mk('div', `m ${msg.role === 'user' ? 'user' : 'asst'}`)
+      if (msg.role === 'user') { row.appendChild(Object.assign(mk('div', 'prose-bub'), { textContent: msg.content })); return row }
+
+      const icon = mk('div', 'bot-icon'); icon.innerHTML = botSvg; row.appendChild(icon)
+      const body = mk('div', 'm-body')
+      const split = splitCard(msg.content)
+      const collapsible = !msg.id?.startsWith?.('local-')
+      if (split) {
+        if (split.before) body.appendChild(ciProseBub(split.before, collapsible))
+        body.appendChild(ciCard(split.data))
+        if (split.after) body.appendChild(ciProseBub(split.after, collapsible))
+      } else body.appendChild(ciProseBub(msg.content, collapsible))
+      const fb = mk('div', 'feedback'); const u = mk('button'); u.innerHTML = thumbUp; const d = mk('button'); d.innerHTML = thumbDn; fb.appendChild(u); fb.appendChild(d); body.appendChild(fb)
+      row.appendChild(body)
+      return row
+    }
+
+    const ciProseBub = (text, collapsible) => {
+      const bub = mk('div', 'prose-bub')
+      if (collapsible && text.length > 120) {
+        const showCollapsed = () => {
+          bub.innerHTML = ''
+          const btn = mk('button', 'collapsed-btn')
+          btn.innerHTML = chevronR
+          btn.appendChild(Object.assign(mk('span', 'preview'), { textContent: prosePreview(text) }))
+          btn.appendChild(mk('span', 'more-link', 'more'))
+          btn.addEventListener('click', showExpanded)
+          bub.appendChild(btn)
+        }
+        const showExpanded = () => {
+          bub.innerHTML = ''
+          const toggle = mk('button', 'collapse-toggle'); toggle.innerHTML = chevronD + ' Hide'; toggle.addEventListener('click', showCollapsed); bub.appendChild(toggle)
+          const prose = mk('div', 'prose'); prose.innerHTML = marked.parse(text); bub.appendChild(prose)
+        }
+        showCollapsed()
+      } else {
+        const prose = mk('div', 'prose'); prose.innerHTML = marked.parse(text); bub.appendChild(prose)
+      }
+      return bub
+    }
+
+    const ciCard = d => {
+      const c = mk('div', d.kind === 'decision' ? 'c1-card decision' : 'c1-card build')
+      const head = mk('div', 'c1-card-head')
+      if (d.title) head.appendChild(mk('div', 'c1-card-title', d.title))
+      if (d.subtitle) head.appendChild(mk('div', 'c1-card-sub', d.subtitle))
+      c.appendChild(head)
+      const body = mk('div', 'c1-card-body')
+      if (d.stats?.length) {
+        const row = mk('div', 'c1-stats')
+        d.stats.forEach(s => { const b = mk('span', 'c1-badge'); b.innerHTML = `<b>${s.value}</b>${s.label}`; row.appendChild(b) })
+        body.appendChild(row)
+      }
+      d.sections?.forEach(sec => {
+        const s = mk('section')
+        if (sec.title) s.appendChild(mk('h4', 'c1-sec-title', sec.title))
+        if (sec.layout === 'key-value') {
+          const dl = mk('dl', 'c1-kv')
+          sec.items?.forEach(it => { dl.appendChild(mk('dt', '', ('label' in it) ? it.label : it.name)); dl.appendChild(mk('dd', '', ('value' in it) ? it.value : (it.detail || ''))) })
+          s.appendChild(dl)
+        } else {
+          const ul = mk('ul', 'c1-list')
+          sec.items?.forEach(it => {
+            const li = mk('li')
+            if (it.name) li.innerHTML = `<span class="n">${it.name}</span>${it.kind ? `<span class="k"> (${it.kind})</span>` : ''}${it.detail ? ` — ${it.detail}` : ''}`
+            else if (it.label) li.innerHTML = `<span class="n">${it.label}</span>: ${it.value || ''}`
+            ul.appendChild(li)
+          })
+          s.appendChild(ul)
+        }
+        body.appendChild(s)
+      })
+      if (d.inferred) {
+        const inf = mk('div', 'c1-inferred')
+        const top = mk('div'); top.appendChild(mk('span', 'c1-inferred-label', d.inferred.source === 'inferred' ? 'Inferred' : 'Stated')); top.appendChild(mk('span', `c1-conf ${d.inferred.confidence}`, `${d.inferred.confidence} confidence`)); inf.appendChild(top)
+        if (d.inferred.title) inf.appendChild(mk('div', 'c1-inferred-title', d.inferred.title))
+        if (d.inferred.reasoning) inf.appendChild(mk('div', 'c1-inferred-reason', d.inferred.reasoning))
+        body.appendChild(inf)
+      }
+      if (d.actions?.length) {
+        const acts = mk('div', 'c1-actions')
+        d.actions.forEach(a => acts.appendChild(mk('button', `c1-action ${a.variant || 'outline'}`, a.label)))
+        body.appendChild(acts)
+      }
+      c.appendChild(body)
+      return c
+    }
+
+    // ── Right: c1c-admin ──
+
+    const actionMap = {}
+
+    const renderR = msg => {
+      const w = mk('div', `m ${msg.role === 'user' ? 'user' : 'asst'}`)
+      if (msg.role === 'user') {
+        const label = actionMap[msg.content] || msg.content
+        w.appendChild(Object.assign(mk('div', 'bub'), { textContent: label }))
+        return w
+      }
+
+      const long = isLong(msg)
+      const split = splitCard(msg.content)
+      const firstText = split?.before || msg.content
+
+      // First .at — gets chevron instead of dot for long messages
+      const firstAt = mk('div', long ? 'at has-chev' : 'at')
+      if (long) {
+        w.dataset.collapsible = '1'
+        firstAt.style.cursor = 'pointer'
+        firstAt.addEventListener('click', () => w.classList.toggle('collapsed'))
+        const chev = mk('span', 'msg-chev'); chev.innerHTML = chevronR; firstAt.appendChild(chev)
+        firstAt.appendChild(Object.assign(mk('span', 'at-preview'), { textContent: prosePreview(firstText) }))
+      }
+      const firstInner = mk('div', 'at-inner'); firstInner.innerHTML = marked.parse(firstText); firstAt.appendChild(firstInner)
+      w.appendChild(firstAt)
+
+      // Rest — card + trailing text
+      if (split) {
+        const rest = mk('div', 'msg-rest')
+        rest.appendChild(scCard(split.data, firstText))
+        if (split.after) { const t = mk('div', 'at'), i = mk('div', 'at-inner'); i.innerHTML = marked.parse(split.after); t.appendChild(i); rest.appendChild(t) }
+        w.appendChild(rest)
+      }
+
+      return w
+    }
+
+    const cleanCard = (d, prose) => {
+      const out = { ...d, sections: d.sections?.map(s => ({ ...s, items: [...(s.items || [])] })) }
+      if (out.subtitle) {
+        const m = out.subtitle.match(/\s*[-—]\s*(.+)$/)
+        if (m) {
+          const parsed = [...m[1].matchAll(/(\d[\d,]*)\s+([a-zA-Z\s]+?)(?:,|$)/g)].map(p => ({ label: p[2].trim(), value: parseInt(p[1].replace(/,/g, '')) }))
+          if (parsed.length) {
+            const existing = out.stats || []
+            const existingVals = new Set(existing.map(s => s.value))
+            out.stats = [...existing, ...parsed.filter(p => !existingVals.has(p.value))]
+            out.subtitle = out.subtitle.replace(/\s*[-—]\s*.+$/, '').trim() || null
+          }
+        }
+      }
+      if (out.title && prose?.includes(out.title)) out.title = null
+      const buildKinds = ['select menu', 'radio button', 'numeric field', 'checkbox', 'text', 'numeric', 'ask_input', 'set_input_to_value', 'warning_message', 'error_message', 'hide_input', 'driven_input', 'input_filter', 'input', 'item_master', 'item_family', 'driven_item']
+      if (out.sections) {
+        const buildSecs = out.sections.filter(s => s.items?.some(i => i.kind && buildKinds.includes(i.kind.toLowerCase())))
+        const otherSecs = out.sections.filter(s => !buildSecs.includes(s))
+        if (buildSecs.length) {
+          const allGroups = {}
+          const secNames = []
+          buildSecs.forEach(sec => {
+            if (sec.title) secNames.push(sec.title)
+            sec.items?.forEach(i => {
+              const kind = (i.kind || 'item').toLowerCase()
+              if (!allGroups[kind]) allGroups[kind] = []
+              allGroups[kind].push(humanize(i.name || i.label || ''))
+            })
+          })
+          const combined = { title: null, grouped: [
+            ...(secNames.length > 1 ? [{ count: secNames.length, kind: 'section', names: secNames }] : []),
+            ...Object.entries(allGroups).map(([kind, names]) => ({ count: names.length, kind, names }))
+          ] }
+          out.sections = [...otherSecs, combined]
+        }
+      }
+      return out
+    }
+
+    const humanize = s => { const t = s.replace(/_/g, ' ').toLowerCase(); return t.charAt(0).toUpperCase() + t.slice(1) }
+
+    const isBuildCard = d => d.sections?.some(s => s.items?.some(i => i.kind))
+
+    const scCard = (raw, prose) => {
+      const d = cleanCard(raw, prose)
+      const c = mk('div', 'sc')
+      const hasDensity = isBuildCard(raw)
+
+      const renderBody = level => {
+        c.querySelectorAll('.sc-body').forEach(el => el.remove())
+        const body = mk('div', 'sc-body')
+
+        if (level === 'least') {
+          const line = mk('div', 'sc-least-line')
+          const parts = (d.stats || []).map(s => `${s.value} ${s.label}`)
+          line.textContent = parts.join(' · ')
+          body.appendChild(line)
+        } else if (level === 'less') {
+          if (d.stats?.length) { const s = mk('div', 'sc-stats'); d.stats.forEach(st => { const e = mk('div', 'st'); e.appendChild(mk('div', 'st-v', String(st.value))); e.appendChild(mk('div', 'st-l', st.label)); s.appendChild(e) }); body.appendChild(s) }
+          const secNames = raw.sections?.filter(s => s.title).map(s => `${s.title} (${s.items?.length || 0})`)
+          if (secNames?.length) body.appendChild(mk('div', 'sc-less-secs', secNames.join(' · ')))
+        } else if (level === 'most') {
+          if (d.stats?.length) { const s = mk('div', 'sc-stats'); d.stats.forEach(st => { const e = mk('div', 'st'); e.appendChild(mk('div', 'st-v', String(st.value))); e.appendChild(mk('div', 'st-l', st.label)); s.appendChild(e) }); body.appendChild(s) }
+          raw.sections?.forEach(sec => {
+            const s = mk('div', 'sc-sec')
+            if (sec.title) s.appendChild(mk('div', 'sc-sec-t', sec.title))
+            sec.items?.forEach(item => {
+              const row = mk('div', 'si'), top = mk('div', 'si-row')
+              if (item.name) { top.appendChild(mk('span', 'si-name', item.name)); if (item.kind) top.appendChild(mk('span', 'si-kind', item.kind)) }
+              else if (item.label) { top.appendChild(mk('span', 'si-lbl', item.label)); if (item.value) top.appendChild(mk('span', 'si-val', item.value)) }
+              row.appendChild(top); if (item.detail) row.appendChild(mk('div', 'si-det', item.detail)); s.appendChild(row)
+            })
+            body.appendChild(s)
+          })
+        } else {
+          if (d.stats?.length) { const s = mk('div', 'sc-stats'); d.stats.forEach(st => { const e = mk('div', 'st'); e.appendChild(mk('div', 'st-v', String(st.value))); e.appendChild(mk('div', 'st-l', st.label)); s.appendChild(e) }); body.appendChild(s) }
+          d.sections?.forEach(sec => {
+            const s = mk('div', 'sc-sec')
+            if (sec.title) s.appendChild(mk('div', 'sc-sec-t', sec.title))
+            if (sec.grouped) {
+              sec.grouped.forEach(g => {
+                const row = mk('div', 'si')
+                row.appendChild(mk('b', null, `${g.count} ${g.kind}${g.count > 1 ? 's' : ''}: `))
+                row.appendChild(document.createTextNode(g.names.join(', ')))
+                s.appendChild(row)
+              })
+            } else if (sec.layout === 'key-value' || sec.items?.every(i => 'label' in i && 'value' in i)) {
+              const grid = mk('div', 'si-kv')
+              sec.items?.forEach(i => { grid.appendChild(mk('span', 'si-lbl', i.label || i.name)); grid.appendChild(mk('span', 'si-val', i.value || i.detail || '')) })
+              s.appendChild(grid)
+            } else {
+              sec.items?.forEach(item => {
+                const row = mk('div', 'si'), top = mk('div', 'si-row')
+                if (item.name) { top.appendChild(mk('span', 'si-name', item.name)); if (item.kind) top.appendChild(mk('span', 'si-kind', item.kind)) }
+                else if (item.label) { top.appendChild(mk('span', 'si-lbl', item.label)); if (item.value) top.appendChild(mk('span', 'si-val', item.value)) }
+                row.appendChild(top); if (item.detail) row.appendChild(mk('div', 'si-det', item.detail)); s.appendChild(row)
+              })
+            }
+            body.appendChild(s)
+          })
+        }
+
+        if (d.inferred) {
+          const inf = mk('div', 'sc-inf')
+          const titleRow = mk('div', 'si-row')
+          titleRow.appendChild(mk('span', 'sc-sec-t', 'Industry classification'))
+          titleRow.appendChild(mk('span', `conf ${d.inferred.confidence}`, `${d.inferred.confidence[0].toUpperCase() + d.inferred.confidence.slice(1)} confidence`))
+          inf.appendChild(titleRow)
+          if (d.inferred.title) inf.appendChild(mk('div', 'si-name', d.inferred.title))
+          if (d.inferred.reasoning) inf.appendChild(mk('div', 'si-det', d.inferred.reasoning))
+          body.appendChild(inf)
+        }
+        if (d.actions?.length) {
+          const seqSteps = ['context', 'files', 'model', 'attributes', 'rules', 'results', 'verify', 'commit']
+          const seqMap = { 'proceed': 'attributes', 'proceed to rules': 'rules', 'proceed to bom': 'results', 'build results': 'results', 'verify': 'verify', 'commit': 'commit', 'commit to c1': 'commit', 'iterate model': 'attributes' }
+          const primary = d.actions.find(a => a.variant === 'primary')
+          const target = primary && seqMap[primary.label.toLowerCase()]
+          if (target) {
+            const idx = seqSteps.indexOf(target)
+            const currentIdx = idx - 1
+            const seq = mk('div', 'sc-seq')
+            seqSteps.forEach((step, i) => {
+              if (i > 0) seq.appendChild(mk('span', 'sep', '→'))
+              const cls = i < currentIdx ? 'done' : i === currentIdx ? 'current' : ''
+              seq.appendChild(mk('span', cls, i <= currentIdx ? step + ' ✓' : step))
+            })
+            body.appendChild(seq)
+          }
+          const a = mk('div', 'sc-acts'); d.actions.forEach(act => { if (act.postbackText && act.postbackText !== act.label) actionMap[act.postbackText] = act.label; a.appendChild(mk('button', `sc-act ${act.variant || ''}`, act.label)) }); body.appendChild(a)
+        }
+        c.appendChild(body)
+      }
+
+      // Header
+      const h = mk('div', 'sc-head')
+      const ht = mk('div', 'sc-head-text')
+      if (d.title) ht.appendChild(mk('div', 'sc-title', d.title))
+      if (d.subtitle) ht.appendChild(mk('div', 'sc-sub', d.subtitle))
+      h.appendChild(ht)
+      if (hasDensity) {
+        const toggle = mk('div', 'sc-density')
+        ;['least', 'less', 'more', 'most'].forEach(level => {
+          const btn = mk('button', level === 'least' ? 'active' : '', level)
+          btn.addEventListener('click', () => {
+            toggle.querySelectorAll('button').forEach(b => b.classList.remove('active'))
+            btn.classList.add('active')
+            renderBody(level)
+          })
+          toggle.appendChild(btn)
+        })
+        h.appendChild(toggle)
+      }
+      c.appendChild(h)
+      renderBody(hasDensity ? 'least' : 'full')
+
+      return c
+    }
+
+    // ── Init ──
+    fetch('data.md').then(r => r.text()).then(md => {
+      const msgs = parseChat(md)
+      const lEls = msgs.map(renderL), rEls = msgs.map(renderR)
+      const lBox = document.getElementById('L'), rBox = document.getElementById('R')
+      lEls.forEach(e => { e.style.display = 'none'; lBox.appendChild(e) })
+      rEls.forEach(e => { e.style.display = 'none'; rBox.appendChild(e) })
+
+      let step = 0
+      const update = () => {
+        lEls.forEach((e, i) => e.style.display = i < step ? '' : 'none')
+        rEls.forEach((e, i) => {
+          e.style.display = i < step ? '' : 'none'
+          if (e.dataset.collapsible) e.classList.toggle('collapsed', i < step - 1)
+        })
+        document.getElementById('counter').textContent = `${step} / ${msgs.length}`
+        document.getElementById('prev').disabled = step <= 0
+        document.getElementById('next').disabled = step >= msgs.length
+        requestAnimationFrame(() => { lBox.scrollTop = lBox.scrollHeight; rBox.scrollTop = rBox.scrollHeight })
+      }
+      document.getElementById('prev').onclick = () => { if (step > 0) { step--; update() } }
+      document.getElementById('next').onclick = () => { if (step < msgs.length) { step++; update() } }
+      document.addEventListener('keydown', e => { if (e.key === 'ArrowLeft') document.getElementById('prev').click(); else if (e.key === 'ArrowRight') document.getElementById('next').click() })
+      document.getElementById('improvements-btn').addEventListener('click', e => { e.stopPropagation(); const list = document.getElementById('improvements-list'); list.hidden = !list.hidden })
+      document.addEventListener('click', e => { const list = document.getElementById('improvements-list'); if (!list.hidden && !list.contains(e.target)) list.hidden = true })
+      update()
+    })
+  </script>
+</body>
+</html>
